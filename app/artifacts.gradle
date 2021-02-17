@@ -1,0 +1,30 @@
+def MasimoSleepVersionStr = MasimoSleepVersionName.replaceAll('\\.', '')
+def productName='MasimoSleep'
+
+ext.renameAPK = { variant, defaultConfig ->
+    variant.outputs.all {
+        outputFileName = "${productName}-V${MasimoSleepVersionStr}-${MasimoSleepBuildNumber}-${variant.getFlavorName()}-${variant.buildType.name}.apk"
+    }
+}
+
+task generateCIPropsFile {
+    doLast {
+        def props = new Properties()
+        props.setProperty("PROJECT", productName)
+        props.setProperty("VERSION", MasimoSleepVersionStr)
+        props.setProperty("BUILD", MasimoSleepBuildNumber)
+
+        def file = new File (project.buildDir, "ci.properties")
+        file.createNewFile()
+        def stream = file.newOutputStream()
+        props.store(stream, "CI properties file")
+        stream.close()
+    }
+}
+
+task ciBuild {
+    dependsOn 'assembleAutomationDebug'
+    dependsOn 'assembleEnterprise'
+    dependsOn 'assembleProductionRelease'
+    finalizedBy(generateCIPropsFile)
+}

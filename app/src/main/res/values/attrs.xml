@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScoreProgressBar">
+        <attr name="scoreBarHeight" format="integer" />
+        <attr name="firstBarColor" format="reference" />
+        <attr name="secondBarColor" format="reference" />
+        <attr name="thirdBarColor" format="reference" />
+        <attr name="notchIcon" format="reference" />
+        <attr name="score" format="float" />
+        <attr name="constantsColor" format="reference" />
+    </declare-styleable>
+</resources>

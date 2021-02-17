@@ -1,0 +1,112 @@
+package com.mymasimo.masimosleep.ui.settings.device
+
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
+import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.data.repository.ModelStore
+import com.mymasimo.masimosleep.service.isDeviceConnected
+import com.mymasimo.masimosleep.ui.settings.SettingsFragmentDirections
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import kotlinx.android.synthetic.main.fragment_settings_device.*
+import javax.inject.Inject
+
+class SettingsDeviceFragment : Fragment() {
+    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject lateinit var schedulerProvider: SchedulerProvider
+    @Inject lateinit var disposables: CompositeDisposable
+
+    private val vm: SettingsDeviceViewModel by viewModels { vmFactory }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Injector.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_settings_device, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vm.confirmReplaceDevice
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribe {
+                vm.deleteDevice()
+            }
+            .addTo(disposables)
+
+        vm.deviceDeleted
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribe {
+                requireView().findNavController().navigate(R.id.action_settingsFragment_to_scanFragment)
+            }
+            .addTo(disposables)
+        setupButtons()
+    }
+
+    private fun setupButtons() {
+
+        connect_button.setOnClickListener {
+            when {
+                isDeviceConnected()              -> {
+                    requireView().findNavController().navigate(R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment)
+                }
+                ModelStore.currentModule != null -> {
+                    requireView().findNavController().navigate(R.id.action_settingsFragment_to_confirmReplaceSensorDialogFragment)
+                }
+                else                             -> {
+                    requireView().findNavController().navigate(R.id.action_settingsFragment_to_scanFragment)
+                }
+            }
+        }
+
+        troubleshoot_button.setOnClickListener {
+
+            requireView().findNavController().navigate(
+                    SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
+                            "Troubleshoot Device",
+                            resources.getString(R.string.troubleshoot_body),
+                            resources.getString(R.string.troubleshoot_button),
+                            resources.getString(R.string.troubleshoot_email)
+                    )
+            )
+
+        }
+
+        order_button.setOnClickListener {
+            launchURL(resources.getString(R.string.order_device_url))
+        }
+
+    }
+
+    private fun launchURL(url: String) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(url)
+        startActivity(openURL)
+    }
+
+    companion object {
+
+        fun newInstance() = SettingsDeviceFragment().apply {
+
+        }
+
+    }
+
+}

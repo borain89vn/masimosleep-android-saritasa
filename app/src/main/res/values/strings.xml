@@ -1,0 +1,355 @@
+<resources>
+    <string name="app_name">Masimo Sleep</string>
+
+    <!-- BLE -->
+    <string name="radius_ppg"><![CDATA[Radius PPG™]]></string>
+    <string name="radius_ppg_device_pairing_identifier"><![CDATA[Radius PPG™]]>(%1s)</string>
+
+    <!-- Pairing -->
+    <string name="device_name">Radius PPG</string>
+
+    <!-- Permission Request -->
+    <string name="location_permission_rationale_title">Location Access</string>
+    <string name="location_permission_rationale_message">We need access your location to connect with nearby BLE devices</string>
+
+    <!-- Notifications -->
+    <string name="bedtime_notification_title">Masimo Sleep</string>
+    <string name="bedtime_notification_body">It\'s time to get ready for bed.</string>
+    <string name="system_channel_name">System Notifications</string>
+    <string name="system_channel_description">System level notifications such as connection state.</string>
+    <string name="connecting_ispo2"><![CDATA[ Connecting to iSpO₂ Rx]]></string>
+    <string name="reminders_channel_name">Reminders</string>
+    <string name="reminders_channel_description">Reminder notifications such as bed time alarms.</string>
+    <string name="alarm_channel_name">Alarms</string>
+    <string name="alarm_channel_description">Patient level notifications such as parameter low/high alarms.</string>
+    <string name="alert_notification_content">%1$s %2$s %3$s</string>
+    <string name="bt_disabled">Bluetooth Disabled</string>
+    <string name="enable_bt_for_monitoring">Please enable Bluetooth to continue monitoring.</string>
+    <string name="monitoring_via_x">Monitoring via %1$s…</string>
+    <string name="searching_for_x">Searching for your %1$s…</string>
+    <string name="enable">Enable</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="preference_file_key">MASIMO_SLEEP_PREFS</string>
+
+    <string name="welcome_subtitle_0">Your 7-Night Sleep Checkup &#8482;</string>
+    <string name="welcome_content_0"></string>
+    <string name="welcome_title_1">What information is collected?</string>
+    <string name="welcome_subtitle_1">Vitals</string>
+    <string name="welcome_content_1"></string>
+    <string name="welcome_title_2">What you get from Masimo Sleep&#8482;?</string>
+    <string name="welcome_subtitle_2">- Nightly Analysis Report\n- 7-Night Checkup Report\n- Sleep Improvement Tips</string>
+    <string name="welcome_content_2"></string>
+    <string name="welcome_button_2">Get Started</string>
+
+    <string name="device_onboarding_title_0">Put on Sensor</string>
+    <string name="device_onboarding_subtitle_0"></string>
+    <string name="device_onboarding_content_0">Remove yellow battery seal and keep it in a safe place.\nStrap Masimo Sensor around your wrist.</string>
+
+    <string name="device_onboarding_title_1">Put on Finger</string>
+    <string name="device_onboarding_subtitle_1"></string>
+    <string name="device_onboarding_content_1">Place star on your fingernail. Wrap square to your finger pad. Squeeze to secure. Wrap the tape around your finger.</string>
+
+    <string name="device_onboarding_title_2">Put on Chip</string>
+    <string name="device_onboarding_subtitle_2"></string>
+    <string name="device_onboarding_content_2">Press down to click in place.</string>
+
+    <string name="device_onboarding_title_3">Check Light</string>
+    <string name="device_onboarding_subtitle_3"></string>
+    <string name="device_onboarding_content_3">Your device is ready to be paired when the light is blinking green.</string>
+
+    <string name="device_onboarding_title_4">Check Distance</string>
+    <string name="device_onboarding_subtitle_4"></string>
+    <string name="device_onboarding_content_4">Make sure your phone is located within 10 feet</string>
+
+    <string name="device_onboarding_title_5">Check Bluetooth</string>
+    <string name="device_onboarding_subtitle_5"></string>
+    <string name="device_onboarding_content_5">Make sure you\'ve turned on Bluetooth</string>
+    <string name="device_onboarding_button_5">Connect</string>
+
+    <!-- DO NOT CHANGE ORDER, ADD NEW ITEMS AT THE BOTTOM -->
+    <string-array name="reminder_times">
+        <item>At bedtime</item>
+        <item>15 minutes before</item>
+        <item>30 minutes before</item>
+        <item>45 minutes before</item>
+        <item>1 hour before</item>
+        <item>No reminder</item>
+    </string-array>
+
+    <string name="sq_redLabel">Poor</string>
+    <string name="sq_redSubtitle">Read Sleep Improvement Tips provided. Continue your 7-Night Sleep Checkup.</string>
+    <string name="sq_redDesc">Your Sleep Halo Index is not optimal.\n\nWe noticed significant changes from your normal vitals during the night.</string>
+    <string name="sq_yellowLabel">Fair</string>
+    <string name="sq_yellowSubtitle">Consider Sleep Improvement Tips provided and continue with your 7-Night Sleep Checkup to collect more data.</string>
+    <string name="sq_yellowDesc">Your Sleep Halo Index is not optimal.\n\nWe noticed moderate changes from your normal vitals during the night.</string>
+    <string name="sq_greenLabel">Good</string>
+    <string name="sq_greenSubtitle">Sleep Halo Index is within the normal range, no action necessary.</string>
+    <string name="sq_greenDesc">Your Sleep Halo Index is good.\n\nWe noticed minimal changes from your normal vitals during the night.</string>
+
+    <string name="vital_title_SPO2">Oxygen Level (%)</string>
+    <string name="vital_title_PR">Pulse Rate (Beats/min)</string>
+    <string name="vital_title_RRP">Respiratory Rate (Breaths/min)</string>
+
+    <string name="coffee_question">Did you have caffeine within 6 hours of bedtime?</string>
+    <string name="snoring_question">Do you know if you had loud snoring last night?</string>
+    <string name="alcohol_question">Did you have alcohol yesterday?</string>
+    <string name="exercise_question">Did you exercise yesterday?</string>
+    <string name="meds_question">Did you take something to help you sleep last night?</string>
+
+    <string name="reco_coffee_title">Avoid caffeine before sleep</string>
+    <string name="reco_coffee_subtitle">Consider eliminating your caffeine intake, it may help your sleep quality.</string>
+    <string name="reco_coffee_body">Caffeine is a stimulant that helps people wake up and stay alert and energized during the day. It blocks sleep-inducing chemicals in the brain and increases adrenaline production. Caffeine should be avoided for at least six hours before bedtime.</string>
+
+    <string name="reco_snore_title">Adjust your sleep position</string>
+    <string name="reco_snore_subtitle">Consider sleeping on your side to reduce snoring.</string>
+    <string name="reco_snore_body">While it is important to sleep in a comfortable position, some positions can make your snoring worse. Sleeping on your back is associated with increased snoring. Try to sleep on your side instead.</string>
+
+    <string name="reco_beer_title">Reduce alcohol intake</string>
+    <string name="reco_beer_subtitle">Consider reducing or eliminating your alcohol intake, it may help your sleep quality.</string>
+    <string name="reco_beer_body">
+Alcohol is not a sleep aid. It can contribute to poor sleep quality by:\n\n
+
+• Increasing brain activity that may inhibit restorative sleep\n
+• Increasing the chance of waking up at night\n
+• Making snoring worse</string>
+
+    <string name="reco_exercise_title">Get moving!</string>
+    <string name="reco_exercise_subtitle">Consider adding 15 minutes or more of exercise to your daily routine.</string>
+    <string name="reco_exercise_body">As little as 15 minutes of aerobic exercise, such as walking or cycling, can dramatically improve the quality of your sleep.</string>
+
+    <string name="reco_meds_title">Sleep aid caution</string>
+    <string name="reco_meds_subtitle">If you choose to take something for sleep it is best to use them only on an infrequent as needed basis.</string>
+    <string name="reco_meds_body">Taking something to help you sleep is a tempting choice. When something is keeping you awake, whatever it is, it won\’t be cured with sleeping pills. At best, sleeping pills are a temporary band aid. At worst, they\’re an addictive crutch that can make insomnia worse in the long run.\n\n
+
+ The use of sleep aids are most effective when used sparingly for short-term situations, such as traveling across time zones or recovering from a medical procedure.\n\n
+
+If you choose to take sleeping it is best to use them only on an infrequent, \“as needed,\” basis to avoid dependence, tolerance, withdrawal, drug interactions, rebound insomnia, and masking underlying problems</string>
+
+    <string name="reco_more_sleep_title"> Get 7 - 9 hours of sleep</string>
+    <string name="reco_more_sleep_subtitle">Research shows that sleep health is improved with 7 – 9 hours of sleep per night with a consistent bedtime.</string>
+    <string name="reco_more_sleep_body">Keeping a consistent bedtime with sufficient time to sleep is important. Better sleeps starts with these tips:\n\n
+        • Try to keep a consistent bedtime and get up at the same time every day. If you need an alarm clock, consider an earlier bedtime.
+\n\n• Adults should get 7 – 9 hours of sleep per night
+\n\n• Avoid sleeping in on days off. Keeping your sleep/wake schedule is important.
+\n\n• Opt for a nap when necessary. Limit naps to 15 – 20 minutes could keep from having trouble falling asleep later.</string>
+
+    <string name="reco_maintain_title">Maintain healthy lifestyle</string>
+    <string name="reco_maintain_subTitle">Keep maintaining your healthy lifestyle and daily routine</string>
+    <string name="reco_maintain_body">Maintaining a healthy lifestyle and daily routine is important for your sleep. Continue improving your sleep with following strategies:
+\n\n• Reduce food that may have sources that could cause bad sleep, e.g. food contains caffeine or alcohol.
+\n\n• Keep consistent bedtime and wake up routine.
+\n\n• Build daily exercise plan. As little as 15 minutes of aerobic exercise, such as walking or cycling, can dramatically improve the quality of your sleep.
+\n\n• Opt for a nap when necessary. Limit naps to 15 – 20 minutes could keep from having trouble falling asleep later.</string>
+
+
+    <string name="minor_event_name">Minor</string>
+    <string name="major_event_name">Major</string>
+
+
+    <string name="outcome_slight_title">Improvement</string>
+    <string name="outcome_slight_body">Your Sleep Halo Index improved.</string>
+
+    <string name="outcome_deterioration_title">Trending Down</string>
+    <string name="outcome_deterioration_body">Your Sleep Halo Index has decreased over the checkup. Consider doing another 7-Night Sleep Checkup to continue improving your sleep quality.</string>
+
+    <string name="outcome_inconclusive_title">Stable</string>
+    <string name="outcome_inconclusive_body">Your Sleep Halo Index remained stable.If you feel like you have more room to improve, consider doing another 7-Night Sleep Checkup. </string>
+
+    <string name="outcome_significant_title">Significant Improvement</string>
+    <string name="outcome_significant_body">Your Sleep Halo Index improved significantly.</string>
+
+    <string name="order_device_url">https://www.masimopersonalhealth.com/products/masimo-sleep</string>
+
+    <string name="support">Support</string>
+
+    <string name="feedback_body">For more information about the product, please visit www.masimo.com/sleep\n\nFor more information about Masimo technology, visit www.masimo.com/\n\nIf you are looking for information that cannot be found by websites above, please email customer support by clicking below button. </string>
+    <string name="feedback_email">mailto:customercare@masimo.com</string>
+    <string name="feedback_button">Email Customer Support</string>
+
+    <string name="troubleshoot_body">If you’re having trouble pairing your sensor to your mobile device, check the following:\n\n
+
+    •   Finger tape and sensor are attached to your finger and wrist as instructed\n
+    •   Chip is inserted in the sensor and blinking green\n
+    •   Bluetooth is enabled on your mobile device\n
+    •   Replace sensor if chip indicator light is orange or red\n
+
+If you’ve tried all of these but you still can’t pair your sensor, please contact customer support.</string>
+    <string name="troubleshoot_email">mailto:customercare@masimo.com</string>
+    <string name="troubleshoot_button">Contact Support</string>
+
+
+    <string name="about_body">Masimo Sleep™ is a 7-Night Sleep Checkup. It uses a medical-grade health sensor measuring 3 vital signs: oxygen level, pulse rate and respiration rate. Masimo Sleep analyzes your physiology and provides you with personalized insights every night, so you can better understand what’s happening while you sleep and take steps toward improving your sleep. </string>
+    <string name="about_url">http://www.google.com</string>
+    <string name="about_button">Rate Us</string>
+
+    <string name="privacy_policy">We believe you should always know what data we collect from you and how we use it, and that you should have meaningful control over both. We want to empower you to make the best decisions about the information that you share with us.\n\n
+
+That\’s the basic purpose of this Privacy Policy.\n\n
+
+1. When you give it to us or give us permission to obtain it
+When you sign up for or use Masimo you voluntarily share certain information including your name, email address, phone number, photos, Pins, comments, and any other information you give us. You can also choose to share your precise location using your device settings or through photos. We will still use your IP address, which is used to approximate your location, even if you don\'t choose to share your precise location. You will also have the option to share other the privacy policies or settings for those accounts.</string>
+
+
+    <string name="eula_text">Masimo Sleep™\nTerms of Use\n\n\nIMPORTANT – PLEASE READ CAREFULLY\n\nThese Terms of Use are a legally enforceable contract between you and Masimo Americas, Inc. (“Masimo”, “we”, or “us”). They govern your use of Masimo SleepTM (“Masimo Sleep”). It is important that you read these Terms of Use. They give you the right to use Masimo Sleep subject to certain conditions set forth in them.\n\nWhen you, the user of Masimo Sleep, click the “ACCEPT” or “AGREE” button or when you download, install, or use the Masimo Sleep mobile application (“Masimo Sleep App”), or when you use Masimo Sleep, or any part of the Masimo Sleep system or service, you are agreeing to be legally bound by these Terms of Use. If you are under 18 years of age or do not agree to any of these Terms of Use, you do not have permission to use Masimo Sleep.\n\nUnless you are in a jurisdiction where prohibited, binding arbitration is the only means of dispute resolution between you and Masimo relating to the use of Masimo Sleep.\n\n\nHow Masimo Sleep Works\n\nMasimo Sleep is a wellness tool that uses a combination of a fingertip sensor, a chip that is inserted in the sensor, your supported mobile device, and the Masimo Sleep App to analyze your oxygenation, heart rate, and respiratory rate (“Parameters”) while you sleep to provide personalized multi-parameter analysis and give you guidance to help in making healthier lifestyle choices that may improve your sleep.\n\n\nIMPORTANT\n\nMasimo Sleep is not a medical device or medical monitoring system nor is it intended to diagnose, treat, cure, or prevent any disease or medical condition. It is meant to be used for general wellness. You should not rely on Masimo Sleep to monitor any sleep disorder or other medical condition. Doing so could result in severe bodily injury or death. Always follow the recommendations of your healthcare provider to treat, monitor, or manage any disease, medical condition, or sleep disorder.\n\nMasimo Sleep, including the fingertip sensor, the chip that is inserted into the sensor, your supported mobile device, and the Masimo Sleep App, are designed to work together as a system to measure your Parameters. Using any device or software from another manufacturer or supplier (except for your supported mobile device) with any component of Masimo Sleep that is not specifically identified in the directions for use to be compatible with Masimo Sleep, or using an unsupported mobile device voids any warranty and may cause significant bodily injury or death, and you do not have permission or a license to use Masimo Sleep with any such third party device or software.\n\nMasimo does not make any warranties about the performance of Masimo Sleep. Specifically, we do not guarantee that 1) Masimo Sleep will always operate error-free, 2) that it will achieve your intended purpose; or (3) that the system is fail-safe or foolproof. It is important to understand there are limitations with using any device.\n\nMasimo may change these Terms of Use at any time. Each change will be effective when Masimo makes the change available by reasonable means, including through the Masimo Sleep App. The changes will apply to you after they are posted. Your continued use of Masimo Sleep after the changes will be your agreement to the changed terms. If you don’t agree with any change, your only option is to stop using Masimo Sleep.\n\n1.    Masimo Sleep is a System. Masimo Sleep consists of hardware and software that is intended to work together to measure and display the Parameters so that you can receive further information and guidance on how you might improve your sleep quality. All the components are designed to work together as a system. It is your responsibility to only use Masimo-supplied components (except your supported mobile device) and software with Masimo Sleep. From time to time, Masimo may approve the use of third- party manufactured or supplied components, software, and/or accessories. You may only use Masimo Sleep with Masimo-manufactured or supplied components, software, and/or accessories or such items that are specifically approved by Masimo to be used with Masimo Sleep. Using any unapproved components, software, and/or accessories may cause Masimo Sleep to fail, work improperly, measure the Parameters inaccurately, or cause serious bodily injury or death. You assume the risk of using Masimo Sleep with unapproved components, software, and/or accessories.\n\n2.    Use at Your Own Risk. Masimo Sleep is not intended to diagnose, treat, cure, or prevent any disease or medical condition. If you rely on Masimo Sleep or any of the information, guidance, or other content made available through Masimo Sleep, you do so solely at your own risk. We make no endorsement, representation, or warranty of any kind about any information, guidance, or other content in Masimo Sleep. It is there for your information purposes only and does not replace your common sense and good judgment. Please read and comply with all safety notices and other directions for use that accompany Masimo Sleep, including any safety information about prolonged wearing of the sensor, any interactions it may have with other devices, or existing medical conditions.\n\n3.    Consult Your Healthcare Provider. Consult your healthcare provider before using Masimo Sleep or making any changes to your sleep activity, diet, exercise, or taking any other measures intended to improve your health, whether or not based on information, guidance, or other content in Masimo Sleep. You should only follow any guidance given in Masimo Sleep after consultation with your healthcare provider. Do not disregard professional medical advice or delay in seeking it because of something you see or access through Masimo Sleep. If you have a medical emergency while using Masimo Sleep, stop using it immediately and consult with a healthcare provider. If you follow any of the guidance or make any changes to your activities, diet, exercise, or anything else based on the information given in Masimo Sleep, you do so at your own risk. We are not responsible for any health problems that may result from your use of Masimo Sleep. It is important to be sensitive to your body’s responses. For example, if you feel unexpected, repeating or long term pain, fatigue, or discomfort due to having made changes to your sleep or activity, you should consult a healthcare provider before continuing with those changes. The information and guidance in Masimo Sleep may be misleading if your physiological functions and responses differ significantly from population averages due to medical conditions or rare natural differences.\n\n4.    Privacy Notice. Masimo does not collect any personal data through Masimo Sleep. However, if you access our website or other services, we may collect your personal information. The collection, storage, and sharing of your personal information will be in accordance with Masimo’s Privacy Notice located at https://www.masimo.com/company/masimo/privacy.\n\n5.    Limited Warranty. Masimo warrants to the original purchaser of Masimo Sleep, for the warranty period, that any new hardware or sensor component (properly identified by Masimo’s trademark and trade dress) included with Masimo Sleep will be free from defects in material and workmanship, as long as used in accordance with its directions for use and subject to the limitations below. The warranty period begins on the purchase date and continues for the following periods: (i) the period or number of uses, whichever comes first, indicated in the packaging or user manual for the sensor component containing the battery; (ii) a single use for any single use items, like replacement tapes; and (iii) for all other components (except the Masimo Sleep App) the lesser of 90 days from the date of original purchase or the useful life of the component as indicated in the packaging or user manual. To the extent permitted by law, Masimo’s sole obligation under this warranty is the repair or replacement, at its option, of the defective component. Any replacement component will be warranted for the remainder of the original warranty period or 30 days, whichever is longer, or for any additional period of time that may be required by applicable law. To request a replacement under warranty, the original purchaser must contact Masimo and obtain a returned goods authorization number so that Masimo can track the component. Masimo may require an original purchase receipt. If Masimo determines that a component must be replaced under warranty, it will be replaced and the cost of shipment covered. All other shipping costs must be paid by purchaser unless prohibited by law. This warranty is in addition to any statutory rights provided to the purchaser under applicable laws and regulations of the region in which the product was sold to the extent that those rights cannot be disclaimed or superseded by the above described warranty under applicable laws and regulations of the region in which the product was sold.\n\nThe limited warranty above does not apply to any software that is embedded or provided or used with Masimo Sleep or apply to any component of Masimo Sleep that was: (a) not new or in its original packaging when supplied to purchaser; (b) modified; (c) used with non-Masimo supplied components, accessories, or software; (d) disassembled or repaired by anyone other than a person authorized by Masimo; (e) normal wear and tear; or (f) damaged by the user or from a cause that is external to the component, such as accident, misuse, abuse, or negligence.\n\n6.    Disclaimer of Warranties. Except as expressly provided in these Terms of Use or where prohibited by law, Masimo Sleep is provided “as is” and for the avoidance of doubt, this disclaimer applies to any software embedded, or provided or used with Masimo Sleep. There is no other warranty provided for Masimo Sleep of any kind, whether express, implied, or statutory. This includes, without limitation, any implied warranties of non-infringement, merchantability, fitness for a particular purpose, satisfactory quality, or reasonable care. Neither Masimo nor its licensors represent or warrant that Masimo Sleep will, (i) satisfy your requirements, (ii) that it is without defect or error, or (iii) that its operation will be timely, uninterrupted or error free. Masimo does not warrant the accuracy of any results obtained from the use of Masimo Sleep. You understand and agree that any use or download of the Masimo Sleep App for use on your mobile device is at your own discretion and risk and that you will be solely responsible for any damages to your mobile device or loss of data that may result. Under no circumstances will Masimo be liable to any user on account of that user’s use or misuse or reliance on Masimo Sleep. Some jurisdictions do not allow certain disclaimers or limitations of warranties, so some of these disclaimers may not apply to you.\n\n7.    Limitation of Liability. To the maximum extent permitted by law, even if a remedy fails its essential purpose:\n\n(a)    in no event will Masimo, its licensors, or affiliates be liable for any special, incidental, indirect or consequential damages whatsoever. This would include, without limitation, damages for loss of profits, loss or corruption of data, data breach, business interruption, loss of information, or any other pecuniary loss. This covers whether the claim or damages are based on warranty, contract, tort (including negligence), extra-contractual liability, strict liability or any other legal theory, even if a party has been advised of the possibility of such damages; and\n\n(b)    in no event will Masimo’s entire liability to you or any other party for any loss or damage resulting from any claims, demands or actions arising out of these Terms of Use or from your use of or inability to use Masimo Sleep, exceed the amount actually paid or payable by you for the use of Masimo Sleep.\n\nBecause some states and jurisdictions do not allow the exclusion or limitation of liability, the above limitations may not apply to you. In these states and jurisdictions, the liability of Masimo, its licensors, and affiliates will be limited to the greatest extent permitted by law. This section will survive the termination of these Terms of Use.\n\n8.    Sole Remedy and Allocation of Risk. Your sole and exclusive remedy and Masimo’s sole and exclusive liability are set forth in these Terms of Use. You acknowledge and agree that these Terms of Use define a mutually agreed-upon assignment and allocation of risk.\n\n9.    Limited License. Subject to your compliance with these Terms of Use, Masimo grants you a personal, non-exclusive, non-transferable, non-sublicensable, and limited license (i) to install and use the Masimo Sleep App, in object code version, on your supported mobile device for your personal use solely in accordance with its user manual, product inserts, and other documentation included with it and (ii) to use Masimo’s and its affiliates’ intellectual property embodied in the Masimo Sleep components solely for your personal use in accordance with its user manual, product inserts, and other documentation included with it.\n\n10.    Ownership. You acknowledge that the components of Masimo Sleep embody and are the intellectual property of, and are owned by, Masimo and its licensors. The structure, sequence and organization of the Masimo Sleep App are the valuable trade secrets and confidential information of Masimo and its licensors. The Masimo Sleep App is protected by copyright, including, without limitation, by United States copyright law, international treaty provisions and applicable laws in the country in which it is used. You acknowledge that Masimo, or its licensors, retain the ownership of all patents, copyrights, trade secrets, trademarks and other intellectual property rights pertaining to Masimo Sleep (including, without limitation, the Masimo Sleep App). You will take no actions which adversely affect Masimo’s intellectual property rights in Masimo Sleep. These Terms of Use are a license and not an agreement for sale. No title to, or ownership of, Masimo Sleep, the Masimo Sleep App, or any intellectual property rights subsisting therein, is transferred to you.\n\n11.    Restrictions. Masimo Sleep is licensed solely for your personal use and any other use, including for third parties, is expressly prohibited. Masimo and its licensors reserve all rights not expressly granted to you in these Terms of Use. Without limiting the generality of the foregoing, you may not nor may you permit any other party to: (i) make copies of any software (including the Masimo Sleep App) used in or with Masimo Sleep, (ii) disassemble, decompile, reverse engineer, or translate any part of Masimo Sleep, or otherwise attempt to reconstruct or discover the source code of any software used in or with Masimo Sleep, except and only to the extent that such activity is expressly permitted by applicable law, (iii) modify or create derivative works based upon Masimo Sleep or any software used in or with Masimo Sleep, (iv) externally distribute, sublicense, resell, encumber or otherwise transfer any software used in or with Masimo Sleep, (v) rent, lease, lend, or use any software used in or with Masimo Sleep, or any part thereof, for timesharing or bureau use, (vi) allow a third party to copy, access, or use any software used in or with Masimo Sleep (except as expressly provided in these Terms of Use), (vi) alter or remove any copyright, trademark or other proprietary notice which may appear in the Masimo Sleep App, (vii) take any action that would cause any software used in or with Masimo Sleep to be placed in the public domain or become subject to open source license agreements, or (viii) use Masimo Sleep in any manner that violates any statute, law, rule, regulation, directive, guideline, bylaw whether presently in force or that may be implemented by federal, state or local authorities.\n\n12.    Updates. Except as otherwise expressly provided herein, these Terms of Use will govern any updates and upgrades to the Masimo Sleep App that may be provided to you in accordance with Masimo’s then-current maintenance and support policies, unless such updates and upgrades are provided under a separate license agreement. You may use the updates or upgrades only in conjunction with your then-existing Masimo Sleep App licensed under these Terms of Use. The Masimo Sleep App and all updates and upgrades are licensed as a single product and the updates and upgrades may not be separated from the Masimo Sleep App to exceed the scope of your original license.\n\n13.    No Support. Except as expressly required by applicable law, nothing in these Terms of Use entitles you to any support, maintenance or new versions of Masimo Sleep. You may contact Masimo to determine the availability of support, maintenance, and new versions, and the fees, terms and conditions that would apply.\n\n14.    Your Indemnification. You agree to fully defend, indemnify, and completely hold harmless Masimo, its affiliates, licensors, suppliers, and other contract relationships, and the officers, directors, employees, consultants, and agents of each, from any and all liabilities, claims, expenses, damages, including reasonable legal fees and disbursements, arising out of any third-party claims or suits for damage or injury to person in connection with, directly or indirectly, in whole or in part, (i) improper use of Masimo Sleep or any of its components or parts (including software), (ii) your failure to comply with any applicable laws, (iii) any act or omission which is, or can be determined to be, a breach of any term or condition in these Terms of Use, or (iv) your violation of any rights of any other person or entity.\n\n15.    Third Party Licenses. You understand and agree that, although provided to you by Masimo with the Masimo Sleep App, your use of third-party software will be and is governed by the relevant terms of the third-party licenses set forth on Schedule A. The ownership terms in Section 9 (Limited License) and the restrictions in Section 10 (Ownership) do not apply to third-party software. You understand and acknowledge that under the third-party licenses, third-party software is being provided “as is” without any warranty, including, but not limited to, the implied warranties of non-infringement, merchantability, satisfactory quality, reasonable care, or fitness for a particular purpose. If there is a conflict between these Terms of Use and Schedule A with respect to third-party software, the provisions of Schedule A will prevail.\n\n16.    Use Restrictions. You agree to only use Masimo Sleep in the United States and other supported regions as specified in the packaging or user manual. Your breach of this clause is cause for immediate termination of these Terms of Use and your right to use Masimo Sleep.\n\n17.    Termination. Masimo may terminate these Terms of Use and discontinue Masimo Sleep at any time. In addition, the rights granted under these Terms of Use will automatically terminate without notice if you fail to comply with any material provision of these Terms of Use. In such event, you must immediately stop using Masimo Sleep and uninstall the Masimo Sleep App from your mobile device. This will not limit or affect any remedy available to Masimo for your breach of these Terms of Use.\n\n18.    Resolution of Disputes.\n\n(a)    If any dispute arises between the parties relating to these Terms of Use, one party will provide written notice of the dispute to the other party describing the dispute in reasonable detail. The parties must attempt to negotiate a resolution of the dispute. During the negotiation, each party will provide to the other party all information reasonably requested by the other party. The parties will take any actions necessary to toll any applicable statutes of limitation and defenses based on the passage of time during this period of notice and negotiation. All negotiations under this Section will be confidential and will be treated as compromise and settlement negotiations under all applicable laws. If the dispute is not resolved within 60 days after the written notice is delivered, either party may initiate arbitration under the conditions below. All disputes between you and Masimo relating to Masimo Sleep must be resolved using arbitration as provided in this Section 18.\n\n(b)    Each party will choose one arbitrator. The parties will attempt to agree on the third arbitrator. If the parties fail to agree on the third arbitrator within 20 days of the parties choosing their arbitrators, the American Arbitration Association (the “AAA”) will choose the third arbitrator. If the dispute involves patent law, despite anything to the contrary, every arbitrator will be an attorney that specializes in patent law.\n\n(c)    The arbitrators may grant any remedy or relief that does not conflict with any term in these Terms of Use, including, but not limited to, specific performance or injunctive relief. Any award granted by the arbitrators will be final and binding on the parties unless appealed in accordance with the AAA’s Optional Appellate Arbitration Rules within 30 days following the award. If appealed as provided above, the decision rendered in the appeal will then be deemed final and binding on the parties. The final judgment resulting from the arbitration may be entered in any court having jurisdiction.\n\n(d)    Except as required by law, the parties (including counsel and other representatives), the witnesses, and the arbitrators may not disclose the existence, contents, or results of any dispute or arbitration under these Terms of Use without the prior written consent of both parties. Any documentary or other evidence produced in any arbitration will be treated as confidential and will not be disclosed to any third party (other than a witness or expert used during the arbitration), except as required by law.\n\n(e)    The United States Arbitration Act, as amended to date (the “Federal Arbitration Act”), will govern the interpretation, enforcement and all proceedings of the arbitration. To the extent that the Federal Arbitration Act is inapplicable, or held not to require arbitration of a particular claim or claims, the arbitration law of California will apply.\n\n(f)    The prevailing party in any dispute related to these Terms of Use will receive from the other party all reasonable costs incurred by the prevailing party, including reasonable attorneys’ fees.\n\n(g)    These Terms of Use are governed by the laws of the State of California, exclusive of its choice of law rules. Any dispute between you and Masimo regarding these Terms of Use will be subject to the exclusive jurisdiction of the state and federal courts sitting in the County of Orange in the State of California, provided that any arbitration shall be in Orange County in the State of California.\n\n19.    Miscellaneous.\n\n(a)    If you are a unit or agency of the United States Government, the following applies: The Masimo Sleep App is provided with RESTRICTED RIGHTS. Use, duplication or disclosure by the Government is subject to restrictions as set forth in Subparagraphs (a) through (d) of the Commercial Computer-Restricted Rights clause at FAR 52.227-19 when applicable, or in Subparagraph 252.227-7013 (c)(1)(ii) of the Rights in Technical Data and Computer Software at DFARS, and in similar clauses in the NASA FAR Supplement. Contractor/manufacturer is Masimo Americas, Inc.\n\n(b)    You may not assign, sublicense, or transfer these Terms of Use, the Masimo Sleep App, or any rights or obligations hereunder without prior written consent of Masimo. Any such attempted assignment, sublicense, or transfer without Masimo’s consent will be null and void. Masimo may terminate these Terms of Use in the event of any such attempted assignment, sublicense, or transfer without Masimo’s consent.\n\n(c)    These Terms of Use are in the English language only, and will only be provided in the English language. Any version of these Terms of Use in any other language will not be binding on the parties to these Terms of Use. All communications and notices to be made or given pursuant to these Terms of Use must be in the English language.\n\n(d)    These Terms of Use constitute the final and complete understanding between you and Masimo with respect to the subject matter.\n\n(e)    If any provision in these Terms of Use is invalid or unenforceable or contrary to applicable law, such provision shall be construed, limited, or altered, as necessary, to eliminate the invalidity or unenforceability or the conflict with applicable law. All other provisions of these Terms of Use shall remain in effect.\n\n(f)    Failure or delay on the part of either party to exercise any right, power, privilege, or remedy will not constitute a waiver of, or bar the later exercise of, that or any other right, power, privilege, or remedy of such party.\n\n(g)    No rule of strict construction shall apply against or in favor of either party in the construction and interpretation of these Terms of Use.\n \n\nSCHEDULE A\n\nTHIRD PARTY SOFTWARE\n\nThis Schedule A contains Third Party Licenses for the Masimo Sleep App. These licenses apply only with respect to the software supplied by the named third party and are made a part of and incorporated by reference into the Masimo Sleep Terms of Use that references these notices and/or additional terms and conditions.</string>
+
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="done">Done</string>
+
+    <string name="name_text_hint">Enter Full Name</string>
+    <string name="gender_text_hint">What is your biological sex?</string>
+    <string name="gender_other">Prefer not to answer</string>
+
+    <string name="sleep_condition_title">Do you have a sleep condition?</string>
+    <string name="sleep_condition_detail_title">Select all that applies to you</string>
+
+    <string name="sleep_condition_1">Excessive daytime sleepiness</string>
+    <string name="sleep_condition_2">Loud snoring</string>
+    <string name="sleep_condition_3">Waking up out of breath</string>
+    <string name="sleep_condition_4"></string>
+
+    <string name="bed_time_sub_title">You can change this later.</string>
+
+    <string name="set_bed_time_reminder_title">Set your bed time reminder</string>
+    <string name="set_bed_time_reminder_sub_title">How far in advance do you want to be reminded?</string>
+
+    <string name="program_started_title">Welcome to your\n7-Night Sleep Checkup&#8482;</string>
+    <string name="program_started_content">We’ll be analyzing your sleep for 7 nights, measuring your oxygen level, pulse rate, and respiration rate. After each Sleep Session, you will receive a Nightly Analysis including a Sleep Halo Index and Sleep Improvement Tips. At the end of 7 nights, you will receive a 7-Night Checkup Report so you can track your progress over time.</string>
+
+    <string name="greeting_name_text">Hi, %1s!</string>
+    <string name="setup_device_sub_title">Let\'s setup your Masimo Sensor</string>
+    <string name="setup_device_content">We recommend setting up your sensor just before bedtime</string>
+    <string name="setup_device_button_now">Set Up Sensor Now</string>
+
+    <string name="searching_sensor_text">Searching for Masimo Sensor...</string>
+
+    <string name="pairing_title">Pairing Masimo Sensor</string>
+    <string name="pairing_content">It may take a few seconds for the Masimo Sensor to appear in the list</string>
+
+    <string name="paired_title">Masimo Sensor is connected</string>
+
+    <string name="session_no_data_title">Sleep Halo Index</string>
+    <string name="session_no_data_sub_title">SLEEP HALO INDEX IS BEING COMPUTED</string>
+    <string name="session_no_data_content">Collecting data</string>
+
+    <string name="session_sleep_quality_title">Sleep Halo Index</string>
+    <string name="session_sleep_quality_sub_title">Continue your sleep. Your Sleep Halo Index will accumulate over your sleep session.</string>
+    <string name="quality_sleep_article_title">Learn about\nSleep Halo Index</string>
+    <string name="quality_sleep_article_content">Your Sleep Halo Index is an indicator of physiological distress that can potentially degrade your sleep. Your Sleep Halo Index is given on a 0-100 scale. A higher score indicates fewer signs of physiological distress and a lower score indicates more signs of physiological distress.</string>
+    <string name="quality_sleep_scale_title">Sleep Halo Index Scale</string>
+    <string name="sleep_quality_index_scale_good">Good</string>
+    <string name="sleep_quality_index_scale_fair">Fair</string>
+    <string name="sleep_quality_index_scale_poor">Poor</string>
+
+    <string name="remove_chip_title">Remove the chip to turn off the sensor, replace the yellow seal to prolong sensor battery life.</string>
+
+    <string name="sleep_program_title">Your Sleep Checkup</string>
+
+    <string name="eula_title">End User License Agreement</string>
+
+
+    <string name="final_outcome_title">Outcome</string>
+
+    <string name="program_complete_content">"Congratulations, %1s! You have successfully completed the 7-Night Sleep Checkup™."</string>
+
+    <!-- commonly used texts start-->
+    <string name="sleep_quality_index_trend">Sleep Halo Index Trend</string>
+    <string name="sleep_session_breakdown">Sleep Session Breakdown</string>
+    <string name="duration_range">Duration Range</string>
+    <string name="typical_bed_time">Typical Bed Time</string>
+    <string name="typical_wake_time">Typical Wake Time</string>
+    <string name="sleep_improvement_tips">Sleep Improvement Tips</string>
+    <string name="low_high">Low - High</string>
+    <string name="average_sleep_quality_index">Average Sleep Halo Index</string>
+    <string name="masimo_sensor">Masimo Sensor</string>
+    <string name="sleep_condition">Sleep Conditions</string>
+    <string name="birthday">Birthday</string>
+    <!-- commonly used texts end-->
+
+    <string name="end_program_early">End Sleep Checkup Early</string>
+
+    <string name="chip_disconnected_title">Masimo Chip Disconnected</string>
+    <string name="chip_disconnected_content">Reinsert the Masimo Chip to continue Sleep Session.</string>
+
+    <string name="end_sleep_checkup_title">End Sleep Checkup</string>
+    <string name="end_sleep_checkup_content">You have %1d more days to go before Sleep Checkup completes. You can still end Sleep Checkup but you may not get an accurate analysis.</string>
+
+    <string name="program_report_not_enough_nights">Your Sleep Checkup Score will be calculated after 6 nights</string>
+
+    <string name="dialog_confirm_replace_sensor_content">Connecting a new Masimo Sensor will replace your existing Sensor.\n\nContinue to pair a new Masimo Sensor?</string>
+    <string name="dialog_confirm_replace_sensor_title">Confirm Replace Sensor</string>
+    <string name="dialog_confirm_replace_sensor_positive">Yes</string>
+    <string name="dialog_confirm_replace_sensor_negative">No</string>
+
+
+    <string name="dialog_sensor_already_connected_content">Already connected to a Masimo Sensor. Please disconnect before connecting a new Masimo Sensor</string>
+    <string name="dialog_sensor_already_connected_title">Sensor Already Connected</string>
+    <string name="dialog_sensor_already_connected_positive">Ok</string>
+
+    <!-- should match @integer/red_upper and @integer/yellow_upper-->
+    <string name="red_upper_text">55</string>
+    <string name="yellow_upper_text">75</string>
+
+    <plurals name="events">
+        <item quantity="one">Event</item>
+        <item quantity="other">Events</item>
+    </plurals>
+
+    <plurals name="nights_recorded">
+        <item quantity="one">night recorded</item>
+        <item quantity="other">nights recorded</item>
+    </plurals>
+
+    <string name="num_of_nights_recorded">%d %s</string>
+    <string name="no_nights_recorded">No data recorded</string>
+    <string name="start_to_end_date">%s - %s</string>
+
+    <string name="go_to_dashboard">Go to Dashboard</string>
+
+
+    <!--Session terminated dialog -->
+    <string name="session_terminated_dialog_canceled_title"> Your session has ended.</string>
+    <string name="session_terminated_dialog_ended_title"> Your session has ended.</string>
+    <string name="session_terminated_dialog_canceled_des_sensor_disconnection">Due to prolonged sensor disconnection (greater than 30 min), your session has automatically ended.\nThe session was not recorded because the duration was less than 2 hours.</string>
+    <string name="session_terminated_dialog_ended_des_sensor_disconnection">Due to prolonged sensor disconnection (greater than 30 min), your session has automatically ended.</string>
+    <string name="session_terminated_dialog_ended_des_prolonged_session">Due to prolonged session duration (greater than 12 hours), your session has automatically ended.</string>
+    <string name="session_terminated_dialog_button_text">OK</string>
+
+    <string name="general_error">Something went wrong.</string>
+
+    <string name="seven_night_report">7-Night Checkup Report</string>
+    <string name="end_session_dialog_cancel_text">End</string>
+    <string name="end_session_dialog_continue_text">Continue</string>
+    <string name="end_session_dialog_body_text">Would you like to end your sleep session?\n\nIf you cancel, this session will not be recorded.</string>
+    <string name="average_duration_of_sleep_title">AVERAGE DURATION OF SLEEP PER NIGHT</string>
+    <string name="event_duration">Duration</string>
+    <string name="event_severity">Severity</string>
+    <string name="bed_time_title">Bed time</string>
+
+    <string name="double_dash">--</string>
+    <string name="sleep_analysis">Sleep Analysis</string>
+
+
+    <string name="sensor_off">Sensor Off</string>
+    <string name="skip">Skip</string>
+    <string name="scan_failed_title">We can\'t seem to find your Masimo Sensor. Please try again.</string>
+    <string name="defective_sensor_message">This sensor needs to be replaced. Please be sure to retain your Masimo Chip</string>
+    <string name="sensor_off_finger_message">Wrap finger tape around finger to continue Sleep Session.</string>
+    <string name="time">Time</string>
+    <string name="sensor_tutorial_skip">Skip Tutorial</string>
+    <string name="sleep_events">Events</string>
+
+    <string name="no_active_sleep_checkup_title">No Active Sleep Checkup</string>
+    <string name="start_new_sleep_study">Start a New Sleep Checkup</string>
+
+
+    <string name="program_quality_desc_good">Congratulations, you have good quality sleep.</string>
+    <string name="program_quality_desc_fair_trend_up">If you saw an improvement over the 7-Night Sleep Checkup, continue with Sleep Improvement Tips and continue to monitor your sleep.</string>
+    <string name="program_quality_desc_fair_trend_down">If you saw a decrease in quality over the 7-Night Sleep Checkup, scroll down for Sleep Improvement Tips. Repeat the 7-Night Sleep Checkup.</string>
+    <string name="program_quality_desc_poor">If your nightly Sleep Halo Index was consistently poor, consider further evaluation with a Health Care Professional.</string>
+
+    <string name="events_desc">It is normal to have events during the night. What is important is your Sleep Halo Index.</string>
+
+</resources>

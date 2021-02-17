@@ -1,0 +1,54 @@
+def HOWTO='http://atlassian.masimo.com/confluence/display/MBLAND/Building+Uniview'
+def KEYSTORE_PROPS_FILENAME = 'keystore/keystore.properties'
+
+ext.ensureFileExists = { checkFile ->
+    if (checkFile.exists()) return true
+
+    def path = checkFile.absolutePath
+    logger.error ("Cannot find '$path'. Your project is not properly configured. Please have a look at $HOWTO to configure it.")
+    throw new GradleException ("Missing required file '$path'.")
+}
+
+def keystorePropsFile = file (KEYSTORE_PROPS_FILENAME)
+
+if (ensureFileExists(keystorePropsFile))
+    logger.info ("Found keystore properties file '$KEYSTORE_PROPS_FILENAME'.")
+
+def PROPS = new Properties()
+
+keystorePropsFile.withDataInputStream() {
+    PROPS.load(it)
+}
+
+if (null == PROPS) {
+    throw new GradleException ("Properties file '$KEYSTORE_PROPS_FILENAME' failed to load")
+} else logger.info ("Loaded '$KEYSTORE_PROPS_FILENAME'")
+
+ext {
+    // Release keystore
+    releaseKeystoreFile = file(PROPS.getProperty("keystore.release.path"))
+    releaseKeystorePassword = PROPS.getProperty("keystore.release.keystorePass")
+    releaseKeyAlias = PROPS.getProperty ("keystore.release.alias")
+    releaseAliasPassword = PROPS.getProperty ("keystore.release.aliasPass")
+
+    // Debug keystore
+    debugKeystoreFile = file(PROPS.getProperty("keystore.debug.path"))
+    debugKeystorePassword = PROPS.getProperty("keystore.debug.keystorePass")
+    debugKeyAlias = PROPS.getProperty ("keystore.debug.alias")
+    debugAliasPassword = PROPS.getProperty ("keystore.debug.aliasPass")
+}
+
+// TODO: See https://confluence.masimo.com:8443/display/MBLAND/Building+Android+Apps
+
+if (!releaseKeystoreFile.exists()) {
+    def path = releaseKeystoreFile.absolutePath
+    logger.error ("Cannot find '$path'. Your project is not properly configured. Please have a look at $HOWTO to configure it.")
+    throw new GradleException ("Missing release keystore file '$path'.")
+}
+
+if (ensureFileExists(releaseKeystoreFile))
+    logger.quiet ("Using release keystore '$releaseKeystoreFile.absolutePath'")
+
+if (ensureFileExists(debugKeystoreFile))
+    logger.quiet ("Using debug keystore '$debugKeystoreFile.absolutePath'")
+

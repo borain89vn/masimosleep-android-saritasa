@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: '../config.gradle'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def masimoCommonVersion = '1.6.11'
+    def masimoCommunicationVersion='2.0.0'
+    def masimoAirProtocolVersion='1.0.0'
+    def masimoAndroidCommonVersion = '1.6.4'
+    def MasimoAndroidLogbackVersion = '1.0.1'
+
+    implementation ("com.masimo:common:$masimoCommonVersion") { transitive = true }
+    implementation ("com.masimo:communication:$masimoCommunicationVersion") { transitive = true }
+    implementation ("com.masimo:protocol-air:$masimoAirProtocolVersion") { transitive = true }
+    debugImplementation ("com.masimo.android:common:$masimoAndroidCommonVersion:debug@aar") { transitive = true }
+    releaseImplementation ("com.masimo.android:common:$masimoAndroidCommonVersion") { transitive = true }
+    implementation ("com.masimo.android:logback:$MasimoAndroidLogbackVersion") { transitive = true }
+
+    implementation libraries.rxJava
+    implementation libraries.rxAndroid
+
+    implementation libraries.kotlin
+    implementation libraries.ktx
+    implementation libraries.appCompat
+    implementation libraries.annotation
+    implementation libraries.slf4j
+}

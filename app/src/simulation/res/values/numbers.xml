@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--session auto end or cancel time in seconds-->
+    <integer name="max_sensor_off_time">15</integer>
+    <integer name="max_ble_disconnect_time">15</integer>
+    <integer name="max_sleep_time">120</integer>
+</resources>

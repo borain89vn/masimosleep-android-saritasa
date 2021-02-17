@@ -1,0 +1,175 @@
+apply from: 'version.gradle'
+apply from: 'artifacts.gradle'
+apply from: 'keystore/check.gradle'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply from: '../config.gradle'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        applicationId "com.mymasimo.masimosleep"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+
+        versionCode MasimoSleepVersionCode
+        versionName MasimoSleepVersionName
+
+        buildConfigField "String", "BUILD_NUMBER", "\"$MasimoSleepBuildNumber\""
+        buildConfigField "String", "GIT_HASH", "\"$MasimoSleepGitHash\""
+
+        // debug fields
+        buildConfigField "boolean", "ALLOW_SHORT_SLEEP", "false"
+        buildConfigField "boolean", "FAKE_TICKS_ENABLED", "false"
+        buildConfigField "boolean", "FAKE_EVENTS_ENABLED", "false"
+
+        resValue "string", "DISPLAY_VERSION", "V${versionName}-${MasimoSleepBuildNumber}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        // see 'keystore/check.gradle'
+
+        release {
+            storeFile releaseKeystoreFile
+            storePassword releaseKeystorePassword
+            keyAlias releaseKeyAlias
+            keyPassword releaseAliasPassword
+        }
+        debug {
+            storeFile debugKeystoreFile
+            storePassword debugKeystorePassword
+            keyAlias debugKeyAlias
+            keyPassword debugAliasPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['release']
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['debug']
+        }
+        enterprise {
+            initWith buildTypes.debug
+            applicationIdSuffix ".enterprise"
+            matchingFallbacks = ['debug']
+            signingConfig signingConfigs.release
+        }
+    }
+
+    flavorDimensions "target"
+    productFlavors {
+        simulation {
+            dimension "target"
+            buildConfigField "boolean", "ALLOW_SHORT_SLEEP", "true"
+            buildConfigField "boolean", "FAKE_TICKS_ENABLED", "true"
+            buildConfigField "boolean", "FAKE_EVENTS_ENABLED", "true"
+        }
+        production {
+            dimension "target"
+        }
+        automation {
+            dimension "target"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    viewBinding {
+        enabled = true
+    }
+
+    applicationVariants.all { variant ->
+        renameAPK(variant, defaultConfig)
+    }
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(':airlib')
+
+    // Masimo Libs
+    def masimoCommonVersion = '1.6.11'
+    def masimoAndroidCommonVersion = '1.6.4'
+    def MasimoUIVersion = '1.9.15'
+    def MasimoAndroidLogbackVersion = '1.0.1'
+    def MasimoSleepScoreLibVersion = '0.1.0'
+    implementation("com.masimo:common:$masimoCommonVersion") { transitive = true }
+    debugImplementation("com.masimo.android:common:$masimoAndroidCommonVersion:debug@aar") { transitive = true }
+    releaseImplementation("com.masimo.android:common:$masimoAndroidCommonVersion") { transitive = true }
+    enterpriseImplementation("com.masimo.android:common:$masimoAndroidCommonVersion:debug@aar") { transitive = true }
+    debugImplementation("com.masimo.android:ui:$MasimoUIVersion:debug@aar") { transitive = true }
+    releaseImplementation("com.masimo.android:ui:$MasimoUIVersion") { transitive = true }
+    enterpriseImplementation("com.masimo.android:ui:$MasimoUIVersion") { transitive = true }
+    implementation("com.masimo.android:logback:$MasimoAndroidLogbackVersion") { transitive = true }
+    implementation("com.masimo.android:sleep-score:$MasimoSleepScoreLibVersion") { transitive = true }
+
+    //Firebase Crashlytics
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.1'
+
+    implementation libraries.appCompat
+    implementation libraries.circleIndicator
+    implementation libraries.constraintLayout
+    implementation libraries.dagger
+    kapt libraries.daggerCompiler
+    debugImplementation libraries.debugDb
+    enterpriseImplementation libraries.debugDb
+    implementation libraries.kotlin
+    implementation libraries.ktx
+    implementation libraries.legacySupportV4
+    kapt libraries.lifecycleCompiler
+    implementation libraries.lifecycleExt
+    implementation libraries.lifecycleRuntime
+    implementation libraries.lifecycleViewModel
+    implementation libraries.lifecycleViewModelKtx
+    implementation libraries.material
+    implementation libraries.mpAndroidChart
+    implementation libraries.navFragmentKtx
+    implementation libraries.navUiKtx
+    implementation libraries.room
+    kapt libraries.roomCompiler
+    implementation libraries.roomKtx
+    implementation libraries.roomRxJava
+    implementation libraries.rxAndroid
+    implementation libraries.rxJava
+    implementation libraries.rxKotlin
+    implementation libraries.rxRelay
+    implementation libraries.timber
+    implementation libraries.viewPager2
+    implementation libraries.ripplePulse
+
+    debugImplementation libraries.flipper
+    debugImplementation libraries.soloader
+
+    releaseImplementation libraries.flipperNoOp
+
+    enterpriseImplementation libraries.flipper
+    enterpriseImplementation libraries.soloader
+}

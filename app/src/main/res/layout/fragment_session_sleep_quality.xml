@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sleep_quality_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    tools:context=".ui.session.session_sleep_quality.SessionSleepQualityFragment">
+
+    <TextView
+        android:id="@+id/quality_so_far_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/session_sleep_quality_title"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingContent"
+        android:textColor="@color/buttonColor_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/quality_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="EMERGENCY"
+        android:textAppearance="@style/onboardingHeader"
+        android:textColor="@color/subtleGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quality_so_far_text" />
+
+    <ImageView
+        android:id="@+id/face_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/face_red"
+        app:layout_constraintBottom_toBottomOf="@id/quality_text"
+        app:layout_constraintEnd_toStartOf="@id/quality_text"
+        app:layout_constraintTop_toTopOf="@id/quality_text" />
+
+    <TextView android:id="@+id/sub_title_text"
+        android:text="@string/session_sleep_quality_sub_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textAppearance="@style/onboardingContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/lbl_score_text"
+        app:layout_constraintTop_toBottomOf="@+id/face_image"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/lbl_score_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingHeader"
+        android:textColor="@color/subtleGray"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sub_title_text" />
+
+    <ImageView
+        android:id="@+id/trend_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/trend_down"
+        app:layout_constraintBottom_toBottomOf="@id/lbl_score_text"
+        app:layout_constraintStart_toEndOf="@id/lbl_score_text"
+        app:layout_constraintTop_toTopOf="@id/lbl_score_text" />
+
+    <TextView
+        android:id="@+id/updated_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="Updated 1s ago"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingContent"
+        android:textColor="@color/darkDiv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lbl_score_text" />
+
+    <com.mymasimo.masimosleep.ui.ScoreProgressBar android:id="@+id/score_progress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/updated_text"
+        app:firstBarColor="@color/sq_redOff"
+        app:secondBarColor="@color/sq_yellowOff"
+        app:thirdBarColor="@color/sq_greenOff"
+        app:notchIcon="@drawable/triangle_red"
+        app:constantsColor="@color/darkDiv"
+        app:scoreBarHeight="10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.night_picker.NightPickerFragment">
+
+    <LinearLayout
+        android:id="@+id/startProgramContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.80"
+        tools:visibility="visible"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView android:id="@+id/tv_no_active_title"
+            android:text="@string/no_active_sleep_checkup_title"
+            android:layout_gravity="center"
+            android:textStyle="normal"
+            android:textSize="17sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/startProgramButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/round_button"
+            android:text="@string/start_new_sleep_study"
+            android:textColor="@color/white"
+            android:textAppearance="@style/roundedButton_WhiteText"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="?android:attr/borderlessButtonStyle" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nightsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/nightLabel"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            tools:text="Night 1 of 10"
+            android:textAlignment="center"
+            android:textAppearance="@style/onboardingContent" />
+
+        <HorizontalScrollView
+            android:id="@+id/nightScrollView"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:scrollIndicators="none"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/night_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

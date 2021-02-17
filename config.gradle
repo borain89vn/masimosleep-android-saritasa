@@ -1,0 +1,46 @@
+rootProject.ext {
+	androidBuildToolsVersion = '29.0.2'
+	androidCompileSdkVersion = 29
+	androidMinSdkVersion = 23
+	androidTargetSdkVersion = 29
+
+	kotlinVersion = "1.3.72"
+	kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+
+	libraries = [
+			annotation: "androidx.annotation:annotation:1.1.0",
+			appCompat: "androidx.appcompat:appcompat:1.1.0",
+			constraintLayout: "androidx.constraintlayout:constraintlayout:1.1.3",
+			dagger: "com.google.dagger:dagger:2.24",
+			daggerCompiler: "com.google.dagger:dagger-compiler:2.24",
+			debugDb: "com.amitshekhar.android:debug-db:1.0.6",
+			circleIndicator: "me.relex:circleindicator:2.1.4",
+			flipper: "com.facebook.flipper:flipper:0.51.0",
+			flipperNoOp: "com.facebook.flipper:flipper-noop:0.51.0",
+	        kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
+			ktx: "androidx.core:core-ktx:1.3.1",
+			legacySupportV4: "androidx.legacy:legacy-support-v4:1.0.0",
+			lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:2.0.0",
+			lifecycleExt: "androidx.lifecycle:lifecycle-extensions:2.2.0",
+			lifecycleRuntime: "androidx.lifecycle:lifecycle-runtime:2.2.0",
+			lifecycleViewModel: "androidx.lifecycle:lifecycle-viewmodel:2.2.0",
+			lifecycleViewModelKtx: "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0",
+			material: "com.google.android.material:material:1.1.0",
+			mpAndroidChart: "com.github.PhilJay:MPAndroidChart:v3.1.0",
+			navFragmentKtx: "androidx.navigation:navigation-fragment-ktx:2.3.0",
+			navUiKtx: "androidx.navigation:navigation-ui-ktx:2.3.0",
+			room: "androidx.room:room-runtime:2.2.5",
+			roomCompiler: "androidx.room:room-compiler:2.2.5",
+			roomKtx: "androidx.room:room-ktx:2.2.5",
+			roomRxJava: "androidx.room:room-rxjava2:2.2.5",
+			rxAndroid: "io.reactivex.rxjava2:rxandroid:2.1.1",
+			rxJava: "io.reactivex.rxjava2:rxjava:2.2.13",
+			rxKotlin: "io.reactivex.rxjava2:rxkotlin:2.4.0",
+			rxRelay: "com.jakewharton.rxrelay2:rxrelay:2.1.1",
+			slf4j: "org.slf4j:slf4j-api:1.7.29",
+			soloader: "com.facebook.soloader:soloader:0.9.0",
+			timber: "com.jakewharton.timber:timber:4.7.1",
+			viewPager2: "androidx.viewpager2:viewpager2:1.0.0",
+			ripplePulse: "com.kuassivi.android.view:ripple-pulse-layout:0.1.9",
+	]
+}

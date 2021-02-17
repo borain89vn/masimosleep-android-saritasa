@@ -1,0 +1,33 @@
+def VERSION_MAJOR = 1
+def VERSION_MINOR = 0
+def VERSION_PATCH = 2
+
+assert VERSION_MAJOR in (0..9)
+assert VERSION_MINOR in (0..9)
+assert VERSION_PATCH in (0..9)
+
+def BUILD_NUMBER = 1
+assert BUILD_NUMBER in (0..255)
+
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+
+    def result = exec {
+        ignoreExitValue true
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = stdout
+    }
+
+    return result.exitValue == 0
+            ? stdout.toString().trim().replace('\n', ':')
+            : "UNKNOWN"
+}
+
+ext {
+    MasimoSleepVersionName = String.format(Locale.ENGLISH, "%d%d%d0", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)
+    MasimoSleepVersionCode = BUILD_NUMBER + (10000 * VERSION_PATCH) + (1000000 * VERSION_MINOR) + (100000000 * VERSION_MAJOR)
+    MasimoSleepBuildNumber = String.format(Locale.ENGLISH, "%03d", BUILD_NUMBER)
+    MasimoSleepGitHash = "${getGitHash()}"
+}
+
+logger.quiet("Masimo Sleep v${MasimoSleepVersionName}-$MasimoSleepBuildNumber ($MasimoSleepVersionCode). Git hash: $MasimoSleepGitHash")

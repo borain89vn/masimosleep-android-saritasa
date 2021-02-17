@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="red_lower">0</integer>
+    <integer name="red_upper">55</integer>
+    <integer name="yellow_upper">75</integer>
+    <integer name="green_upper">100</integer>
+
+    <integer name="spo2_optimal_low">95</integer>
+    <integer name="spo2_optimal">97</integer>
+
+    <integer name="pr_optimal_low">40</integer>
+    <integer name="pr_optimal">70</integer>
+    <integer name="pr_optimal_high">100</integer>
+    <integer name="pr_high">140</integer>
+
+    <integer name="rrp_optimal_low">2</integer>
+    <integer name="rrp_optimal">12</integer>
+    <integer name="rrp_optimal_high">18</integer>
+    <integer name="rrp_high">24</integer>
+
+    <!--session auto end or cancel time in seconds-->
+    <integer name="max_sensor_off_time">1800</integer>
+    <integer name="max_ble_disconnect_time">1800</integer>
+    <integer name="max_sleep_time">43200</integer>
+</resources>

@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.mymasimo.masimosleep.ui.welcome.SplashFragment"
+        android:label="fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_NavigationFragment"
+            app:destination="@+id/navigationFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigationFragment"
+        android:name="com.mymasimo.masimosleep.ui.navigation.NavigationFragment"
+        android:label="fragment_navigation">
+        <action
+            android:id="@+id/action_navigationFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigationFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigationFragment_to_welcomeViewPagerFragment"
+            app:destination="@id/welcomeViewPagerFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigationFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mymasimo.masimosleep.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <argument
+            android:name="defaultSessionId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_homeFragment_to_scanFragment"
+            app:destination="@id/scanFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_welcomeViewPagerFragment"
+            app:destination="@id/welcomeViewPagerFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_deviceOnboardingViewPagerFragment"
+            app:destination="@id/deviceOnboardingViewPagerFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_profileViewPagerFragment"
+            app:destination="@id/profileViewPagerFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_selectDeviceFragment"
+            app:destination="@id/selectDeviceFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_programStartedFragment"
+            app:destination="@id/programStartedFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_sessionFragment"
+            app:destination="@id/sessionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_sleepingProgramFragment"
+            app:destination="@id/sleepingProgramFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top" />
+        <action
+            android:id="@+id/action_homeFragment_to_nightReportFragment"
+            app:destination="@id/nightReportFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_programReportFragment"
+            app:destination="@id/programReportFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_programHistoryFragment"
+            app:destination="@id/programHistoryFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_sleepQualityDescriptionFragment"
+            app:destination="@id/sleepQualityDescriptionFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top" />
+        <action
+            android:id="@+id/action_homeFragment_to_setUpDeviceDialogFragment"
+            app:destination="@id/setUpDeviceDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.mymasimo.masimosleep.ui.pairing.scan.ScanFragment"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan">
+        <action
+            android:id="@+id/action_scanFragment_to_scanFailedFragment"
+            app:destination="@id/scanFailedFragment"
+
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_scanFragment_to_selectDeviceFragment"
+            app:destination="@id/selectDeviceFragment"
+
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeViewPagerFragment"
+        android:name="com.mymasimo.masimosleep.ui.welcome.WelcomeViewPagerFragment"
+        android:label="fragment_welcome_view_pager"
+        tools:layout="@layout/fragment_welcome_view_pager">
+        <action
+            android:id="@+id/action_welcomeViewPagerFragment_to_profileViewPagerFragment"
+            app:destination="@id/profileViewPagerFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+            app:popUpTo="@id/welcomeViewPagerFragment"
+            app:popUpToInclusive="true"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceOnboardingViewPagerFragment"
+        android:name="com.mymasimo.masimosleep.ui.device_onboarding.DeviceOnboardingViewPagerFragment"
+        android:label="fragment_device_onboarding_view_pager"
+        tools:layout="@layout/fragment_device_onboarding_view_pager">
+        <action
+            android:id="@+id/action_deviceOnboardingViewPagerFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+
+            />
+        <action
+            android:id="@+id/action_deviceOnboardingViewPagerFragment_to_scanFragment"
+            app:destination="@id/scanFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/profileViewPagerFragment"
+        android:name="com.mymasimo.masimosleep.ui.profile.ProfileViewPagerFragment"
+        android:label="fragment_profile_view_pager"
+        tools:layout="@layout/fragment_profile_view_pager">
+        <action
+            android:id="@+id/action_profileViewPagerFragment_to_programStartedFragment"
+            app:destination="@id/programStartedFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@id/profileViewPagerFragment"
+            app:popUpToInclusive="true"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/selectDeviceFragment"
+        android:name="com.mymasimo.masimosleep.ui.pairing.pair.SelectDeviceFragment"
+        android:label="fragment_pairing"
+        tools:layout="@layout/fragment_select_device">
+        <action
+            android:id="@+id/action_selectDeviceFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_selectDeviceFragment_to_devicePairedFragment"
+            app:destination="@id/devicePairedFragment" />
+        <action
+            android:id="@+id/action_selectDeviceFragment_to_scanFailedFragment"
+            app:destination="@id/scanFailedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/programStartedFragment"
+        android:name="com.mymasimo.masimosleep.ui.program_started.ProgramStartedFragment"
+        android:label="fragment_program_started"
+        tools:layout="@layout/fragment_program_started">
+        <action
+            android:id="@+id/action_programStartedFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@id/programStartedFragment"
+            app:popUpToInclusive="true"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/scanFailedFragment"
+        android:name="com.mymasimo.masimosleep.ui.pairing.scan.ScanFailedFragment"
+        android:label="fragment_scan_failed"
+        tools:layout="@layout/fragment_scan_failed">
+        <action
+            android:id="@+id/action_scanFailedFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+
+            />
+        <action
+            android:id="@+id/action_scanFailedFragment_to_scanFragment"
+            app:destination="@id/scanFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/devicePairedFragment"
+        android:name="com.mymasimo.masimosleep.ui.pairing.pair.DevicePairedFragment"
+        android:label="fragment_device_paired"
+        tools:layout="@layout/fragment_device_paired">
+        <action
+            android:id="@+id/action_devicePairedFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+
+            app:launchSingleTop="true"
+            app:popUpTo="@id/devicePairedFragment"
+            app:popUpToInclusive="true"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/sleepingProgramFragment"
+        android:name="com.mymasimo.masimosleep.ui.dashboard.sleeping.program.SleepingProgramFragment"
+        android:label="fragment_sleeping_program"
+        tools:layout="@layout/fragment_sleeping_program">
+        <action
+            android:id="@+id/action_sleepingProgramFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_sleepingProgramFragment_to_nightSessionFragment"
+            app:destination="@id/nightSessionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nightSessionFragment"
+        android:name="com.mymasimo.masimosleep.ui.dashboard.sleeping.nightsession.NightSessionFragment"
+        android:label="fragment_night_session"
+        tools:layout="@layout/fragment_night_session">
+        <action
+            android:id="@+id/action_nightSessionFragment_to_sleepingProgramFragment"
+            app:destination="@id/sleepingProgramFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sessionFragment"
+        android:name="com.mymasimo.masimosleep.ui.session.SessionFragment"
+        android:label="fragment_session"
+        tools:layout="@layout/fragment_session">
+        <argument
+            android:name="sessionStart"
+            android:defaultValue="0L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_sessionFragment_to_sessionVitalsFragment"
+            app:destination="@id/sessionVitalsFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_sessionFragment_to_addNoteFragment"
+            app:destination="@id/addNoteFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_sessionFragment_to_sleepQualityDescriptionFragment"
+            app:destination="@id/sleepQualityDescriptionFragment" />
+        <action
+            android:id="@+id/action_sessionFragment_to_surveyFragment"
+            app:destination="@id/surveyFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+            app:popUpTo="@id/sessionFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_sessionFragment_to_endSessionDialogFragment"
+            app:destination="@id/endSessionDialogFragment" />
+        <action
+            android:id="@+id/action_sessionFragment_to_cancelSessionDialogFragment"
+            app:destination="@id/cancelSessionDialogFragment" />
+        <action
+            android:id="@+id/action_sessionFragment_to_batteryLowDialogFragment"
+            app:destination="@id/batteryLowDialogFragment" />
+        <action
+            android:id="@+id/action_sessionFragment_to_sensorDisconnectedDialogFragment"
+            app:destination="@id/sensorDisconnectedDialogFragment" />
+        <action
+            android:id="@+id/action_sessionFragment_to_defectiveDialogFragment"
+            app:destination="@id/defectiveDialogFragment" />
+        <action
+            android:id="@+id/action_sessionFragment_to_chipDisconnectedDialogFragment"
+            app:destination="@id/chipDisconnectedDialogFragment" />
+        <action
+            android:id="@+id/action_sessionFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/sessionFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/sessionVitalsFragment"
+        android:name="com.mymasimo.masimosleep.ui.session.vitals.SessionVitalsFragment"
+        android:label="fragment_session_vitals"
+        tools:layout="@layout/fragment_session_vitals">
+
+        <argument
+            android:name="sessionStart"
+            android:defaultValue="0L"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_sessionVitalsFragment_to_sessionFragment"
+            app:destination="@id/sessionFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/removeChipFragment"
+        android:name="com.mymasimo.masimosleep.ui.remove_chip.RemoveChipFragment"
+        android:label="fragment_remove_chip"
+        tools:layout="@layout/fragment_remove_chip">
+        <argument
+            android:name="sessionId"
+            android:defaultValue="0L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_removeChipFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/removeChipFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_removeChipFragment_to_programCompletedFragment"
+            app:destination="@id/programCompletedFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/removeChipFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyFragment"
+        android:name="com.mymasimo.masimosleep.ui.waking.survey.SurveyFragment"
+        android:label="fragment_survey"
+        tools:layout="@layout/fragment_survey">
+        <argument
+            android:name="sessionId"
+            android:defaultValue="0L"
+            app:argType="long" />
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_surveyFragment_to_removeChipFragment"
+            app:destination="@id/removeChipFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/surveyFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_surveyFragment_to_programCompletedFragment"
+            app:destination="@id/programCompletedFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/surveyFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNoteFragment"
+        android:name="com.mymasimo.masimosleep.ui.session.addnote.AddNoteFragment"
+        android:label="fragment_add_note"
+        tools:layout="@layout/fragment_add_note" />
+    <fragment
+        android:id="@+id/sleepQualityDescriptionFragment"
+        android:name="com.mymasimo.masimosleep.ui.session.sleep_quality_description.SleepQualityDescriptionFragment"
+        android:label="fragment_sleep_quality_description"
+        tools:layout="@layout/fragment_sleep_quality_description" />
+    <fragment
+        android:id="@+id/nightReportFragment"
+        android:name="com.mymasimo.masimosleep.ui.night_report.NightReportFragment"
+        android:label="fragment_night_report"
+        tools:layout="@layout/fragment_night_report">
+        <argument
+            android:name="sessionId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_nightReportFragment_to_reportVitalsFragment"
+            app:destination="@id/reportVitalsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_nightReportFragment_to_recommendationDetailFragment"
+            app:destination="@id/recommendationDetailFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_nightReportFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_nightReportFragment_to_reportAddNoteFragment"
+            app:destination="@id/reportAddNoteFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_nightReportFragment_to_sleepQualityDescriptionFragment"
+            app:destination="@id/sleepQualityDescriptionFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/reportVitalsFragment"
+        android:name="com.mymasimo.masimosleep.ui.night_report.report_vitals.ReportVitalsFragment"
+        android:label="fragment_report_vitals"
+        tools:layout="@layout/fragment_report_vitals">
+        <argument
+            android:name="sessionId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendationDetailFragment"
+        android:name="com.mymasimo.masimosleep.ui.night_report.recommendations.details.RecommendationDetailFragment"
+        android:label="fragment_recommendation_detail"
+        tools:layout="@layout/fragment_recommendation_detail">
+        <argument
+            android:name="recommendation"
+            app:argType="com.mymasimo.masimosleep.ui.night_report.recommendations.util.Recommendation" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.mymasimo.masimosleep.ui.night_report.report_events.details.EventDetailsFragment"
+        android:label="fragment_event_details"
+        tools:layout="@layout/fragment_event_details">
+        <argument
+            android:name="sessionId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportAddNoteFragment"
+        android:name="com.mymasimo.masimosleep.ui.night_report.notes.addnote.ReportAddNoteFragment"
+        android:label="fragment_report_add_note"
+        tools:layout="@layout/fragment_report_add_note">
+        <argument
+            android:name="sessionId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/programReportFragment"
+        android:name="com.mymasimo.masimosleep.ui.program_report.ProgramReportFragment"
+        android:label="fragment_program_report"
+        tools:layout="@layout/fragment_program_report">
+        <argument
+            android:name="programId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="isProgramCompleted"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_programReportFragment_to_endProgramDialogFragment"
+            app:destination="@id/endProgramDialogFragment" />
+        <action
+            android:id="@+id/action_programReportFragment_to_recommendationDetailFragment"
+            app:destination="@id/recommendationDetailFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top" />
+        <action
+            android:id="@+id/action_programReportFragment_to_outcomeDetailsFragment"
+            app:destination="@id/outcomeDetailsFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_programReportFragment_to_sleepQualityDescriptionFragment"
+            app:destination="@id/sleepQualityDescriptionFragment"
+
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+
+            />
+        <action
+            android:id="@+id/action_programReportFragment_to_nightReportFragment"
+            app:destination="@id/nightReportFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_programReportFragment_to_programCompletedFragment"
+            app:destination="@id/programCompletedFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_programReportFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/outcomeDetailsFragment"
+        android:name="com.mymasimo.masimosleep.ui.program_report.outcome.details.OutcomeDetailsFragment"
+        android:label="fragment_outcome_details"
+        tools:layout="@layout/fragment_outcome_details">
+        <argument
+            android:name="outcome"
+            android:defaultValue="SLIGHT"
+            app:argType="com.mymasimo.masimosleep.ui.program_report.outcome.SleepOutcome" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/endSessionDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.EndSessionDialogFragment"
+        android:label="fragment_end_session_dialog"
+        tools:layout="@layout/fragment_end_session_dialog"></dialog>
+    <dialog
+        android:id="@+id/cancelSessionDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.CancelSessionDialogFragment"
+        android:label="fragment_cancel_session_dialog"
+        tools:layout="@layout/fragment_cancel_session_dialog"></dialog>
+    <dialog
+        android:id="@+id/batteryLowDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.BatteryLowDialogFragment"
+        android:label="fragment_battery_low_dialog"
+        tools:layout="@layout/fragment_battery_low_dialog"></dialog>
+    <dialog
+        android:id="@+id/sensorDisconnectedDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.SensorDisconnectedDialogFragment"
+        android:label="fragment_sensor_disconnected_dialog"
+        tools:layout="@layout/fragment_sensor_disconnected_dialog"></dialog>
+    <dialog
+        android:id="@+id/defectiveDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.DefectiveDialogFragment"
+        android:label="fragment_defective_dialog"
+        tools:layout="@layout/fragment_defective_dialog"></dialog>
+    <dialog
+        android:id="@+id/chipDisconnectedDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.ChipDisconnectedDialogFragment"
+        android:label="fragment_chip_disconnected_dialog"
+        tools:layout="@layout/fragment_chip_disconnected_dialog"></dialog>
+    <dialog
+        android:id="@+id/setUpDeviceDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.SetupDeviceDialogFragment"
+        android:label="fragment_setup_device_dialog"
+        tools:layout="@layout/fragment_setup_device_dialog"></dialog>
+    <dialog
+        android:id="@+id/endProgramDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.EndProgramDialogFragment"
+        android:label="fragment_end_program_dialog"
+        tools:layout="@layout/fragment_end_program_dialog">
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/confirmReplaceSensorDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.ConfirmReplaceSensorDialogFragment"
+        android:label="fragment_confirm_replace_sensor_dialog"></dialog>
+    <dialog
+        android:id="@+id/sensorAlreadyConnectedDialogFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.SensorAlreadyConnectedDialogFragment"
+        android:label="fragment_already_connected_dialog"></dialog>
+    <dialog
+        android:id="@+id/sessionTerminatedFragment"
+        android:name="com.mymasimo.masimosleep.ui.dialogs.SessionTerminatedFragment"
+        android:label="fragment_session_terminated"
+        tools:layout="@layout/fragment_session_terminated_dialog">
+        <argument
+            android:name="sessionTerminatedEntity"
+            app:argType="com.mymasimo.masimosleep.data.room.entity.SessionTerminatedEntity" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/programHistoryFragment"
+        android:name="com.mymasimo.masimosleep.ui.program_history.ProgramHistoryFragment"
+        android:label="fragment_program_history"
+        tools:layout="@layout/fragment_program_history">
+        <action
+            android:id="@+id/action_programHistoryFragment_to_programReportFragment"
+            app:destination="@id/programReportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mymasimo.masimosleep.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsContentFragment"
+            app:destination="@id/settingsContentFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsProfileContainerFragment"
+            app:destination="@id/settingsProfileContainerFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_deviceOnboardingViewPagerFragment"
+            app:destination="@id/deviceOnboardingViewPagerFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+
+            />
+        <action
+            android:id="@+id/action_settingsFragment_to_scanFragment"
+            app:destination="@id/scanFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_confirmReplaceSensorDialogFragment"
+            app:destination="@id/confirmReplaceSensorDialogFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_sensorAlreadyConnectedDialogFragment"
+            app:destination="@id/sensorAlreadyConnectedDialogFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/settingsContentFragment"
+        android:name="com.mymasimo.masimosleep.ui.settings.content.SettingsContentFragment"
+        android:label="fragment_settings_content"
+        tools:layout="@layout/fragment_settings_content">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+        <argument
+            android:name="button_title"
+            app:argType="string" />
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/programCompletedFragment"
+        android:name="com.mymasimo.masimosleep.ui.program_completed.ProgramCompletedFragment"
+        android:label="fragment_program_completed"
+        tools:layout="@layout/fragment_program_completed">
+        <argument
+            android:name="endedEarly"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_programCompletedFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/programCompletedFragment"
+            app:popUpToInclusive="true"
+
+            />
+
+        <action
+            android:id="@+id/action_programCompletedFragment_to_programReportFragment"
+            app:destination="@id/programReportFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsProfileContainerFragment"
+        android:name="com.mymasimo.masimosleep.ui.settings.profile.container.SettingsProfileContainerFragment"
+        android:label="fragment_settings_profile_container"
+        tools:layout="@layout/fragment_settings_profile_container">
+        <argument
+            android:name="fieldType"
+            app:argType="com.mymasimo.masimosleep.ui.settings.profile.container.ProfileFieldType" />
+    </fragment>
+</navigation>
