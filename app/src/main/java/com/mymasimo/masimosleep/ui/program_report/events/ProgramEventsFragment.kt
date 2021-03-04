@@ -1,11 +1,11 @@
 package com.mymasimo.masimosleep.ui.program_report.events
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -19,18 +19,15 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
-import com.mymasimo.masimosleep.ui.night_report.report_events.util.SleepEventsViewData
 import kotlinx.android.synthetic.main.fragment_program_events.*
-import timber.log.Timber
-
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 
 class ProgramEventsFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ProgramEventsViewModel by viewModels { vmFactory }
 
     private var programId: Long = -1
@@ -59,9 +56,8 @@ class ProgramEventsFragment : Fragment() {
             updateUI(viewData)
         }
 
-        no_events_text.text = "Everything went great!\nEnjoy your day, " + MasimoSleepPreferences.name + "."
+        no_events_text.text = getString(R.string.day_events_empty, MasimoSleepPreferences.name)
         noEventsConfiguration()
-
     }
 
     private fun noEventsConfiguration() {
@@ -77,7 +73,7 @@ class ProgramEventsFragment : Fragment() {
         chart_events.visibility = View.VISIBLE
     }
 
-    private fun updateUI(eventsData : ProgramEventsViewModel.ProgramEventsViewData) {
+    private fun updateUI(eventsData: ProgramEventsViewModel.ProgramEventsViewData) {
         val totalEvents = eventsData.totalEvents
 
         if (totalEvents == 0) {
@@ -86,11 +82,7 @@ class ProgramEventsFragment : Fragment() {
             receivedEventsConfiguration()
         }
 
-        var plural = "s"
-        if (totalEvents == 1) {
-            plural = ""
-        }
-        event_text.text =  totalEvents.toString() + " Event$plural occured"
+        event_text.text = resources.getQuantityString(R.plurals.events_occurred, totalEvents, totalEvents)
 
         minor_event_text.text = eventsData.minorEvents.toString()
         major_event_text.text = eventsData.majorEvents.toString()
@@ -100,7 +92,7 @@ class ProgramEventsFragment : Fragment() {
 
     private fun configureChart() {
         chart_events.description.isEnabled = false
-        chart_events.setNoDataTextColor(resources.getColor(R.color.white,null))
+        chart_events.setNoDataTextColor(resources.getColor(R.color.white, null))
         chart_events.isScaleYEnabled = false
         chart_events.isHighlightPerTapEnabled = false
         chart_events.isHighlightPerDragEnabled = false
@@ -109,9 +101,9 @@ class ProgramEventsFragment : Fragment() {
         val xAxis = chart_events.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
 
-        xAxis.gridColor = resources.getColor(gridColorID,null)
-        xAxis.axisLineColor = resources.getColor(gridColorID,null)
-        xAxis.textColor = resources.getColor(xAxisColorID,null)
+        xAxis.gridColor = resources.getColor(gridColorID, null)
+        xAxis.axisLineColor = resources.getColor(gridColorID, null)
+        xAxis.textColor = resources.getColor(xAxisColorID, null)
         xAxis.setDrawAxisLine(true)
         xAxis.setDrawGridLines(true)
         xAxis.setCenterAxisLabels(false)
@@ -119,7 +111,7 @@ class ProgramEventsFragment : Fragment() {
         xAxis.labelCount = NUM_OF_NIGHTS
 
 
-        val formatter = object :  ValueFormatter() {
+        val formatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 
                 return value.toInt().toString()
@@ -138,53 +130,55 @@ class ProgramEventsFragment : Fragment() {
         rightAxis.spaceTop = 0.1F
         rightAxis.spaceBottom = 0.1F
         rightAxis.yOffset = -9F
-        rightAxis.gridColor = resources.getColor(gridColorID,null)
-        rightAxis.textColor = resources.getColor(yAxisColorID,null)
+        rightAxis.gridColor = resources.getColor(gridColorID, null)
+        rightAxis.textColor = resources.getColor(yAxisColorID, null)
 
         val leftAxis = chart_events.axisLeft
         leftAxis.setDrawLabels(false)
         leftAxis.setDrawGridLines(false)
-        leftAxis.axisLineColor = resources.getColor(gridColorID,null)
+        leftAxis.axisLineColor = resources.getColor(gridColorID, null)
     }
 
-    private fun updateChart(eventList : List<ProgramEventsViewModel.ProgramEventsViewData.Night>) {
-        val entries : ArrayList<BarEntry> = ArrayList()
+    private fun updateChart(eventList: List<ProgramEventsViewModel.ProgramEventsViewData.Night>) {
+        val entries: ArrayList<BarEntry> = ArrayList()
 
         for (eventSet in eventList) {
             val night = eventSet.index
-            val values = floatArrayOf(eventSet.minorEvents.toFloat(),eventSet.majorEvents.toFloat())
+            val values = floatArrayOf(eventSet.minorEvents.toFloat(), eventSet.majorEvents.toFloat())
             val entry = BarEntry(night.toFloat(), values)
             entries.add(entry)
         }
 
-        val barDataSet = BarDataSet(entries,"Events")
+        val barDataSet = BarDataSet(entries, "Events")
         barDataSet.setDrawValues(false)
         barDataSet.setDrawIcons(false)
 
-        var barColors : ArrayList<Int> = ArrayList()
-        barColors.add(resources.getColor(R.color.event_color_minor,null))
-        barColors.add(resources.getColor(R.color.event_color_major,null))
+        val barColors: ArrayList<Int> = ArrayList()
+        barColors.add(resources.getColor(R.color.event_color_minor, null))
+        barColors.add(resources.getColor(R.color.event_color_major, null))
         barDataSet.colors = barColors
         val barData = BarData(barDataSet)
         barData.barWidth = 0.75f
 
-        val boundaryEntryList : ArrayList<BarEntry> = ArrayList()
+        val boundaryEntryList: ArrayList<BarEntry> = ArrayList()
         boundaryEntryList.add(
             BarEntry(
                 1.0f,
-                floatArrayOf(0.toFloat()))
+                floatArrayOf(0.toFloat())
+            )
         )
         boundaryEntryList.add(
             BarEntry(
                 NUM_OF_NIGHTS.toFloat(),
-                floatArrayOf(0.toFloat()))
+                floatArrayOf(0.toFloat())
+            )
         )
 
-        val boundarySet = BarDataSet(boundaryEntryList,"")
+        val boundarySet = BarDataSet(boundaryEntryList, "")
         boundarySet.setDrawValues(false)
         boundarySet.setDrawIcons(false)
-        var boundaryColors : ArrayList<Int> = ArrayList()
-        boundaryColors.add(resources.getColor(R.color.clear,null))
+        val boundaryColors: ArrayList<Int> = ArrayList()
+        boundaryColors.add(resources.getColor(R.color.clear, null))
         boundarySet.colors = boundaryColors
 
         barData.addDataSet(boundarySet)
@@ -196,9 +190,9 @@ class ProgramEventsFragment : Fragment() {
 
     companion object {
 
-        private val gridColorID : Int = R.color.chart_grid_light
-        private val xAxisColorID : Int = R.color.chart_x_label_light
-        private val yAxisColorID : Int = R.color.chart_y_label_light
+        private val gridColorID: Int = R.color.chart_grid_light
+        private val xAxisColorID: Int = R.color.chart_x_label_light
+        private val yAxisColorID: Int = R.color.chart_y_label_light
 
 
         private const val KEY_PROGRAM_ID = "PROGRAM_ID"

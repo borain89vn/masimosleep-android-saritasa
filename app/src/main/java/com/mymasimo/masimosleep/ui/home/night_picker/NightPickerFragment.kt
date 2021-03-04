@@ -10,19 +10,19 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
-import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
+import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentNightPickerBinding
 import com.mymasimo.masimosleep.ui.home.HomeFragmentDirections
 import com.mymasimo.masimosleep.ui.home.HomeViewModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_night_picker.*
 import javax.inject.Inject
 
 class NightPickerFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
 
     private val vm: HomeViewModel by activityViewModels { vmFactory }
     private lateinit var bindings: FragmentNightPickerBinding
@@ -36,9 +36,9 @@ class NightPickerFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         bindings = FragmentNightPickerBinding.inflate(inflater, container, false)
         return bindings.root
     }
@@ -52,7 +52,7 @@ class NightPickerFragment : Fragment() {
 
         vm.programState.observe(viewLifecycleOwner) { programState ->
             when (programState) {
-                HomeViewModel.ProgramState.NoProgramInProgress  -> {
+                HomeViewModel.ProgramState.NoProgramInProgress -> {
                     bindings.startProgramContainer.isVisible = true
                     bindings.nightsContainer.isVisible = false
                 }
@@ -70,12 +70,12 @@ class NightPickerFragment : Fragment() {
 
     private fun goToProgramStartedScreen() {
         requireView().findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToProgramStartedFragment()
+            HomeFragmentDirections.actionHomeFragmentToProgramStartedFragment()
         )
     }
 
     private fun updateNightsUi() {
-        bindings.nightLabel.text = "Night $selectedNight of $NUM_OF_NIGHTS"
+        bindings.nightLabel.text = getString(R.string.night_label, selectedNight, NUM_OF_NIGHTS)
         removeAllNightItems()
 
         val c = selectedNight + 2
@@ -87,7 +87,7 @@ class NightPickerFragment : Fragment() {
 
         val totalPositions: Int = f + NUM_OF_NIGHTS + r
 
-        var scrollToPage: Int = 0
+        var scrollToPage = 0
         for (i in 1..totalPositions) {
 
             //add front and rear blanks

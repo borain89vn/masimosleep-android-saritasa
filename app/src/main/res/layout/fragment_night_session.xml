@@ -8,7 +8,7 @@
         android:id="@+id/liveScoreView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No live score data available"
+        android:text="@string/live_score_empty"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

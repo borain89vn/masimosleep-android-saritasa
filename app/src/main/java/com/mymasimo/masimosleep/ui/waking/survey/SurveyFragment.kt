@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
@@ -36,10 +37,10 @@ class SurveyFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         bindings = FragmentSurveyBinding.inflate(inflater, container, false)
         return bindings.root
     }
@@ -47,8 +48,8 @@ class SurveyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindings.title.text = "Good morning, " + MasimoSleepPreferences.name + "!"
-        bindings.subTitle.text = "Night ${args.nightNumber} of $NUM_OF_NIGHTS is complete"
+        bindings.title.text = getString(R.string.greeting_title, MasimoSleepPreferences.name)
+        bindings.subTitle.text = getString(R.string.night_completed_label, args.nightNumber, NUM_OF_NIGHTS)
 
         vm.enableButton.observe(viewLifecycleOwner) { action ->
             bindings.submitButton.setOnClickListener {
@@ -79,26 +80,24 @@ class SurveyFragment : Fragment() {
 
     private fun goToRemoveChipScreen() {
         requireView().findNavController().navigate(
-                SurveyFragmentDirections.actionSurveyFragmentToRemoveChipFragment(
-                        sessionId = args.sessionId
-                )
+            SurveyFragmentDirections.actionSurveyFragmentToRemoveChipFragment(
+                sessionId = args.sessionId
+            )
         )
     }
 
     private fun goToProgramCompletedScreen() {
         requireView().findNavController().navigate(
-                SurveyFragmentDirections.actionSurveyFragmentToProgramCompletedFragment(
-                        endedEarly = false
-                )
+            SurveyFragmentDirections.actionSurveyFragmentToProgramCompletedFragment(
+                endedEarly = false
+            )
         )
     }
 
     fun updateUI(scrollY: Int) {
-
         if (scrollY > 500) {
-
             swipe_up_icon?.visibility = View.INVISIBLE
-            swipe_up_title?.text = "Please take this quick survey"
+            swipe_up_title?.text = getString(R.string.take_survey)
 
         }
     }

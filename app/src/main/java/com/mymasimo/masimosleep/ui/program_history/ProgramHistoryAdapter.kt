@@ -44,8 +44,6 @@ class ProgramViewHolder(
             onProgramClickListener(program)
         }
 
-        var titleString: String
-
         with(bindings.root.resources) {
             bindings.subTitleText.text = if (program.sessionCount <= 0) getString(R.string.no_nights_recorded) else getString(R.string.num_of_nights_recorded, program.sessionCount,
                                                                                                                               getQuantityText(R.plurals.nights_recorded,
@@ -74,7 +72,7 @@ class ProgramViewHolder(
         when (program) {
             is Program.Current -> {
                 with(bindings.root.resources) {
-                    bindings.titleText.text = "Current"
+                    bindings.titleText.text = getString(R.string.current)
 
                     //Display score at ${NUM_OF_NIGHTS - 1}th night
                     if (program.sessionCount < NUM_OF_NIGHTS - 1) {
@@ -98,9 +96,7 @@ class ProgramViewHolder(
 
                 val endString = endFormatter.format(endTimeCalendar.time)
 
-                titleString = "$startString - $endString"
-
-                bindings.titleText.text = titleString
+                bindings.titleText.text = "$startString - $endString"
             }
         }
 

@@ -57,7 +57,7 @@ class ReportEventsFragment : Fragment() {
             updateUI(viewData)
         }
 
-        no_events_text.text = "Everything looks great!\nEnjoy your day, " + MasimoSleepPreferences.name + "."
+        no_events_text.text = getString(R.string.day_events_empty, MasimoSleepPreferences.name)
         noEventsConfiguration()
 
         view_events_button.setOnClickListener{
@@ -93,11 +93,7 @@ class ReportEventsFragment : Fragment() {
             receivedEventsConfiguration()
         }
 
-        var plural = "s"
-        if (totalEvents == 1) {
-            plural = ""
-        }
-        event_text.text =  totalEvents.toString() + " Event$plural occured"
+        event_text.text = resources.getQuantityString(R.plurals.events_occurred, totalEvents, totalEvents)
 
         minor_event_text.text = sleepEventData.minorEvents.toString()
         major_event_text.text = sleepEventData.majorEvents.toString()
@@ -127,11 +123,7 @@ class ReportEventsFragment : Fragment() {
 
         val dateFormatter = SimpleDateFormat("hh:mm")
         val formatter = object :  ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                val date = dateFormatter.format(Date(value.toLong().toMillis()))
-
-                return date
-            }
+            override fun getFormattedValue(value: Float): String = dateFormatter.format(Date(value.toLong().toMillis()))
         }
 
         xAxis.valueFormatter = formatter
@@ -206,7 +198,7 @@ class ReportEventsFragment : Fragment() {
         val boundarySet = BarDataSet(boundaryEntryList,"")
         boundarySet.setDrawValues(false)
         boundarySet.setDrawIcons(false)
-        var boundaryColors : ArrayList<Int> = ArrayList()
+        val boundaryColors : ArrayList<Int> = ArrayList()
         boundaryColors.add(resources.getColor(R.color.clear,null))
         boundarySet.colors = boundaryColors
 

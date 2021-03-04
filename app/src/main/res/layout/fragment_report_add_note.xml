@@ -108,13 +108,13 @@
             android:id="@+id/chars_remaining_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
-            android:text="45 of 45 characters left"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/lightTrayText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/note_div" />
+            app:layout_constraintTop_toBottomOf="@id/note_div"
+            tools:text="45 of 45 characters left" />
 
         <TextView
             android:id="@+id/title_text_view"

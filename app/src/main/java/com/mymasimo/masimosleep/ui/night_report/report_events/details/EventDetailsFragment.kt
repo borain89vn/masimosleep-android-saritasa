@@ -56,12 +56,7 @@ class EventDetailsFragment : Fragment() {
 
     private fun updateUI(viewData: EventDetailsViewModel.EventDetailViewData) {
         val totalEvents = viewData.totalEvents
-
-        var plural = "s"
-        if (totalEvents == 1) {
-            plural = ""
-        }
-        event_text.text = "$totalEvents Event$plural occured"
+        event_text.text = resources.getQuantityString(R.plurals.events_occurred, totalEvents, totalEvents)
 
         minor_event_text.text = viewData.minorEvents.toString()
         major_event_text.text = viewData.majorEvents.toString()

@@ -3,10 +3,10 @@ package com.mymasimo.masimosleep.ui.night_report.notes.addnote
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -93,12 +93,12 @@ class ReportAddNoteFragment : Fragment() {
 
     private fun updateRemainingCharsLabel() {
 
-        var charsRemaining = totalChars - note_text.text.count()
+        var charsRemaining = TOTAL_CHARS - note_text.text.count()
         if (charsRemaining < 0) {
             charsRemaining = 0
         }
 
-        chars_remaining_text.text = "$charsRemaining of ${totalChars} characters left"
+        chars_remaining_text.text = getString(R.string.hint_characters_left, charsRemaining, TOTAL_CHARS)
     }
 
     private fun addNote() {
@@ -114,6 +114,6 @@ class ReportAddNoteFragment : Fragment() {
     }
 
     companion object {
-        private const val totalChars : Int = 45
+        private const val TOTAL_CHARS : Int = 45
     }
 }

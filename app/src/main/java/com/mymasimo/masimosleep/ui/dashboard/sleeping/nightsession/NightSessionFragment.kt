@@ -32,7 +32,7 @@ class NightSessionFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         bindings = FragmentNightSessionBinding.inflate(inflater, container, false)
         return bindings.root
     }
@@ -47,7 +47,7 @@ class NightSessionFragment : Fragment() {
         }
 
         vm.liveScore.observe(viewLifecycleOwner) { liveScore ->
-            bindings.liveScoreView.text = "Live Score: $liveScore"
+            bindings.liveScoreView.text = getString(R.string.live_score, liveScore)
         }
     }
 

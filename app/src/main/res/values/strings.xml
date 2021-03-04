@@ -5,15 +5,11 @@
     <string name="radius_ppg"><![CDATA[Radius PPG™]]></string>
     <string name="radius_ppg_device_pairing_identifier"><![CDATA[Radius PPG™]]>(%1s)</string>
 
-    <!-- Pairing -->
-    <string name="device_name">Radius PPG</string>
-
     <!-- Permission Request -->
     <string name="location_permission_rationale_title">Location Access</string>
     <string name="location_permission_rationale_message">We need access your location to connect with nearby BLE devices</string>
 
     <!-- Notifications -->
-    <string name="bedtime_notification_title">Masimo Sleep</string>
     <string name="bedtime_notification_body">It\'s time to get ready for bed.</string>
     <string name="system_channel_name">System Notifications</string>
     <string name="system_channel_description">System level notifications such as connection state.</string>
@@ -22,16 +18,11 @@
     <string name="reminders_channel_description">Reminder notifications such as bed time alarms.</string>
     <string name="alarm_channel_name">Alarms</string>
     <string name="alarm_channel_description">Patient level notifications such as parameter low/high alarms.</string>
-    <string name="alert_notification_content">%1$s %2$s %3$s</string>
     <string name="bt_disabled">Bluetooth Disabled</string>
     <string name="enable_bt_for_monitoring">Please enable Bluetooth to continue monitoring.</string>
     <string name="monitoring_via_x">Monitoring via %1$s…</string>
     <string name="searching_for_x">Searching for your %1$s…</string>
     <string name="enable">Enable</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="preference_file_key">MASIMO_SLEEP_PREFS</string>
 
     <string name="welcome_subtitle_0">Your 7-Night Sleep Checkup &#8482;</string>
     <string name="welcome_content_0"></string>
@@ -127,7 +118,7 @@ Alcohol is not a sleep aid. It can contribute to poor sleep quality by:\n\n
 
 If you choose to take sleeping it is best to use them only on an infrequent, \“as needed,\” basis to avoid dependence, tolerance, withdrawal, drug interactions, rebound insomnia, and masking underlying problems</string>
 
-    <string name="reco_more_sleep_title"> Get 7 - 9 hours of sleep</string>
+    <string name="reco_more_sleep_title"> Get 7 – 9 hours of sleep</string>
     <string name="reco_more_sleep_subtitle">Research shows that sleep health is improved with 7 – 9 hours of sleep per night with a consistent bedtime.</string>
     <string name="reco_more_sleep_body">Keeping a consistent bedtime with sufficient time to sleep is important. Better sleeps starts with these tips:\n\n
         • Try to keep a consistent bedtime and get up at the same time every day. If you need an alarm clock, consider an earlier bedtime.
@@ -223,7 +214,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="setup_device_content">We recommend setting up your sensor just before bedtime</string>
     <string name="setup_device_button_now">Set Up Sensor Now</string>
 
-    <string name="searching_sensor_text">Searching for Masimo Sensor...</string>
+    <string name="searching_sensor_text">Searching for Masimo Sensor…</string>
 
     <string name="pairing_title">Pairing Masimo Sensor</string>
     <string name="pairing_content">It may take a few seconds for the Masimo Sensor to appear in the list</string>
@@ -237,7 +228,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="session_sleep_quality_title">Sleep Halo Index</string>
     <string name="session_sleep_quality_sub_title">Continue your sleep. Your Sleep Halo Index will accumulate over your sleep session.</string>
     <string name="quality_sleep_article_title">Learn about\nSleep Halo Index</string>
-    <string name="quality_sleep_article_content">Your Sleep Halo Index is an indicator of physiological distress that can potentially degrade your sleep. Your Sleep Halo Index is given on a 0-100 scale. A higher score indicates fewer signs of physiological distress and a lower score indicates more signs of physiological distress.</string>
+    <string name="quality_sleep_article_content">Your Sleep Halo Index is an indicator of physiological distress that can potentially degrade your sleep. Your Sleep Halo Index is given on a 0–100 scale. A higher score indicates fewer signs of physiological distress and a lower score indicates more signs of physiological distress.</string>
     <string name="quality_sleep_scale_title">Sleep Halo Index Scale</string>
     <string name="sleep_quality_index_scale_good">Good</string>
     <string name="sleep_quality_index_scale_fair">Fair</string>
@@ -248,9 +239,6 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="sleep_program_title">Your Sleep Checkup</string>
 
     <string name="eula_title">End User License Agreement</string>
-
-
-    <string name="final_outcome_title">Outcome</string>
 
     <string name="program_complete_content">"Congratulations, %1s! You have successfully completed the 7-Night Sleep Checkup™."</string>
 
@@ -286,11 +274,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
 
     <string name="dialog_sensor_already_connected_content">Already connected to a Masimo Sensor. Please disconnect before connecting a new Masimo Sensor</string>
     <string name="dialog_sensor_already_connected_title">Sensor Already Connected</string>
-    <string name="dialog_sensor_already_connected_positive">Ok</string>
-
-    <!-- should match @integer/red_upper and @integer/yellow_upper-->
-    <string name="red_upper_text">55</string>
-    <string name="yellow_upper_text">75</string>
+    <string name="dialog_sensor_already_connected_positive">OK</string>
 
     <plurals name="events">
         <item quantity="one">Event</item>
@@ -351,5 +335,22 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="program_quality_desc_poor">If your nightly Sleep Halo Index was consistently poor, consider further evaluation with a Health Care Professional.</string>
 
     <string name="events_desc">It is normal to have events during the night. What is important is your Sleep Halo Index.</string>
+
+    <string name="hint_characters_left">%1$d of %2$d characters left</string>
+    <plurals name="events_occurred">
+        <item quantity="one">%d Event Occurred</item>
+        <item quantity="other">%d Events Occurred</item>
+    </plurals>
+    <string name="night_label">Night %1$d of %2$d</string>
+    <string name="night_completed_label">Night %1$d of %2$d is complete</string>
+    <string name="btn_night_label">Night %1d</string>
+    <string name="live_score_empty">No live score data available</string>
+    <string name="live_score">Live Score: %1$.0f</string>
+    <string name="day_events_empty">Everything went great!\nEnjoy your day, %1$s.</string>
+    <string name="sleep_events_empty">Everything looks great!\nEnjoy your sleep, %1$s.</string>
+    <string name="current">Current</string>
+    <string name="greeting_title">Good morning, %1$s!</string>
+    <string name="swipe_title">Swipe Up</string>
+    <string name="take_survey">Please take this quick survey</string>
 
 </resources>

@@ -59,7 +59,7 @@ class SessionFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSessionBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,7 +68,7 @@ class SessionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.titleTextView.text = "Night ${args.nightNumber} of ${NUM_OF_NIGHTS}"
+        binding.titleTextView.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
 
         binding.addNoteButton.setOnClickListener {
             val navController = NavHostFragment.findNavController(this)

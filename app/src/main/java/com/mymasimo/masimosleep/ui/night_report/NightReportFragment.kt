@@ -36,7 +36,7 @@ class NightReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        subtitle_text.text = "Night ${args.nightNumber} of ${NUM_OF_NIGHTS}"
+        subtitle_text.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
 
         back_button.setOnClickListener {
             requireView().findNavController().navigateUp()
@@ -59,7 +59,7 @@ class NightReportFragment : Fragment() {
         addFragment(ReportNotesFragment.newInstance(args.sessionId), NOTES_FRAGMENT_TAG)
     }
 
-    private fun createViewVitalsFragment(sessionId : Long): ReportViewVitalsFragment {
+    private fun createViewVitalsFragment(sessionId: Long): ReportViewVitalsFragment {
         return ReportViewVitalsFragment.newInstance().apply {
             setOnClickListener {
                 requireView().findNavController().navigate(
@@ -73,7 +73,7 @@ class NightReportFragment : Fragment() {
 
 
     private fun removeAllFragments() {
-        NightReportFragment.ALL_FRAGMENT_TAGS.forEach { tag ->
+        ALL_FRAGMENT_TAGS.forEach { tag ->
             parentFragmentManager.findFragmentByTag(tag)?.let { fragment ->
                 parentFragmentManager.beginTransaction()
                     .remove(fragment)
