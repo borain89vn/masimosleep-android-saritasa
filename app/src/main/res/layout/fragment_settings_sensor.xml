@@ -10,16 +10,56 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/white_tray"
         android:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/hand_image"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/hand_tray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+
+            android:text="Connected"
+            android:textAppearance="@style/onboardingContent"
+            android:textColor="@color/subtleGray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/status_dot"
+            app:layout_constraintTop_toBottomOf="@id/title_text" />
+
+        <TextView
+            android:id="@+id/status_desc_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Sensor is currently tracking your vitals."
+            android:textAppearance="@style/onboardingContent"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/hand_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/status_text" />
 
         <TextView
             android:id="@+id/title_text"
@@ -42,47 +82,6 @@
             app:layout_constraintBottom_toBottomOf="@id/status_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/status_text" />
-
-        <TextView
-            android:id="@+id/status_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="16dp"
-
-            android:text="Connected"
-            android:textAppearance="@style/onboardingContent"
-            android:textColor="@color/subtleGray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/status_dot"
-            app:layout_constraintTop_toBottomOf="@id/title_text" />
-
-        <TextView
-            android:id="@+id/status_desc_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="Sensor is currently tracking your vitals."
-            android:textAppearance="@style/onboardingContent"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/hand_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/status_text" />
-
-        <ImageView
-            android:id="@+id/hand_image"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/hand_tray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

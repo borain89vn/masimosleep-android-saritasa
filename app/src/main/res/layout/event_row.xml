@@ -14,9 +14,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="1"
-        android:textAppearance="@style/onboardingContent"
+        android:textAppearance="@style/onboardingContentSmall"
         android:textColor="@color/darkText"
-        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,9 +26,8 @@
         android:layout_marginLeft="56dp"
         android:layout_marginTop="8dp"
         android:text="10:55 PM"
-        android:textAppearance="@style/onboardingContent"
+        android:textAppearance="@style/onboardingContentSmall"
         android:textColor="@color/darkText"
-        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,13 +39,28 @@
         android:layout_marginLeft="0dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textAppearance="@style/onboardingContent"
+        android:textAppearance="@style/onboardingContentSmall"
         android:textColor="@color/darkText"
-        android:textSize="12dp"
         android:visibility="visible"
         app:layout_constraintStart_toEndOf="@id/time_label"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="10m 6s" />
+
+    <TextView
+        android:id="@+id/severity_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Major"
+        android:textAppearance="@style/onboardingContentSmall"
+        android:textColor="@color/darkText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/severity_dot"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/severity_dot"
@@ -58,23 +71,5 @@
         app:layout_constraintBottom_toBottomOf="@id/severity_label"
         app:layout_constraintStart_toEndOf="@id/duration_label"
         app:layout_constraintTop_toTopOf="@id/severity_label" />
-
-    <TextView
-        android:id="@+id/severity_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-
-        android:text="Major"
-        android:textAppearance="@style/onboardingContent"
-        android:textColor="@color/darkText"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/severity_dot"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

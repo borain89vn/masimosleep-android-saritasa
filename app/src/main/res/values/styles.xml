@@ -14,47 +14,60 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="lightTitle" parent= "TextAppearance.AppCompat">
+    <style name="lightTitle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/subtleGray</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="onboardingTitle" parent= "TextAppearance.AppCompat">
+    <style name="onboardingTitle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="onboardingHeader" parent= "TextAppearance.AppCompat">
+    <style name="onboardingHeader" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">28sp</item>
     </style>
-    <style name="onboardingSubHeader" parent= "TextAppearance.AppCompat">
+
+    <style name="onboardingSubHeader" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">22sp</item>
     </style>
-    <style name="onboardingContent" parent= "TextAppearance.AppCompat">
+
+    <style name="onboardingContent" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/secondaryText_light</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="roundedButton_WhiteText" parent = "TextAppearance.AppCompat">
+    <style name="onboardingContentBold" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="onboardingContentSmall" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/secondaryText_light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="roundedButton_WhiteText" parent="TextAppearance.AppCompat">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="primaryTextButton" parent = "TextAppearance.AppCompat">
+    <style name="primaryTextButton" parent="TextAppearance.AppCompat">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/buttonColor_0</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
     </style>
-
 
 </resources>

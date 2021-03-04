@@ -21,26 +21,14 @@
             android:id="@+id/close_button"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             android:background="#00000000"
-            android:gravity="center|right"
+            android:gravity="center|end"
             android:text="Close"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/buttonColor_1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_margin="8sp"
-            android:gravity="center"
-            android:text="Quality Sleep"
-            android:textAppearance="@style/lightTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
@@ -54,6 +42,18 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/quality_scale_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/quality_sleep_scale_title"
+                    android:textAppearance="@style/onboardingContent"
+                    android:textColor="@color/subtleGray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/learn_container" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/learn_container"
@@ -93,19 +93,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/quality_scale_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:text="@string/quality_sleep_scale_title"
-                    android:textAppearance="@style/onboardingSubHeader"
-                    android:textColor="@color/subtleGray"
-                    android:textSize="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/learn_container" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/good_container"
                     android:layout_width="match_parent"
@@ -128,11 +115,10 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="16dp"
-                        android:gravity="left|center"
+                        android:gravity="left|start"
                         android:text="@string/sq_greenLabel"
-                        android:textAppearance="@style/onboardingSubHeader"
+                        android:textAppearance="@style/onboardingContent"
                         android:textColor="@color/subtleGray"
-                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/green_face"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -142,11 +128,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="left|center"
+                        android:gravity="left|start"
                         android:text="@string/sq_greenDesc"
                         android:textAppearance="@style/onboardingContent"
                         android:textColor="@color/trayText"
-                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/green_face"
                         app:layout_constraintTop_toBottomOf="@id/green_title" />
@@ -186,11 +171,10 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="16dp"
-                        android:gravity="left|center"
+                        android:gravity="left|start"
                         android:text="@string/sq_yellowLabel"
-                        android:textAppearance="@style/onboardingSubHeader"
+                        android:textAppearance="@style/onboardingContent"
                         android:textColor="@color/subtleGray"
-                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/yellow_face"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -200,11 +184,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="left|center"
+                        android:gravity="left|start"
                         android:text="@string/sq_yellowDesc"
                         android:textAppearance="@style/onboardingContent"
                         android:textColor="@color/trayText"
-                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/yellow_face"
                         app:layout_constraintTop_toBottomOf="@id/yellow_title" />
@@ -243,11 +226,10 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="16dp"
-                        android:gravity="left|center"
+                        android:gravity="left|start"
                         android:text="@string/sq_redLabel"
-                        android:textAppearance="@style/onboardingSubHeader"
+                        android:textAppearance="@style/onboardingContent"
                         android:textColor="@color/subtleGray"
-                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/red_face"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -257,12 +239,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="left|center"
+                        android:gravity="left|start"
                         android:paddingBottom="8dp"
                         android:text="@string/sq_redDesc"
                         android:textAppearance="@style/onboardingContent"
                         android:textColor="@color/trayText"
-                        android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/red_face"
                         app:layout_constraintTop_toBottomOf="@id/red_title" />
@@ -270,5 +251,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:text="Quality Sleep"
+            android:textAppearance="@style/lightTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

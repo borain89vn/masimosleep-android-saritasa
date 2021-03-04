@@ -7,19 +7,13 @@
     android:background="#f7fafb"
     tools:context=".ui.program_history.ProgramHistoryFragment">
 
-    <TextView
-        android:id="@+id/title_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="48sp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="48sp"
-        android:gravity="center"
-        android:text="@string/seven_night_report"
-        android:textAlignment="center"
-        android:textAppearance="@style/onboardingTitle"
+    <Button
+        android:id="@+id/close_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/x_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -34,13 +28,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_text_view" />
 
-    <Button
-        android:id="@+id/close_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/x_button"
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/seven_night_report"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingTitle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -48,12 +48,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="64dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

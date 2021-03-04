@@ -7,41 +7,19 @@
     android:background="#ffffff"
     tools:context=".ui.profile.screens.ProfileNameFragment">
 
-    <TextView
-        android:id="@+id/title_text_view"
+    <Button
+        android:id="@+id/submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20sp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="20sp"
-        android:text="What time do you usually sleep?"
-        android:textAlignment="center"
-        android:textAppearance="@style/onboardingHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/subtitle_title_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bed_time_sub_title"
-        android:textAlignment="center"
-        android:textAppearance="@style/onboardingContent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_text_view" />
-
-
-    <TextView
-        android:id="@+id/bedtime_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bed_time_title"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/black_button"
+        android:text="Next"
+        android:textAppearance="@style/roundedButton_WhiteText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/time_picker_container"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/time_picker_container"
@@ -61,20 +39,39 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/bedtime_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bed_time_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/time_picker_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/submit_button"
+    <TextView
+        android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50sp"
-        android:layout_marginRight="50sp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/black_button"
-        android:text="Next"
-        android:textAppearance="@style/roundedButton_WhiteText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:text="What time do you usually sleep?"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingHeader"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/subtitle_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bed_time_sub_title"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,9 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Profile"
-        android:textAppearance="@style/onboardingSubHeader"
-        android:textColor="@color/buttonColor_0"
-        android:textSize="16dp" />
+        android:textAppearance="@style/onboardingContentBold"
+        android:textColor="@color/buttonColor_0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,7 +25,6 @@
             android:layout_margin="16dp"
             android:text="Name"
             android:textAppearance="@style/onboardingContent"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,19 +36,16 @@
             android:layout_margin="16dp"
             android:background="#00000000"
             android:ellipsize="end"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:maxLines="1"
             android:paddingTop="20dp"
             android:text="Field Value"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"
@@ -94,13 +89,12 @@
             android:layout_margin="16dp"
             android:background="#00000000"
             android:ellipsize="end"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:maxLines="1"
             android:paddingTop="20dp"
             android:text="Field Value"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -148,13 +142,12 @@
             android:layout_margin="16dp"
             android:background="#00000000"
             android:ellipsize="end"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:maxLines="1"
             android:paddingTop="20dp"
             android:text="Field Value"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -202,13 +195,12 @@
             android:layout_margin="16dp"
             android:background="#00000000"
             android:ellipsize="end"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:maxLines="1"
             android:paddingTop="20dp"
             android:text="Field Value"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -255,18 +247,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:paddingTop="20dp"
             android:text="Field Value"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"
@@ -308,18 +297,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:paddingTop="20dp"
             android:text="Field Value"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"

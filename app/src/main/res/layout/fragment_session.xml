@@ -1,70 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.session.SessionFragment"
-    android:background="@drawable/sesssion_bg">
+    android:background="@drawable/sesssion_bg"
+    tools:context=".ui.session.SessionFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/title_text_view"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:text="Night 1 of 10"
-        android:layout_marginTop="16sp"
-        android:layout_marginLeft="16sp"
-        android:gravity="center_vertical"
-        android:textAppearance="@style/lightTitle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/add_note_button"
-        />
-
     <Button
         android:id="@+id/add_note_button"
         android:layout_width="110dp"
         android:layout_height="40dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/add_note_button"
         android:text="+ Add Note"
         android:textAppearance="@style/onboardingContent"
         android:textColor="@color/subtleGray"
-        android:background="@drawable/add_note_button"
-        android:layout_marginTop="16sp"
-        android:layout_marginRight="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/div_view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/darkDiv"
-        android:layout_marginTop="16sp"
-        android:layout_marginRight="16sp"
-        android:layout_marginLeft="16sp"
-        app:layout_constraintTop_toBottomOf="@id/title_text_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <ScrollView
-        android:id="@+id/session_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintTop_toBottomOf="@id/div_view"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:id="@+id/session_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 
     <Button
         android:id="@+id/endSessionBtn"
@@ -73,13 +28,55 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
+        android:background="@drawable/end_session_button"
         android:text="End Sleep Session"
         android:textAppearance="@style/onboardingTitle"
-        android:textSize="16dp"
         android:textColor="@color/subtleGray"
-        android:background="@drawable/end_session_button"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:id="@+id/session_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/div_view">
+
+        <LinearLayout
+            android:id="@+id/session_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="Night 1 of 10"
+        android:textAppearance="@style/lightTitle"
+        app:layout_constraintEnd_toStartOf="@id/add_note_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/div_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/darkDiv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_text_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

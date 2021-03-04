@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.device_onboarding.screens.DeviceOnboardingScreenFragment">
 
+    <ImageView
+        android:id="@+id/content_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/gl"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+        tools:srcCompat="@drawable/pairing_image_1" />
+
     <TextView
         android:id="@+id/title_text_view"
         android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:layout_marginLeft="48sp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="48sp"
         android:gravity="center"
         android:text="Put on Device"
         android:textAlignment="center"
@@ -21,48 +33,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.mymasimo.masimosleep.ui.device_onboarding.view.FullLayoutVideoView
-        android:id="@+id/video_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="30dp"
-        android:alpha="0"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintBottom_toTopOf="@+id/gl"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
-
-    <ImageView
-        android:id="@+id/content_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="30dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_text_view"
-        app:layout_constraintBottom_toTopOf="@+id/gl"
-        tools:srcCompat="@drawable/pairing_image_1" />
-
-    <androidx.constraintlayout.widget.Guideline android:id="@+id/gl"
-        app:layout_constraintGuide_percent=".85"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/content_text_view"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:paddingEnd="30dp"
         android:paddingStart="30dp"
-        tools:text="The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingContent"
-        app:layout_constraintTop_toBottomOf="@+id/gl"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gl"
+        tools:text="The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data The sensor is worn on your wrist and fingertip. It continuously collects your data" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".85" />
+
+    <com.mymasimo.masimosleep.ui.device_onboarding.view.FullLayoutVideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toTopOf="@+id/gl"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

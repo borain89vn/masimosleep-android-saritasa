@@ -6,18 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileViewPagerFragment">
 
-
     <Button
         android:id="@+id/back_button"
-        android:layout_width="40sp"
-        android:layout_height="40sp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/back_arrow"
-        android:layout_marginTop="8sp"
-        android:layout_marginLeft="8sp"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -28,6 +26,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

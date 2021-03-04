@@ -13,7 +13,7 @@
        android:layout_margin="16dp"
        android:textAppearance="@style/onboardingSubHeader"
        android:textColor="@color/buttonColor_0"
-       android:textSize="16dp"
+       android:textSize="16sp"
        android:text="Device" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,16 +27,14 @@
             android:layout_margin="16dp"
             android:textAppearance="@style/onboardingContent"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:textColor="@color/black"
-            android:textSize="16dp"
             android:text="Connect New Device"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-            />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -54,7 +52,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,9 +65,8 @@
             android:layout_margin="16dp"
             android:textAppearance="@style/onboardingContent"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:textColor="@color/black"
-            android:textSize="16dp"
             android:text="Troubleshoot Device"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +91,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,9 +104,8 @@
             android:layout_margin="16dp"
             android:textAppearance="@style/onboardingTitle"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:textColor="@color/sq_greenOn"
-            android:textSize="16dp"
             android:text="Order New Device"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -136,13 +130,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="14dp"
         android:background="@color/lightGray" />
-
 
 </LinearLayout>

@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="10dp">
 
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50sp"
-        android:layout_marginRight="50sp"
         android:layout_marginBottom="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:background="@drawable/round_button"
-        tools:text="Get Started"
         android:textAppearance="@style/roundedButton_WhiteText"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView android:id="@+id/skip_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submit_button"
-        android:layout_marginTop="10dp"
-        android:textSize="14sp"
-        android:textAppearance="@style/primaryTextButton"
-        android:text="@string/sensor_tutorial_skip"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Get Started" />
+
+    <TextView
+        android:id="@+id/skip_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/sensor_tutorial_skip"
+        android:textAppearance="@style/primaryTextButton"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

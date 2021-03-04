@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#00000000"
     tools:context=".ui.session.vitals.live.intervalgraph.LiveIntervalGraphFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/dark_tray"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/dark_tray"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/type_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/spo2_icon"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/spo2_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/chart_title"
@@ -50,12 +47,11 @@
             android:id="@+id/avg_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AVG."
-            android:textAppearance="@style/onboardingContent"
-            android:textSize="12dp"
-            android:textColor="@color/trayText"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="AVG."
+            android:textAppearance="@style/onboardingContentSmall"
+            android:textColor="@color/trayText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type_icon" />
 
@@ -63,12 +59,11 @@
             android:id="@+id/current_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CURRENT"
-            android:textAppearance="@style/onboardingContent"
-            android:textSize="12dp"
-            android:textColor="@color/trayText"
-            android:layout_marginTop="16dp"
             android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
+            android:text="CURRENT"
+            android:textAppearance="@style/onboardingContentSmall"
+            android:textColor="@color/trayText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type_icon" />
 
@@ -76,11 +71,11 @@
             android:id="@+id/avg_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/onboardingHeader"
-            android:text="--"
-            android:textColor="@color/white"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="0dp"
+            android:text="--"
+            android:textAppearance="@style/onboardingHeader"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avg_title" />
 
@@ -88,69 +83,67 @@
             android:id="@+id/current_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/onboardingHeader"
-            android:text="--"
-            android:textColor="@color/white"
             android:layout_marginRight="16dp"
             android:layout_marginTop="0dp"
+            android:text="--"
+            android:textAppearance="@style/onboardingHeader"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@id/current_title"
             app:layout_constraintTop_toBottomOf="@id/avg_title" />
 
-
-        <com.github.mikephil.charting.charts.ScatterChart
-            android:id="@+id/chart_live"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#00000000"
-            android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@id/avg_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/dark_inner_tray"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintTop_toBottomOf="@id/chart_live"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/dark_inner_tray"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chart_live">
 
             <TextView
                 android:id="@+id/low_high_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/trayText"
-                android:text="--"
-                android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="12dp"
+                android:text="--"
+                android:textAppearance="@style/onboardingContent"
+                android:textColor="@color/trayText"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/subtleGray"
-                android:text="@string/low_high"
-                android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/low_high"
+                android:textAppearance="@style/onboardingContent"
+                android:textColor="@color/subtleGray"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.github.mikephil.charting.charts.ScatterChart
+            android:id="@+id/chart_live"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="16dp"
+            android:background="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avg_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,6 +8,28 @@
     android:background="#ffffff"
     tools:context=".ui.home.HomeFragment">
 
+    <Button
+        android:id="@+id/calendar_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/calenday_icon"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/settings_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/settings_icon"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/circle_bg"
         android:layout_width="match_parent"
@@ -17,41 +39,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/home_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/night_picker_fragment"/>
+
     <TextView
         android:id="@+id/title_text_view"
         android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:layout_marginLeft="48sp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="48sp"
         android:gravity="center"
         android:text="@string/sleep_program_title"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/calendar_button"
-        android:layout_width="32sp"
-        android:layout_height="32sp"
-        android:layout_marginLeft="12sp"
-        android:layout_marginTop="12sp"
-        android:background="@drawable/calenday_icon"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/settings_button"
-        android:layout_width="32sp"
-        android:layout_height="32sp"
-        android:layout_marginTop="12sp"
-        android:layout_marginRight="12sp"
-        android:background="@drawable/settings_icon"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
@@ -64,20 +76,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_text_view"
         tools:layout="@layout/fragment_night_picker" />
-
-    <LinearLayout
-        android:id="@+id/home_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/night_picker_fragment">
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

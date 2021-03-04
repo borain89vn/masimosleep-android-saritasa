@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/dark_tray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,9 +22,9 @@
             android:id="@+id/type_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:src="@drawable/spo2_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,9 +52,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="AVG."
-            android:textAppearance="@style/onboardingContent"
+            android:textAppearance="@style/onboardingContentSmall"
             android:textColor="@color/trayText"
-            android:textSize="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type_icon" />
 
@@ -62,12 +61,11 @@
             android:id="@+id/current_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
             android:text="CURRENT"
-            android:textAppearance="@style/onboardingContent"
+            android:textAppearance="@style/onboardingContentSmall"
             android:textColor="@color/trayText"
-            android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type_icon" />
 
@@ -87,8 +85,8 @@
             android:id="@+id/current_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="0dp"
             android:text="--"
             android:textAppearance="@style/onboardingHeader"
             android:textColor="@color/white"
@@ -96,24 +94,13 @@
             app:layout_constraintTop_toBottomOf="@id/avg_title" />
 
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart_live"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="16dp"
-            android:background="#00000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avg_text" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/dark_inner_tray"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -125,9 +112,9 @@
                 android:id="@+id/low_high_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginBottom="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="12dp"
                 android:text="--"
                 android:textAppearance="@style/onboardingContent"
                 android:textColor="@color/trayText"
@@ -138,9 +125,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
                 android:text="@string/low_high"
                 android:textAppearance="@style/onboardingContent"
                 android:textColor="@color/subtleGray"
@@ -148,8 +135,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart_live"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="16dp"
+            android:background="#00000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avg_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,18 +8,15 @@
     android:background="#00000000"
     tools:context=".ui.session.no_data_yet.SessionNoDataFragment">
 
-    <TextView
-        android:id="@+id/quality_so_far_text"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/moon_image"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/session_no_data_title"
-        android:textAlignment="center"
-        android:textAppearance="@style/onboardingContent"
-        android:textColor="@color/buttonColor_1"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/small_sleeping_moon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/quality_text" />
 
     <TextView
         android:id="@+id/quality_text"
@@ -34,22 +31,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quality_so_far_text" />
 
-    <ImageView
-        android:id="@+id/moon_image"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/quality_so_far_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/small_sleeping_moon"
+        android:layout_marginTop="20dp"
+        android:text="@string/session_no_data_title"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingContent"
+        android:textColor="@color/buttonColor_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quality_text" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/updated_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/session_no_data_content"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingContent"
@@ -58,6 +58,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/moon_image" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

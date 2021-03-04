@@ -7,6 +7,43 @@
     android:background="#00000000"
     tools:context=".ui.program_report.avg_sleep_quality.AverageSleepQualityFragment">
 
+    <Button
+        android:id="@+id/info_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/i_button"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/quality_text"
+        app:layout_constraintStart_toEndOf="@id/quality_text"
+        app:layout_constraintTop_toTopOf="@id/quality_text" />
+
+    <ImageView
+        android:id="@+id/face_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/face_yellow"
+        app:layout_constraintBottom_toBottomOf="@id/quality_text"
+        app:layout_constraintEnd_toStartOf="@id/quality_text"
+        app:layout_constraintTop_toTopOf="@id/quality_text" />
+
+    <TextView
+        android:id="@+id/quality_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingContent"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quality_text"
+        tools:text="@string/program_quality_desc_good" />
+
     <TextView
         android:id="@+id/quality_so_far_text"
         android:layout_width="match_parent"
@@ -27,47 +64,9 @@
         android:layout_marginTop="8dp"
         android:text="--"
         android:textAppearance="@style/onboardingHeader"
-        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quality_so_far_text" />
-
-    <TextView
-        android:id="@+id/quality_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
-        android:textAlignment="center"
-        android:textAppearance="@style/onboardingContent"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quality_text"
-        tools:text="@string/program_quality_desc_good" />
-
-    <ImageView
-        android:id="@+id/face_image"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginRight="8dp"
-        android:src="@drawable/face_yellow"
-        app:layout_constraintBottom_toBottomOf="@id/quality_text"
-        app:layout_constraintEnd_toStartOf="@id/quality_text"
-        app:layout_constraintTop_toTopOf="@id/quality_text" />
-
-    <Button
-        android:id="@+id/info_button"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
-        android:background="@drawable/i_button"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/quality_text"
-        app:layout_constraintStart_toEndOf="@id/quality_text"
-        app:layout_constraintTop_toTopOf="@id/quality_text" />
 
     <TextView
         android:id="@+id/lbl_score_text"
@@ -76,21 +75,19 @@
         android:text="--"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingHeader"
-        android:textColor="@color/black"
-        android:textSize="60dp"
+        android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quality_desc" />
-
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart_sleep_score"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
         android:background="#00000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -7,61 +7,56 @@
     android:background="#ffffff"
     tools:context=".ui.profile.screens.ProfileNameFragment">
 
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/black_button"
+        android:text="Accept"
+        android:textAppearance="@style/roundedButton_WhiteText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@id/submit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_text_view">
+
+        <TextView
+            android:id="@+id/eula_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/eula_text"
+            android:textAppearance="@style/onboardingContent" />
+    </ScrollView>
+
     <TextView
         android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="50dp"
-        android:layout_marginLeft="20sp"
-        android:layout_marginRight="20sp"
         android:text="@string/eula_title"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_marginTop="20sp"
-        android:layout_marginLeft="20sp"
-        android:layout_marginRight="20sp"
-        android:layout_marginBottom="20sp"
-        app:layout_constraintTop_toBottomOf="@id/title_text_view"
-        app:layout_constraintBottom_toTopOf="@id/submit_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/eula_text"
-            android:text="@string/eula_text"
-            android:layout_marginLeft="20sp"
-            android:layout_marginRight="20sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/onboardingContent"
-            />
-    </ScrollView>
-
-
-    <Button
-        android:id="@+id/submit_button"
-        android:background="@drawable/black_button"
-        android:text="Accept"
-        android:textAppearance="@style/roundedButton_WhiteText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="50sp"
-        android:layout_marginRight="50sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

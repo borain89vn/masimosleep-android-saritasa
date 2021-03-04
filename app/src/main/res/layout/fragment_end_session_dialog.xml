@@ -1,33 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#00000000"
     tools:context=".ui.dialogs.EndSessionDialogFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/white_tray"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/white_tray">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/black_button"
+            android:text="Cancel"
+            android:textAppearance="@style/roundedButton_WhiteText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/action_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/round_button"
+            android:text="Confirm"
+            android:textAppearance="@style/roundedButton_WhiteText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:textAppearance="@style/onboardingContent"
-            android:text="End Sleep Session?"
-            android:textColor="@color/buttonColor_0"
             android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="End Sleep Session?"
+            android:textAppearance="@style/onboardingContent"
+            android:textColor="@color/buttonColor_0"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="Would you like to end your sleep session?"
+            android:textAppearance="@style/onboardingContent"
+            app:layout_constraintBottom_toTopOf="@id/action_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_div" />
 
         <View
             android:id="@+id/title_div"
@@ -35,57 +77,9 @@
             android:layout_height="1dp"
             android:layout_margin="16dp"
             android:background="@color/lightDiv"
-            app:layout_constraintTop_toBottomOf="@id/title_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-
-        <TextView
-            android:id="@+id/dialog_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/onboardingContent"
-            android:text="Would you like to end your sleep session?"
-            android:gravity="center"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="32dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_div"
-            app:layout_constraintBottom_toTopOf="@id/action_button"
-            />
-
-
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/black_button"
-            android:textAppearance="@style/onboardingContent"
-            android:textColor="@color/white"
-            android:text="Cancel"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="32dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="?android:attr/borderlessButtonStyle" />
-
-        <Button
-            android:id="@+id/action_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_button"
-            android:textAppearance="@style/onboardingContent"
-            android:textColor="@color/white"
-            android:text="Confirm"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="?android:attr/borderlessButtonStyle" />
-
+            app:layout_constraintTop_toBottomOf="@id/title_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,36 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.pairing.scan.ScanFragment">
 
-    <com.kuassivi.component.RipplePulseRelativeLayout
-        android:id="@+id/ripplePulse"
-        android:layout_width="200sp"
-        android:layout_height="200sp"
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/x_button"
+        android:scaleType="fitCenter"
+        android:textAppearance="@style/roundedButton_WhiteText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:pulse_layout_PulseDuration="1800"
-        app:pulse_layout_PulseType="stroke"
-        app:pulse_layout_RippleColor="@color/black"
-        app:pulse_layout_RippleEndRadiusPercent="250"
-        app:pulse_layout_RippleStartRadiusPercent="100"
-        app:pulse_layout_ShowPreview="true" />
-
-    <com.kuassivi.component.RipplePulseRelativeLayout
-        android:id="@+id/ripplePulse2"
-        android:layout_width="200sp"
-        android:layout_height="200sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:pulse_layout_PulseDuration="1800"
-        app:pulse_layout_PulseType="stroke"
-        app:pulse_layout_RippleColor="@color/black"
-        app:pulse_layout_RippleEndRadiusPercent="250"
-        app:pulse_layout_RippleStartRadiusPercent="100"
-        app:pulse_layout_ShowPreview="true"
-        app:pulse_layout_StartDelay="900" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/sensorImage"
@@ -53,9 +34,9 @@
         android:id="@+id/contentTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20sp"
-        android:layout_marginRight="20sp"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="@string/searching_sensor_text"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingContent"
@@ -63,16 +44,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/x_button"
-        android:scaleType="fitCenter"
-        android:textAppearance="@style/roundedButton_WhiteText"
+    <com.kuassivi.component.RipplePulseRelativeLayout
+        android:id="@+id/ripplePulse2"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pulse_layout_PulseDuration="1800"
+        app:pulse_layout_PulseType="stroke"
+        app:pulse_layout_RippleColor="@color/black"
+        app:pulse_layout_RippleEndRadiusPercent="250"
+        app:pulse_layout_RippleStartRadiusPercent="100"
+        app:pulse_layout_ShowPreview="true"
+        app:pulse_layout_StartDelay="900" />
+
+    <com.kuassivi.component.RipplePulseRelativeLayout
+        android:id="@+id/ripplePulse"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pulse_layout_PulseDuration="1800"
+        app:pulse_layout_PulseType="stroke"
+        app:pulse_layout_RippleColor="@color/black"
+        app:pulse_layout_RippleEndRadiusPercent="250"
+        app:pulse_layout_RippleStartRadiusPercent="100"
+        app:pulse_layout_ShowPreview="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

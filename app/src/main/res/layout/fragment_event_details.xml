@@ -9,10 +9,10 @@
 
     <Button
         android:id="@+id/back_button"
-        android:layout_width="40sp"
-        android:layout_height="40sp"
-        android:layout_marginLeft="8sp"
-        android:layout_marginTop="8sp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/back_arrow"
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,10 +21,10 @@
     <TextView
         android:id="@+id/title_text_view"
         android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:layout_marginLeft="48sp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="48sp"
         android:gravity="center"
         android:text="Event Report"
         android:textAlignment="center"
@@ -59,36 +59,12 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_margin="16dp"
-            android:gravity="left|center"
-            android:text="516 Events Occured"
-            android:textAppearance="@style/onboardingTitle"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:gravity="start|center"
+            android:text="516 Events Occurred"
+            android:textAppearance="@style/onboardingContentBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/warning_icon"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/event_tray_div"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@color/lightDiv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/event_text" />
-
-        <View
-            android:id="@+id/minor_dot"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/minor_event_dot"
-            app:layout_constraintBottom_toBottomOf="@id/minor_event_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/minor_event_title" />
 
         <TextView
             android:id="@+id/minor_event_title"
@@ -113,17 +89,6 @@
             android:textColor="@color/lightTrayText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/event_tray_div" />
-
-
-        <View
-            android:id="@+id/major_dot"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/major_event_dot"
-            app:layout_constraintBottom_toBottomOf="@id/major_event_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/major_event_title" />
 
         <TextView
             android:id="@+id/major_event_title"
@@ -150,6 +115,39 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/minor_event_text" />
 
+
+        <View
+            android:id="@+id/major_dot"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/major_event_dot"
+            app:layout_constraintBottom_toBottomOf="@id/major_event_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/major_event_title" />
+
+        <View
+            android:id="@+id/event_tray_div"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/lightDiv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/event_text" />
+
+        <View
+            android:id="@+id/minor_dot"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/minor_event_dot"
+            app:layout_constraintBottom_toBottomOf="@id/minor_event_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/minor_event_title" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -169,9 +167,8 @@
             android:layout_marginLeft="72dp"
             android:layout_marginTop="16dp"
             android:text="@string/time"
-            android:textAppearance="@style/onboardingContent"
+            android:textAppearance="@style/onboardingContentSmall"
             android:textColor="@color/darkText"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,13 +176,11 @@
             android:id="@+id/duration_label"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/event_duration"
-            android:textAppearance="@style/onboardingContent"
+            android:textAppearance="@style/onboardingContentSmall"
             android:textColor="@color/darkText"
-            android:textSize="12dp"
             app:layout_constraintStart_toEndOf="@id/time_label"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -194,13 +189,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/event_severity"
 
-            android:textAppearance="@style/onboardingContent"
+            android:textAppearance="@style/onboardingContentSmall"
             android:textColor="@color/darkText"
-            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/duration_label"
             app:layout_constraintTop_toTopOf="parent" />
@@ -225,7 +219,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/list_div" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

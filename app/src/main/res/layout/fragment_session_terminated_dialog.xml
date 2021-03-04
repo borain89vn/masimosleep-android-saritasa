@@ -16,6 +16,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Button
+            android:id="@+id/cancel_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/black_button"
+            android:text="@string/session_terminated_dialog_button_text"
+            android:textAppearance="@style/roundedButton_WhiteText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_text" />
+
+        <TextView
+            android:id="@+id/dialog_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="@string/session_terminated_dialog_ended_des_prolonged_session"
+            android:textAppearance="@style/onboardingContent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_div" />
+
+
         <TextView
             android:id="@+id/title_text"
             android:layout_width="match_parent"
@@ -29,6 +61,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/session_terminated_dialog_ended_title" />
 
+
         <View
             android:id="@+id/title_div"
             android:layout_width="match_parent"
@@ -38,41 +71,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_text" />
-
-
-        <TextView
-            android:id="@+id/dialog_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="32dp"
-            android:gravity="center"
-            android:text="@string/session_terminated_dialog_ended_des_prolonged_session"
-            android:textAppearance="@style/onboardingContent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_div" />
-
-
-        <Button
-            android:id="@+id/cancel_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/black_button"
-            android:text="@string/session_terminated_dialog_button_text"
-            android:textAppearance="@style/onboardingContent"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_text" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,6 +8,26 @@
     android:background="#00000000"
     tools:context=".ui.session.session_sleep_quality.SessionSleepQualityFragment">
 
+    <ImageView
+        android:id="@+id/face_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/face_red"
+        app:layout_constraintBottom_toBottomOf="@id/quality_text"
+        app:layout_constraintEnd_toStartOf="@id/quality_text"
+        app:layout_constraintTop_toTopOf="@id/quality_text" />
+
+    <ImageView
+        android:id="@+id/trend_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/trend_down"
+        app:layout_constraintBottom_toBottomOf="@id/lbl_score_text"
+        app:layout_constraintStart_toEndOf="@id/lbl_score_text"
+        app:layout_constraintTop_toTopOf="@id/lbl_score_text" />
+
     <TextView
         android:id="@+id/quality_so_far_text"
         android:layout_width="match_parent"
@@ -22,38 +42,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/quality_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        tools:text="EMERGENCY"
-        android:textAppearance="@style/onboardingHeader"
-        android:textColor="@color/subtleGray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quality_so_far_text" />
-
-    <ImageView
-        android:id="@+id/face_image"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/face_red"
-        app:layout_constraintBottom_toBottomOf="@id/quality_text"
-        app:layout_constraintEnd_toStartOf="@id/quality_text"
-        app:layout_constraintTop_toTopOf="@id/quality_text" />
-
-    <TextView android:id="@+id/sub_title_text"
-        android:text="@string/session_sleep_quality_sub_title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textAppearance="@style/onboardingContent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/lbl_score_text"
-        app:layout_constraintTop_toBottomOf="@+id/face_image"
+        android:id="@+id/sub_title_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/session_sleep_quality_sub_title"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingContent"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/lbl_score_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/face_image" />
 
     <TextView
         android:id="@+id/lbl_score_text"
@@ -68,15 +67,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sub_title_text" />
 
-    <ImageView
-        android:id="@+id/trend_image"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="4dp"
-        android:src="@drawable/trend_down"
-        app:layout_constraintBottom_toBottomOf="@id/lbl_score_text"
-        app:layout_constraintStart_toEndOf="@id/lbl_score_text"
-        app:layout_constraintTop_toTopOf="@id/lbl_score_text" />
+    <TextView
+        android:id="@+id/quality_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/onboardingHeader"
+        android:textColor="@color/subtleGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quality_so_far_text"
+        tools:text="EMERGENCY" />
 
     <TextView
         android:id="@+id/updated_text"
@@ -91,16 +92,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lbl_score_text" />
 
-    <com.mymasimo.masimosleep.ui.ScoreProgressBar android:id="@+id/score_progress"
+    <com.mymasimo.masimosleep.ui.ScoreProgressBar
+        android:id="@+id/score_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:constantsColor="@color/darkDiv"
+        app:firstBarColor="@color/sq_redOff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/updated_text"
-        app:firstBarColor="@color/sq_redOff"
-        app:secondBarColor="@color/sq_yellowOff"
-        app:thirdBarColor="@color/sq_greenOff"
         app:notchIcon="@drawable/triangle_red"
-        app:constantsColor="@color/darkDiv"
         app:scoreBarHeight="10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        app:secondBarColor="@color/sq_yellowOff"
+        app:thirdBarColor="@color/sq_greenOff" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

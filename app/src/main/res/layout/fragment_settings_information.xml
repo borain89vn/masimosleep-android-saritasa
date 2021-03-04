@@ -12,9 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="App Information"
-        android:textAppearance="@style/onboardingSubHeader"
-        android:textColor="@color/buttonColor_0"
-        android:textSize="16dp" />
+        android:textAppearance="@style/onboardingContentBold"
+        android:textColor="@color/buttonColor_0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,11 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:text="@string/support"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,11 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:text="About"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,17 +104,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:text="Privacy Policy"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"
@@ -149,11 +143,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="#00000000"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:text="EULA"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/black"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +184,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

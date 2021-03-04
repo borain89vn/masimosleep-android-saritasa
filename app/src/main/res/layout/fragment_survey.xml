@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
     <ScrollView
         android:id="@+id/survey_scroll_view"
         android:layout_width="match_parent"
@@ -369,7 +368,6 @@
                     app:layout_constraintTop_toBottomOf="@id/meds_text" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <Button
                 android:id="@+id/submitButton"
                 style="?android:attr/borderlessButtonStyle"
@@ -378,8 +376,7 @@
                 android:layout_margin="32dp"
                 android:background="@drawable/round_button"
                 android:text="Submit"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/white" />
+                android:textAppearance="@style/roundedButton_WhiteText" />
 
         </LinearLayout>
 
@@ -396,6 +393,5 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
