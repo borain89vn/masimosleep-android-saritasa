@@ -13,12 +13,12 @@ import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile_bedtime.*
-import kotlinx.android.synthetic.main.fragment_profile_bedtime.submit_button
 import javax.inject.Inject
 
 class ProfileBedtimeFragment : Fragment() {
 
-    @Inject lateinit var sleepReminderAlarmScheduler: SleepReminderAlarmScheduler
+    @Inject
+    lateinit var sleepReminderAlarmScheduler: SleepReminderAlarmScheduler
 
     private val vm: ProfileViewModel by activityViewModels()
 
@@ -29,13 +29,13 @@ class ProfileBedtimeFragment : Fragment() {
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
         fun newInstance(
-                content: String?,
-                isOnBoarding: Boolean = false
+            content: String?,
+            isOnBoarding: Boolean = false
 
         ) = ProfileBedtimeFragment().apply {
             arguments = bundleOf(
-                    CONTENT_KEY to content,
-                    IS_ON_BOARDING_KEY to isOnBoarding
+                CONTENT_KEY to content,
+                IS_ON_BOARDING_KEY to isOnBoarding
             )
         }
     }
@@ -51,28 +51,19 @@ class ProfileBedtimeFragment : Fragment() {
         arguments?.let { arg ->
             content = arg.getString(CONTENT_KEY)
             isOnBoarding = arg.getBoolean(IS_ON_BOARDING_KEY)
-
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_bedtime, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_profile_bedtime, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         content?.let {
-
             time_picker.hour = MasimoSleepPreferences.timeHour
             time_picker.minute = MasimoSleepPreferences.timeMinute
         }
@@ -87,7 +78,7 @@ class ProfileBedtimeFragment : Fragment() {
         }
     }
 
-    fun updateTime() {
+    private fun updateTime() {
         val hour = time_picker.hour
         val minute = time_picker.minute
 
@@ -96,7 +87,6 @@ class ProfileBedtimeFragment : Fragment() {
 
         MasimoSleepPreferences.timeHour = hour
         MasimoSleepPreferences.timeMinute = minute
-
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {

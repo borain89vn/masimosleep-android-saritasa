@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.NavHostFragment
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import kotlinx.android.synthetic.main.fragment_session_sleep_quality.*
@@ -35,17 +34,11 @@ class SessionSleepQualityFragment : Fragment() {
         vm.onCreate(startTimeMillis)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_session_sleep_quality, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_session_sleep_quality, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         vm.liveScore.observe(viewLifecycleOwner) { liveScore ->
             updateScore(liveScore)
         }
@@ -59,7 +52,7 @@ class SessionSleepQualityFragment : Fragment() {
         }
     }
 
-    fun updateScore(score: Double) {
+    private fun updateScore(score: Double) {
         val scoreInt = (score * 100).toInt()
         lbl_score_text.text = scoreInt.toString()
 

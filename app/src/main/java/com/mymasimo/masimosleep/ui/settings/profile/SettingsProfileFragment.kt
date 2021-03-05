@@ -18,26 +18,17 @@ import java.util.*
 
 class SettingsProfileFragment : Fragment() {
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_profile, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_settings_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
-
         setupButtons()
     }
 
     private fun loadViewContent() {
-
         name_button.text = MasimoSleepPreferences.name
-
         condition_button.text = generateConditionsString()
 
         val gender = MasimoSleepPreferences.gender
@@ -56,7 +47,7 @@ class SettingsProfileFragment : Fragment() {
 
         val dateString = dateFormatter.format(Date(MasimoSleepPreferences.birthdate))
         birthdate_button.text = dateString
-        Timber.d("Birthdate: " + MasimoSleepPreferences.birthdate.toString())
+        Timber.d("Birthdate: %s", MasimoSleepPreferences.birthdate.toString())
 
         var adjustedHour = MasimoSleepPreferences.timeHour
         var amPm = "AM"
@@ -73,10 +64,8 @@ class SettingsProfileFragment : Fragment() {
         }
 
 
-
-
         if (minuteString.count() == 1) {
-            minuteString = "0" + minuteString
+            minuteString = "0$minuteString"
         }
 
         bedtime_button.text = "$adjustedHour:$minuteString $amPm"
@@ -100,10 +89,9 @@ class SettingsProfileFragment : Fragment() {
     }
 
     private fun generateConditionsString(): String {
+        var result = "None"
 
-        var result: String = "None"
-
-        val conditionList = MasimoSleepPreferences.conditionList?: listOf<String>()
+        val conditionList = MasimoSleepPreferences.conditionList ?: listOf<String>()
 
         if (conditionList.count() > 0) {
             result = ""
@@ -129,76 +117,60 @@ class SettingsProfileFragment : Fragment() {
 
         }
 
-
         return result
     }
 
     private fun setupButtons() {
-
         name_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
-                            ProfileFieldType.NAME
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
+                    ProfileFieldType.NAME
+                )
             )
-
         }
 
         condition_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
-                            ProfileFieldType.CONDITIONS
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
+                    ProfileFieldType.CONDITIONS
+                )
             )
-
         }
 
         gender_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
-                            ProfileFieldType.GENDER
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
+                    ProfileFieldType.GENDER
+                )
             )
-
         }
 
         birthdate_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
-                            ProfileFieldType.BIRTHDATE
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
+                    ProfileFieldType.BIRTHDATE
+                )
             )
-
         }
 
         bedtime_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
-                            ProfileFieldType.BEDTIME
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
+                    ProfileFieldType.BEDTIME
+                )
             )
-
         }
 
         reminder_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
-                            ProfileFieldType.REMINDER
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
+                    ProfileFieldType.REMINDER
+                )
             )
-
         }
-
     }
 
     companion object {
-
         fun newInstance() = SettingsProfileFragment()
     }
 }

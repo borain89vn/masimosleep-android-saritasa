@@ -17,11 +17,11 @@ class ProfileEULAFragment : Fragment() {
         private const val CONTENT_KEY = "CONTENT"
 
         fun newInstance(
-                content: String?
+            content: String?
 
         ) = ProfileEULAFragment().apply {
             arguments = bundleOf(
-                    CONTENT_KEY to content
+                CONTENT_KEY to content
             )
         }
     }
@@ -31,34 +31,24 @@ class ProfileEULAFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let { arg ->
             content = arg.getString(ProfileEULAFragment.CONTENT_KEY)
 
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_eula, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_profile_eula, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         scroll_view.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
-
             updateSubmitButton(scrollY)
         }
-
 
         this.submit_button.setOnClickListener {
             listener()
@@ -72,12 +62,9 @@ class ProfileEULAFragment : Fragment() {
     }
 
     private fun updateSubmitButton(scrollY: Int) {
-
         if (scrollY > 1000) {
             //It is possible when OnScrollChangeListener is called this view is already destroyed
             submit_button?.isEnabled = true
         }
-
     }
-
 }

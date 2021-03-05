@@ -29,7 +29,8 @@ import javax.inject.Inject
 
 class AverageSleepQualityFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: AverageSleepQualityViewModel by viewModels { vmFactory }
 
     private var programId: Long = -1
@@ -42,13 +43,8 @@ class AverageSleepQualityFragment : Fragment() {
         vm.onCreated(programId)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_average_sleep_quality, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_average_sleep_quality, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,7 +67,7 @@ class AverageSleepQualityFragment : Fragment() {
     private fun loadViewContent() {
         info_button.setOnClickListener {
             requireView().findNavController().navigate(
-                    R.id.action_programReportFragment_to_sleepQualityDescriptionFragment
+                R.id.action_programReportFragment_to_sleepQualityDescriptionFragment
             )
         }
 
@@ -85,14 +81,14 @@ class AverageSleepQualityFragment : Fragment() {
 
             var qualityDesc = R.string.program_quality_desc_poor
             when {
-                scoreInt <= resources.getInteger(R.integer.red_upper)                                                            -> {
+                scoreInt <= resources.getInteger(R.integer.red_upper) -> {
                     //POOR
                     qualityDesc = R.string.program_quality_desc_poor
                 }
                 scoreInt <= resources.getInteger(R.integer.yellow_upper) && scoreInt > resources.getInteger(R.integer.red_upper) -> {
                     //FAIR
                     qualityDesc = when (outcome) {
-                        SleepOutcome.SLIGHT, SleepOutcome.SIGNIFICANT   -> {
+                        SleepOutcome.SLIGHT, SleepOutcome.SIGNIFICANT -> {
                             R.string.program_quality_desc_fair_trend_up
                         }
 
@@ -102,7 +98,7 @@ class AverageSleepQualityFragment : Fragment() {
 
                     }
                 }
-                scoreInt > resources.getInteger(R.integer.yellow_upper)                                                          -> {
+                scoreInt > resources.getInteger(R.integer.yellow_upper) -> {
                     qualityDesc = R.string.program_quality_desc_good
                 }
             }
@@ -121,16 +117,13 @@ class AverageSleepQualityFragment : Fragment() {
             var qualityLevel = R.string.sq_redLabel
 
             when {
-                scoreInt <= resources.getInteger(R.integer.red_upper)                                                            -> {
-
+                scoreInt <= resources.getInteger(R.integer.red_upper) -> {
                 }
                 scoreInt <= resources.getInteger(R.integer.yellow_upper) && scoreInt > resources.getInteger(R.integer.red_upper) -> {
-
                     face = R.drawable.face_yellow
                     qualityLevel = R.string.sq_yellowLabel
                 }
-                scoreInt > resources.getInteger(R.integer.yellow_upper)                                                          -> {
-
+                scoreInt > resources.getInteger(R.integer.yellow_upper) -> {
                     face = R.drawable.face_green
                     qualityLevel = R.string.sq_greenLabel
                 }
@@ -192,13 +185,11 @@ class AverageSleepQualityFragment : Fragment() {
     }
 
     private fun updateChart(
-            trendData: AverageSleepQualityViewModel.ProgramSleepQualityTrendViewData
+        trendData: AverageSleepQualityViewModel.ProgramSleepQualityTrendViewData
     ) {
-
         val chartDataSets: ArrayList<ILineDataSet> = ArrayList<ILineDataSet>()
         val chartEntryList: ArrayList<Entry> = ArrayList<Entry>()
         val colorList: ArrayList<Int> = ArrayList()
-
 
         for (point in trendData.sessions) {
 
@@ -209,7 +200,7 @@ class AverageSleepQualityFragment : Fragment() {
             val score = (point.score * 100.0).toFloat()
             val night = point.index + 1
             chartEntryList.add(
-                    Entry(night.toFloat(), score)
+                Entry(night.toFloat(), score)
             )
 
             var circleColorId = R.color.subtleGray
@@ -237,10 +228,10 @@ class AverageSleepQualityFragment : Fragment() {
 
         val boundaryEntryList: ArrayList<Entry> = ArrayList<Entry>()
         boundaryEntryList.add(
-                Entry(0.0f, getMinChartValue().toFloat())
+            Entry(0.0f, getMinChartValue().toFloat())
         )
         boundaryEntryList.add(
-                Entry((NUM_OF_NIGHTS + 1).toFloat(), getMaxChartValue().toFloat())
+            Entry((NUM_OF_NIGHTS + 1).toFloat(), getMaxChartValue().toFloat())
         )
         val boundarySet = LineDataSet(boundaryEntryList, "")
         boundarySet.color = resources.getColor(R.color.clear, null)
@@ -248,7 +239,7 @@ class AverageSleepQualityFragment : Fragment() {
         boundarySet.setDrawValues(false)
         chartDataSets.add(boundarySet)
 
-        val lineData: LineData = LineData(chartDataSets)
+        val lineData = LineData(chartDataSets)
 
 
         chart_sleep_score.data = lineData
@@ -256,7 +247,6 @@ class AverageSleepQualityFragment : Fragment() {
     }
 
     companion object {
-
         private val gridColorID: Int = R.color.chart_grid_light
         private val xAxisColorID: Int = R.color.chart_x_label_light
         private val yAxisColorID: Int = R.color.chart_y_label_light

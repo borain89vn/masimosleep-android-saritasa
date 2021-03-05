@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 class ReportSleepQualityFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportSleepQualityViewModel by viewModels { vmFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,25 +28,19 @@ class ReportSleepQualityFragment : Fragment() {
         vm.onCreate(requireArguments().getLong(KEY_SESSION_ID))
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_report_sleep_quality, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_report_sleep_quality, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         vm.sessionScore.observe(viewLifecycleOwner) { score ->
             updateScore(score)
         }
     }
 
-    private fun updateScore(score : Double) {
-        val scoreInt = (score*100).toInt()
+    private fun updateScore(score: Double) {
+        val scoreInt = (score * 100).toInt()
         lbl_score_text.text = scoreInt.toString()
-
 
         var triangle = R.drawable.triangle_red
         var face = R.drawable.face_red
@@ -57,9 +52,8 @@ class ReportSleepQualityFragment : Fragment() {
         score_progress.setThirdBarColor(R.color.sq_greenOff_light)
 
         when {
-            scoreInt <= resources.getInteger(R.integer.red_upper)    -> {
+            scoreInt <= resources.getInteger(R.integer.red_upper) -> {
                 score_progress.setFirstBarColor(R.color.sq_redOn)
-
             }
             scoreInt <= resources.getInteger(R.integer.yellow_upper) -> {
                 score_progress.setSecondBarColor(R.color.sq_yellowOn)
@@ -68,7 +62,7 @@ class ReportSleepQualityFragment : Fragment() {
                 qualityLevel = R.string.sq_yellowLabel
                 qualitySubtitle = R.string.sq_yellowSubtitle
             }
-            scoreInt > resources.getInteger(R.integer.yellow_upper)  -> {
+            scoreInt > resources.getInteger(R.integer.yellow_upper) -> {
                 score_progress.setThirdBarColor(R.color.sq_greenOn)
                 triangle = R.drawable.triangle_green
                 face = R.drawable.face_green
@@ -78,7 +72,7 @@ class ReportSleepQualityFragment : Fragment() {
         }
 
         score_progress.setNotchIcon(triangle)
-        face_image.setImageDrawable(resources.getDrawable(face,null))
+        face_image.setImageDrawable(resources.getDrawable(face, null))
         quality_text.text = resources.getString(qualityLevel)
         sub_title_text.text = getString(qualitySubtitle)
 
@@ -88,7 +82,7 @@ class ReportSleepQualityFragment : Fragment() {
     companion object {
         private const val KEY_SESSION_ID = "SESSION_ID"
 
-        fun newInstance(sessionId: Long) : ReportSleepQualityFragment {
+        fun newInstance(sessionId: Long): ReportSleepQualityFragment {
             return ReportSleepQualityFragment().apply {
                 arguments = bundleOf(KEY_SESSION_ID to sessionId)
             }

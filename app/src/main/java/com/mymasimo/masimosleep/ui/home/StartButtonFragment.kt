@@ -24,12 +24,17 @@ import javax.inject.Inject
 
 class StartButtonFragment : Fragment() {
 
-    @Inject lateinit var sleepSessionScoreManager: SleepSessionScoreManager
-    @Inject lateinit var bleConnectionState: BLEConnectionState
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var bleConnectionUpdatesDisposable: CompositeDisposable
+    @Inject
+    lateinit var sleepSessionScoreManager: SleepSessionScoreManager
+    @Inject
+    lateinit var bleConnectionState: BLEConnectionState
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var bleConnectionUpdatesDisposable: CompositeDisposable
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
 
     private val vm: HomeViewModel by activityViewModels { vmFactory }
 
@@ -38,17 +43,11 @@ class StartButtonFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_start_button, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_start_button, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Button is disabled by default.
         disableStartButton()
 
@@ -90,7 +89,7 @@ class StartButtonFragment : Fragment() {
             val startedAt = sleepSessionScoreManager.startSession(nightNumber) //changed from 1
             val navController = findNavController(this)
             navController.navigate(
-                HomeFragmentDirections.actionHomeFragmentToSessionFragment(startedAt,nightNumber)
+                HomeFragmentDirections.actionHomeFragmentToSessionFragment(startedAt, nightNumber)
             )
         }
     }
@@ -113,50 +112,50 @@ class StartButtonFragment : Fragment() {
     private fun connectionStateChanged(state: State, programInProgress: Boolean) {
         disableStartButton()
 
-        val buttonTitle: String
-        val btIconImageID: Int
-        val moonImageID: Int
-        val sleepSessionColorID: Int
+        val buttonTitleId: Int
+        val btIconImageId: Int
+        val moonImageId: Int
+        val sleepSessionColorId: Int
         when (state) {
             State.BLE_DISCONNECTED -> {
-                buttonTitle = "BLUETOOTH OFF"
-                btIconImageID = R.drawable.bluetooth_icon
-                moonImageID = R.drawable.moon_icon_gray
-                sleepSessionColorID = R.color.subtleGray
+                buttonTitleId = R.string.bluetooth_off_status_btn
+                btIconImageId = R.drawable.bluetooth_icon
+                moonImageId = R.drawable.moon_icon_gray
+                sleepSessionColorId = R.color.subtleGray
             }
             State.NO_DEVICE_CONNECTED -> {
-                buttonTitle = "NOT CONNECTED"
-                btIconImageID = R.drawable.bluetooth_icon
-                moonImageID = R.drawable.moon_icon_gray
-                sleepSessionColorID = R.color.subtleGray
+                buttonTitleId = R.string.not_connected_status_btn
+                btIconImageId = R.drawable.bluetooth_icon
+                moonImageId = R.drawable.moon_icon_gray
+                sleepSessionColorId = R.color.subtleGray
             }
             State.CONNECTING_TO_DEVICE -> {
-                buttonTitle = "DISCONNECTED"
-                btIconImageID = R.drawable.bluetooth_icon
-                moonImageID = R.drawable.moon_icon_gray
-                sleepSessionColorID = R.color.subtleGray
+                buttonTitleId = R.string.disconnected_status_btn
+                btIconImageId = R.drawable.bluetooth_icon
+                moonImageId = R.drawable.moon_icon_gray
+                sleepSessionColorId = R.color.subtleGray
             }
             State.DEVICE_CONNECTED -> {
-                buttonTitle = "CONNECTED"
-                btIconImageID = R.drawable.bluetooth_icon_active
-                moonImageID = R.drawable.moon_icon
-                sleepSessionColorID = R.color.buttonColor_0
+                buttonTitleId = R.string.connected_status_btn
+                btIconImageId = R.drawable.bluetooth_icon_active
+                moonImageId = R.drawable.moon_icon
+                sleepSessionColorId = R.color.buttonColor_0
                 if (programInProgress) {
                     enableStartButton()
                 }
             }
             State.SEARCHING -> {
-                buttonTitle = "SEARCHING..."
-                btIconImageID = R.drawable.bluetooth_icon
-                moonImageID = R.drawable.moon_icon_gray
-                sleepSessionColorID = R.color.subtleGray
+                buttonTitleId = R.string.searching_status_btn
+                btIconImageId = R.drawable.bluetooth_icon
+                moonImageId = R.drawable.moon_icon_gray
+                sleepSessionColorId = R.color.subtleGray
             }
         }
 
-        connection_button.text = buttonTitle
-        bt_icon.setImageDrawable(resources.getDrawable(btIconImageID, null))
-        moon_icon.setImageDrawable(resources.getDrawable(moonImageID, null))
-        sleep_session_label.setTextColor(resources.getColor(sleepSessionColorID, null))
+        connection_button.text = getString(buttonTitleId)
+        bt_icon.setImageDrawable(resources.getDrawable(btIconImageId, null))
+        moon_icon.setImageDrawable(resources.getDrawable(moonImageId, null))
+        sleep_session_label.setTextColor(resources.getColor(sleepSessionColorId, null))
 
         connection_button.setOnClickListener {
             if (state != State.DEVICE_CONNECTED) {
@@ -166,7 +165,7 @@ class StartButtonFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() : StartButtonFragment {
+        fun newInstance(): StartButtonFragment {
             return StartButtonFragment()
         }
     }

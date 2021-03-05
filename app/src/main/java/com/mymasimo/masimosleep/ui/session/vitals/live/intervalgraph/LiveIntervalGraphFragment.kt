@@ -64,10 +64,10 @@ class LiveIntervalGraphFragment : Fragment() {
 
         fun newInstance(type: ReadingType, startAt: Long, minutes: Int, timeSpanInMinutes: Int) = LiveIntervalGraphFragment().apply {
             arguments = bundleOf(
-                    READING_TYPE_KEY to type,
-                    START_TIME_KEY to startAt,
-                    MINUTES_KEY to minutes,
-                    TIME_SPAN_IN_MINUTES_KEY to timeSpanInMinutes
+                READING_TYPE_KEY to type,
+                START_TIME_KEY to startAt,
+                MINUTES_KEY to minutes,
+                TIME_SPAN_IN_MINUTES_KEY to timeSpanInMinutes
             )
         }
     }
@@ -91,17 +91,11 @@ class LiveIntervalGraphFragment : Fragment() {
         vm.onCreate(readingType, startTime, Interval(minutes), TimeSpan(timeSpanInMinutes))
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_live_interval_graph, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_live_interval_graph, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
@@ -123,7 +117,6 @@ class LiveIntervalGraphFragment : Fragment() {
         configureChart()
 
         vm.intervalGraphViewData.observe(viewLifecycleOwner) { intervalData ->
-
             updateUI(intervalData)
         }
 
@@ -161,9 +154,7 @@ class LiveIntervalGraphFragment : Fragment() {
         val dateFormatter = SimpleDateFormat("hh:mm")
         val formatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                val date = dateFormatter.format(Date(value.toLong()))
-
-                return date
+                return dateFormatter.format(Date(value.toLong()))
             }
         }
 
@@ -201,7 +192,7 @@ class LiveIntervalGraphFragment : Fragment() {
     }
 
     fun updateChart(intervalData: IntervalGraphViewData) {
-        val chartDataSets: ArrayList<IScatterDataSet> = ArrayList<IScatterDataSet>()
+        val chartDataSets: ArrayList<IScatterDataSet> = ArrayList()
 
         var minVal: Double = Double.MAX_VALUE
         var maxVal: Double = Double.MIN_VALUE
@@ -212,12 +203,12 @@ class LiveIntervalGraphFragment : Fragment() {
         val colorID = getChartColorForValue(requireContext(), readingType, intervalData.average)
 
         for (pointSet in intervalData.intervals) {
-            val chartEntryList: ArrayList<Entry> = ArrayList<Entry>()
+            val chartEntryList: ArrayList<Entry> = ArrayList()
             val colorList: ArrayList<Int> = ArrayList()
             for (value in pointSet.values) {
 
                 chartEntryList.add(
-                        Entry(pointSet.startAt.toFloat(), value.toFloat())
+                    Entry(pointSet.startAt.toFloat(), value.toFloat())
                 )
 
                 colorList.add(resources.getColor(colorID, null))
@@ -246,16 +237,20 @@ class LiveIntervalGraphFragment : Fragment() {
             chartDataSets.add(scatterDataSet)
 
         }
-        val scatterData: ScatterData = ScatterData(chartDataSets)
+        val scatterData = ScatterData(chartDataSets)
 
         val boundaryEntryList: ArrayList<Entry> = ArrayList<Entry>()
         boundaryEntryList.add(
-                Entry((startTime - intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT),
-                      getMinChartValue(readingType).toFloat())
+            Entry(
+                (startTime - intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT),
+                getMinChartValue(readingType).toFloat()
+            )
         )
         boundaryEntryList.add(
-                Entry((endTime + intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT),
-                      getMaxChartValue(readingType).toFloat())
+            Entry(
+                (endTime + intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT),
+                getMaxChartValue(readingType).toFloat()
+            )
         )
 
         val boundaryDataSet = ScatterDataSet(boundaryEntryList, "")
@@ -269,11 +264,13 @@ class LiveIntervalGraphFragment : Fragment() {
 
 
         chart_live.zoom(
-                calculateXZoomScale(
-                        TimeSpan(timeSpanInMinutes).toMillis(), startTime, endTime),
-                1F,
-                endTime - (TimeSpan(timeSpanInMinutes).toMillis() * (1 + CHART_OFFSET_PERCENT)) / 2,
-                (getMaxChartValue(readingType).toFloat() + getMinChartValue(readingType).toFloat()) / 2)
+            calculateXZoomScale(
+                TimeSpan(timeSpanInMinutes).toMillis(), startTime, endTime
+            ),
+            1F,
+            endTime - (TimeSpan(timeSpanInMinutes).toMillis() * (1 + CHART_OFFSET_PERCENT)) / 2,
+            (getMaxChartValue(readingType).toFloat() + getMinChartValue(readingType).toFloat()) / 2
+        )
 
 
         chart_live.invalidate()

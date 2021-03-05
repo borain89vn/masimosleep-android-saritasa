@@ -40,17 +40,11 @@ class ProgramEventsFragment : Fragment() {
         vm.onCreated(programId)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_program_events, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_program_events, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         vm.eventsViewData.observe(viewLifecycleOwner) { viewData ->
             receivedEventsConfiguration()
             updateUI(viewData)
@@ -113,7 +107,6 @@ class ProgramEventsFragment : Fragment() {
 
         val formatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-
                 return value.toInt().toString()
             }
         }
@@ -189,11 +182,9 @@ class ProgramEventsFragment : Fragment() {
     }
 
     companion object {
-
         private val gridColorID: Int = R.color.chart_grid_light
         private val xAxisColorID: Int = R.color.chart_x_label_light
         private val yAxisColorID: Int = R.color.chart_y_label_light
-
 
         private const val KEY_PROGRAM_ID = "PROGRAM_ID"
 

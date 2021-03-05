@@ -11,11 +11,11 @@ import kotlinx.android.synthetic.main.start_program_button_view.view.*
 
 class StartProgramButtonView : ConstraintLayout {
 
-    constructor(context: Context): super(context) {
+    constructor(context: Context) : super(context) {
         initView()
     }
 
-    constructor(context: Context, attr: AttributeSet? = null): super(context, attr) {
+    constructor(context: Context, attr: AttributeSet? = null) : super(context, attr) {
         initView()
     }
 
@@ -23,11 +23,11 @@ class StartProgramButtonView : ConstraintLayout {
         context: Context,
         attr: AttributeSet?,
         defStyleAttr: Int
-    ): super(context, attr, defStyleAttr) {
+    ) : super(context, attr, defStyleAttr) {
         initView()
     }
 
-    private lateinit var view : View
+    private lateinit var view: View
     private lateinit var listener: () -> Unit
 
     private fun initView() {

@@ -37,7 +37,8 @@ import javax.inject.Inject
 
 class ReportIntervalGraphFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportIntervalGraphViewModel by viewModels { vmFactory }
 
     private lateinit var readingType: ReadingType
@@ -59,16 +60,11 @@ class ReportIntervalGraphFragment : Fragment() {
         vm.onCreate(readingType, sessionId, Interval(minutes), TimeSpan(timeSpanInMinutes))
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_report_interval_graph, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_report_interval_graph, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
 
         vm.intervalGraphViewData.observe(viewLifecycleOwner) { intervalData ->
@@ -119,9 +115,7 @@ class ReportIntervalGraphFragment : Fragment() {
         val dateFormatter = SimpleDateFormat("hh:mm")
         val formatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                val date = dateFormatter.format(Date(value.toLong()))
-
-                return date
+                return dateFormatter.format(Date(value.toLong()))
             }
         }
 
@@ -159,7 +153,7 @@ class ReportIntervalGraphFragment : Fragment() {
     }
 
     private fun updateChart(intervalData: IntervalGraphViewData) {
-        val chartDataSets: ArrayList<IScatterDataSet> = ArrayList<IScatterDataSet>()
+        val chartDataSets: ArrayList<IScatterDataSet> = ArrayList()
 
         var minVal: Double = Double.MAX_VALUE
         var maxVal: Double = Double.MIN_VALUE
@@ -170,12 +164,12 @@ class ReportIntervalGraphFragment : Fragment() {
         val colorID = getChartColorForValue(requireContext(), readingType, intervalData.average)
 
         for (pointSet in intervalData.intervals) {
-            val chartEntryList: ArrayList<Entry> = ArrayList<Entry>()
+            val chartEntryList: ArrayList<Entry> = ArrayList()
             val colorList: ArrayList<Int> = ArrayList()
             for (value in pointSet.values) {
 
                 chartEntryList.add(
-                        Entry(pointSet.startAt.toFloat(), value.toFloat())
+                    Entry(pointSet.startAt.toFloat(), value.toFloat())
                 )
 
                 colorList.add(resources.getColor(colorID, null))
@@ -206,14 +200,18 @@ class ReportIntervalGraphFragment : Fragment() {
         }
         val scatterData: ScatterData = ScatterData(chartDataSets)
 
-        val boundaryEntryList: ArrayList<Entry> = ArrayList<Entry>()
+        val boundaryEntryList: ArrayList<Entry> = ArrayList()
         boundaryEntryList.add(
-                Entry((startTime - intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT),
-                      getMinChartValue(readingType).toFloat())
+            Entry(
+                (startTime - intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT),
+                getMinChartValue(readingType).toFloat()
+            )
         )
         boundaryEntryList.add(
-                Entry(endTime + intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT,
-                      getMaxChartValue(readingType).toFloat())
+            Entry(
+                endTime + intervalData.timeSpan.toMillis() * CHART_OFFSET_PERCENT,
+                getMaxChartValue(readingType).toFloat()
+            )
         )
 
         val boundaryDataSet = ScatterDataSet(boundaryEntryList, "")
@@ -227,11 +225,13 @@ class ReportIntervalGraphFragment : Fragment() {
         chart_live.data = scatterData
 
         chart_live.zoom(
-                calculateXZoomScale(
-                        TimeSpan(timeSpanInMinutes).toMillis(), startTime, endTime),
-                1F,
-                endTime - (TimeSpan(timeSpanInMinutes).toMillis() * (1 + CHART_OFFSET_PERCENT)) / 2,
-                (getMaxChartValue(readingType).toFloat() + getMinChartValue(readingType).toFloat()) / 2)
+            calculateXZoomScale(
+                TimeSpan(timeSpanInMinutes).toMillis(), startTime, endTime
+            ),
+            1F,
+            endTime - (TimeSpan(timeSpanInMinutes).toMillis() * (1 + CHART_OFFSET_PERCENT)) / 2,
+            (getMaxChartValue(readingType).toFloat() + getMinChartValue(readingType).toFloat()) / 2
+        )
 
         chart_live.invalidate()
 
@@ -262,10 +262,10 @@ class ReportIntervalGraphFragment : Fragment() {
 
         fun newInstance(type: ReadingType, sessionId: Long, minutes: Int, timeSpanInMinutes: Int) = ReportIntervalGraphFragment().apply {
             arguments = bundleOf(
-                    READING_TYPE_KEY to type,
-                    SESSION_ID_KEY to sessionId,
-                    MINUTES_KEY to minutes,
-                    TIME_SPAN_IN_MINUTES_KEY to timeSpanInMinutes
+                READING_TYPE_KEY to type,
+                SESSION_ID_KEY to sessionId,
+                MINUTES_KEY to minutes,
+                TIME_SPAN_IN_MINUTES_KEY to timeSpanInMinutes
             )
         }
     }

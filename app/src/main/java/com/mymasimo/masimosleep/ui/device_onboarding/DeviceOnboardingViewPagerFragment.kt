@@ -15,88 +15,84 @@ import kotlinx.android.synthetic.main.fragment_device_onboarding_view_pager.view
 
 class DeviceOnboardingViewPagerFragment : Fragment() {
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_device_onboarding_view_pager, container, false)
 
         val fragmentList = arrayListOf<Fragment>(
 
-                DeviceOnboardingScreenFragment.newInstance(
-                        resources.getString(R.string.device_onboarding_title_0),
-                        R.raw.onboarding_sleep_step_01,
-                        resources.getString(R.string.device_onboarding_subtitle_0),
-                        resources.getString(R.string.device_onboarding_content_0),
-                        null
-                ).apply {
-                    setOnButtonClickListener {
-                        nextFragment()
-                    }
-                },
-                DeviceOnboardingScreenFragment.newInstance(
-                        resources.getString(R.string.device_onboarding_title_1),
-                        R.raw.onboarding_sleep_step_02,
-                        resources.getString(R.string.device_onboarding_subtitle_1),
-                        resources.getString(R.string.device_onboarding_content_1),
-                        null
-                ).apply {
-                    setOnButtonClickListener {
-                        nextFragment()
-                    }
-                },
-                DeviceOnboardingScreenFragment.newInstance(
-                        resources.getString(R.string.device_onboarding_title_2),
-                        R.raw.onboarding_sleep_step_03,
-                        resources.getString(R.string.device_onboarding_subtitle_2),
-                        resources.getString(R.string.device_onboarding_content_2),
-                        null
-                ).apply {
-                    setOnButtonClickListener {
-                        nextFragment()
-                    }
-                },
-                DeviceOnboardingScreenFragment.newInstance(
-                        resources.getString(R.string.device_onboarding_title_3),
-                        R.raw.onboarding_sleep_step_04,
-                        resources.getString(R.string.device_onboarding_subtitle_3),
-                        resources.getString(R.string.device_onboarding_content_3),
-                        null
-                ).apply {
-                    setOnButtonClickListener {
-                        nextFragment()
-                    }
-                },
-                DeviceOnboardingScreenFragment.newInstance(
-                        resources.getString(R.string.device_onboarding_title_4),
-                        R.raw.onboarding_sleep_step_05,
-                        resources.getString(R.string.device_onboarding_subtitle_4),
-                        resources.getString(R.string.device_onboarding_content_4),
-                        null
-                ).apply {
-                    setOnButtonClickListener {
-                        nextFragment()
-                    }
-                },
-                DeviceOnboardingScreenFragment.newInstance(
-                        resources.getString(R.string.device_onboarding_title_5),
-                        R.drawable.pairing_image_6b,
-                        resources.getString(R.string.device_onboarding_subtitle_5),
-                        resources.getString(R.string.device_onboarding_content_5),
-                        resources.getString(R.string.device_onboarding_button_5),
-                        isVideoGuide = false
-                ).apply {
-                    setOnButtonClickListener {
-                        dismiss()
-                    }
+            DeviceOnboardingScreenFragment.newInstance(
+                resources.getString(R.string.device_onboarding_title_0),
+                R.raw.onboarding_sleep_step_01,
+                resources.getString(R.string.device_onboarding_subtitle_0),
+                resources.getString(R.string.device_onboarding_content_0),
+                null
+            ).apply {
+                setOnButtonClickListener {
+                    nextFragment()
                 }
+            },
+            DeviceOnboardingScreenFragment.newInstance(
+                resources.getString(R.string.device_onboarding_title_1),
+                R.raw.onboarding_sleep_step_02,
+                resources.getString(R.string.device_onboarding_subtitle_1),
+                resources.getString(R.string.device_onboarding_content_1),
+                null
+            ).apply {
+                setOnButtonClickListener {
+                    nextFragment()
+                }
+            },
+            DeviceOnboardingScreenFragment.newInstance(
+                resources.getString(R.string.device_onboarding_title_2),
+                R.raw.onboarding_sleep_step_03,
+                resources.getString(R.string.device_onboarding_subtitle_2),
+                resources.getString(R.string.device_onboarding_content_2),
+                null
+            ).apply {
+                setOnButtonClickListener {
+                    nextFragment()
+                }
+            },
+            DeviceOnboardingScreenFragment.newInstance(
+                resources.getString(R.string.device_onboarding_title_3),
+                R.raw.onboarding_sleep_step_04,
+                resources.getString(R.string.device_onboarding_subtitle_3),
+                resources.getString(R.string.device_onboarding_content_3),
+                null
+            ).apply {
+                setOnButtonClickListener {
+                    nextFragment()
+                }
+            },
+            DeviceOnboardingScreenFragment.newInstance(
+                resources.getString(R.string.device_onboarding_title_4),
+                R.raw.onboarding_sleep_step_05,
+                resources.getString(R.string.device_onboarding_subtitle_4),
+                resources.getString(R.string.device_onboarding_content_4),
+                null
+            ).apply {
+                setOnButtonClickListener {
+                    nextFragment()
+                }
+            },
+            DeviceOnboardingScreenFragment.newInstance(
+                resources.getString(R.string.device_onboarding_title_5),
+                R.drawable.pairing_image_6b,
+                resources.getString(R.string.device_onboarding_subtitle_5),
+                resources.getString(R.string.device_onboarding_content_5),
+                resources.getString(R.string.device_onboarding_button_5),
+                isVideoGuide = false
+            ).apply {
+                setOnButtonClickListener {
+                    dismiss()
+                }
+            }
         )
 
         val adapter = DeviceOnboardingViewPagerAdapter(
-                fragmentList,
-                requireActivity().supportFragmentManager,
-                lifecycle
+            fragmentList,
+            requireActivity().supportFragmentManager,
+            lifecycle
         )
 
         view.view_pager.adapter = adapter
@@ -119,9 +115,14 @@ class DeviceOnboardingViewPagerFragment : Fragment() {
         val bottomList = arrayListOf<Fragment>()
 
         fragmentList.forEachIndexed { i, _ ->
-            bottomList.add(DeviceOnBoardingBottomScreen.newInstance(if(i == fragmentList.size - 1) resources.getString(R.string.device_onboarding_button_5) else resources.getString(R.string.next)).apply {
-                setOnButtonClickListener(submitListener = { if(i == fragmentList.size - 1) dismiss() else nextFragment() }, skipListener = { skipPressed() })
-            })
+            bottomList.add(
+                DeviceOnBoardingBottomScreen.newInstance(
+                    if (i == fragmentList.size - 1) resources.getString(R.string.device_onboarding_button_5) else resources.getString(
+                        R.string.next
+                    )
+                ).apply {
+                    setOnButtonClickListener(submitListener = { if (i == fragmentList.size - 1) dismiss() else nextFragment() }, skipListener = { skipPressed() })
+                })
         }
 
         val bottomAdapter = DeviceOnboardingViewPagerAdapter(bottomList, requireActivity().supportFragmentManager, lifecycle)

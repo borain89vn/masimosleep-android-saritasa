@@ -26,12 +26,12 @@ import javax.inject.Singleton
 
 @Singleton
 class SleepSessionScoreManager @Inject constructor(
-        private val scoreRepository: SleepScoreRepository,
-        private val sessionRepository: SessionRepository,
-        private val programRepository: ProgramRepository,
-        private val parameterReadingRepository: ParameterReadingRepository,
-        private val sleepEventRepository: SleepEventRepository,
-        private val deviceExceptionHandler: DeviceExceptionHandler
+    private val scoreRepository: SleepScoreRepository,
+    private val sessionRepository: SessionRepository,
+    private val programRepository: ProgramRepository,
+    private val parameterReadingRepository: ParameterReadingRepository,
+    private val sleepEventRepository: SleepEventRepository,
+    private val deviceExceptionHandler: DeviceExceptionHandler
 ) {
     private var maxSleepHourDisposable: Disposable? = null
 
@@ -43,9 +43,9 @@ class SleepSessionScoreManager @Inject constructor(
                 return
             }
             sleepEventRepository.saveSleepEvent(
-                    startAt = sleepEvent.epochStartTime,
-                    endAt = sleepEvent.epochEndTime,
-                    type = SleepEventType.fromMasimoType(sleepEvent.type)
+                startAt = sleepEvent.epochStartTime,
+                endAt = sleepEvent.epochEndTime,
+                type = SleepEventType.fromMasimoType(sleepEvent.type)
             )
         }
 
@@ -64,7 +64,7 @@ class SleepSessionScoreManager @Inject constructor(
             Timber.d("$scoreType sleep score received with value: $scoreValue")
 
             when (ScoreType.fromSleepSessionScoreType(sleepScore.type)) {
-                ScoreType.LIVE    -> {
+                ScoreType.LIVE -> {
                     if (isSessionInProgress) {
                         scoreRepository.saveLiveScore(sleepScore.value.toDouble())
                     }
@@ -244,32 +244,29 @@ class SleepSessionScoreManager @Inject constructor(
                 return
             }
 
-            Timber.d("Saving reading of " +
-                             "pSPO2=${pSPO2.value != 0f} " +
-                             "pPR=${pPR.value != 0f} " +
-                             "pRRP=${pRRP.value != 0f}")
+            Timber.d("Saving reading of pSPO2=${pSPO2.value != 0f} pPR=${pPR.value != 0f} pRRP=${pRRP.value != 0f}")
 
             if (pSPO2.value != 0f) {
                 parameterReadingRepository.saveReading(
-                        ReadingType.SP02,
-                        pSPO2.value,
-                        insertWithBatch = hasReadSPO2ThisSession // Save immediately if first reading.
+                    ReadingType.SP02,
+                    pSPO2.value,
+                    insertWithBatch = hasReadSPO2ThisSession // Save immediately if first reading.
                 )
                 hasReadSPO2ThisSession = true
             }
             if (pPR.value != 0f) {
                 parameterReadingRepository.saveReading(
-                        ReadingType.PR,
-                        pPR.value,
-                        insertWithBatch = hasReadPRThisSession // Save immediately if first reading.
+                    ReadingType.PR,
+                    pPR.value,
+                    insertWithBatch = hasReadPRThisSession // Save immediately if first reading.
                 )
                 hasReadPRThisSession = true
             }
             if (pRRP.value != 0f) {
                 parameterReadingRepository.saveReading(
-                        ReadingType.RRP,
-                        pRRP.value,
-                        insertWithBatch = hasReadRRPThisSession // Save immediately if first reading.
+                    ReadingType.RRP,
+                    pRRP.value,
+                    insertWithBatch = hasReadRRPThisSession // Save immediately if first reading.
                 )
                 hasReadRRPThisSession = true
             }

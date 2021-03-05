@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 class ProgramCompletedFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ProgramCompletedViewModel by viewModels { vmFactory }
     private val args: ProgramCompletedFragmentArgs by navArgs()
 
@@ -27,17 +28,11 @@ class ProgramCompletedFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_program_completed, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_program_completed, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         sub_title_label.text = getString(R.string.program_complete_content, MasimoSleepPreferences.name)
 
         vm.enableFullReportButton.observe(viewLifecycleOwner) { enable ->
@@ -50,13 +45,13 @@ class ProgramCompletedFragment : Fragment() {
             } else {
                 vm.program?.id?.let {
                     findNavController().navigate(
-                            ProgramCompletedFragmentDirections.actionProgramCompletedFragmentToProgramReportFragment(programId = it, isProgramCompleted = true))
+                        ProgramCompletedFragmentDirections.actionProgramCompletedFragmentToProgramReportFragment(programId = it, isProgramCompleted = true)
+                    )
                 } ?: kotlin.run {
                     findNavController().navigateUp()
                 }
             }
         }
-
     }
 
 }

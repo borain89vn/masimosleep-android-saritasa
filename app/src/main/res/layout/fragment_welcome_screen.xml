@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
         android:background="@drawable/round_button"
-        android:text="Get Started"
         android:textAppearance="@style/roundedButton_WhiteText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Get Started" />
 
     <ImageView
         android:id="@+id/content_image_view"
@@ -32,41 +32,41 @@
         android:id="@+id/sub_title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Physiological Information"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingSubHeader"
         app:layout_constraintBottom_toTopOf="@id/content_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Physiological Information" />
 
     <TextView
         android:id="@+id/content_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Sync with your Masimo Pulse Oximeter Sensor to start recording your sleep."
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingContent"
         app:layout_constraintBottom_toTopOf="@id/submit_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Sync with your Masimo Pulse Oximeter Sensor to start recording your sleep." />
 
     <TextView
         android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
-        android:text="What information is collected?"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="What information is collected?" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

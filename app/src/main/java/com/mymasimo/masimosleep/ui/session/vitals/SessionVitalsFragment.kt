@@ -29,12 +29,12 @@ class SessionVitalsFragment : Fragment() {
         private const val RRP_INTERVAL_FRAGMENT_TAG = "RRP_INTERVAL"
 
         private val ALL_FRAGMENT_TAGS = listOf(
-                SPO2_LINE_FRAGMENT_TAG,
-                SPO2_INTERVAL_FRAGMENT_TAG,
-                PR_LINE_FRAGMENT_TAG,
-                PR_INTERVAL_FRAGMENT_TAG,
-                RRP_LINE_FRAGMENT_TAG,
-                RRP_INTERVAL_FRAGMENT_TAG
+            SPO2_LINE_FRAGMENT_TAG,
+            SPO2_INTERVAL_FRAGMENT_TAG,
+            PR_LINE_FRAGMENT_TAG,
+            PR_INTERVAL_FRAGMENT_TAG,
+            RRP_LINE_FRAGMENT_TAG,
+            RRP_INTERVAL_FRAGMENT_TAG
         )
     }
 
@@ -43,21 +43,14 @@ class SessionVitalsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         args.sessionStart
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_session_vitals, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_session_vitals, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
@@ -94,15 +87,13 @@ class SessionVitalsFragment : Fragment() {
 
     }
 
-    fun clearSelection() {
-
+    private fun clearSelection() {
         all_button.isSelected = false
         hour_button.isSelected = false
         minute_button.isSelected = false
     }
 
     private fun updateUI() {
-
         if (this.chartIntervalType == ChartIntervalType.MINUTE) {
             showLinearCharts()
         } else if (this.chartIntervalType == ChartIntervalType.ALL) {
@@ -116,24 +107,35 @@ class SessionVitalsFragment : Fragment() {
     private fun showIntervalCharts(minutes: Int, timeSpanInMinute: Int) {
 
         removeAllFragments()
-        addFragment(LiveIntervalGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, minutes, timeSpanInMinute),
-                    SPO2_INTERVAL_FRAGMENT_TAG)
-        addFragment(LiveIntervalGraphFragment.newInstance(ReadingType.PR, args.sessionStart, minutes, timeSpanInMinute),
-                    PR_INTERVAL_FRAGMENT_TAG)
-        addFragment(LiveIntervalGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, minutes, timeSpanInMinute),
-                    RRP_INTERVAL_FRAGMENT_TAG)
-
+        addFragment(
+            LiveIntervalGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, minutes, timeSpanInMinute),
+            SPO2_INTERVAL_FRAGMENT_TAG
+        )
+        addFragment(
+            LiveIntervalGraphFragment.newInstance(ReadingType.PR, args.sessionStart, minutes, timeSpanInMinute),
+            PR_INTERVAL_FRAGMENT_TAG
+        )
+        addFragment(
+            LiveIntervalGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, minutes, timeSpanInMinute),
+            RRP_INTERVAL_FRAGMENT_TAG
+        )
     }
 
-    fun showLinearCharts() {
+    private fun showLinearCharts() {
         removeAllFragments()
 
-        addFragment(LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart),
-                    SPO2_LINE_FRAGMENT_TAG)
-        addFragment(LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart),
-                    PR_LINE_FRAGMENT_TAG)
-        addFragment(LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart),
-                    RRP_LINE_FRAGMENT_TAG)
+        addFragment(
+            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart),
+            SPO2_LINE_FRAGMENT_TAG
+        )
+        addFragment(
+            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart),
+            PR_LINE_FRAGMENT_TAG
+        )
+        addFragment(
+            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart),
+            RRP_LINE_FRAGMENT_TAG
+        )
 
     }
 

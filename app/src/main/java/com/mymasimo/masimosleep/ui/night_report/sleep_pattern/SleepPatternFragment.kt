@@ -23,7 +23,8 @@ import javax.inject.Inject
 
 class SleepPatternFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: SleepPatternViewModel by viewModels { vmFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,21 +39,15 @@ class SleepPatternFragment : Fragment() {
             args.containsKey(SESSION_ID_KEY) -> {
                 vm.onCreatedWithSessionId(args.getLong(SESSION_ID_KEY))
             }
-            else                             -> throw IllegalStateException()
+            else -> throw IllegalStateException()
         }
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sleep_pattern, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_sleep_pattern, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         vm.viewData.observe(viewLifecycleOwner) { viewData ->
             Timber.d("ViewData: $viewData")
             updateUI(viewData)
@@ -60,7 +55,6 @@ class SleepPatternFragment : Fragment() {
     }
 
     fun updateUI(viewData: SleepPatternViewData) {
-
         hideAllBars()
 
         val lowHour = viewData.lowMinutes / 60
@@ -143,8 +137,8 @@ class SleepPatternFragment : Fragment() {
                     percentView.visibility = View.VISIBLE
 
                     val params = ConstraintLayout.LayoutParams(
-                            (fullWidth * lengthPercentage).toInt(),
-                            ViewGroup.LayoutParams.MATCH_PARENT
+                        (fullWidth * lengthPercentage).toInt(),
+                        ViewGroup.LayoutParams.MATCH_PARENT
                     )
 
                     val start = (zero + zero * startPercent).toInt()
@@ -174,13 +168,13 @@ class SleepPatternFragment : Fragment() {
     }
 
     private fun getViewForNight(night: Int) = when (night) {
-        1    -> num1_view
-        2    -> num2_view
-        3    -> num3_view
-        4    -> num4_view
-        5    -> num5_view
-        6    -> num6_view
-        7    -> num7_view
+        1 -> num1_view
+        2 -> num2_view
+        3 -> num3_view
+        4 -> num4_view
+        5 -> num5_view
+        6 -> num6_view
+        7 -> num7_view
         else -> throw IllegalArgumentException("nights must not be larger than $NUM_OF_NIGHTS")
     }
 

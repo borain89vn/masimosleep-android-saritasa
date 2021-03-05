@@ -32,13 +32,13 @@
         android:elevation="20dp"
         android:outlineProvider="none"
         android:paddingTop="10dp"
-        android:text="77"
         android:textAppearance="@style/onboardingContentBold"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="77" />
 
     <View
         android:id="@+id/dot_view"

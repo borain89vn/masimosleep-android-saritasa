@@ -22,9 +22,12 @@ import kotlinx.android.synthetic.main.fragment_settings_device.*
 import javax.inject.Inject
 
 class SettingsDeviceFragment : Fragment() {
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var disposables: CompositeDisposable
 
     private val vm: SettingsDeviceViewModel by viewModels { vmFactory }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,13 +35,8 @@ class SettingsDeviceFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_device, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_settings_device, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,27 +62,26 @@ class SettingsDeviceFragment : Fragment() {
 
         connect_button.setOnClickListener {
             when {
-                isDeviceConnected()              -> {
+                isDeviceConnected() -> {
                     requireView().findNavController().navigate(R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment)
                 }
                 ModelStore.currentModule != null -> {
                     requireView().findNavController().navigate(R.id.action_settingsFragment_to_confirmReplaceSensorDialogFragment)
                 }
-                else                             -> {
+                else -> {
                     requireView().findNavController().navigate(R.id.action_settingsFragment_to_scanFragment)
                 }
             }
         }
 
         troubleshoot_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
-                            "Troubleshoot Device",
-                            resources.getString(R.string.troubleshoot_body),
-                            resources.getString(R.string.troubleshoot_button),
-                            resources.getString(R.string.troubleshoot_email)
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
+                    "Troubleshoot Device",
+                    resources.getString(R.string.troubleshoot_body),
+                    resources.getString(R.string.troubleshoot_button),
+                    resources.getString(R.string.troubleshoot_email)
+                )
             )
 
         }
@@ -102,7 +99,6 @@ class SettingsDeviceFragment : Fragment() {
     }
 
     companion object {
-
         fun newInstance() = SettingsDeviceFragment().apply {
 
         }

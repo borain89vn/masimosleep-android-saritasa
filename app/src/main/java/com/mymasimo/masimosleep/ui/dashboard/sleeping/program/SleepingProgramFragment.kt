@@ -31,7 +31,7 @@ class SleepingProgramFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         bindings = FragmentSleepingProgramBinding.inflate(inflater, container, false)
         return bindings.root
     }
@@ -47,7 +47,6 @@ class SleepingProgramFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() =
-            SleepingProgramFragment()
+        fun newInstance() = SleepingProgramFragment()
     }
 }

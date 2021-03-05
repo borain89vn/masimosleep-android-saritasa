@@ -48,7 +48,7 @@ class NightScoreButtonView(context: Context, night: Int, score: Int, state: Nigh
             }
         }
 
-        night_button.text = resources.getString(R.string.btn_night_label, night)
+        night_button.text = resources.getString(R.string.night_label_btn, night)
         number_text.text = "$score"
 
         val redUpper = resources.getInteger(R.integer.red_upper)

@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 class EndProgramDialogFragment : DialogFragment() {
 
-    @Inject lateinit var dialogActionHandler: DialogActionHandler
+    @Inject
+    lateinit var dialogActionHandler: DialogActionHandler
 
     val args: EndProgramDialogFragmentArgs by navArgs()
 
@@ -25,17 +26,11 @@ class EndProgramDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_end_program_dialog, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_end_program_dialog, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         dialog_text.text = getString(R.string.end_sleep_checkup_content, NUM_OF_NIGHTS - args.nightNumber)
 
         cancel_button.setOnClickListener {
@@ -51,8 +46,8 @@ class EndProgramDialogFragment : DialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
         )
     }
 }

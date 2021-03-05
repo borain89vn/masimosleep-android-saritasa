@@ -14,53 +14,52 @@ import kotlinx.android.synthetic.main.fragment_welcome_view_pager.view.*
 class WelcomeViewPagerFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_welcome_view_pager, container, false)
 
         val fragmentList = arrayListOf<Fragment>(
 
-                WelcomeScreenFragment.newInstance(
-                        null,
-                        R.drawable.welcome_0,
-                        resources.getString(R.string.welcome_subtitle_0),
-                        resources.getString(R.string.welcome_content_0),
-                        resources.getString(R.string.next)
-                ).apply {
-                    setOnButtonClickListener {
-                        view.welcome_view_pager.currentItem = view.welcome_view_pager.currentItem + 1
-                    }
-                },
-                WelcomeScreenFragment.newInstance(
-                        resources.getString(R.string.welcome_title_1),
-                        R.drawable.welcome_1,
-                        resources.getString(R.string.welcome_subtitle_1),
-                        resources.getString(R.string.welcome_content_1),
-                        resources.getString(R.string.next)
-                ).apply {
-                    setOnButtonClickListener {
-                        view.welcome_view_pager.currentItem = view.welcome_view_pager.currentItem + 1
-                    }
-                },
-                WelcomeScreenFragment.newInstance(
-                        resources.getString(R.string.welcome_title_2),
-                        R.drawable.welcome_2,
-                        resources.getString(R.string.welcome_subtitle_2),
-                        resources.getString(R.string.welcome_content_2),
-                        resources.getString(R.string.welcome_button_2)
-                ).apply {
-                    setOnButtonClickListener {
-                        dismiss()
-                    }
+            WelcomeScreenFragment.newInstance(
+                title = null,
+                image = R.drawable.welcome_0,
+                subTitle = resources.getString(R.string.welcome_subtitle_0),
+                content = resources.getString(R.string.welcome_content_0),
+                buttonTitle = resources.getString(R.string.next)
+            ).apply {
+                setOnButtonClickListener {
+                    view.welcome_view_pager.currentItem = view.welcome_view_pager.currentItem + 1
                 }
+            },
+            WelcomeScreenFragment.newInstance(
+                title = resources.getString(R.string.welcome_title_1),
+                image = R.drawable.welcome_1,
+                subTitle = resources.getString(R.string.welcome_subtitle_1),
+                content = resources.getString(R.string.welcome_content_1),
+                buttonTitle = resources.getString(R.string.next)
+            ).apply {
+                setOnButtonClickListener {
+                    view.welcome_view_pager.currentItem = view.welcome_view_pager.currentItem + 1
+                }
+            },
+            WelcomeScreenFragment.newInstance(
+                title = resources.getString(R.string.welcome_title_2),
+                image = R.drawable.welcome_2,
+                subTitle = resources.getString(R.string.welcome_subtitle_2),
+                content = resources.getString(R.string.welcome_content_2),
+                buttonTitle = resources.getString(R.string.welcome_button_2)
+            ).apply {
+                setOnButtonClickListener {
+                    dismiss()
+                }
+            }
         )
 
         val adapter = WelcomeViewPagerAdapter(
-                fragmentList,
-                requireActivity().supportFragmentManager,
-                lifecycle
+            fragmentList,
+            requireActivity().supportFragmentManager,
+            lifecycle
         )
 
         view.welcome_view_pager.adapter = adapter

@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
-import com.mymasimo.masimosleep.ui.profile.ProfileViewPagerFragment
 import kotlinx.android.synthetic.main.fragment_profile_birthdate.*
 import java.util.*
 
@@ -26,13 +25,13 @@ class ProfileBirthdateFragment : Fragment() {
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
         fun newInstance(
-                content: Long?,
-                isOnBoarding: Boolean = false
+            content: Long?,
+            isOnBoarding: Boolean = false
 
         ) = ProfileBirthdateFragment().apply {
             arguments = bundleOf(
-                    CONTENT_KEY to content,
-                    IS_ON_BOARDING_KEY to isOnBoarding
+                CONTENT_KEY to content,
+                IS_ON_BOARDING_KEY to isOnBoarding
             )
         }
     }
@@ -52,22 +51,15 @@ class ProfileBirthdateFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_birthdate, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_profile_birthdate, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         val buttonStrRes = if (isOnBoarding) R.string.next else R.string.save
         submit_button.text = getString(buttonStrRes)
 
@@ -78,16 +70,14 @@ class ProfileBirthdateFragment : Fragment() {
         }
 
         this.date_picker.init(
-                today.get(Calendar.YEAR),
-                today.get(Calendar.MONTH),
-                today.get(Calendar.DAY_OF_MONTH),
-                object : DatePicker.OnDateChangedListener {
-                    override fun onDateChanged(p0: DatePicker?, year: Int, month: Int, day: Int) {
-                        dateChanged(year, month, day)
-                    }
-                })
-
-
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH),
+            object : DatePicker.OnDateChangedListener {
+                override fun onDateChanged(p0: DatePicker?, year: Int, month: Int, day: Int) {
+                    dateChanged(year, month, day)
+                }
+            })
 
         updateSubmitButton()
 
@@ -117,14 +107,10 @@ class ProfileBirthdateFragment : Fragment() {
         this.listener = listener
     }
 
-    fun updateSubmitButton() {
-
+    private fun updateSubmitButton() {
         this.selectedDate?.let {
-
             val today = Calendar.getInstance()
-
             submit_button.isEnabled = today.time.after(it.time)
-
         } ?: run {
             submit_button.isEnabled = false
         }

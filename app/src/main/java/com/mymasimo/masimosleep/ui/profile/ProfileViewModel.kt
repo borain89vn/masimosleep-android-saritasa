@@ -26,21 +26,17 @@ class ProfileViewModel : ViewModel() {
     var reminderDuration: MutableLiveData<Int> = MutableLiveData<Int>()
 
     fun printValues() {
-
         MasimoSleepPreferences.name = profileName.value
-
-
-        Timber.d("Name: " + profileName.value)
-        Timber.d("Gender: " + gender.value)
-        birthdate.value?.let {bd ->
+        Timber.d("Name: %s", profileName.value)
+        Timber.d("Gender: %s", gender.value)
+        birthdate.value?.let { bd ->
             val month = bd.get(Calendar.MONTH) + 1
             val day = bd.get(Calendar.DAY_OF_MONTH)
             val year = bd.get(Calendar.YEAR)
             Timber.d("Birthdate: $month/$day/$year")
         }
 
-
-        Timber.d("Conditions: " + conditionList.value)
+        Timber.d("Conditions: %s", conditionList.value)
 
         val hour = timeHour.value
         val minute = timeMinute.value

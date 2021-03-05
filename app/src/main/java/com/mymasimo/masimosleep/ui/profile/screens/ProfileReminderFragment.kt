@@ -15,12 +15,12 @@ import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile_reminder.*
-import kotlinx.android.synthetic.main.fragment_profile_reminder.submit_button
 import javax.inject.Inject
 
 class ProfileReminderFragment : Fragment() {
 
-    @Inject lateinit var sleepReminderAlarmScheduler: SleepReminderAlarmScheduler
+    @Inject
+    lateinit var sleepReminderAlarmScheduler: SleepReminderAlarmScheduler
 
     private val vm: ProfileViewModel by activityViewModels()
 
@@ -31,13 +31,13 @@ class ProfileReminderFragment : Fragment() {
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
         fun newInstance(
-                content: Int?,
-                isOnBoarding: Boolean = false
+            content: Int?,
+            isOnBoarding: Boolean = false
 
         ) = ProfileReminderFragment().apply {
             arguments = bundleOf(
-                    CONTENT_KEY to content,
-                    IS_ON_BOARDING_KEY to isOnBoarding
+                CONTENT_KEY to content,
+                IS_ON_BOARDING_KEY to isOnBoarding
             )
         }
     }
@@ -58,28 +58,22 @@ class ProfileReminderFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_reminder, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_profile_reminder, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         view?.let { view ->
             val reminderTimes = resources.getStringArray(R.array.reminder_times)
             val adapter = ArrayAdapter(
-                    view.context,
-                    R.layout.support_simple_spinner_dropdown_item,
-                    reminderTimes)
+                view.context,
+                R.layout.support_simple_spinner_dropdown_item,
+                reminderTimes
+            )
             reminder_spinner.adapter = adapter
 
             reminder_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -91,7 +85,6 @@ class ProfileReminderFragment : Fragment() {
                 override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     selectedReminder(position)
                 }
-
             }
         }
 
@@ -115,12 +108,9 @@ class ProfileReminderFragment : Fragment() {
     }
 
     fun selectedReminder(index: Int) {
-
         val reminderTimes = resources.getStringArray(R.array.reminder_times)
-
         val duration: Int = durationList[index]
         val stringRep: String = reminderTimes[index]
-
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {

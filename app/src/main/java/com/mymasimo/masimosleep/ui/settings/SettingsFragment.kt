@@ -1,13 +1,12 @@
 package com.mymasimo.masimosleep.ui.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.mymasimo.masimosleep.R
-import com.mymasimo.masimosleep.ui.program_report.ProgramReportFragment
 import com.mymasimo.masimosleep.ui.settings.device.SettingsDeviceFragment
 import com.mymasimo.masimosleep.ui.settings.information.SettingsInformationFragment
 import com.mymasimo.masimosleep.ui.settings.profile.SettingsProfileFragment
@@ -16,22 +15,15 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_settings, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         close_button.setOnClickListener {
 
             requireView().findNavController().navigateUp()
@@ -39,7 +31,6 @@ class SettingsFragment : Fragment() {
         }
 
         buildSettingsUI()
-
     }
 
     private fun buildSettingsUI() {

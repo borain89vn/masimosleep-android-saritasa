@@ -13,11 +13,6 @@ import androidx.navigation.findNavController
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import kotlinx.android.synthetic.main.fragment_night_summary.*
-import kotlinx.android.synthetic.main.fragment_night_summary.face_image
-import kotlinx.android.synthetic.main.fragment_night_summary.lbl_score_text
-import kotlinx.android.synthetic.main.fragment_night_summary.quality_text
-import kotlinx.android.synthetic.main.fragment_night_summary.score_progress
-import kotlinx.android.synthetic.main.fragment_night_summary.sub_title_text
 import javax.inject.Inject
 
 class NightSummaryFragment : Fragment() {
@@ -37,13 +32,8 @@ class NightSummaryFragment : Fragment() {
         vm.onCreated(sessionId)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_night_summary, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_night_summary, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

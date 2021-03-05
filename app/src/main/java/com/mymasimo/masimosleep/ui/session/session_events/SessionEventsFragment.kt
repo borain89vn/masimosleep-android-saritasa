@@ -67,17 +67,11 @@ class SessionEventsFragment : Fragment() {
         vm.onCreate(startTime)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_session_events, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_session_events, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
@@ -95,7 +89,6 @@ class SessionEventsFragment : Fragment() {
         no_events_tray.visibility = View.VISIBLE
         event_tray.visibility = View.GONE
         chart_events.visibility = View.GONE
-
     }
 
     private fun receivedEventsConfiguration() {
@@ -103,7 +96,6 @@ class SessionEventsFragment : Fragment() {
         no_events_tray.visibility = View.GONE
         event_tray.visibility = View.VISIBLE
         chart_events.visibility = View.VISIBLE
-
     }
 
     private fun updateUI(sleepEventData: SleepEventsViewData) {

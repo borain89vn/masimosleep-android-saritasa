@@ -12,7 +12,6 @@ import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.model.SleepCondition
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile_conditions.*
-import kotlinx.android.synthetic.main.fragment_profile_conditions.submit_button
 
 class ProfileConditionsFragment : Fragment() {
 
@@ -25,13 +24,13 @@ class ProfileConditionsFragment : Fragment() {
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
         fun newInstance(
-                content: ArrayList<String>?,
-                isOnBoarding: Boolean = false
+            content: ArrayList<String>?,
+            isOnBoarding: Boolean = false
 
         ) = ProfileConditionsFragment().apply {
             arguments = bundleOf(
-                    CONTENT_KEY to content,
-                    IS_ON_BOARDING_KEY to isOnBoarding
+                CONTENT_KEY to content,
+                IS_ON_BOARDING_KEY to isOnBoarding
             )
         }
     }
@@ -42,31 +41,21 @@ class ProfileConditionsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let { arg ->
-
             content = arg.getStringArrayList(CONTENT_KEY)
             isOnBoarding = arg.getBoolean(IS_ON_BOARDING_KEY)
-
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_conditions, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_profile_conditions, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         if (content?.size ?: 0 > 0) {
             initializeSelections()
         }
@@ -77,20 +66,15 @@ class ProfileConditionsFragment : Fragment() {
         submit_button.text = getString(buttonStrRes)
 
         this.condition_1_button.setOnClickListener(onClickListener)
-
         this.condition_2_button.setOnClickListener(onClickListener)
-
         this.condition_3_button.setOnClickListener(onClickListener)
-
         this.condition_4_button.setOnClickListener(onClickListener)
 
         this.submit_button.setOnClickListener {
-
             vm.conditionList.value = this.content
             MasimoSleepPreferences.conditionList = this.content
             listener()
         }
-
     }
 
     private val onClickListener = View.OnClickListener { v ->

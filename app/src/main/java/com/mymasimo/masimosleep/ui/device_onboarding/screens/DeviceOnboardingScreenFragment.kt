@@ -25,28 +25,28 @@ class DeviceOnboardingScreenFragment : Fragment() {
         private const val IS_VIDEO_GUIDE_KEY = "IS_VIDEO_GUIDE"
 
         fun newInstance(
-                title: String?,
-                res: Int,
-                subTitle: String,
-                content: String,
-                buttonTitle: String?,
-                isVideoGuide: Boolean = true
+            title: String?,
+            res: Int,
+            subTitle: String,
+            content: String,
+            buttonTitle: String?,
+            isVideoGuide: Boolean = true
         ) = DeviceOnboardingScreenFragment().apply {
             arguments = bundleOf(
-                    TITLE_KEY to title,
-                    RES_KEY to res,
-                    SUBTITLE_KEY to subTitle,
-                    CONTENT_KEY to content,
-                    BUTTON_TITLE_KEY to buttonTitle,
-                    IS_VIDEO_GUIDE_KEY to isVideoGuide
+                TITLE_KEY to title,
+                RES_KEY to res,
+                SUBTITLE_KEY to subTitle,
+                CONTENT_KEY to content,
+                BUTTON_TITLE_KEY to buttonTitle,
+                IS_VIDEO_GUIDE_KEY to isVideoGuide
             )
         }
     }
 
     private var title: String? = null
     private var res: Int = 0
-    private var subTitle: String?= null
-    private var content: String?= null
+    private var subTitle: String? = null
+    private var content: String? = null
     private var buttonTitle: String? = null
     private var isVideoGuide: Boolean = true
 
@@ -65,21 +65,15 @@ class DeviceOnboardingScreenFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_device_onboarding_screen, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_device_onboarding_screen, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         title?.let {
             title_text_view.text = it
             title_text_view.visibility = View.VISIBLE
@@ -106,13 +100,13 @@ class DeviceOnboardingScreenFragment : Fragment() {
     }
 
     private fun loadMp4(videoView: FullLayoutVideoView, mp4Res: Int) {
-        videoView?.alpha = 0F
-        videoView?.setVideoURI(getRawMp4URI(mp4Res))
-        videoView?.setOnPreparedListener { mp ->
+        videoView.alpha = 0F
+        videoView.setVideoURI(getRawMp4URI(mp4Res))
+        videoView.setOnPreparedListener { mp ->
             //Workaround for black screen when loading
             mp.setOnInfoListener { _, what, _ ->
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                    videoView?.alpha = 1F
+                    videoView.alpha = 1F
                     true
                 }
                 false
@@ -124,9 +118,9 @@ class DeviceOnboardingScreenFragment : Fragment() {
 
     private fun startMp4FromBeginning(videoView: FullLayoutVideoView) {
         if (!videoView.isPlaying) {
-            videoView?.setZOrderOnTop(false)
-            videoView?.seekTo(0)
-            videoView?.start()
+            videoView.setZOrderOnTop(false)
+            videoView.seekTo(0)
+            videoView.start()
         }
     }
 }

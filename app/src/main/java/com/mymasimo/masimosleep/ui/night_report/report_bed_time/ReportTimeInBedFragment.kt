@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 class ReportTimeInBedFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportTimeInBedViewModel by viewModels { vmFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,16 +29,11 @@ class ReportTimeInBedFragment : Fragment() {
         vm.onCreated(requireArguments().getLong(KEY_SESSION_ID))
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_report_time_in_bed, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_report_time_in_bed, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         vm.sleepRange.observe(viewLifecycleOwner) { sleepRange ->
             updateTime(sleepRange.first, sleepRange.second)
         }

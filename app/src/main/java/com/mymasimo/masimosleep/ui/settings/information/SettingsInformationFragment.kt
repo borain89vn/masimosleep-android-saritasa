@@ -12,78 +12,64 @@ import kotlinx.android.synthetic.main.fragment_settings_information.*
 
 class SettingsInformationFragment : Fragment() {
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_information, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_settings_information, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupButtons()
     }
 
     private fun setupButtons() {
-
         feedback_button.setOnClickListener {
-
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
-                            getString(R.string.support),
-                            resources.getString(R.string.feedback_body),
-                            resources.getString(R.string.feedback_button),
-                            resources.getString(R.string.feedback_email)
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
+                    getString(R.string.support),
+                    resources.getString(R.string.feedback_body),
+                    resources.getString(R.string.feedback_button),
+                    resources.getString(R.string.feedback_email)
+                )
             )
         }
 
         about_button.setOnClickListener {
 
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
-                            "About",
-                            resources.getString(R.string.about_body),
-                            resources.getString(R.string.about_button),
-                            resources.getString(R.string.about_url)
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
+                    getString(R.string.about_btn),
+                    resources.getString(R.string.about_body),
+                    resources.getString(R.string.about_button),
+                    resources.getString(R.string.about_url)
+                )
             )
-
         }
 
         privacy_button.setOnClickListener {
 
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
-                            "Privacy Policy",
-                            resources.getString(R.string.privacy_policy),
-                            "",
-                            ""
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
+                    getString(R.string.privacy_policy_btn),
+                    resources.getString(R.string.privacy_policy),
+                    "",
+                    ""
+                )
             )
-
         }
 
         eula_button.setOnClickListener {
 
             requireView().findNavController().navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
-                            getString(R.string.eula_title),
-                            resources.getString(R.string.eula_text),
-                            "",
-                            ""
-                    )
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
+                    getString(R.string.eula_title),
+                    resources.getString(R.string.eula_text),
+                    "",
+                    ""
+                )
             )
-
         }
-
     }
 
     companion object {
-
         fun newInstance() = SettingsInformationFragment()
-
     }
 }

@@ -19,17 +19,11 @@ class ReportVitalsFragment : Fragment() {
     private var chartIntervalType: ChartIntervalType = ChartIntervalType.ALL
     private val args: ReportVitalsFragmentArgs by navArgs()
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_vitals, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_report_vitals, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
@@ -66,15 +60,13 @@ class ReportVitalsFragment : Fragment() {
 
     }
 
-    fun clearSelection() {
-
+    private fun clearSelection() {
         all_button.isSelected = false
         hour_button.isSelected = false
         minute_button.isSelected = false
     }
 
     private fun updateUI() {
-
         if (this.chartIntervalType == ChartIntervalType.MINUTE) {
             showLinearCharts()
         } else if (this.chartIntervalType == ChartIntervalType.ALL) {
@@ -89,16 +81,16 @@ class ReportVitalsFragment : Fragment() {
         removeAllFragments()
 
         addFragment(
-                ReportIntervalGraphFragment.newInstance(ReadingType.SP02, args.sessionId, minutes, timeSpanInMinutes),
-                SPO2_INTERVAL_FRAGMENT_TAG
+            ReportIntervalGraphFragment.newInstance(ReadingType.SP02, args.sessionId, minutes, timeSpanInMinutes),
+            SPO2_INTERVAL_FRAGMENT_TAG
         )
         addFragment(
-                ReportIntervalGraphFragment.newInstance(ReadingType.PR, args.sessionId, minutes, timeSpanInMinutes),
-                PR_INTERVAL_FRAGMENT_TAG
+            ReportIntervalGraphFragment.newInstance(ReadingType.PR, args.sessionId, minutes, timeSpanInMinutes),
+            PR_INTERVAL_FRAGMENT_TAG
         )
         addFragment(
-                ReportIntervalGraphFragment.newInstance(ReadingType.RRP, args.sessionId, minutes, timeSpanInMinutes),
-                RRP_INTERVAL_FRAGMENT_TAG
+            ReportIntervalGraphFragment.newInstance(ReadingType.RRP, args.sessionId, minutes, timeSpanInMinutes),
+            RRP_INTERVAL_FRAGMENT_TAG
         )
     }
 
@@ -106,16 +98,16 @@ class ReportVitalsFragment : Fragment() {
         removeAllFragments()
 
         addFragment(
-                ReportLineGraphFragment.newInstance(ReadingType.SP02, args.sessionId),
-                SPO2_LINE_FRAGMENT_TAG
+            ReportLineGraphFragment.newInstance(ReadingType.SP02, args.sessionId),
+            SPO2_LINE_FRAGMENT_TAG
         )
         addFragment(
-                ReportLineGraphFragment.newInstance(ReadingType.PR, args.sessionId),
-                PR_LINE_FRAGMENT_TAG
+            ReportLineGraphFragment.newInstance(ReadingType.PR, args.sessionId),
+            PR_LINE_FRAGMENT_TAG
         )
         addFragment(
-                ReportLineGraphFragment.newInstance(ReadingType.RRP, args.sessionId),
-                RRP_LINE_FRAGMENT_TAG
+            ReportLineGraphFragment.newInstance(ReadingType.RRP, args.sessionId),
+            RRP_LINE_FRAGMENT_TAG
         )
     }
 
@@ -145,12 +137,12 @@ class ReportVitalsFragment : Fragment() {
         private const val RRP_INTERVAL_FRAGMENT_TAG = "RRP_INTERVAL"
 
         private val ALL_FRAGMENT_TAGS = listOf(
-                SPO2_LINE_FRAGMENT_TAG,
-                SPO2_INTERVAL_FRAGMENT_TAG,
-                PR_LINE_FRAGMENT_TAG,
-                PR_INTERVAL_FRAGMENT_TAG,
-                RRP_LINE_FRAGMENT_TAG,
-                RRP_INTERVAL_FRAGMENT_TAG
+            SPO2_LINE_FRAGMENT_TAG,
+            SPO2_INTERVAL_FRAGMENT_TAG,
+            PR_LINE_FRAGMENT_TAG,
+            PR_INTERVAL_FRAGMENT_TAG,
+            RRP_LINE_FRAGMENT_TAG,
+            RRP_INTERVAL_FRAGMENT_TAG
         )
     }
 }

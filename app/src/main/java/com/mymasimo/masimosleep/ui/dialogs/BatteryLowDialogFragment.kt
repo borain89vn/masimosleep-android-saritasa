@@ -18,21 +18,18 @@ import javax.inject.Inject
 
 class BatteryLowDialogFragment : SelfDismissDialogFragment() {
 
-    @Inject lateinit var dialogActionHandler: DialogActionHandler
-    @Inject lateinit var deviceExceptionHandler: DeviceExceptionHandler
+    @Inject
+    lateinit var dialogActionHandler: DialogActionHandler
+    @Inject
+    lateinit var deviceExceptionHandler: DeviceExceptionHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_battery_low_dialog, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_battery_low_dialog, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,8 +45,8 @@ class BatteryLowDialogFragment : SelfDismissDialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
         )
     }
 
@@ -60,12 +57,12 @@ class BatteryLowDialogFragment : SelfDismissDialogFragment() {
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({
-                           if (!it.contains(DeviceException.LOW_BATTERY)) {
-                               requireParentFragment().requireView().findNavController().popBackStack()
-                           }
-                       }, {
-                           it.printStackTrace()
-                       }).addTo(disposables)
+                if (!it.contains(DeviceException.LOW_BATTERY)) {
+                    requireParentFragment().requireView().findNavController().popBackStack()
+                }
+            }, {
+                it.printStackTrace()
+            }).addTo(disposables)
     }
 
     override fun onPause() {

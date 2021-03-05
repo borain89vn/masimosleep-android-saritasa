@@ -18,10 +18,11 @@ import javax.inject.Inject
 
 class EventDetailsFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: EventDetailsViewModel by viewModels { vmFactory }
 
-    private val args : EventDetailsFragmentArgs by navArgs()
+    private val args: EventDetailsFragmentArgs by navArgs()
 
     private val adapter = EventDetailsAdapter(mutableListOf())
 
@@ -32,12 +33,8 @@ class EventDetailsFragment : Fragment() {
         vm.onCreated(args.sessionId)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_event_details, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_event_details, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +61,7 @@ class EventDetailsFragment : Fragment() {
         updateList(viewData.events)
     }
 
-    private fun updateList(events : List<EventDetailsViewModel.EventDetailViewData.EventSummary>) {
+    private fun updateList(events: List<EventDetailsViewModel.EventDetailViewData.EventSummary>) {
         adapter.setEvents(events)
     }
 

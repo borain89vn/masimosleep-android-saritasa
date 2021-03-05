@@ -11,24 +11,17 @@ import kotlinx.android.synthetic.main.fragment_device_paired.*
 
 class DevicePairedFragment : Fragment() {
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_device_paired, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_device_paired, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         submit_button.setOnClickListener {
             dismiss()
         }
     }
 
     fun dismiss() {
-
         this.view?.let {
             val navController = Navigation.findNavController(it)
             navController.popBackStack(R.id.homeFragment, false)

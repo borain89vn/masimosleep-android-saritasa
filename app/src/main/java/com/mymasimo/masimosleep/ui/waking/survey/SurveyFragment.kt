@@ -32,7 +32,6 @@ class SurveyFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
-
         vm.onCreated(args.sessionId)
     }
 

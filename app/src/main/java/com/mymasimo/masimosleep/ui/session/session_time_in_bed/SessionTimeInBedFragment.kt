@@ -1,7 +1,6 @@
 package com.mymasimo.masimosleep.ui.session.session_time_in_bed
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_session_time_in_bed.*
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -23,8 +21,10 @@ import javax.inject.Inject
 
 class SessionTimeInBedFragment : Fragment() {
 
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var disposables: CompositeDisposable
 
     // Epoch timestamp of when the session started.
     private var startTimeMillis: Long = 0
@@ -43,11 +43,10 @@ class SessionTimeInBedFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         bindings = FragmentSessionTimeInBedBinding.inflate(inflater, container, false)
         return bindings.root
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

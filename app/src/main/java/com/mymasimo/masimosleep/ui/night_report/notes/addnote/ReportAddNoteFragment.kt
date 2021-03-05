@@ -22,8 +22,10 @@ import javax.inject.Inject
 
 class ReportAddNoteFragment : Fragment() {
 
-    @Inject lateinit var disposables: CompositeDisposable
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportAddNoteViewModel by viewModels { vmFactory }
 
     private val args: ReportAddNoteFragmentArgs by navArgs()
@@ -33,16 +35,11 @@ class ReportAddNoteFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_report_add_note, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_report_add_note, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
 
         vm.onNoteSaved
@@ -64,14 +61,12 @@ class ReportAddNoteFragment : Fragment() {
             addNote()
         }
 
-
         val dateFormatter = SimpleDateFormat("MMM d, hh:mm aa")
         val dateString = dateFormatter.format(Date(Calendar.getInstance().timeInMillis))
 
         date_text.text = dateString
 
-
-        note_text.addTextChangedListener(object: TextWatcher {
+        note_text.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(p0: Editable?) {
 
@@ -87,12 +82,10 @@ class ReportAddNoteFragment : Fragment() {
 
         })
 
-
         updateRemainingCharsLabel()
     }
 
     private fun updateRemainingCharsLabel() {
-
         var charsRemaining = TOTAL_CHARS - note_text.text.count()
         if (charsRemaining < 0) {
             charsRemaining = 0
@@ -114,6 +107,6 @@ class ReportAddNoteFragment : Fragment() {
     }
 
     companion object {
-        private const val TOTAL_CHARS : Int = 45
+        private const val TOTAL_CHARS: Int = 45
     }
 }

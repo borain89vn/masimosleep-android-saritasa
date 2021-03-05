@@ -12,20 +12,13 @@ import com.mymasimo.masimosleep.ui.night_report.recommendations.util.Recommendat
 import kotlinx.android.synthetic.main.fragment_recommendation_detail.*
 
 class RecommendationDetailFragment : Fragment() {
+    val args: RecommendationDetailFragmentArgs by navArgs()
 
-    val args : RecommendationDetailFragmentArgs by navArgs()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recommendation_detail, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_recommendation_detail, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         close_button.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
@@ -35,12 +28,12 @@ class RecommendationDetailFragment : Fragment() {
 
     private fun loadViewContent() {
 
-        var titleID : Int = R.string.reco_coffee_title
-        var subtitleID : Int = R.string.reco_coffee_subtitle
-        var bodyID : Int = R.string.reco_coffee_body
-        var imageID : Int = R.drawable.reco_coffee_image
+        var titleID: Int = R.string.reco_coffee_title
+        var subtitleID: Int = R.string.reco_coffee_subtitle
+        var bodyID: Int = R.string.reco_coffee_body
+        var imageID: Int = R.drawable.reco_coffee_image
 
-        when(args.recommendation) {
+        when (args.recommendation) {
             Recommendation.NO_CAFFEINE -> {
                 titleID = R.string.reco_coffee_title
                 subtitleID = R.string.reco_coffee_subtitle
@@ -88,6 +81,6 @@ class RecommendationDetailFragment : Fragment() {
         rec_title.text = resources.getString(titleID)
         rec_sub_title.text = resources.getString(subtitleID)
         rec_body.text = resources.getString(bodyID)
-        reco_image.setImageDrawable(resources.getDrawable(imageID,null))
+        reco_image.setImageDrawable(resources.getDrawable(imageID, null))
     }
 }

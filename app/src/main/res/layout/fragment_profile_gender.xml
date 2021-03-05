@@ -7,26 +7,26 @@
     android:background="#ffffff"
     tools:context=".ui.profile.screens.ProfileGenderFragment">
 
-    <TextView
-        android:id="@+id/title_text_view"
+    <Button
+        android:id="@+id/submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/gender_text_hint"
-        android:textAlignment="center"
-        android:textAppearance="@style/onboardingHeader"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:background="@drawable/black_button"
+        android:text="@string/next"
+        android:textAppearance="@style/roundedButton_WhiteText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -38,11 +38,11 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
             android:background="@drawable/selection_button"
-            android:text="Female"
+            android:text="@string/female_btn"
             android:textAppearance="@style/roundedButton_WhiteText"
             android:textColor="@drawable/selection_button_text" />
 
@@ -51,11 +51,11 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
             android:background="@drawable/selection_button"
-            android:text="Male"
+            android:text="@string/male_btn"
             android:textAppearance="@style/roundedButton_WhiteText"
             android:textColor="@drawable/selection_button_text" />
 
@@ -64,27 +64,27 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
             android:background="@drawable/selection_button"
             android:text="@string/gender_other"
             android:textAppearance="@style/roundedButton_WhiteText"
             android:textColor="@drawable/selection_button_text" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/submit_button"
+    <TextView
+        android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/black_button"
-        android:text="Next"
-        android:textAppearance="@style/roundedButton_WhiteText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/gender_text_hint"
+        android:textAlignment="center"
+        android:textAppearance="@style/onboardingHeader"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

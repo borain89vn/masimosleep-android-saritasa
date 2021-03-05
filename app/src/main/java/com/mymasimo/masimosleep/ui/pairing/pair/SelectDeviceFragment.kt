@@ -24,18 +24,21 @@ import javax.inject.Inject
 
 class SelectDeviceFragment : Fragment() {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var disposables: CompositeDisposable
 
     private val vm: PairingViewModel by activityViewModels { vmFactory }
     private lateinit var bindings: FragmentSelectDeviceBinding
 
     private val moduleAdapter =
         ModuleAdapter(
-                onModuleClickListener = { module ->
-                    vm.saveBleModule(module.address)
-                })
+            onModuleClickListener = { module ->
+                vm.saveBleModule(module.address)
+            })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -43,10 +46,10 @@ class SelectDeviceFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         bindings = FragmentSelectDeviceBinding.inflate(inflater, container, false)
         return bindings.root
     }
@@ -66,10 +69,10 @@ class SelectDeviceFragment : Fragment() {
         vm.nearbyBleModules.observe(viewLifecycleOwner) { nearbyModules ->
             moduleAdapter.setModules(nearbyModules.map { dbModule ->
                 Module(
-                        deviceName = dbModule.type.name,
-                        modelType = dbModule.variant.name,
-                        serialNumber = dbModule.serialNumber,
-                        address = dbModule.address
+                    deviceName = dbModule.type.name,
+                    modelType = dbModule.variant.name,
+                    serialNumber = dbModule.serialNumber,
+                    address = dbModule.address
                 )
             })
         }

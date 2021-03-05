@@ -18,22 +18,20 @@ import javax.inject.Inject
 
 class SettingsSensorFragment : Fragment() {
 
-    @Inject lateinit var bleConnectionState: BLEConnectionState
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var bleConnectionState: BLEConnectionState
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var disposables: CompositeDisposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_sensor, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_settings_sensor, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,33 +51,33 @@ class SettingsSensorFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun updateUI(state : State) {
-        val dotColorID: Int
-        val statusText: String
-        val statusDescText: String
+    private fun updateUI(state: State) {
+        val dotColorId: Int
+        val statusTextId: Int
+        val statusDescId: Int
         when (state) {
             State.BLE_DISCONNECTED -> {
-                dotColorID = R.drawable.gray_dot
-                statusText = "Bluetooth disabled"
-                statusDescText = "Please enable bluetooth to detect your device."
+                dotColorId = R.drawable.gray_dot
+                statusTextId = R.string.bluetooth_disabled_status_title
+                statusDescId = R.string.bluetooth_disabled_status_description
             }
             State.NO_DEVICE_CONNECTED,
             State.CONNECTING_TO_DEVICE,
             State.SEARCHING -> {
-                dotColorID = R.drawable.gray_dot
-                statusText = "No sensor detected"
-                statusDescText = "If you can\'t connect, troubleshoot your device."
+                dotColorId = R.drawable.gray_dot
+                statusTextId = R.string.no_sensor_status_title
+                statusDescId = R.string.no_sensor_status_description
             }
             State.DEVICE_CONNECTED -> {
-                dotColorID = R.drawable.blue_dot
-                statusText = "Connected"
-                statusDescText = "Sensor is currently tracking your vitals."
+                dotColorId = R.drawable.blue_dot
+                statusTextId = R.string.connected_status_title
+                statusDescId = R.string.connected_status_description
             }
         }
 
-        status_dot.background = resources.getDrawable(dotColorID, null)
-        status_text.text = statusText
-        status_desc_text.text = statusDescText
+        status_dot.background = resources.getDrawable(dotColorId, null)
+        status_text.text = getString(statusTextId)
+        status_desc_text.text = getString(statusDescId)
     }
 
     companion object {

@@ -28,6 +28,7 @@ class AddNoteFragment : Fragment() {
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var disposables: CompositeDisposable
 
@@ -35,7 +36,7 @@ class AddNoteFragment : Fragment() {
 
 
     companion object {
-        private const val TOTAL_CHARS : Int = 45
+        private const val TOTAL_CHARS: Int = 45
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,13 +45,8 @@ class AddNoteFragment : Fragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_note, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_add_note, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,10 +63,7 @@ class AddNoteFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-
-
         cancel_button.setOnClickListener {
-
             dismiss()
         }
 
@@ -78,15 +71,12 @@ class AddNoteFragment : Fragment() {
             addNote()
         }
 
-
         val dateFormatter = SimpleDateFormat("MMM d, hh:mm aa")
         val dateString = dateFormatter.format(Date(Calendar.getInstance().timeInMillis))
 
         date_text.text = dateString
 
-
-        note_text.addTextChangedListener(object: TextWatcher {
-
+        note_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
             }
@@ -101,24 +91,21 @@ class AddNoteFragment : Fragment() {
 
         })
 
-
         updateRemainingCharsLabel()
     }
 
     private fun updateRemainingCharsLabel() {
-
         var charsRemaining = TOTAL_CHARS - note_text.text.count()
         if (charsRemaining < 0) {
             charsRemaining = 0
         }
 
-         chars_remaining_text.text = getString(R.string.hint_characters_left, charsRemaining, TOTAL_CHARS)
+        chars_remaining_text.text = getString(R.string.hint_characters_left, charsRemaining, TOTAL_CHARS)
     }
 
     private fun addNote() {
         add_button.isEnabled = false
         note_text.isEnabled = false
-
         vm.onAddButtonClick(note_text.text.toString())
     }
 

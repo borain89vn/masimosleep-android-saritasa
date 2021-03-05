@@ -1,16 +1,15 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile_medical_question.*
-import kotlinx.android.synthetic.main.fragment_profile_medical_question.submit_button
 
 class ProfileMedicalQuestionFragment : Fragment() {
 
@@ -28,13 +27,13 @@ class ProfileMedicalQuestionFragment : Fragment() {
 
         ) = ProfileMedicalQuestionFragment().apply {
             arguments = bundleOf(
-                    CONTENT_KEY to content,
-                    IS_ON_BOARDING_KEY to isOnBoarding
+                CONTENT_KEY to content,
+                IS_ON_BOARDING_KEY to isOnBoarding
             )
         }
     }
 
-    private var content : Boolean? = null
+    private var content: Boolean? = null
     private var isOnBoarding = false
     private lateinit var listener: () -> Unit
 
@@ -47,18 +46,12 @@ class ProfileMedicalQuestionFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_medical_question, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_profile_medical_question, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
@@ -80,10 +73,8 @@ class ProfileMedicalQuestionFragment : Fragment() {
             updateSubmitButton()
         }
 
-
         this.submit_button.setOnClickListener {
-
-            this.content?.let {hasCondition ->
+            this.content?.let { hasCondition ->
                 vm.hasCondition = hasCondition
             }
 
@@ -93,23 +84,20 @@ class ProfileMedicalQuestionFragment : Fragment() {
         updateSubmitButton()
     }
 
-    fun clearAll() {
+    private fun clearAll() {
         yes_button.isSelected = false
         no_button.isSelected = false
-
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {
         this.listener = listener
     }
 
-    fun updateSubmitButton() {
-
+    private fun updateSubmitButton() {
         this.content?.let {
             submit_button.isEnabled = true
         } ?: run {
             submit_button.isEnabled = false
         }
-
     }
 }

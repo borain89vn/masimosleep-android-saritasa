@@ -1,18 +1,16 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile_gender.*
-import kotlinx.android.synthetic.main.fragment_profile_gender.male_button
-import kotlinx.android.synthetic.main.fragment_profile_gender.submit_button
 
 class ProfileGenderFragment : Fragment() {
 
@@ -25,13 +23,13 @@ class ProfileGenderFragment : Fragment() {
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
         fun newInstance(
-                content: String?,
-                isOnBoarding: Boolean = false
+            content: String?,
+            isOnBoarding: Boolean = false
 
         ) = ProfileGenderFragment().apply {
             arguments = bundleOf(
-                    CONTENT_KEY to content,
-                    IS_ON_BOARDING_KEY to isOnBoarding
+                CONTENT_KEY to content,
+                IS_ON_BOARDING_KEY to isOnBoarding
             )
         }
     }
@@ -42,30 +40,21 @@ class ProfileGenderFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let { arg ->
             content = arg.getString(CONTENT_KEY)
             isOnBoarding = arg.getBoolean(IS_ON_BOARDING_KEY)
-
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_gender, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_profile_gender, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
         content?.let { gender ->
             clearAll()
             if (gender == "male") {
@@ -102,7 +91,6 @@ class ProfileGenderFragment : Fragment() {
             updateSubmitButton()
         }
 
-
         this.submit_button.setOnClickListener {
             vm.gender.value = this.content
             MasimoSleepPreferences.gender = this.content
@@ -112,7 +100,7 @@ class ProfileGenderFragment : Fragment() {
         updateSubmitButton()
     }
 
-    fun clearAll() {
+    private fun clearAll() {
         female_button.isSelected = false
         male_button.isSelected = false
         other_button.isSelected = false
@@ -122,8 +110,7 @@ class ProfileGenderFragment : Fragment() {
         this.listener = listener
     }
 
-    fun updateSubmitButton() {
-
+    private fun updateSubmitButton() {
         this.content?.let {
             submit_button.isEnabled = true
         } ?: run {

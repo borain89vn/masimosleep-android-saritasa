@@ -38,11 +38,11 @@ class WelcomeScreenFragment : Fragment() {
         }
     }
 
-    private var title : String? = null
-    private var image : Int = 0
-    private lateinit var subTitle : String
-    private lateinit var content : String
-    private var buttonTitle : String? = null
+    private var title: String? = null
+    private var image: Int = 0
+    private lateinit var subTitle: String
+    private lateinit var content: String
+    private var buttonTitle: String? = null
 
     private lateinit var listener: () -> Unit
 
@@ -58,22 +58,15 @@ class WelcomeScreenFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_welcome_screen, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_welcome_screen, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
-
     }
 
     private fun loadViewContent() {
-
         title?.let {
             title_text_view.text = it
             title_text_view.visibility = View.VISIBLE
@@ -81,7 +74,7 @@ class WelcomeScreenFragment : Fragment() {
             title_text_view.visibility = View.INVISIBLE
         }
 
-        this.content_image_view.setImageDrawable(resources.getDrawable(this.image,null))
+        this.content_image_view.setImageDrawable(resources.getDrawable(this.image, null))
 
         this.sub_title_text_view.text = this.subTitle
 

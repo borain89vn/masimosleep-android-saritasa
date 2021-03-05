@@ -60,8 +60,8 @@ class LiveLineGraphFragment : Fragment() {
 
         fun newInstance(type: ReadingType, startAt: Long) = LiveLineGraphFragment().apply {
             arguments = bundleOf(
-                    READING_TYPE_KEY to type,
-                    START_TIME_KEY to startAt
+                READING_TYPE_KEY to type,
+                START_TIME_KEY to startAt
             )
         }
     }
@@ -81,18 +81,11 @@ class LiveLineGraphFragment : Fragment() {
         vm.onCreate(readingType, startTime)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_live_line_graph, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_live_line_graph, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         loadViewContent()
 
         vm.lineGraphViewData.observe(viewLifecycleOwner) { lineGraphData ->
@@ -126,7 +119,6 @@ class LiveLineGraphFragment : Fragment() {
     }
 
     fun updateUI(lineGraphData: LineGraphViewData) {
-
         val avgRounded = lineGraphData.average
             .toBigDecimal()
             .setScale(1, RoundingMode.UP)
@@ -137,7 +129,6 @@ class LiveLineGraphFragment : Fragment() {
     }
 
     fun configureChart() {
-
         chart_live.description.isEnabled = false
         chart_live.setNoDataTextColor(resources.getColor(R.color.white, null))
         chart_live.isScaleYEnabled = false
@@ -163,9 +154,7 @@ class LiveLineGraphFragment : Fragment() {
         val dateFormatter = SimpleDateFormat("hh:mm")
         val formatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                val date = dateFormatter.format(Date(value.toLong()))
-
-                return date
+                return dateFormatter.format(Date(value.toLong()))
             }
         }
 
@@ -188,12 +177,10 @@ class LiveLineGraphFragment : Fragment() {
         leftAxis.setDrawLabels(false)
         leftAxis.setDrawGridLines(false)
         leftAxis.axisLineColor = resources.getColor(gridColorID, null)
-
     }
 
     fun updateChart(pointLists: List<List<LineGraphViewData.LineGraphPoint>>) {
-
-        val chartDataSets: ArrayList<ILineDataSet> = ArrayList<ILineDataSet>()
+        val chartDataSets: ArrayList<ILineDataSet> = ArrayList()
 
         var minVal: Double = Double.MAX_VALUE
         var maxVal: Double = Double.MIN_VALUE
@@ -203,13 +190,13 @@ class LiveLineGraphFragment : Fragment() {
 
         for (pointList in pointLists) {
 
-            val chartEntryList: ArrayList<Entry> = ArrayList<Entry>()
+            val chartEntryList: ArrayList<Entry> = ArrayList()
 
 
             for (point in pointList) {
 
                 chartEntryList.add(
-                        Entry(point.timestamp.toFloat(), point.value.toFloat())
+                    Entry(point.timestamp.toFloat(), point.value.toFloat())
                 )
 
                 val dateFormatter = SimpleDateFormat("hh:mm")
@@ -240,14 +227,18 @@ class LiveLineGraphFragment : Fragment() {
             lineDataSet.setDrawValues(false)
             chartDataSets.add(lineDataSet)
 
-            val boundaryEntryList: ArrayList<Entry> = ArrayList<Entry>()
+            val boundaryEntryList: ArrayList<Entry> = ArrayList()
             boundaryEntryList.add(
-                    Entry((startTime - BLOCK_SEPARATION_THRESHOLD_MILLIS * CHART_OFFSET_PERCENT),
-                          getMinChartValue(readingType).toFloat())
+                Entry(
+                    (startTime - BLOCK_SEPARATION_THRESHOLD_MILLIS * CHART_OFFSET_PERCENT),
+                    getMinChartValue(readingType).toFloat()
+                )
             )
             boundaryEntryList.add(
-                    Entry((endTime + BLOCK_SEPARATION_THRESHOLD_MILLIS * CHART_OFFSET_PERCENT),
-                          getMaxChartValue(readingType).toFloat())
+                Entry(
+                    (endTime + BLOCK_SEPARATION_THRESHOLD_MILLIS * CHART_OFFSET_PERCENT),
+                    getMaxChartValue(readingType).toFloat()
+                )
             )
             val boundarySet = LineDataSet(boundaryEntryList, "")
             boundarySet.color = resources.getColor(R.color.clear, null)
@@ -269,7 +260,7 @@ class LiveLineGraphFragment : Fragment() {
 
         }
 
-        val lineData: LineData = LineData(chartDataSets)
+        val lineData = LineData(chartDataSets)
 
 
 
@@ -277,11 +268,13 @@ class LiveLineGraphFragment : Fragment() {
 
         //Zoom to expected visible range
         chart_live.zoom(
-                calculateXZoomScale(
-                        (BLOCK_SEPARATION_THRESHOLD_MILLIS).toLong(), startTime, endTime),
-                1F,
-                endTime - (BLOCK_SEPARATION_THRESHOLD_MILLIS * (1 + CHART_OFFSET_PERCENT)) / 2,
-                (getMaxChartValue(readingType).toFloat() + getMinChartValue(readingType).toFloat()) / 2)
+            calculateXZoomScale(
+                (BLOCK_SEPARATION_THRESHOLD_MILLIS).toLong(), startTime, endTime
+            ),
+            1F,
+            endTime - (BLOCK_SEPARATION_THRESHOLD_MILLIS * (1 + CHART_OFFSET_PERCENT)) / 2,
+            (getMaxChartValue(readingType).toFloat() + getMinChartValue(readingType).toFloat()) / 2
+        )
 
         chart_live.invalidate()
 

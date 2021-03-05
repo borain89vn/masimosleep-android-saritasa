@@ -84,13 +84,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:text="Updated 1s ago"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingContent"
         android:textColor="@color/darkDiv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_score_text" />
+        app:layout_constraintTop_toBottomOf="@id/lbl_score_text"
+        tools:text="Updated 1s ago" />
 
     <com.mymasimo.masimosleep.ui.ScoreProgressBar
         android:id="@+id/score_progress"

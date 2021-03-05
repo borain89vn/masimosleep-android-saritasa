@@ -12,14 +12,13 @@ import java.util.concurrent.TimeUnit
 val dateFormat = SimpleDateFormat("hh:mm a")
 
 class EventDetailsAdapter(
-        private val events: MutableList<EventDetailsViewModel.EventDetailViewData.EventSummary>
+    private val events: MutableList<EventDetailsViewModel.EventDetailViewData.EventSummary>
 ) : RecyclerView.Adapter<EventViewHolder>() {
 
     override fun getItemCount(): Int = events.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val bindings = EventRowBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+        val bindings = EventRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return EventViewHolder(bindings)
     }
 
@@ -35,7 +34,7 @@ class EventDetailsAdapter(
 }
 
 class EventViewHolder(
-        private val bindings: EventRowBinding
+    private val bindings: EventRowBinding
 ) : RecyclerView.ViewHolder(bindings.root) {
 
     fun bindData(event: EventDetailsViewModel.EventDetailViewData.EventSummary) {
@@ -45,9 +44,11 @@ class EventViewHolder(
 
         bindings.timeLabel.text = formattedTime
 
-        bindings.durationLabel.text = String.format("%dm %ds",
-                                                    TimeUnit.MILLISECONDS.toMinutes(event.duration),
-                                                    TimeUnit.MILLISECONDS.toSeconds(event.duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(event.duration)))
+        bindings.durationLabel.text = String.format(
+            "%dm %ds",
+            TimeUnit.MILLISECONDS.toMinutes(event.duration),
+            TimeUnit.MILLISECONDS.toSeconds(event.duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(event.duration))
+        )
 
         var severityDotID: Int = R.drawable.minor_event_dot
         var severityStringID: Int = R.string.minor_event_name

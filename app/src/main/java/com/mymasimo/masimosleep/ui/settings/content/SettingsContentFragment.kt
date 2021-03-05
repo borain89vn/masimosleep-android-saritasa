@@ -35,19 +35,12 @@ class SettingsContentFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_content, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_settings_content, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         back_button.setOnClickListener {
-
             requireView().findNavController().navigateUp()
         }
 
@@ -55,11 +48,10 @@ class SettingsContentFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-
         title_text_view.text = this.title
         content_text.text = this.content
 
-        //        submit_button.visibility = View.VISIBLE
+        //submit_button.visibility = View.VISIBLE
         buttonTitle?.let { buttonTitle ->
             submit_button.text = buttonTitle
 
@@ -75,7 +67,7 @@ class SettingsContentFragment : Fragment() {
 
     }
 
-    fun launchURL(url: String) {
+    private fun launchURL(url: String) {
         val openURL = Intent(Intent.ACTION_VIEW)
         openURL.data = Uri.parse(url)
         startActivity(openURL)
