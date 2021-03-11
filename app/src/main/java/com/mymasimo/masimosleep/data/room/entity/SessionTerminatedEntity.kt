@@ -12,7 +12,7 @@ import com.mymasimo.masimosleep.data.room.entity.SessionTerminatedContract.COLUM
 import com.mymasimo.masimosleep.data.room.entity.SessionTerminatedContract.COLUMN_SESSION_NIGHT
 import com.mymasimo.masimosleep.data.room.entity.SessionTerminatedContract.TABLE_NAME
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = TABLE_NAME)

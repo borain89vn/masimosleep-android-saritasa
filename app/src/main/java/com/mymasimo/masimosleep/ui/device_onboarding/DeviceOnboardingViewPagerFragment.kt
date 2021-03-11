@@ -1,22 +1,22 @@
 package com.mymasimo.masimosleep.ui.device_onboarding
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentDeviceOnboardingViewPagerBinding
 import com.mymasimo.masimosleep.ui.device_onboarding.screens.DeviceOnBoardingBottomScreen
 import com.mymasimo.masimosleep.ui.device_onboarding.screens.DeviceOnboardingScreenFragment
-import kotlinx.android.synthetic.main.fragment_device_onboarding_view_pager.*
-import kotlinx.android.synthetic.main.fragment_device_onboarding_view_pager.view.*
 
-class DeviceOnboardingViewPagerFragment : Fragment() {
+class DeviceOnboardingViewPagerFragment : Fragment(R.layout.fragment_device_onboarding_view_pager) {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_device_onboarding_view_pager, container, false)
+    private val viewBinding by viewBinding(FragmentDeviceOnboardingViewPagerBinding::bind)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val fragmentList = arrayListOf<Fragment>(
 
@@ -95,23 +95,56 @@ class DeviceOnboardingViewPagerFragment : Fragment() {
             lifecycle
         )
 
-        view.view_pager.adapter = adapter
+        viewBinding.viewPager.adapter = adapter
 
-        buildBottomViewPagerAdapter(view, fragmentList)
+        buildBottomViewPagerAdapter(fragmentList)
 
-        view.circle_indicator.setViewPager(view.view_pager)
+        viewBinding.circleIndicator.setViewPager(viewBinding.viewPager)
 
-        view.view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        viewBinding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 pageUpdated(position)
             }
         })
 
-        return view
+        viewBinding.backButton.setOnClickListener {
+            backPressed()
+        }
     }
 
-    private fun buildBottomViewPagerAdapter(view: View, fragmentList: List<Fragment>) {
+    fun dismiss() {
+        this.view?.let {
+            val navController = Navigation.findNavController(it)
+            navController.navigate(R.id.action_deviceOnboardingViewPagerFragment_to_scanFragment)
+        }
+    }
+
+    private fun backPressed() {
+        viewBinding.viewPager.currentItem = viewBinding.viewPager.currentItem - 1
+    }
+
+    private fun skipPressed() {
+        val adapter = viewBinding.viewPager.adapter as DeviceOnboardingViewPagerAdapter
+        viewBinding.viewPager.currentItem = adapter.itemCount - 1
+    }
+
+    private fun nextFragment() {
+        viewBinding.viewPager.currentItem = viewBinding.viewPager.currentItem + 1
+    }
+
+    fun pageUpdated(selectedPage: Int) {
+
+        viewBinding.viewPagerBottom.setCurrentItem(selectedPage, true)
+
+        if (selectedPage == 0) {
+            viewBinding.backButton.visibility = View.INVISIBLE
+        } else {
+            viewBinding.backButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun buildBottomViewPagerAdapter(fragmentList: List<Fragment>) {
         val bottomList = arrayListOf<Fragment>()
 
         fragmentList.forEachIndexed { i, _ ->
@@ -126,55 +159,6 @@ class DeviceOnboardingViewPagerFragment : Fragment() {
         }
 
         val bottomAdapter = DeviceOnboardingViewPagerAdapter(bottomList, requireActivity().supportFragmentManager, lifecycle)
-        view.view_pager_bottom.adapter = bottomAdapter
+        viewBinding.viewPagerBottom.adapter = bottomAdapter
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        back_button.setOnClickListener {
-            backPressed()
-        }
-    }
-
-    fun dismiss() {
-
-        this.view?.let {
-            val navController = Navigation.findNavController(it)
-            navController.navigate(R.id.action_deviceOnboardingViewPagerFragment_to_scanFragment)
-        }
-    }
-
-    fun backPressed() {
-        this.view?.let { view ->
-            view.view_pager.currentItem = view.view_pager.currentItem - 1
-        }
-    }
-
-    fun skipPressed() {
-        this.view?.let { view ->
-            val adapter = view.view_pager.adapter as DeviceOnboardingViewPagerAdapter
-            view.view_pager.currentItem = adapter.itemCount - 1
-        }
-    }
-
-    fun nextFragment() {
-        this.view?.let { view ->
-            view.view_pager.currentItem = view.view_pager.currentItem + 1
-        }
-    }
-
-    fun pageUpdated(selectedPage: Int) {
-        this.view?.let { view ->
-
-            view.view_pager_bottom.setCurrentItem(selectedPage, true)
-
-            if (selectedPage == 0) {
-                view.back_button.visibility = View.INVISIBLE
-            } else {
-                view.back_button.visibility = View.VISIBLE
-            }
-        }
-    }
-
 }

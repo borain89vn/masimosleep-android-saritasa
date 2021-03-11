@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply from: '../config.gradle'
 
 android {
@@ -37,8 +36,6 @@ dependencies {
     implementation libraries.rxAndroid
 
     implementation libraries.kotlin
-    implementation libraries.ktxCore
-    implementation libraries.appCompat
     implementation libraries.annotation
     implementation libraries.slf4j
 }

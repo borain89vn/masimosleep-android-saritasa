@@ -1,25 +1,26 @@
 package com.mymasimo.masimosleep.ui.dialogs
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentDefectiveDialogBinding
 import com.mymasimo.masimosleep.service.DeviceException
 import com.mymasimo.masimosleep.service.DeviceExceptionHandler
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_defective_dialog.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class DefectiveDialogFragment : SelfDismissDialogFragment() {
+class DefectiveDialogFragment : SelfDismissDialogFragment(R.layout.fragment_defective_dialog) {
+    private val viewBinding by viewBinding(FragmentDefectiveDialogBinding::bind)
 
     @Inject
     lateinit var dialogActionHandler: DialogActionHandler
+
     @Inject
     lateinit var deviceExceptionHandler: DeviceExceptionHandler
 
@@ -28,15 +29,12 @@ class DefectiveDialogFragment : SelfDismissDialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_defective_dialog, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         isCancelable = false
 
-        cancel_button.setOnClickListener {
+        viewBinding.cancelButton.setOnClickListener {
             dialogActionHandler.onEndSleepSessionClicked()
         }
     }

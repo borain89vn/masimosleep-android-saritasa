@@ -2,21 +2,21 @@ package com.mymasimo.masimosleep.ui.device_onboarding.screens
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentDeviceOnboardingScreenBinding
 import com.mymasimo.masimosleep.ui.device_onboarding.view.FullLayoutVideoView
 import com.mymasimo.masimosleep.util.getRawMp4URI
-import kotlinx.android.synthetic.main.fragment_device_onboarding_screen.*
 
-class DeviceOnboardingScreenFragment : Fragment() {
+class DeviceOnboardingScreenFragment : Fragment(R.layout.fragment_device_onboarding_screen) {
+
+    private val viewBinding by viewBinding(FragmentDeviceOnboardingScreenBinding::bind)
 
     companion object {
-        private val TAG = DeviceOnboardingScreenFragment::class.simpleName
-
         private const val TITLE_KEY = "TITLE"
         private const val RES_KEY = "RES"
         private const val SUBTITLE_KEY = "SUBTITLE"
@@ -65,9 +65,6 @@ class DeviceOnboardingScreenFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_device_onboarding_screen, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
@@ -75,24 +72,24 @@ class DeviceOnboardingScreenFragment : Fragment() {
 
     private fun loadViewContent() {
         title?.let {
-            title_text_view.text = it
-            title_text_view.visibility = View.VISIBLE
+            viewBinding.titleTextView.text = it
+            viewBinding.titleTextView.visibility = View.VISIBLE
         } ?: run {
-            title_text_view.visibility = View.INVISIBLE
+            viewBinding.titleTextView.visibility = View.INVISIBLE
         }
 
         if (isVideoGuide) {
-            this.content_image_view.visibility = View.GONE
-            video_view.visibility = View.VISIBLE
+            viewBinding.contentImageView.visibility = View.GONE
+            viewBinding.videoView.visibility = View.VISIBLE
 
-            loadMp4(this.video_view, res)
+            loadMp4(viewBinding.videoView, res)
         } else {
-            video_view.visibility = View.GONE
-            this.content_image_view.visibility = View.VISIBLE
-            this.content_image_view.setImageDrawable(resources.getDrawable(this.res, null))
+            viewBinding.videoView.visibility = View.GONE
+            viewBinding.contentImageView.visibility = View.VISIBLE
+            viewBinding.contentImageView.setImageDrawable(ResourcesCompat.getDrawable(resources, res, null))
         }
 
-        this.content_text_view.text = this.content
+        viewBinding.contentTextView.text = content
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {
@@ -107,7 +104,7 @@ class DeviceOnboardingScreenFragment : Fragment() {
             mp.setOnInfoListener { _, what, _ ->
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
                     videoView.alpha = 1F
-                    true
+                    return@setOnInfoListener true
                 }
                 false
             }

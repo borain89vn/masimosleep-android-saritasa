@@ -1,7 +1,7 @@
 package com.mymasimo.masimosleep.ui.dialogs
 
 import android.os.Bundle
-import android.view.View
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +15,7 @@ import javax.inject.Inject
 /**
  * Dialogs that will dismiss themselves when session is no longer in progress
  */
-abstract class SelfDismissDialogFragment : DialogFragment() {
+abstract class SelfDismissDialogFragment(@LayoutRes contentLayoutId: Int) : DialogFragment(contentLayoutId) {
 
     @Inject lateinit var sleepSessionScoreManager: SleepSessionScoreManager
     @Inject lateinit var vmFactory: ViewModelProvider.Factory
@@ -27,10 +27,6 @@ abstract class SelfDismissDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onResume() {

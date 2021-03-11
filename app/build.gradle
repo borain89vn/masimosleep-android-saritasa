@@ -4,7 +4,7 @@ apply from: 'keystore/check.gradle'
 apply from: '../config.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
@@ -97,8 +97,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding true
     }
 
     applicationVariants.all { variant ->
@@ -137,6 +137,7 @@ dependencies {
     kapt libraries.daggerCompiler
     implementation libraries.kotlin
     implementation libraries.ktxCore
+    implementation libraries.ktxFragment
     kapt libraries.lifecycleCompiler
     implementation libraries.lifecycleRuntime
     implementation libraries.lifecycleViewModel
@@ -155,6 +156,7 @@ dependencies {
     implementation libraries.rxRelay
     implementation libraries.timber
     implementation libraries.viewPager2
+    implementation libraries.viewBindingDelegate
     implementation libraries.ripplePulse
 
     debugImplementation libraries.flipper

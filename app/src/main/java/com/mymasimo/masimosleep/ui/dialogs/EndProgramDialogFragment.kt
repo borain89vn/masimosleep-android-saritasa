@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentEndProgramDialogBinding
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
-import kotlinx.android.synthetic.main.fragment_end_program_dialog.*
 import javax.inject.Inject
 
-class EndProgramDialogFragment : DialogFragment() {
+class EndProgramDialogFragment : DialogFragment(R.layout.fragment_end_program_dialog) {
+    private val viewBinding by viewBinding(FragmentEndProgramDialogBinding::bind)
 
     @Inject
     lateinit var dialogActionHandler: DialogActionHandler
@@ -31,13 +33,13 @@ class EndProgramDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog_text.text = getString(R.string.end_sleep_checkup_content, NUM_OF_NIGHTS - args.nightNumber)
+        viewBinding.dialogText.text = getString(R.string.end_sleep_checkup_content, NUM_OF_NIGHTS - args.nightNumber)
 
-        cancel_button.setOnClickListener {
+        viewBinding.cancelButton.setOnClickListener {
             dismiss()
         }
 
-        action_button.setOnClickListener {
+        viewBinding.actionButton.setOnClickListener {
             dismiss()
             dialogActionHandler.onEndProgramConfirmationClicked()
         }

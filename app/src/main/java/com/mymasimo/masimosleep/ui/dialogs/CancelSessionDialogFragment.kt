@@ -1,19 +1,19 @@
 package com.mymasimo.masimosleep.ui.dialogs
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentCancelSessionDialogBinding
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
-import kotlinx.android.synthetic.main.fragment_cancel_session_dialog.*
 import javax.inject.Inject
 
 
-class CancelSessionDialogFragment : DialogFragment() {
+class CancelSessionDialogFragment : DialogFragment(R.layout.fragment_cancel_session_dialog) {
+    private val viewBinding by viewBinding(FragmentCancelSessionDialogBinding::bind)
 
     @Inject
     lateinit var dialogActionHandler: DialogActionHandler
@@ -23,21 +23,17 @@ class CancelSessionDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_cancel_session_dialog, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cancel_button.setOnClickListener {
+        viewBinding.actionButton.setOnClickListener {
             dismiss()
         }
 
-        action_button.setOnClickListener {
+        viewBinding.actionButton.setOnClickListener {
             dialogActionHandler.onCancelSessionConfirmationClicked()
             dismiss()
         }
-
     }
 
     override fun onStart() {

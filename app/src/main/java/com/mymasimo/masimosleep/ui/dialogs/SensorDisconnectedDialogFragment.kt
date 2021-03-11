@@ -1,40 +1,39 @@
 package com.mymasimo.masimosleep.ui.dialogs
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentSensorDisconnectedDialogBinding
 import com.mymasimo.masimosleep.service.DeviceException
 import com.mymasimo.masimosleep.service.DeviceExceptionHandler
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_sensor_disconnected_dialog.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class SensorDisconnectedDialogFragment : SelfDismissDialogFragment() {
+class SensorDisconnectedDialogFragment : SelfDismissDialogFragment(R.layout.fragment_sensor_disconnected_dialog) {
+    private val viewBinding by viewBinding(FragmentSensorDisconnectedDialogBinding::bind)
 
-    @Inject lateinit var dialogActionHandler: DialogActionHandler
-    @Inject lateinit var deviceExceptionHandler: DeviceExceptionHandler
+    @Inject
+    lateinit var dialogActionHandler: DialogActionHandler
+    @Inject
+    lateinit var deviceExceptionHandler: DeviceExceptionHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_sensor_disconnected_dialog, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         isCancelable = false
 
-        cancel_button.setOnClickListener {
+        viewBinding.cancelButton.setOnClickListener {
             dialogActionHandler.onEndSleepSessionClicked()
         }
     }
@@ -46,12 +45,12 @@ class SensorDisconnectedDialogFragment : SelfDismissDialogFragment() {
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({
-                           if (!it.contains(DeviceException.SENSOR_OFF_PATIENT)) {
-                               requireParentFragment().requireView().findNavController().popBackStack()
-                           }
-                       }, {
-                           it.printStackTrace()
-                       }).addTo(disposables)
+                if (!it.contains(DeviceException.SENSOR_OFF_PATIENT)) {
+                    requireParentFragment().requireView().findNavController().popBackStack()
+                }
+            }, {
+                it.printStackTrace()
+            }).addTo(disposables)
     }
 
     override fun onPause() {
@@ -62,8 +61,8 @@ class SensorDisconnectedDialogFragment : SelfDismissDialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
         )
     }
 }
