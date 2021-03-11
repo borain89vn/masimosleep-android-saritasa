@@ -1,22 +1,23 @@
 apply from: 'version.gradle'
 apply from: 'artifacts.gradle'
 apply from: 'keystore/check.gradle'
+apply from: '../config.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-apply from: '../config.gradle'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion androidCompileSdkVersion
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion versions.buildToolsVersion
 
     defaultConfig {
         applicationId "com.mymasimo.masimosleep"
-        minSdkVersion androidMinSdkVersion
-        targetSdkVersion androidTargetSdkVersion
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
 
         versionCode MasimoSleepVersionCode
         versionName MasimoSleepVersionName
@@ -114,41 +115,32 @@ dependencies {
     implementation project(':airlib')
 
     // Masimo Libs
-    def masimoCommonVersion = '1.6.11'
-    def masimoAndroidCommonVersion = '1.6.4'
-    def MasimoUIVersion = '1.9.15'
-    def MasimoAndroidLogbackVersion = '1.0.1'
-    def MasimoSleepScoreLibVersion = '0.1.0'
-    implementation("com.masimo:common:$masimoCommonVersion") { transitive = true }
-    debugImplementation("com.masimo.android:common:$masimoAndroidCommonVersion:debug@aar") { transitive = true }
-    releaseImplementation("com.masimo.android:common:$masimoAndroidCommonVersion") { transitive = true }
-    enterpriseImplementation("com.masimo.android:common:$masimoAndroidCommonVersion:debug@aar") { transitive = true }
-    debugImplementation("com.masimo.android:ui:$MasimoUIVersion:debug@aar") { transitive = true }
-    releaseImplementation("com.masimo.android:ui:$MasimoUIVersion") { transitive = true }
-    enterpriseImplementation("com.masimo.android:ui:$MasimoUIVersion") { transitive = true }
-    implementation("com.masimo.android:logback:$MasimoAndroidLogbackVersion") { transitive = true }
-    implementation("com.masimo.android:sleep-score:$MasimoSleepScoreLibVersion") { transitive = true }
+    implementation(libraries.masimoCommon) { transitive = true }
+    debugImplementation(libraries.masimoAndroidCommonDebug) { transitive = true }
+    releaseImplementation(libraries.masimoAndroidCommon) { transitive = true }
+    enterpriseImplementation(libraries.masimoAndroidCommonDebug) { transitive = true }
+    debugImplementation(libraries.masimoUiDebug) { transitive = true }
+    releaseImplementation(libraries.masimoUi) { transitive = true }
+    enterpriseImplementation(libraries.masimoUi) { transitive = true }
+    implementation(libraries.masimoLogback) { transitive = true }
+    implementation(libraries.masimoSleepScore) { transitive = true }
 
     //Firebase Crashlytics
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
-    implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.1'
+    implementation libraries.firebaseAnalytics
+    implementation libraries.firebaseAnalyticsKtx
+    implementation libraries.firebaseCrashlytics
 
     implementation libraries.appCompat
     implementation libraries.circleIndicator
     implementation libraries.constraintLayout
     implementation libraries.dagger
     kapt libraries.daggerCompiler
-    debugImplementation libraries.debugDb
-    enterpriseImplementation libraries.debugDb
     implementation libraries.kotlin
-    implementation libraries.ktx
-    implementation libraries.legacySupportV4
+    implementation libraries.ktxCore
     kapt libraries.lifecycleCompiler
-    implementation libraries.lifecycleExt
     implementation libraries.lifecycleRuntime
     implementation libraries.lifecycleViewModel
-    implementation libraries.lifecycleViewModelKtx
+    implementation libraries.lifecycleProcess
     implementation libraries.material
     implementation libraries.mpAndroidChart
     implementation libraries.navFragmentKtx

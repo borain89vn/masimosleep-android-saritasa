@@ -4,12 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 apply from: '../config.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion versions.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -26,24 +26,18 @@ android {
 }
 
 dependencies {
-    def masimoCommonVersion = '1.6.11'
-    def masimoCommunicationVersion='2.0.0'
-    def masimoAirProtocolVersion='1.0.0'
-    def masimoAndroidCommonVersion = '1.6.4'
-    def MasimoAndroidLogbackVersion = '1.0.1'
-
-    implementation ("com.masimo:common:$masimoCommonVersion") { transitive = true }
-    implementation ("com.masimo:communication:$masimoCommunicationVersion") { transitive = true }
-    implementation ("com.masimo:protocol-air:$masimoAirProtocolVersion") { transitive = true }
-    debugImplementation ("com.masimo.android:common:$masimoAndroidCommonVersion:debug@aar") { transitive = true }
-    releaseImplementation ("com.masimo.android:common:$masimoAndroidCommonVersion") { transitive = true }
-    implementation ("com.masimo.android:logback:$MasimoAndroidLogbackVersion") { transitive = true }
+    implementation (libraries.masimoCommon) { transitive = true }
+    implementation (libraries.masimoCommunication) { transitive = true }
+    implementation (libraries.masimoAirProtocol) { transitive = true }
+    debugImplementation (libraries.masimoAndroidCommonDebug) { transitive = true }
+    releaseImplementation (libraries.masimoAndroidCommon) { transitive = true }
+    implementation (libraries.masimoLogback) { transitive = true }
 
     implementation libraries.rxJava
     implementation libraries.rxAndroid
 
     implementation libraries.kotlin
-    implementation libraries.ktx
+    implementation libraries.ktxCore
     implementation libraries.appCompat
     implementation libraries.annotation
     implementation libraries.slf4j
