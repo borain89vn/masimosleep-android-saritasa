@@ -2,12 +2,11 @@ package com.mymasimo.masimosleep.ui.home.night_picker
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.start_program_button_view.view.*
+import com.mymasimo.masimosleep.databinding.StartProgramButtonViewBinding
 
 class StartProgramButtonView : ConstraintLayout {
 
@@ -27,16 +26,16 @@ class StartProgramButtonView : ConstraintLayout {
         initView()
     }
 
-    private lateinit var view: View
     private lateinit var listener: () -> Unit
+    private val viewBinding by viewBinding(StartProgramButtonViewBinding::bind)
 
     private fun initView() {
-        view = LayoutInflater.from(context).inflate(R.layout.start_program_button_view, this, true)
+        inflate(context, R.layout.start_program_button_view, this)
 
         val screenWidth = resources.displayMetrics.widthPixels
-        view.layoutParams = ViewGroup.LayoutParams(screenWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
+        this.layoutParams = ViewGroup.LayoutParams(screenWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        view.start_program_button.setOnClickListener {
+        viewBinding.startProgramButton.setOnClickListener {
             listener()
         }
     }

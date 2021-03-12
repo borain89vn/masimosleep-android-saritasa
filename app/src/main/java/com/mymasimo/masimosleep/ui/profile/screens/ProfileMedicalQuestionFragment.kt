@@ -1,23 +1,21 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentProfileMedicalQuestionBinding
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
-import kotlinx.android.synthetic.main.fragment_profile_medical_question.*
 
-class ProfileMedicalQuestionFragment : Fragment() {
+class ProfileMedicalQuestionFragment : Fragment(R.layout.fragment_profile_medical_question) {
 
     private val vm: ProfileViewModel by activityViewModels()
+    private val viewBinding by viewBinding(FragmentProfileMedicalQuestionBinding::bind)
 
     companion object {
-        private val TAG = ProfileMedicalQuestionFragment::class.simpleName
-
         private const val CONTENT_KEY = "CONTENT"
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
@@ -46,10 +44,6 @@ class ProfileMedicalQuestionFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile_medical_question, container, false)
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
@@ -57,23 +51,23 @@ class ProfileMedicalQuestionFragment : Fragment() {
 
     private fun loadViewContent() {
         val buttonStrRes = if (isOnBoarding) R.string.next else R.string.save
-        submit_button.text = getString(buttonStrRes)
+        viewBinding.submitButton.text = getString(buttonStrRes)
 
-        this.yes_button.setOnClickListener {
+        viewBinding.yesButton.setOnClickListener {
             clearAll()
-            yes_button.isSelected = !yes_button.isSelected
+            viewBinding.yesButton.isSelected = !viewBinding.yesButton.isSelected
             this.content = true
             updateSubmitButton()
         }
 
-        this.no_button.setOnClickListener {
+        viewBinding.noButton.setOnClickListener {
             clearAll()
-            no_button.isSelected = !no_button.isSelected
+            viewBinding.noButton.isSelected = !viewBinding.noButton.isSelected
             this.content = false
             updateSubmitButton()
         }
 
-        this.submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             this.content?.let { hasCondition ->
                 vm.hasCondition = hasCondition
             }
@@ -85,8 +79,8 @@ class ProfileMedicalQuestionFragment : Fragment() {
     }
 
     private fun clearAll() {
-        yes_button.isSelected = false
-        no_button.isSelected = false
+        viewBinding.yesButton.isSelected = false
+        viewBinding.noButton.isSelected = false
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {
@@ -95,9 +89,9 @@ class ProfileMedicalQuestionFragment : Fragment() {
 
     private fun updateSubmitButton() {
         this.content?.let {
-            submit_button.isEnabled = true
+            viewBinding.submitButton.isEnabled = true
         } ?: run {
-            submit_button.isEnabled = false
+            viewBinding.submitButton.isEnabled = false
         }
     }
 }

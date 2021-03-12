@@ -1,14 +1,13 @@
 package com.mymasimo.masimosleep.ui.session.view_vitals
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.fragment_session_view_vitals.*
+import com.mymasimo.masimosleep.databinding.FragmentSessionViewVitalsBinding
 
-class SessionViewVitalsFragment : Fragment() {
+class SessionViewVitalsFragment : Fragment(R.layout.fragment_session_view_vitals) {
 
     companion object {
         fun newInstance() = SessionViewVitalsFragment()
@@ -16,8 +15,7 @@ class SessionViewVitalsFragment : Fragment() {
 
     private lateinit var onClickListener: () -> Unit
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_session_view_vitals, container, false)
+    private val viewBinding by viewBinding(FragmentSessionViewVitalsBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +28,7 @@ class SessionViewVitalsFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        vitals_button.setOnClickListener {
+        viewBinding.vitalsButton.setOnClickListener {
             onClickListener()
         }
     }

@@ -1,26 +1,24 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
+import com.mymasimo.masimosleep.databinding.FragmentProfileBirthdateBinding
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
-import kotlinx.android.synthetic.main.fragment_profile_birthdate.*
 import java.util.*
 
-class ProfileBirthdateFragment : Fragment() {
+class ProfileBirthdateFragment : Fragment(R.layout.fragment_profile_birthdate) {
 
     private val vm: ProfileViewModel by activityViewModels()
+    private val viewBinding by viewBinding(FragmentProfileBirthdateBinding::bind)
 
     companion object {
-        private val TAG = ProfileBirthdateFragment::class.simpleName
-
         private const val CONTENT_KEY = "CONTENT"
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
@@ -51,9 +49,6 @@ class ProfileBirthdateFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile_birthdate, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
@@ -61,7 +56,7 @@ class ProfileBirthdateFragment : Fragment() {
 
     private fun loadViewContent() {
         val buttonStrRes = if (isOnBoarding) R.string.next else R.string.save
-        submit_button.text = getString(buttonStrRes)
+        viewBinding.submitButton.text = getString(buttonStrRes)
 
         val today = Calendar.getInstance()
         if (!isOnBoarding) {
@@ -69,7 +64,7 @@ class ProfileBirthdateFragment : Fragment() {
             this.selectedDate = today
         }
 
-        this.date_picker.init(
+        viewBinding.datePicker.init(
             today.get(Calendar.YEAR),
             today.get(Calendar.MONTH),
             today.get(Calendar.DAY_OF_MONTH),
@@ -81,7 +76,7 @@ class ProfileBirthdateFragment : Fragment() {
 
         updateSubmitButton()
 
-        this.submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             this.selectedDate?.let { birthdate ->
                 vm.birthdate.value = birthdate
                 MasimoSleepPreferences.birthdate = birthdate.timeInMillis
@@ -110,9 +105,9 @@ class ProfileBirthdateFragment : Fragment() {
     private fun updateSubmitButton() {
         this.selectedDate?.let {
             val today = Calendar.getInstance()
-            submit_button.isEnabled = today.time.after(it.time)
+            viewBinding.submitButton.isEnabled = today.time.after(it.time)
         } ?: run {
-            submit_button.isEnabled = false
+            viewBinding.submitButton.isEnabled = false
         }
     }
 }

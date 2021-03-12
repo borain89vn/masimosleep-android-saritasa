@@ -1,37 +1,38 @@
 package com.mymasimo.masimosleep.ui.settings.sensor
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentSettingsSensorBinding
 import com.mymasimo.masimosleep.service.BLEConnectionState
 import com.mymasimo.masimosleep.service.State
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_settings_sensor.*
 import javax.inject.Inject
 
 
-class SettingsSensorFragment : Fragment() {
+class SettingsSensorFragment : Fragment(R.layout.fragment_settings_sensor) {
 
     @Inject
     lateinit var bleConnectionState: BLEConnectionState
+
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var disposables: CompositeDisposable
+
+    private val viewBinding by viewBinding(FragmentSettingsSensorBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_settings_sensor, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,9 +76,9 @@ class SettingsSensorFragment : Fragment() {
             }
         }
 
-        status_dot.background = resources.getDrawable(dotColorId, null)
-        status_text.text = getString(statusTextId)
-        status_desc_text.text = getString(statusDescId)
+        viewBinding.statusDot.background = ResourcesCompat.getDrawable(resources, dotColorId, null)
+        viewBinding.statusText.text = getString(statusTextId)
+        viewBinding.statusDescText.text = getString(statusDescId)
     }
 
     companion object {

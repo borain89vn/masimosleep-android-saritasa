@@ -1,19 +1,15 @@
 package com.mymasimo.masimosleep.ui.session.sleep_quality_description
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.fragment_sleep_quality_description.*
+import com.mymasimo.masimosleep.databinding.FragmentSleepQualityDescriptionBinding
 
-
-class SleepQualityDescriptionFragment : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_sleep_quality_description, container, false)
+class SleepQualityDescriptionFragment : Fragment(R.layout.fragment_sleep_quality_description) {
+    private val viewBinding by viewBinding(FragmentSleepQualityDescriptionBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -21,7 +17,7 @@ class SleepQualityDescriptionFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        close_button.setOnClickListener {
+        viewBinding.closeButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
     }

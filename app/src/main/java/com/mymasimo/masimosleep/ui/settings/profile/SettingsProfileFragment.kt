@@ -1,25 +1,22 @@
 package com.mymasimo.masimosleep.ui.settings.profile
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
+import com.mymasimo.masimosleep.databinding.FragmentSettingsProfileBinding
 import com.mymasimo.masimosleep.model.SleepCondition
 import com.mymasimo.masimosleep.ui.settings.SettingsFragmentDirections
 import com.mymasimo.masimosleep.ui.settings.profile.container.ProfileFieldType
-import kotlinx.android.synthetic.main.fragment_settings_profile.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SettingsProfileFragment : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_settings_profile, container, false)
+class SettingsProfileFragment : Fragment(R.layout.fragment_settings_profile) {
+    private val viewBinding by viewBinding(FragmentSettingsProfileBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,8 +25,8 @@ class SettingsProfileFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        name_button.text = MasimoSleepPreferences.name
-        condition_button.text = generateConditionsString()
+        viewBinding.nameButton.text = MasimoSleepPreferences.name
+        viewBinding.conditionButton.text = generateConditionsString()
 
         val gender = MasimoSleepPreferences.gender
         var genderString = "Other"
@@ -41,12 +38,12 @@ class SettingsProfileFragment : Fragment() {
             genderString = getString(R.string.gender_other)
         }
 
-        gender_button.text = genderString
+        viewBinding.genderButton.text = genderString
 
         val dateFormatter = SimpleDateFormat("MMM d, yyyy")
 
         val dateString = dateFormatter.format(Date(MasimoSleepPreferences.birthdate))
-        birthdate_button.text = dateString
+        viewBinding.birthdateButton.text = dateString
         Timber.d("Birthdate: %s", MasimoSleepPreferences.birthdate.toString())
 
         var adjustedHour = MasimoSleepPreferences.timeHour
@@ -58,7 +55,7 @@ class SettingsProfileFragment : Fragment() {
         }
 
         if (adjustedHour > 12) {
-            adjustedHour = adjustedHour - 12
+            adjustedHour -= 12
         } else if (adjustedHour == 0) {
             adjustedHour = 12
         }
@@ -68,7 +65,7 @@ class SettingsProfileFragment : Fragment() {
             minuteString = "0$minuteString"
         }
 
-        bedtime_button.text = "$adjustedHour:$minuteString $amPm"
+        viewBinding.bedtimeButton.text = "$adjustedHour:$minuteString $amPm"
 
         val reminderTime = MasimoSleepPreferences.reminderTime
         var reminderString = "No Reminder"
@@ -84,21 +81,19 @@ class SettingsProfileFragment : Fragment() {
             reminderString = "At bedtime"
         }
 
-        reminder_button.text = reminderString
-
+        viewBinding.reminderButton.text = reminderString
     }
 
     private fun generateConditionsString(): String {
         var result = "None"
 
-        val conditionList = MasimoSleepPreferences.conditionList ?: listOf<String>()
+        val conditionList = MasimoSleepPreferences.conditionList ?: listOf()
 
         if (conditionList.count() > 0) {
             result = ""
         }
 
         for (i in 0 until conditionList.count()) {
-
             val condition = conditionList[i]
 
             var conditionString = ""
@@ -109,19 +104,18 @@ class SettingsProfileFragment : Fragment() {
                 SleepCondition.CONDITION_4.name -> conditionString = getString(SleepCondition.CONDITION_4.resID)
             }
 
-            result = result + conditionString
+            result += conditionString
 
             if (i < conditionList.count() - 1) {
-                result = result + ", "
+                result = "$result, "
             }
-
         }
 
         return result
     }
 
     private fun setupButtons() {
-        name_button.setOnClickListener {
+        viewBinding.nameButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
                     ProfileFieldType.NAME
@@ -129,7 +123,7 @@ class SettingsProfileFragment : Fragment() {
             )
         }
 
-        condition_button.setOnClickListener {
+        viewBinding.conditionButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
                     ProfileFieldType.CONDITIONS
@@ -137,7 +131,7 @@ class SettingsProfileFragment : Fragment() {
             )
         }
 
-        gender_button.setOnClickListener {
+        viewBinding.genderButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
                     ProfileFieldType.GENDER
@@ -145,7 +139,7 @@ class SettingsProfileFragment : Fragment() {
             )
         }
 
-        birthdate_button.setOnClickListener {
+        viewBinding.birthdateButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
                     ProfileFieldType.BIRTHDATE
@@ -153,7 +147,7 @@ class SettingsProfileFragment : Fragment() {
             )
         }
 
-        bedtime_button.setOnClickListener {
+        viewBinding.bedtimeButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
                     ProfileFieldType.BEDTIME
@@ -161,7 +155,7 @@ class SettingsProfileFragment : Fragment() {
             )
         }
 
-        reminder_button.setOnClickListener {
+        viewBinding.reminderButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsProfileContainerFragment(
                     ProfileFieldType.REMINDER

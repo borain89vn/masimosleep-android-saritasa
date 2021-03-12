@@ -1,21 +1,23 @@
 package com.mymasimo.masimosleep.ui.program_report.nightly_scores
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.night_score_button_view.view.*
-
+import com.mymasimo.masimosleep.databinding.NightScoreButtonViewBinding
 
 class NightScoreButtonView(context: Context, night: Int, score: Int, state: NightScoreButtonState) : ConstraintLayout(context) {
 
-    val view: View = LayoutInflater.from(context).inflate(R.layout.night_score_button_view, this, true)
     private val state: NightScoreButtonState
     private lateinit var listener: () -> Unit
+    private val viewBinding by viewBinding(NightScoreButtonViewBinding::bind)
 
     init {
+        inflate(context, R.layout.night_score_button_view, this)
+
         val screenWidth = resources.displayMetrics.widthPixels
         val density = resources.displayMetrics.density
         val buttonsPerRow = 5
@@ -23,33 +25,30 @@ class NightScoreButtonView(context: Context, night: Int, score: Int, state: Nigh
 
         val params = LayoutParams(availableWidth.toInt() / buttonsPerRow, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.setMargins(2 * density.toInt(), 0, 2 * density.toInt(), 0)
-        this.view.layoutParams = params
-
-
+        this.layoutParams = params
         this.state = state
 
         if (state == NightScoreButtonState.FUTURE) {
+            viewBinding.nightButton.isEnabled = false
+            viewBinding.nightButton.setPadding(0, 0, 0, 0)
 
-            night_button.isEnabled = false
-            night_button.setPadding(0, 0, 0, 0)
-
-            dot_view.visibility = View.GONE
-            number_text.visibility = View.GONE
+            viewBinding.dotView.visibility = View.GONE
+            viewBinding.numberText.visibility = View.GONE
 
         } else if (state == NightScoreButtonState.PAST) {
-            night_button.isEnabled = true
-            night_button.setPadding(0, 0, 0, 24 * density.toInt())
+            viewBinding.nightButton.isEnabled = true
+            viewBinding.nightButton.setPadding(0, 0, 0, 24 * density.toInt())
 
-            dot_view.visibility = View.VISIBLE
-            number_text.visibility = View.VISIBLE
+            viewBinding.dotView.visibility = View.VISIBLE
+            viewBinding.numberText.visibility = View.VISIBLE
 
-            night_button.setOnClickListener {
+            viewBinding.nightButton.setOnClickListener {
                 this.listener()
             }
         }
 
-        night_button.text = resources.getString(R.string.night_label_btn, night)
-        number_text.text = "$score"
+        viewBinding.nightButton.text = resources.getString(R.string.night_label_btn, night)
+        viewBinding.numberText.text = "$score"
 
         val redUpper = resources.getInteger(R.integer.red_upper)
         val yellowUpper = resources.getInteger(R.integer.yellow_upper)
@@ -60,11 +59,9 @@ class NightScoreButtonView(context: Context, night: Int, score: Int, state: Nigh
             else -> R.drawable.red_dot
         }
 
-        dot_view.background = resources.getDrawable(dotColorID, null)
+        viewBinding.dotView.background = ResourcesCompat.getDrawable(resources, dotColorID, null)
 
-        //automation
-        this.view.contentDescription = "$night"
-
+        this.contentDescription = "$night"
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {

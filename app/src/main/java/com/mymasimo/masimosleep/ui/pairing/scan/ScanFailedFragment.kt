@@ -1,27 +1,23 @@
 package com.mymasimo.masimosleep.ui.pairing.scan
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.fragment_scan_failed.*
+import com.mymasimo.masimosleep.databinding.FragmentScanFailedBinding
 
-class ScanFailedFragment : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_scan_failed, container, false)
+class ScanFailedFragment : Fragment(R.layout.fragment_scan_failed) {
+    private val viewBinding by viewBinding(FragmentScanFailedBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cancel_button.setOnClickListener {
-
+        viewBinding.cancelButton.setOnClickListener {
             dismiss()
         }
 
-        try_again_button.setOnClickListener {
+        viewBinding.tryAgainButton.setOnClickListener {
             tryAgainPressed()
         }
     }

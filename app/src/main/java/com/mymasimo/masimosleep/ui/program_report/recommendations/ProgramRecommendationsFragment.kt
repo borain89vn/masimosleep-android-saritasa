@@ -1,27 +1,27 @@
 package com.mymasimo.masimosleep.ui.program_report.recommendations
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentProgramRecommendationsBinding
 import com.mymasimo.masimosleep.ui.night_report.recommendations.util.Recommendation
 import com.mymasimo.masimosleep.ui.program_report.ProgramReportFragmentDirections
-import kotlinx.android.synthetic.main.fragment_program_recommendations.*
 import javax.inject.Inject
 
-class ProgramRecommendationsFragment : Fragment() {
+class ProgramRecommendationsFragment : Fragment(R.layout.fragment_program_recommendations) {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ProgramRecommendationsViewModel by viewModels { vmFactory }
+    private val viewBinding by viewBinding(FragmentProgramRecommendationsBinding::bind)
 
     private var programId: Long = -1
 
@@ -31,14 +31,6 @@ class ProgramRecommendationsFragment : Fragment() {
 
         programId = requireArguments().getLong(KEY_PROGRAM_ID)
         vm.onCreated(programId)
-    }
-
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_program_recommendations, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,67 +44,66 @@ class ProgramRecommendationsFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        coffee_button.setOnClickListener {
+        viewBinding.coffeeButton.setOnClickListener {
             requireView().findNavController().navigate(
-                    ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
-                            Recommendation.NO_CAFFEINE
-                    )
+                ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
+                    Recommendation.NO_CAFFEINE
+                )
             )
         }
 
-        snore_button.setOnClickListener {
+        viewBinding.snoreButton.setOnClickListener {
             requireView().findNavController().navigate(
-                    ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
-                            Recommendation.SLEEP_SIDEWAYS
-                    )
+                ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
+                    Recommendation.SLEEP_SIDEWAYS
+                )
             )
         }
 
-        beer_button.setOnClickListener {
+        viewBinding.beerButton.setOnClickListener {
             requireView().findNavController().navigate(
-                    ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
-                            Recommendation.NO_ALCOHOL
-                    )
+                ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
+                    Recommendation.NO_ALCOHOL
+                )
             )
         }
 
-        exercise_button.setOnClickListener {
+        viewBinding.exerciseButton.setOnClickListener {
             requireView().findNavController().navigate(
-                    ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
-                            Recommendation.EXERCISE
-                    )
+                ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
+                    Recommendation.EXERCISE
+                )
             )
         }
 
-        meds_button.setOnClickListener {
+        viewBinding.medsButton.setOnClickListener {
             requireView().findNavController().navigate(
-                    ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
-                            Recommendation.SLEEP_AID
-                    )
+                ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
+                    Recommendation.SLEEP_AID
+                )
             )
         }
 
-        maintain_button.setOnClickListener {
+        viewBinding.maintainButton.setOnClickListener {
             requireView().findNavController().navigate(
-                    ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
-                            Recommendation.SLEEP_HOURS
-                    )
+                ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
+                    Recommendation.SLEEP_HOURS
+                )
             )
         }
     }
 
     fun updateUI(recommendations: Set<Recommendation>) {
-        coffee_tray.isVisible = recommendations.any { it == Recommendation.NO_CAFFEINE }
-        snore_tray.isVisible = recommendations.any { it == Recommendation.SLEEP_SIDEWAYS }
-        beer_tray.isVisible = recommendations.any { it == Recommendation.NO_ALCOHOL }
-        exercise_tray.isVisible = recommendations.any { it == Recommendation.EXERCISE }
-        meds_tray.isVisible = recommendations.any { it == Recommendation.SLEEP_AID }
-        more_sleep_tray.isVisible = recommendations.any { it == Recommendation.SLEEP_HOURS }
-        maintain_tray.isVisible = recommendations.any { it == Recommendation.MAINTAIN_HEALTHY_LIFESTYLE }
+        viewBinding.coffeeTray.isVisible = recommendations.any { it == Recommendation.NO_CAFFEINE }
+        viewBinding.snoreTray.isVisible = recommendations.any { it == Recommendation.SLEEP_SIDEWAYS }
+        viewBinding.beerTray.isVisible = recommendations.any { it == Recommendation.NO_ALCOHOL }
+        viewBinding.exerciseTray.isVisible = recommendations.any { it == Recommendation.EXERCISE }
+        viewBinding.medsTray.isVisible = recommendations.any { it == Recommendation.SLEEP_AID }
+        viewBinding.moreSleepTray.isVisible = recommendations.any { it == Recommendation.SLEEP_HOURS }
+        viewBinding.maintainTray.isVisible = recommendations.any { it == Recommendation.MAINTAIN_HEALTHY_LIFESTYLE }
     }
 
     companion object {
-
         private const val KEY_PROGRAM_ID = "PROGRAM_ID"
 
         fun newInstance(programId: Long) = ProgramRecommendationsFragment().apply {

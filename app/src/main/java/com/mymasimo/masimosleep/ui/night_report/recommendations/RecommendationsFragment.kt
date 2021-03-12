@@ -1,40 +1,32 @@
 package com.mymasimo.masimosleep.ui.night_report.recommendations
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentRecommendationsBinding
 import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
 import com.mymasimo.masimosleep.ui.night_report.recommendations.util.Recommendation
-import kotlinx.android.synthetic.main.fragment_recommendations.*
 import javax.inject.Inject
 
-class RecommendationsFragment : Fragment() {
+class RecommendationsFragment : Fragment(R.layout.fragment_recommendations) {
 
     @Inject lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: RecommendationsViewModel by viewModels { vmFactory }
+    private val viewBinding by viewBinding(FragmentRecommendationsBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
 
         vm.onCreated(requireArguments().getLong(SESSION_ID_KEY))
-    }
-
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_recommendations, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +41,7 @@ class RecommendationsFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        coffee_button.setOnClickListener {
+        viewBinding.coffeeButton.setOnClickListener {
             requireView().findNavController().navigate(
                     NightReportFragmentDirections.actionNightReportFragmentToRecommendationDetailFragment(
                             Recommendation.NO_CAFFEINE
@@ -57,7 +49,7 @@ class RecommendationsFragment : Fragment() {
             )
         }
 
-        snore_button.setOnClickListener {
+        viewBinding.snoreButton.setOnClickListener {
             requireView().findNavController().navigate(
                     NightReportFragmentDirections.actionNightReportFragmentToRecommendationDetailFragment(
                             Recommendation.SLEEP_SIDEWAYS
@@ -65,7 +57,7 @@ class RecommendationsFragment : Fragment() {
             )
         }
 
-        beer_button.setOnClickListener {
+        viewBinding.beerButton.setOnClickListener {
             requireView().findNavController().navigate(
                     NightReportFragmentDirections.actionNightReportFragmentToRecommendationDetailFragment(
                             Recommendation.NO_ALCOHOL
@@ -73,7 +65,7 @@ class RecommendationsFragment : Fragment() {
             )
         }
 
-        exercise_button.setOnClickListener {
+        viewBinding.exerciseButton.setOnClickListener {
             requireView().findNavController().navigate(
                     NightReportFragmentDirections.actionNightReportFragmentToRecommendationDetailFragment(
                             Recommendation.EXERCISE
@@ -81,7 +73,7 @@ class RecommendationsFragment : Fragment() {
             )
         }
 
-        meds_button.setOnClickListener {
+        viewBinding.medsButton.setOnClickListener {
             requireView().findNavController().navigate(
                     NightReportFragmentDirections.actionNightReportFragmentToRecommendationDetailFragment(
                             Recommendation.SLEEP_AID
@@ -89,7 +81,7 @@ class RecommendationsFragment : Fragment() {
             )
         }
 
-        more_sleep_button.setOnClickListener {
+        viewBinding.moreSleepButton.setOnClickListener {
             requireView().findNavController().navigate(
                     NightReportFragmentDirections.actionNightReportFragmentToRecommendationDetailFragment(
                             Recommendation.SLEEP_HOURS
@@ -97,7 +89,7 @@ class RecommendationsFragment : Fragment() {
             )
         }
 
-        maintain_button.setOnClickListener {
+        viewBinding.maintainButton.setOnClickListener {
             requireView().findNavController().navigate(
                     NightReportFragmentDirections.actionNightReportFragmentToRecommendationDetailFragment(
                             Recommendation.MAINTAIN_HEALTHY_LIFESTYLE
@@ -107,13 +99,13 @@ class RecommendationsFragment : Fragment() {
     }
 
     fun updateUI(recommendations: Set<Recommendation>) {
-        coffee_tray.isVisible = recommendations.any { it == Recommendation.NO_CAFFEINE }
-        snore_tray.isVisible = recommendations.any { it == Recommendation.SLEEP_SIDEWAYS }
-        beer_tray.isVisible = recommendations.any { it == Recommendation.NO_ALCOHOL }
-        exercise_tray.isVisible = recommendations.any { it == Recommendation.EXERCISE }
-        meds_tray.isVisible = recommendations.any { it == Recommendation.SLEEP_AID }
-        more_sleep_tray.isVisible = recommendations.any { it == Recommendation.SLEEP_HOURS }
-        maintain_tray.isVisible = recommendations.any { it == Recommendation.MAINTAIN_HEALTHY_LIFESTYLE }
+        viewBinding.coffeeTray.isVisible = recommendations.any { it == Recommendation.NO_CAFFEINE }
+        viewBinding.snoreTray.isVisible = recommendations.any { it == Recommendation.SLEEP_SIDEWAYS }
+        viewBinding.beerTray.isVisible = recommendations.any { it == Recommendation.NO_ALCOHOL }
+        viewBinding.exerciseTray.isVisible = recommendations.any { it == Recommendation.EXERCISE }
+        viewBinding.medsTray.isVisible = recommendations.any { it == Recommendation.SLEEP_AID }
+        viewBinding.moreSleepTray.isVisible = recommendations.any { it == Recommendation.SLEEP_HOURS }
+        viewBinding.maintainTray.isVisible = recommendations.any { it == Recommendation.MAINTAIN_HEALTHY_LIFESTYLE }
     }
 
     companion object {

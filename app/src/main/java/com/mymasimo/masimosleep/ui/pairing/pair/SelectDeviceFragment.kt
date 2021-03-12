@@ -1,15 +1,13 @@
 package com.mymasimo.masimosleep.ui.pairing.pair
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
@@ -22,17 +20,19 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
-class SelectDeviceFragment : Fragment() {
+class SelectDeviceFragment : Fragment(R.layout.fragment_select_device) {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
+
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var disposables: CompositeDisposable
 
     private val vm: PairingViewModel by activityViewModels { vmFactory }
-    private lateinit var bindings: FragmentSelectDeviceBinding
+    private val viewBinding by viewBinding(FragmentSelectDeviceBinding::bind)
 
     private val moduleAdapter =
         ModuleAdapter(
@@ -45,24 +45,15 @@ class SelectDeviceFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        bindings = FragmentSelectDeviceBinding.inflate(inflater, container, false)
-        return bindings.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindings.recyclerView.apply {
+        viewBinding.recyclerView.apply {
             adapter = moduleAdapter
             layoutManager = LinearLayoutManager(context)
         }
 
-        bindings.cancelButton.setOnClickListener {
+        viewBinding.cancelButton.setOnClickListener {
             requireView().findNavController().navigate(R.id.action_selectDeviceFragment_to_scanFailedFragment)
         }
 

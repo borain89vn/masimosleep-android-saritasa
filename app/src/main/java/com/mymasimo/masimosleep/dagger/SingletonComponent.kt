@@ -50,6 +50,7 @@ import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFr
 import com.mymasimo.masimosleep.ui.settings.device.SettingsDeviceFragment
 import com.mymasimo.masimosleep.ui.settings.sensor.SettingsSensorFragment
 import com.mymasimo.masimosleep.ui.waking.survey.SurveyFragment
+import com.mymasimo.masimosleep.ui.welcome.SplashFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -61,6 +62,7 @@ import javax.inject.Singleton
     ViewModelModule::class
 ])
 interface SingletonComponent {
+    fun inject(target: SplashFragment)
     fun inject(target: MasimoBootReceiver)
     fun inject(target: MasimoSleepApp)
     fun inject(target: SelectDeviceFragment)
@@ -117,6 +119,4 @@ interface SingletonComponent {
     fun inject(target: SettingsDeviceFragment)
     fun inject(target: SessionTerminatedFragment)
     fun inject(target: SelfDismissDialogFragment)
-
-
 }

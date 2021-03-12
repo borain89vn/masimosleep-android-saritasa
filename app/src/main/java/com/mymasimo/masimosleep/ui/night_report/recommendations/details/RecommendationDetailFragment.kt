@@ -1,25 +1,23 @@
 package com.mymasimo.masimosleep.ui.night_report.recommendations.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentRecommendationDetailBinding
 import com.mymasimo.masimosleep.ui.night_report.recommendations.util.Recommendation
-import kotlinx.android.synthetic.main.fragment_recommendation_detail.*
 
-class RecommendationDetailFragment : Fragment() {
+class RecommendationDetailFragment : Fragment(R.layout.fragment_recommendation_detail) {
     val args: RecommendationDetailFragmentArgs by navArgs()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_recommendation_detail, container, false)
+    private val viewBinding by viewBinding(FragmentRecommendationDetailBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        close_button.setOnClickListener {
+        viewBinding.closeButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
 
@@ -27,7 +25,6 @@ class RecommendationDetailFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-
         var titleID: Int = R.string.reco_coffee_title
         var subtitleID: Int = R.string.reco_coffee_subtitle
         var bodyID: Int = R.string.reco_coffee_body
@@ -78,9 +75,9 @@ class RecommendationDetailFragment : Fragment() {
             }
         }
 
-        rec_title.text = resources.getString(titleID)
-        rec_sub_title.text = resources.getString(subtitleID)
-        rec_body.text = resources.getString(bodyID)
-        reco_image.setImageDrawable(resources.getDrawable(imageID, null))
+        viewBinding.recTitle.text = resources.getString(titleID)
+        viewBinding.recSubTitle.text = resources.getString(subtitleID)
+        viewBinding.recBody.text = resources.getString(bodyID)
+        viewBinding.recoImage.setImageDrawable(ResourcesCompat.getDrawable(resources, imageID, null))
     }
 }

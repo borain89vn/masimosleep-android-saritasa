@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -17,31 +15,42 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.repository.SessionTerminatedRepository
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
+import com.mymasimo.masimosleep.databinding.FragmentHomeBinding
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
 import com.mymasimo.masimosleep.ui.dialogs.SessionTerminatedFragmentArgs
 import com.mymasimo.masimosleep.ui.session.SessionFragmentArgs
 import com.mymasimo.masimosleep.util.navigateSafe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    @Inject lateinit var sleepSessionScoreManager: SleepSessionScoreManager
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
-    @Inject lateinit var sessionTerminatedRepository: SessionTerminatedRepository
+    @Inject
+    lateinit var sleepSessionScoreManager: SleepSessionScoreManager
+
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+
+    @Inject
+    lateinit var disposables: CompositeDisposable
+
+    @Inject
+    lateinit var sessionTerminatedRepository: SessionTerminatedRepository
 
     private val vm: HomeViewModel by activityViewModels { vmFactory }
     private val args: HomeFragmentArgs by navArgs()
+    private val viewBinding by viewBinding(FragmentHomeBinding::bind)
 
     private var defaultSessionIdToOpen = -1L
 
@@ -50,7 +59,7 @@ class HomeFragment : Fragment() {
         defaultSessionIdToOpen = -1L
 
         when (configuration) {
-            HomeViewModel.SessionConfiguration.Today      -> {
+            HomeViewModel.SessionConfiguration.Today -> {
                 if (!sleepSessionScoreManager.isSessionInProgress)
                     showTodayConfiguration()
             }
@@ -66,14 +75,6 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         defaultSessionIdToOpen = args.defaultSessionId
-    }
-
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onPause() {
@@ -95,16 +96,14 @@ class HomeFragment : Fragment() {
 
         vm.onViewCreated()
 
-
         drawCircleBG()
 
-        settings_button.setOnClickListener {
-
+        viewBinding.settingsButton.setOnClickListener {
             requireView().findNavController().navigateSafe(R.id.action_homeFragment_to_settingsFragment)
 
         }
 
-        calendar_button.setOnClickListener {
+        viewBinding.calendarButton.setOnClickListener {
             requireView().findNavController().navigateSafe(R.id.action_homeFragment_to_programHistoryFragment)
         }
 
@@ -116,24 +115,23 @@ class HomeFragment : Fragment() {
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe(
-                    {
-                        if (it.cause == SessionTerminatedCause.NONE) {
-                            Timber.d("Session Ended by user")
-                        } else {
-                            requireView().findNavController().navigate(R.id.sessionTerminatedFragment, SessionTerminatedFragmentArgs(it).toBundle())
-                        }
-                    },
-                    {
-                        Timber.d("No Session terminated")
-                    }).addTo(disposables)
+                {
+                    if (it.cause == SessionTerminatedCause.NONE) {
+                        Timber.d("Session Ended by user")
+                    } else {
+                        requireView().findNavController().navigate(R.id.sessionTerminatedFragment, SessionTerminatedFragmentArgs(it).toBundle())
+                    }
+                },
+                {
+                    Timber.d("No Session terminated")
+                }).addTo(disposables)
 
         vm.sessionConfiguration.observe(viewLifecycleOwner, sessionConfigurationObserver)
 
         vm.sessionEnded
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe { (sessionId, currentNight) ->
-            }
+            .subscribe { (sessionId, currentNight) -> }
             .addTo(disposables)
 
         vm.sessionCanceled
@@ -147,18 +145,20 @@ class HomeFragment : Fragment() {
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({ sessionEntity ->
-                           requireView().findNavController().navigate(R.id.sessionFragment,
-                                                                      SessionFragmentArgs(sessionEntity.startAt, sessionEntity.nightNumber).toBundle(),
-                                                                      NavOptions.Builder()
-                                                                          .setEnterAnim(R.anim.slide_in_right)
-                                                                          .setLaunchSingleTop(true)
-                                                                          .setPopEnterAnim(R.anim.slide_in_left)
-                                                                          .setPopExitAnim(R.anim.slide_out_right)
-                                                                          .setPopUpTo(R.id.homeFragment, true)
-                                                                          .build())
-                       }, {
-                           it.printStackTrace()
-                       })
+                requireView().findNavController().navigate(
+                    R.id.sessionFragment,
+                    SessionFragmentArgs(sessionEntity.startAt, sessionEntity.nightNumber).toBundle(),
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_right)
+                        .setLaunchSingleTop(true)
+                        .setPopEnterAnim(R.anim.slide_in_left)
+                        .setPopExitAnim(R.anim.slide_out_right)
+                        .setPopUpTo(R.id.homeFragment, true)
+                        .build()
+                )
+            }, {
+                it.printStackTrace()
+            })
             .addTo(disposables)
     }
 
@@ -167,31 +167,29 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
     }
 
-    fun drawCircleBG() {
-
+    private fun drawCircleBG() {
         val screenWidth = resources.displayMetrics.widthPixels
         val screenHeight = resources.displayMetrics.heightPixels
         val density = resources.displayMetrics.density
 
         val bitmap: Bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888)
-        val canvas: Canvas = Canvas(bitmap)
+        val canvas = Canvas(bitmap)
 
         val paint = Paint()
-        paint.setColor(Color.parseColor("#f7fafb"))
+        paint.color = Color.parseColor("#f7fafb")
         paint.isAntiAlias = true
         paint.isDither = true
 
-        val nightPickerHeight = (164 * density).toFloat()
+        val nightPickerHeight = (164 * density)
         val yOffset: Float = nightPickerHeight
 
-        val center_x = (screenWidth / 2).toFloat()
-        val center_y = (screenHeight / 2).toFloat() + yOffset
+        val centerX = (screenWidth / 2).toFloat()
+        val centerY = (screenHeight / 2).toFloat() + yOffset
         val radius = ((screenHeight) / 2).toFloat()
 
-        canvas.drawCircle(center_x, center_y, radius, paint)
+        canvas.drawCircle(centerX, centerY, radius, paint)
 
-        circle_bg.background = BitmapDrawable(resources, bitmap)
-
+        viewBinding.circleBg.background = BitmapDrawable(resources, bitmap)
     }
 
     private fun showTodayConfiguration() {
@@ -199,16 +197,14 @@ class HomeFragment : Fragment() {
         addFragment(StartButtonFragment.newInstance(), START_SESSION_FRAGMENT_TAG)
     }
 
-    private fun showSummaryConfiguration(
-            configuration: HomeViewModel.SessionConfiguration.Summary
-    ) {
+    private fun showSummaryConfiguration(configuration: HomeViewModel.SessionConfiguration.Summary) {
         removeAllFragments()
         addFragment(
-                NightSummaryFragment.newInstance(
-                        configuration.sessionId,
-                        configuration.nightNumber
-                ),
-                SESSION_SUMMARY_FRAGMENT_TAG
+            NightSummaryFragment.newInstance(
+                configuration.sessionId,
+                configuration.nightNumber
+            ),
+            SESSION_SUMMARY_FRAGMENT_TAG
         )
     }
 
@@ -233,9 +229,8 @@ class HomeFragment : Fragment() {
         private const val SESSION_SUMMARY_FRAGMENT_TAG = "SESSION_SUMMARY"
 
         private val ALL_FRAGMENT_TAGS = listOf(
-                START_SESSION_FRAGMENT_TAG,
-                SESSION_SUMMARY_FRAGMENT_TAG
+            START_SESSION_FRAGMENT_TAG,
+            SESSION_SUMMARY_FRAGMENT_TAG
         )
     }
-
 }

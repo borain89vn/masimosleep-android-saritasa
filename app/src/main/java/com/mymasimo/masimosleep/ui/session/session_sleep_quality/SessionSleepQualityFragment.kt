@@ -1,20 +1,19 @@
 package com.mymasimo.masimosleep.ui.session.session_sleep_quality
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
-import kotlinx.android.synthetic.main.fragment_session_sleep_quality.*
+import com.mymasimo.masimosleep.databinding.FragmentSessionSleepQualityBinding
 import javax.inject.Inject
 
-class SessionSleepQualityFragment : Fragment() {
+class SessionSleepQualityFragment : Fragment(R.layout.fragment_session_sleep_quality) {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
@@ -25,6 +24,7 @@ class SessionSleepQualityFragment : Fragment() {
     private var startTimeMillis: Long = 0
 
     private val vm: SessionSleepQualityViewModel by viewModels { vmFactory }
+    private val viewBinding by viewBinding(FragmentSessionSleepQualityBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -33,9 +33,6 @@ class SessionSleepQualityFragment : Fragment() {
         startTimeMillis = requireArguments().getLong(KEY_SESSION_START_AT)
         vm.onCreate(startTimeMillis)
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_session_sleep_quality, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,13 +45,13 @@ class SessionSleepQualityFragment : Fragment() {
 
     private fun loadViewContent() {
         if (previousScore == null) {
-            trend_image.visibility = View.INVISIBLE
+            viewBinding.trendImage.visibility = View.INVISIBLE
         }
     }
 
     private fun updateScore(score: Double) {
         val scoreInt = (score * 100).toInt()
-        lbl_score_text.text = scoreInt.toString()
+        viewBinding.lblScoreText.text = scoreInt.toString()
 
         if (previousScore == null) {
             previousScore = scoreInt
@@ -67,10 +64,10 @@ class SessionSleepQualityFragment : Fragment() {
         }
 
         if (scoreInt == previousScore!!) {
-            trend_image.visibility = View.INVISIBLE
+            viewBinding.trendImage.visibility = View.INVISIBLE
         } else {
-            trend_image.visibility = View.VISIBLE
-            trend_image.setImageDrawable(resources.getDrawable(trend, null))
+            viewBinding.trendImage.visibility = View.VISIBLE
+            viewBinding.trendImage.setImageDrawable(ResourcesCompat.getDrawable(resources, trend, null))
         }
 
         this.previousScore = scoreInt
@@ -79,34 +76,34 @@ class SessionSleepQualityFragment : Fragment() {
         var face = R.drawable.face_red
         var qualityLevel = R.string.sq_redLabel
 
-        score_progress.setFirstBarColor(R.color.sq_redOff)
-        score_progress.setSecondBarColor(R.color.sq_yellowOff)
-        score_progress.setThirdBarColor(R.color.sq_greenOff)
+        viewBinding.scoreProgress.setFirstBarColor(R.color.sq_redOff)
+        viewBinding.scoreProgress.setSecondBarColor(R.color.sq_yellowOff)
+        viewBinding.scoreProgress.setThirdBarColor(R.color.sq_greenOff)
 
         when {
-            scoreInt <= resources.getInteger(R.integer.red_upper)    -> {
-                score_progress.setFirstBarColor(R.color.sq_redOn)
+            scoreInt <= resources.getInteger(R.integer.red_upper) -> {
+                viewBinding.scoreProgress.setFirstBarColor(R.color.sq_redOn)
             }
             scoreInt <= resources.getInteger(R.integer.yellow_upper) -> {
-                score_progress.setSecondBarColor(R.color.sq_yellowOn)
+                viewBinding.scoreProgress.setSecondBarColor(R.color.sq_yellowOn)
                 triangle = R.drawable.triangle_yellow
                 face = R.drawable.face_yellow
                 qualityLevel = R.string.sq_yellowLabel
             }
-            scoreInt > resources.getInteger(R.integer.yellow_upper)  -> {
-                score_progress.setThirdBarColor(R.color.sq_greenOn)
+            scoreInt > resources.getInteger(R.integer.yellow_upper) -> {
+                viewBinding.scoreProgress.setThirdBarColor(R.color.sq_greenOn)
                 triangle = R.drawable.triangle_green
                 face = R.drawable.face_green
                 qualityLevel = R.string.sq_greenLabel
             }
         }
 
-        score_progress.setNotchIcon(triangle)
+        viewBinding.scoreProgress.setNotchIcon(triangle)
 
-        face_image.setImageDrawable(resources.getDrawable(face, null))
-        quality_text.text = resources.getString(qualityLevel)
+        viewBinding.faceImage.setImageDrawable(ResourcesCompat.getDrawable(resources, face, null))
+        viewBinding.qualityText.text = resources.getString(qualityLevel)
 
-        score_progress.setScore(score.toFloat())
+        viewBinding.scoreProgress.setScore(score.toFloat())
     }
 
     companion object {

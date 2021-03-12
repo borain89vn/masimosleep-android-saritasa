@@ -1,24 +1,22 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
+import com.mymasimo.masimosleep.databinding.FragmentProfileGenderBinding
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
-import kotlinx.android.synthetic.main.fragment_profile_gender.*
 
-class ProfileGenderFragment : Fragment() {
+class ProfileGenderFragment : Fragment(R.layout.fragment_profile_gender) {
 
     private val vm: ProfileViewModel by activityViewModels()
+    private val viewBinding by viewBinding(FragmentProfileGenderBinding::bind)
 
     companion object {
-        private val TAG = ProfileGenderFragment::class.simpleName
-
         private const val CONTENT_KEY = "CONTENT"
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
@@ -46,9 +44,6 @@ class ProfileGenderFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile_gender, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
@@ -58,40 +53,40 @@ class ProfileGenderFragment : Fragment() {
         content?.let { gender ->
             clearAll()
             if (gender == "male") {
-                male_button.isSelected = true
+                viewBinding.maleButton.isSelected = true
             } else if (gender == "female") {
-                female_button.isSelected = true
+                viewBinding.femaleButton.isSelected = true
             } else if (gender == "other") {
-                other_button.isSelected = true
+                viewBinding.otherButton.isSelected = true
             }
             updateSubmitButton()
         }
 
         val buttonStrRes = if (isOnBoarding) R.string.next else R.string.save
-        submit_button.text = getString(buttonStrRes)
+        viewBinding.submitButton.text = getString(buttonStrRes)
 
-        this.female_button.setOnClickListener {
+        viewBinding.femaleButton.setOnClickListener {
             clearAll()
-            female_button.isSelected = !female_button.isSelected
+            viewBinding.femaleButton.isSelected = !viewBinding.femaleButton.isSelected
             this.content = "female"
             updateSubmitButton()
         }
 
-        this.male_button.setOnClickListener {
+        viewBinding.maleButton.setOnClickListener {
             clearAll()
-            male_button.isSelected = !male_button.isSelected
+            viewBinding.maleButton.isSelected = !viewBinding.maleButton.isSelected
             this.content = "male"
             updateSubmitButton()
         }
 
-        this.other_button.setOnClickListener {
+        viewBinding.otherButton.setOnClickListener {
             clearAll()
-            other_button.isSelected = !other_button.isSelected
+            viewBinding.otherButton.isSelected = !viewBinding.otherButton.isSelected
             this.content = "other"
             updateSubmitButton()
         }
 
-        this.submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             vm.gender.value = this.content
             MasimoSleepPreferences.gender = this.content
             listener()
@@ -101,9 +96,9 @@ class ProfileGenderFragment : Fragment() {
     }
 
     private fun clearAll() {
-        female_button.isSelected = false
-        male_button.isSelected = false
-        other_button.isSelected = false
+        viewBinding.femaleButton.isSelected = false
+        viewBinding.maleButton.isSelected = false
+        viewBinding.otherButton.isSelected = false
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {
@@ -112,9 +107,9 @@ class ProfileGenderFragment : Fragment() {
 
     private fun updateSubmitButton() {
         this.content?.let {
-            submit_button.isEnabled = true
+            viewBinding.submitButton.isEnabled = true
         } ?: run {
-            submit_button.isEnabled = false
+            viewBinding.submitButton.isEnabled = false
         }
 
     }

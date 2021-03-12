@@ -1,26 +1,21 @@
 package com.mymasimo.masimosleep.ui.welcome
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentWelcomeViewPagerBinding
 import com.mymasimo.masimosleep.ui.welcome.screens.WelcomeScreenFragment
 import com.mymasimo.masimosleep.util.navigateSafe
-import kotlinx.android.synthetic.main.fragment_welcome_view_pager.view.*
 
-class WelcomeViewPagerFragment : Fragment() {
+class WelcomeViewPagerFragment : Fragment(R.layout.fragment_welcome_view_pager) {
+    private val viewBinding by viewBinding(FragmentWelcomeViewPagerBinding::bind)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_welcome_view_pager, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val fragmentList = arrayListOf<Fragment>(
-
             WelcomeScreenFragment.newInstance(
                 title = null,
                 image = R.drawable.welcome_0,
@@ -29,7 +24,7 @@ class WelcomeViewPagerFragment : Fragment() {
                 buttonTitle = resources.getString(R.string.next)
             ).apply {
                 setOnButtonClickListener {
-                    view.welcome_view_pager.currentItem = view.welcome_view_pager.currentItem + 1
+                    viewBinding.welcomeViewPager.currentItem = viewBinding.welcomeViewPager.currentItem + 1
                 }
             },
             WelcomeScreenFragment.newInstance(
@@ -40,7 +35,7 @@ class WelcomeViewPagerFragment : Fragment() {
                 buttonTitle = resources.getString(R.string.next)
             ).apply {
                 setOnButtonClickListener {
-                    view.welcome_view_pager.currentItem = view.welcome_view_pager.currentItem + 1
+                    viewBinding.welcomeViewPager.currentItem = viewBinding.welcomeViewPager.currentItem + 1
                 }
             },
             WelcomeScreenFragment.newInstance(
@@ -62,17 +57,11 @@ class WelcomeViewPagerFragment : Fragment() {
             lifecycle
         )
 
-        view.welcome_view_pager.adapter = adapter
+        viewBinding.welcomeViewPager.adapter = adapter
         //val indicator : CircleIndicator3 = findViewById(R.id.welcome_indicator) as CircleIndicator3
-        view.welcome_indicator.setViewPager(view.welcome_view_pager)
+        viewBinding.welcomeIndicator.setViewPager(viewBinding.welcomeViewPager)
 
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        view.skip_button.setOnClickListener {
+        viewBinding.skipButton.setOnClickListener {
             skipPressed()
         }
     }
@@ -84,5 +73,4 @@ class WelcomeViewPagerFragment : Fragment() {
     fun dismiss() {
         findNavController().navigateSafe(R.id.action_welcomeViewPagerFragment_to_profileViewPagerFragment)
     }
-
 }

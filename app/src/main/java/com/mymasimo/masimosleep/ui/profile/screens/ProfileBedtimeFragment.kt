@@ -1,37 +1,34 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.alarm.SleepReminderAlarmScheduler
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
+import com.mymasimo.masimosleep.databinding.FragmentProfileBedtimeBinding
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
-import kotlinx.android.synthetic.main.fragment_profile_bedtime.*
 import javax.inject.Inject
 
-class ProfileBedtimeFragment : Fragment() {
+class ProfileBedtimeFragment : Fragment(R.layout.fragment_profile_bedtime) {
 
     @Inject
     lateinit var sleepReminderAlarmScheduler: SleepReminderAlarmScheduler
 
     private val vm: ProfileViewModel by activityViewModels()
+    private val viewBinding by viewBinding(FragmentProfileBedtimeBinding::bind)
 
     companion object {
-        private val TAG = ProfileBedtimeFragment::class.simpleName
-
         private const val CONTENT_KEY = "CONTENT"
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
         fun newInstance(
             content: String?,
             isOnBoarding: Boolean = false
-
         ) = ProfileBedtimeFragment().apply {
             arguments = bundleOf(
                 CONTENT_KEY to content,
@@ -54,9 +51,6 @@ class ProfileBedtimeFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile_bedtime, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
@@ -64,14 +58,14 @@ class ProfileBedtimeFragment : Fragment() {
 
     private fun loadViewContent() {
         content?.let {
-            time_picker.hour = MasimoSleepPreferences.timeHour
-            time_picker.minute = MasimoSleepPreferences.timeMinute
+            viewBinding.timePicker.hour = MasimoSleepPreferences.timeHour
+            viewBinding.timePicker.minute = MasimoSleepPreferences.timeMinute
         }
 
         val buttonStrRes = if (isOnBoarding) R.string.next else R.string.save
-        submit_button.text = getString(buttonStrRes)
+        viewBinding.submitButton.text = getString(buttonStrRes)
 
-        this.submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             updateTime()
             sleepReminderAlarmScheduler.scheduleAlarmsAsync()
             listener()
@@ -79,8 +73,8 @@ class ProfileBedtimeFragment : Fragment() {
     }
 
     private fun updateTime() {
-        val hour = time_picker.hour
-        val minute = time_picker.minute
+        val hour = viewBinding.timePicker.hour
+        val minute = viewBinding.timePicker.minute
 
         vm.timeHour.value = hour
         vm.timeMinute.value = minute
@@ -92,5 +86,4 @@ class ProfileBedtimeFragment : Fragment() {
     fun setOnButtonClickListener(listener: () -> Unit) {
         this.listener = listener
     }
-
 }

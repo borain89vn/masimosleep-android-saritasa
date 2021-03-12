@@ -1,22 +1,19 @@
 package com.mymasimo.masimosleep.ui.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentSettingsBinding
 import com.mymasimo.masimosleep.ui.settings.device.SettingsDeviceFragment
 import com.mymasimo.masimosleep.ui.settings.information.SettingsInformationFragment
 import com.mymasimo.masimosleep.ui.settings.profile.SettingsProfileFragment
 import com.mymasimo.masimosleep.ui.settings.sensor.SettingsSensorFragment
-import kotlinx.android.synthetic.main.fragment_settings.*
 
-class SettingsFragment : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_settings, container, false)
+class SettingsFragment : Fragment(R.layout.fragment_settings) {
+    private val viewBinding by viewBinding(FragmentSettingsBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,10 +21,8 @@ class SettingsFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        close_button.setOnClickListener {
-
+        viewBinding.closeButton.setOnClickListener {
             requireView().findNavController().navigateUp()
-
         }
 
         buildSettingsUI()
@@ -66,7 +61,6 @@ class SettingsFragment : Fragment() {
         private const val PROFILE_FRAGMENT_TAG = "PROFILE_FRAGMENT"
         private const val INFO_FRAGMENT_TAG = "INFO_FRAGMENT"
 
-
         private val ALL_FRAGMENT_TAGS = listOf(
             SENSOR_FRAGMENT_TAG,
             DEVICE_FRAGMENT_TAG,
@@ -74,5 +68,4 @@ class SettingsFragment : Fragment() {
             INFO_FRAGMENT_TAG
         )
     }
-
 }

@@ -4,14 +4,13 @@ import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.android.ui.permission.PermissionHandlerClient
 import com.masimo.android.ui.permission.PermissionRationalDialogConfig
 import com.masimo.android.ui.permission.PermissionsHandler
@@ -24,32 +23,27 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
-class ScanFragment : Fragment(), PermissionHandlerClient {
+class ScanFragment : Fragment(R.layout.fragment_scan), PermissionHandlerClient {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var disposables: CompositeDisposable
 
     private val vm: PairingViewModel by activityViewModels { vmFactory }
-    private lateinit var bindings: FragmentScanBinding
+    private val viewBinding by viewBinding(FragmentScanBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        bindings = FragmentScanBinding.inflate(inflater, container, false)
-        return bindings.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(bindings) {
+        with(viewBinding) {
             cancelButton.setOnClickListener {
                 goToScanFailedScreen()
             }
@@ -116,8 +110,8 @@ class ScanFragment : Fragment(), PermissionHandlerClient {
     }
 
     override fun getPermissionRationaleDialogConfig(
-            requestCode: Int,
-            granted: MutableSet<String>
+        requestCode: Int,
+        granted: MutableSet<String>
     ): PermissionRationalDialogConfig {
         return PermissionRationalDialogConfig.builder()
             .titleRes(R.string.location_permission_rationale_title)

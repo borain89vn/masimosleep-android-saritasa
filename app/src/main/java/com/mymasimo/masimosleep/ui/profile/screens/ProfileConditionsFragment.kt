@@ -1,25 +1,24 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
+import com.mymasimo.masimosleep.databinding.FragmentProfileConditionsBinding
 import com.mymasimo.masimosleep.model.SleepCondition
 import com.mymasimo.masimosleep.ui.profile.ProfileViewModel
-import kotlinx.android.synthetic.main.fragment_profile_conditions.*
 
-class ProfileConditionsFragment : Fragment() {
+class ProfileConditionsFragment : Fragment(R.layout.fragment_profile_conditions) {
 
     private val vm: ProfileViewModel by activityViewModels()
+    private val viewBinding by viewBinding(FragmentProfileConditionsBinding::bind)
 
     companion object {
-        private val TAG = ProfileConditionsFragment::class.simpleName
-
         private const val CONTENT_KEY = "CONTENT"
         private const val IS_ON_BOARDING_KEY = "is_on_boarding_key"
 
@@ -47,9 +46,6 @@ class ProfileConditionsFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile_conditions, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
@@ -63,14 +59,14 @@ class ProfileConditionsFragment : Fragment() {
         updateSubmitButton()
 
         val buttonStrRes = if (isOnBoarding) R.string.next else R.string.save
-        submit_button.text = getString(buttonStrRes)
+        viewBinding.submitButton.text = getString(buttonStrRes)
 
-        this.condition_1_button.setOnClickListener(onClickListener)
-        this.condition_2_button.setOnClickListener(onClickListener)
-        this.condition_3_button.setOnClickListener(onClickListener)
-        this.condition_4_button.setOnClickListener(onClickListener)
+        viewBinding.condition1Button.setOnClickListener(onClickListener)
+        viewBinding.condition2Button.setOnClickListener(onClickListener)
+        viewBinding.condition3Button.setOnClickListener(onClickListener)
+        viewBinding.condition4Button.setOnClickListener(onClickListener)
 
-        this.submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             vm.conditionList.value = this.content
             MasimoSleepPreferences.conditionList = this.content
             listener()
@@ -105,19 +101,19 @@ class ProfileConditionsFragment : Fragment() {
 
     private fun initializeSelections() {
         if (this.content?.contains(SleepCondition.CONDITION_1.name) == true) {
-            condition_1_button.isSelected = true
+            viewBinding.condition1Button.isSelected = true
         }
 
         if (this.content?.contains(SleepCondition.CONDITION_2.name) == true) {
-            condition_2_button.isSelected = true
+            viewBinding.condition2Button.isSelected = true
         }
 
         if (this.content?.contains(SleepCondition.CONDITION_3.name) == true) {
-            condition_3_button.isSelected = true
+            viewBinding.condition3Button.isSelected = true
         }
 
         if (this.content?.contains(SleepCondition.CONDITION_4.name) == true) {
-            condition_4_button.isSelected = true
+            viewBinding.condition4Button.isSelected = true
         }
     }
 
@@ -126,7 +122,7 @@ class ProfileConditionsFragment : Fragment() {
     }
 
     private fun updateSubmitButton() {
-        submit_button.isEnabled = content != null
+        viewBinding.submitButton.isEnabled = content != null
     }
 
 }

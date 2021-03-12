@@ -1,19 +1,16 @@
 package com.mymasimo.masimosleep.ui.settings.information
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentSettingsInformationBinding
 import com.mymasimo.masimosleep.ui.settings.SettingsFragmentDirections
-import kotlinx.android.synthetic.main.fragment_settings_information.*
 
-class SettingsInformationFragment : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_settings_information, container, false)
+class SettingsInformationFragment : Fragment(R.layout.fragment_settings_information) {
+    private val viewBinding by viewBinding(FragmentSettingsInformationBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -21,7 +18,7 @@ class SettingsInformationFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        feedback_button.setOnClickListener {
+        viewBinding.feedbackButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
                     getString(R.string.support),
@@ -32,8 +29,7 @@ class SettingsInformationFragment : Fragment() {
             )
         }
 
-        about_button.setOnClickListener {
-
+        viewBinding.aboutButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
                     getString(R.string.about_btn),
@@ -44,8 +40,7 @@ class SettingsInformationFragment : Fragment() {
             )
         }
 
-        privacy_button.setOnClickListener {
-
+        viewBinding.privacyButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
                     getString(R.string.privacy_policy_btn),
@@ -56,8 +51,7 @@ class SettingsInformationFragment : Fragment() {
             )
         }
 
-        eula_button.setOnClickListener {
-
+        viewBinding.eulaButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
                     getString(R.string.eula_title),

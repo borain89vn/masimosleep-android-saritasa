@@ -1,31 +1,28 @@
 package com.mymasimo.masimosleep.ui.home.night_picker
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentNightPickerBinding
 import com.mymasimo.masimosleep.ui.home.HomeFragmentDirections
 import com.mymasimo.masimosleep.ui.home.HomeViewModel
-import kotlinx.android.synthetic.main.fragment_night_picker.*
 import javax.inject.Inject
 
-class NightPickerFragment : Fragment() {
+class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
 
     private val vm: HomeViewModel by activityViewModels { vmFactory }
-    private lateinit var bindings: FragmentNightPickerBinding
+    private val viewBinding by viewBinding(FragmentNightPickerBinding::bind)
 
     private var currentNight = 1
     private var selectedNight = 1
@@ -35,30 +32,22 @@ class NightPickerFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        bindings = FragmentNightPickerBinding.inflate(inflater, container, false)
-        return bindings.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindings.startProgramButton.setOnClickListener {
+        viewBinding.startProgramButton.setOnClickListener {
             goToProgramStartedScreen()
         }
 
         vm.programState.observe(viewLifecycleOwner) { programState ->
             when (programState) {
                 HomeViewModel.ProgramState.NoProgramInProgress -> {
-                    bindings.startProgramContainer.isVisible = true
-                    bindings.nightsContainer.isVisible = false
+                    viewBinding.startProgramContainer.isVisible = true
+                    viewBinding.nightsContainer.isVisible = false
                 }
                 is HomeViewModel.ProgramState.ProgramInProgress -> {
-                    bindings.startProgramContainer.isVisible = false
-                    bindings.nightsContainer.isVisible = true
+                    viewBinding.startProgramContainer.isVisible = false
+                    viewBinding.nightsContainer.isVisible = true
 
                     currentNight = programState.currentNight
                     selectedNight = programState.selectedNight
@@ -75,7 +64,7 @@ class NightPickerFragment : Fragment() {
     }
 
     private fun updateNightsUi() {
-        bindings.nightLabel.text = getString(R.string.night_label, selectedNight, NUM_OF_NIGHTS)
+        viewBinding.nightLabel.text = getString(R.string.night_label, selectedNight, NUM_OF_NIGHTS)
         removeAllNightItems()
 
         val c = selectedNight + 2
@@ -115,16 +104,16 @@ class NightPickerFragment : Fragment() {
             nightButton.setOnButtonClickListener {
                 this.onNightSelected(night)
             }
-            night_layout.addView(nightButton)
+            viewBinding.nightLayout.addView(nightButton)
 
         }
 
         val screenWidth = resources.displayMetrics.widthPixels
         val scrollOffset = scrollToPage * screenWidth
 
-        bindings.nightScrollView.post {
+        viewBinding.nightScrollView.post {
             kotlin.run {
-                nightScrollView?.scrollTo(scrollOffset, 0)
+                viewBinding.nightScrollView.scrollTo(scrollOffset, 0)
             }
         }
     }
@@ -140,8 +129,8 @@ class NightPickerFragment : Fragment() {
     }
 
     private fun removeAllNightItems() {
-        if (night_layout.childCount > 0) {
-            night_layout.removeAllViews()
+        if (viewBinding.nightLayout.childCount > 0) {
+            viewBinding.nightLayout.removeAllViews()
         }
     }
 

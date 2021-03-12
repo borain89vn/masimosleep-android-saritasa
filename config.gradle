@@ -41,7 +41,7 @@ rootProject.ext{
 
             // UI
             material           : '1.1.0',
-            constraintLayout   : '1.1.3',
+            constraintLayout   : '2.0.4',
             mpAndroidChart     : 'v3.1.0',
             circleIndicator    : '2.1.6',
             ripplePulse        : '0.1.9',

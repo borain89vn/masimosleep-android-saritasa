@@ -1,18 +1,16 @@
 package com.mymasimo.masimosleep.ui.session
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
@@ -36,46 +34,41 @@ import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
 
-class SessionFragment : Fragment() {
+class SessionFragment : Fragment(R.layout.fragment_session) {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
-    @Inject lateinit var deviceExceptionHandler: DeviceExceptionHandler
-    @Inject lateinit var bleConnectionState: BLEConnectionState
-    @Inject lateinit var sessionTerminatedRepository: SessionTerminatedRepository
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var deviceExceptionHandler: DeviceExceptionHandler
+    @Inject
+    lateinit var bleConnectionState: BLEConnectionState
+    @Inject
+    lateinit var sessionTerminatedRepository: SessionTerminatedRepository
 
     private val vm: SessionViewModel by viewModels { vmFactory }
 
-    private lateinit var binding: FragmentSessionBinding
     private val args: SessionFragmentArgs by navArgs()
+    private val viewBinding by viewBinding(FragmentSessionBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSessionBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBinding.titleTextView.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
 
-
-        binding.titleTextView.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
-
-        binding.addNoteButton.setOnClickListener {
+        viewBinding.addNoteButton.setOnClickListener {
             val navController = NavHostFragment.findNavController(this)
             navController.navigate(R.id.action_sessionFragment_to_addNoteFragment)
         }
 
-        binding.endSessionBtn.setOnClickListener {
+        viewBinding.endSessionBtn.setOnClickListener {
             vm.onEndSessionClick()
         }
 
@@ -114,23 +107,25 @@ class SessionFragment : Fragment() {
                     .doOnError {
                         Timber.d("Session Ended")
                         requireView().findNavController().navigate(
-                                R.id.surveyFragment,
-                                SurveyFragmentArgs(sessionId, currentNight).toBundle())
+                            R.id.surveyFragment,
+                            SurveyFragmentArgs(sessionId, currentNight).toBundle()
+                        )
                     }.toObservable()
             }
             .subscribe({ sessionTerminatedEntity ->
-                           Timber.d("Session Ended with ${sessionTerminatedEntity.cause}")
-                           sessionTerminatedEntity.cause?.let {
-                               if (it == SessionTerminatedCause.NONE && sessionTerminatedEntity.sessionId != null && sessionTerminatedEntity.night != null) {
-                                   Timber.d("Session Ended by user")
-                                   requireView().findNavController().navigate(
-                                           R.id.surveyFragment,
-                                           SurveyFragmentArgs(sessionTerminatedEntity.sessionId, sessionTerminatedEntity.night).toBundle())
-                               } else {
-                                   requireView().findNavController().navigate(R.id.sessionTerminatedFragment, SessionTerminatedFragmentArgs(sessionTerminatedEntity).toBundle())
-                               }
-                           }
-                       }, { it.printStackTrace() })
+                Timber.d("Session Ended with ${sessionTerminatedEntity.cause}")
+                sessionTerminatedEntity.cause?.let {
+                    if (it == SessionTerminatedCause.NONE && sessionTerminatedEntity.sessionId != null && sessionTerminatedEntity.night != null) {
+                        Timber.d("Session Ended by user")
+                        requireView().findNavController().navigate(
+                            R.id.surveyFragment,
+                            SurveyFragmentArgs(sessionTerminatedEntity.sessionId, sessionTerminatedEntity.night).toBundle()
+                        )
+                    } else {
+                        requireView().findNavController().navigate(R.id.sessionTerminatedFragment, SessionTerminatedFragmentArgs(sessionTerminatedEntity).toBundle())
+                    }
+                }
+            }, { it.printStackTrace() })
             .addTo(disposables)
 
         vm.sessionCanceled
@@ -161,9 +156,9 @@ class SessionFragment : Fragment() {
         vm.showSensorDialog.subscribe { deviceException ->
             val destinationId = when (deviceException) {
                 DeviceException.SENSOR_OFF_PATIENT -> R.id.sensorDisconnectedDialogFragment
-                DeviceException.DEFECTIVE_SENSOR   -> R.id.defectiveDialogFragment
-                DeviceException.LOW_BATTERY        -> R.id.batteryLowDialogFragment
-                else                               -> throw IllegalStateException()
+                DeviceException.DEFECTIVE_SENSOR -> R.id.defectiveDialogFragment
+                DeviceException.LOW_BATTERY -> R.id.batteryLowDialogFragment
+                else -> throw IllegalStateException()
             }
             requireView().findNavController().navigate(destinationId, null, NavOptions.Builder().setLaunchSingleTop(true).build())
         }.addTo(disposables)
@@ -205,9 +200,9 @@ class SessionFragment : Fragment() {
         return SessionViewVitalsFragment.newInstance().apply {
             setOnClickListener {
                 requireView().findNavController().navigate(
-                        SessionFragmentDirections.actionSessionFragmentToSessionVitalsFragment(
-                                args.sessionStart
-                        )
+                    SessionFragmentDirections.actionSessionFragmentToSessionVitalsFragment(
+                        args.sessionStart
+                    )
                 )
             }
         }
@@ -245,12 +240,12 @@ class SessionFragment : Fragment() {
         private const val EVENTS_FRAGMENT_TAG = "SLEEP_EVENTS"
 
         private val ALL_FRAGMENT_TAGS = listOf(
-                NO_DATA_FRAGMENT_TAG,
-                TIME_IN_BED_FRAGMENT_TAG,
-                VIEW_VITALS_FRAGMENT_TAG,
-                SLEEP_QUALITY_FRAGMENT_TAG,
-                SLEEP_QUALITY_TREND_FRAGMENT_TAG,
-                EVENTS_FRAGMENT_TAG
+            NO_DATA_FRAGMENT_TAG,
+            TIME_IN_BED_FRAGMENT_TAG,
+            VIEW_VITALS_FRAGMENT_TAG,
+            SLEEP_QUALITY_FRAGMENT_TAG,
+            SLEEP_QUALITY_TREND_FRAGMENT_TAG,
+            EVENTS_FRAGMENT_TAG
         )
     }
 }

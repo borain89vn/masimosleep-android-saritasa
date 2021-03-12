@@ -3,23 +3,23 @@ package com.mymasimo.masimosleep.ui.settings.content
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.fragment_settings_content.*
+import com.mymasimo.masimosleep.databinding.FragmentSettingsContentBinding
 
-class SettingsContentFragment : Fragment() {
+class SettingsContentFragment : Fragment(R.layout.fragment_settings_content) {
 
     val args: SettingsContentFragmentArgs by navArgs()
+    private val viewBinding by viewBinding(FragmentSettingsContentBinding::bind)
 
     lateinit var title: String
     lateinit var content: String
-    var url: String? = null
-    var buttonTitle: String? = null
+    private var url: String? = null
+    private var buttonTitle: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +35,9 @@ class SettingsContentFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_settings_content, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        back_button.setOnClickListener {
+        viewBinding.backButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
 
@@ -48,23 +45,22 @@ class SettingsContentFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        title_text_view.text = this.title
-        content_text.text = this.content
+        viewBinding.titleTextView.text = this.title
+        viewBinding.contentText.text = this.content
 
         //submit_button.visibility = View.VISIBLE
         buttonTitle?.let { buttonTitle ->
-            submit_button.text = buttonTitle
+            viewBinding.submitButton.text = buttonTitle
 
         } ?: run {
-            submit_button.visibility = View.INVISIBLE
+            viewBinding.submitButton.visibility = View.INVISIBLE
         }
 
         url?.let { url ->
-            submit_button.setOnClickListener {
+            viewBinding.submitButton.setOnClickListener {
                 launchURL(url)
             }
         }
-
     }
 
     private fun launchURL(url: String) {
@@ -72,5 +68,4 @@ class SettingsContentFragment : Fragment() {
         openURL.data = Uri.parse(url)
         startActivity(openURL)
     }
-
 }

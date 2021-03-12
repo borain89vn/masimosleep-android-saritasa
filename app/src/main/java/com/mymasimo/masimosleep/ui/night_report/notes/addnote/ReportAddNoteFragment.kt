@@ -3,40 +3,38 @@ package com.mymasimo.masimosleep.ui.night_report.notes.addnote
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentReportAddNoteBinding
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_report_add_note.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class ReportAddNoteFragment : Fragment() {
+class ReportAddNoteFragment : Fragment(R.layout.fragment_report_add_note) {
 
     @Inject
     lateinit var disposables: CompositeDisposable
+
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportAddNoteViewModel by viewModels { vmFactory }
 
     private val args: ReportAddNoteFragmentArgs by navArgs()
+    private val viewBinding by viewBinding(FragmentReportAddNoteBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_report_add_note, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,20 +51,20 @@ class ReportAddNoteFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        cancel_button.setOnClickListener {
+        viewBinding.cancelButton.setOnClickListener {
             dismiss()
         }
 
-        add_button.setOnClickListener {
+        viewBinding.addButton.setOnClickListener {
             addNote()
         }
 
         val dateFormatter = SimpleDateFormat("MMM d, hh:mm aa")
         val dateString = dateFormatter.format(Date(Calendar.getInstance().timeInMillis))
 
-        date_text.text = dateString
+        viewBinding.dateText.text = dateString
 
-        note_text.addTextChangedListener(object : TextWatcher {
+        viewBinding.noteText.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(p0: Editable?) {
 
@@ -86,19 +84,19 @@ class ReportAddNoteFragment : Fragment() {
     }
 
     private fun updateRemainingCharsLabel() {
-        var charsRemaining = TOTAL_CHARS - note_text.text.count()
+        var charsRemaining = TOTAL_CHARS - viewBinding.noteText.text.count()
         if (charsRemaining < 0) {
             charsRemaining = 0
         }
 
-        chars_remaining_text.text = getString(R.string.hint_characters_left, charsRemaining, TOTAL_CHARS)
+        viewBinding.charsRemainingText.text = getString(R.string.hint_characters_left, charsRemaining, TOTAL_CHARS)
     }
 
     private fun addNote() {
-        add_button.isEnabled = false
-        note_text.isEnabled = false
+        viewBinding.addButton.isEnabled = false
+        viewBinding.noteText.isEnabled = false
 
-        vm.onAddButtonClick(args.sessionId, note_text.text.toString())
+        vm.onAddButtonClick(args.sessionId, viewBinding.noteText.text.toString())
     }
 
     private fun dismiss() {

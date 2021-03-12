@@ -1,14 +1,14 @@
 package com.mymasimo.masimosleep.ui.night_report
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
+import com.mymasimo.masimosleep.databinding.FragmentNightReportBinding
 import com.mymasimo.masimosleep.ui.night_report.notes.ReportNotesFragment
 import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_bed_time.ReportTimeInBedFragment
@@ -17,28 +17,22 @@ import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleep
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
 import com.mymasimo.masimosleep.ui.night_report.report_view_vitals.ReportViewVitalsFragment
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternFragment
-import kotlinx.android.synthetic.main.fragment_night_report.*
-import kotlinx.android.synthetic.main.fragment_session_vitals.back_button
 
-
-class NightReportFragment : Fragment() {
+class NightReportFragment : Fragment(R.layout.fragment_night_report) {
 
     private val args: NightReportFragmentArgs by navArgs()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_night_report, container, false)
+    private val viewBinding by viewBinding(FragmentNightReportBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subtitle_text.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
+        viewBinding.subtitleText.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
 
-        back_button.setOnClickListener {
+        viewBinding.backButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
 
         showReportConfiguration()
     }
-
 
     private fun showReportConfiguration() {
         removeAllFragments()
@@ -75,7 +69,6 @@ class NightReportFragment : Fragment() {
             }
         }
     }
-
 
     private fun addFragment(fragment: Fragment, tag: String) {
         parentFragmentManager.beginTransaction()

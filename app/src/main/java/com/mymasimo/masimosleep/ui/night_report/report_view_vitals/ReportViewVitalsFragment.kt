@@ -1,24 +1,20 @@
 package com.mymasimo.masimosleep.ui.night_report.report_view_vitals
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.fragment_session_view_vitals.*
+import com.mymasimo.masimosleep.databinding.FragmentReportViewVitalsBinding
 
-
-class ReportViewVitalsFragment : Fragment() {
+class ReportViewVitalsFragment : Fragment(R.layout.fragment_report_view_vitals) {
+    private val viewBinding by viewBinding(FragmentReportViewVitalsBinding::bind)
 
     companion object {
         fun newInstance() = ReportViewVitalsFragment()
     }
 
     private lateinit var onClickListener: () -> Unit
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_report_view_vitals, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +26,7 @@ class ReportViewVitalsFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        vitals_button.setOnClickListener {
+        viewBinding.vitalsButton.setOnClickListener {
             onClickListener()
         }
     }

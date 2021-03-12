@@ -1,27 +1,27 @@
 package com.mymasimo.masimosleep.ui.program_report.nightly_scores
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentNightlyScoresBinding
 import com.mymasimo.masimosleep.ui.program_report.ProgramReportFragmentDirections
-import kotlinx.android.synthetic.main.fragment_nightly_scores.*
 import javax.inject.Inject
 
 
-class NightlyScoresFragment : Fragment() {
+class NightlyScoresFragment : Fragment(R.layout.fragment_nightly_scores) {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: NightlyScoresViewModel by viewModels { vmFactory }
+    private val viewBinding by viewBinding(FragmentNightlyScoresBinding::bind)
 
     private var programId: Long = -1
 
@@ -33,9 +33,6 @@ class NightlyScoresFragment : Fragment() {
         vm.onCreate(programId)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_nightly_scores, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         buildUI(emptyList())
@@ -46,16 +43,16 @@ class NightlyScoresFragment : Fragment() {
     }
 
     private fun buildUI(scores: List<NightlyScoreItem>) {
-        row1_layout.removeAllViews()
-        row2_layout.removeAllViews()
+        viewBinding.row1Layout.removeAllViews()
+        viewBinding.row2Layout.removeAllViews()
         for (i in 1..NUM_OF_NIGHTS) {
             val index = i - 1
-            var score : Int = -1
-            var type : NightScoreButtonState = NightScoreButtonState.FUTURE
+            var score: Int = -1
+            var type: NightScoreButtonState = NightScoreButtonState.FUTURE
 
-            var layout = row1_layout
+            var layout = viewBinding.row1Layout
             if (i > 5) {
-                layout = row2_layout
+                layout = viewBinding.row2Layout
             }
 
             if (index < scores.size) {
@@ -63,11 +60,11 @@ class NightlyScoresFragment : Fragment() {
                 type = NightScoreButtonState.PAST
             }
 
-            val button = NightScoreButtonView(requireContext(),i,score,type)
+            val button = NightScoreButtonView(requireContext(), i, score, type)
 
             if (index < scores.size) {
                 button.setOnButtonClickListener {
-                    val sessionId : Long = scores[index].sessionId
+                    val sessionId: Long = scores[index].sessionId
                     requireView().findNavController().navigate(
                         ProgramReportFragmentDirections.actionProgramReportFragmentToNightReportFragment(
                             sessionId = sessionId,
@@ -87,5 +84,4 @@ class NightlyScoresFragment : Fragment() {
             arguments = bundleOf(KEY_PROGRAM_ID to programId)
         }
     }
-
 }

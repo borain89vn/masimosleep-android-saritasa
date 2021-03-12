@@ -1,35 +1,37 @@
 package com.mymasimo.masimosleep.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
+import com.mymasimo.masimosleep.databinding.FragmentStartButtonBinding
 import com.mymasimo.masimosleep.service.BLEConnectionState
 import com.mymasimo.masimosleep.service.State
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_start_button.*
 import javax.inject.Inject
 
 
-class StartButtonFragment : Fragment() {
+class StartButtonFragment : Fragment(R.layout.fragment_start_button) {
 
     @Inject
     lateinit var sleepSessionScoreManager: SleepSessionScoreManager
+
     @Inject
     lateinit var bleConnectionState: BLEConnectionState
+
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var bleConnectionUpdatesDisposable: CompositeDisposable
 
@@ -37,14 +39,12 @@ class StartButtonFragment : Fragment() {
     lateinit var vmFactory: ViewModelProvider.Factory
 
     private val vm: HomeViewModel by activityViewModels { vmFactory }
+    private val viewBinding by viewBinding(FragmentStartButtonBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_start_button, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +56,6 @@ class StartButtonFragment : Fragment() {
             when (programState) {
                 HomeViewModel.ProgramState.NoProgramInProgress -> {
                     // No program in progress, keep the button disabled.
-
                     // Subscribe to connection changes.
                     bleConnectionUpdatesDisposable.clear()
                     bleConnectionState.currentState
@@ -69,7 +68,6 @@ class StartButtonFragment : Fragment() {
                 }
                 is HomeViewModel.ProgramState.ProgramInProgress -> {
                     // There is a program in progress, set the button state based on the BLE state.
-
                     // Subscribe to connection changes.
                     bleConnectionUpdatesDisposable.clear()
                     bleConnectionState.currentState
@@ -83,8 +81,7 @@ class StartButtonFragment : Fragment() {
             }
         }
 
-
-        start_button.setOnClickListener {
+        viewBinding.startButton.setOnClickListener {
             val nightNumber = vm.getCurrentNight()
             val startedAt = sleepSessionScoreManager.startSession(nightNumber) //changed from 1
             val navController = findNavController(this)
@@ -100,13 +97,13 @@ class StartButtonFragment : Fragment() {
     }
 
     private fun enableStartButton() {
-        start_button.isEnabled = true
-        start_ripple.startPulse()
+        viewBinding.startButton.isEnabled = true
+        viewBinding.startRipple.startPulse()
     }
 
     private fun disableStartButton() {
-        start_button.isEnabled = false
-        start_ripple.stopPulse()
+        viewBinding.startButton.isEnabled = false
+        viewBinding.startRipple.stopPulse()
     }
 
     private fun connectionStateChanged(state: State, programInProgress: Boolean) {
@@ -152,12 +149,12 @@ class StartButtonFragment : Fragment() {
             }
         }
 
-        connection_button.text = getString(buttonTitleId)
-        bt_icon.setImageDrawable(resources.getDrawable(btIconImageId, null))
-        moon_icon.setImageDrawable(resources.getDrawable(moonImageId, null))
-        sleep_session_label.setTextColor(resources.getColor(sleepSessionColorId, null))
+        viewBinding.connectionButton.text = getString(buttonTitleId)
+        viewBinding.btIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, btIconImageId, null))
+        viewBinding.moonIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, moonImageId, null))
+        viewBinding.sleepSessionLabel.setTextColor(resources.getColor(sleepSessionColorId, null))
 
-        connection_button.setOnClickListener {
+        viewBinding.connectionButton.setOnClickListener {
             if (state != State.DEVICE_CONNECTED) {
                 findNavController().navigate(R.id.action_homeFragment_to_setUpDeviceDialogFragment)
             }
@@ -169,5 +166,4 @@ class StartButtonFragment : Fragment() {
             return StartButtonFragment()
         }
     }
-
 }

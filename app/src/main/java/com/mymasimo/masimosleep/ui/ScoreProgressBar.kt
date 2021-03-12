@@ -16,9 +16,9 @@ private const val BAR_Y = 18f
 private const val BAR_SPACING = 3f
 
 class ScoreProgressBar @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyle: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
 ) : View(context, attrs, defStyle) {
 
     private val textPaint: TextPaint
@@ -141,7 +141,7 @@ class ScoreProgressBar @JvmOverloads constructor(
 
         val scaled = Bitmap.createScaledBitmap(bm, newSize.toInt(), newSize.toInt(), true)
 
-        canvas.drawBitmap(scaled, (screenWidth * score) - (BAR_SPACING.toDp() * 3).toFloat(), 0f, null)
+        canvas.drawBitmap(scaled, (screenWidth * score) - (BAR_SPACING.toDp() * 3), 0f, null)
     }
 
     private fun drawText(canvas: Canvas, text: String, x: Float) {
@@ -171,20 +171,16 @@ class ScoreProgressBar @JvmOverloads constructor(
 
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
 
-        val width: Int
-
-        val height: Int
-
-        width = when (widthMode) {
+        val width: Int = when (widthMode) {
             MeasureSpec.EXACTLY -> widthSize
             MeasureSpec.AT_MOST -> widthSize.coerceAtMost(widthSize)
-            else                -> widthSize
+            else -> widthSize
         }
 
-        height = when (heightMode) {
+        val height: Int = when (heightMode) {
             MeasureSpec.EXACTLY -> heightSize
             MeasureSpec.AT_MOST -> desiredHeight.coerceAtMost(heightSize)
-            else                -> desiredHeight
+            else -> desiredHeight
         }
 
         screenWidth = width

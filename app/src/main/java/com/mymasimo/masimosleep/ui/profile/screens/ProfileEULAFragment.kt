@@ -1,19 +1,17 @@
 package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.fragment_profile_eula.*
+import com.mymasimo.masimosleep.databinding.FragmentProfileEulaBinding
 
-class ProfileEULAFragment : Fragment() {
+class ProfileEULAFragment : Fragment(R.layout.fragment_profile_eula) {
+    private val viewBinding by viewBinding(FragmentProfileEulaBinding::bind)
 
     companion object {
-        private val TAG = ProfileEULAFragment::class.simpleName
-
         private const val CONTENT_KEY = "CONTENT"
 
         fun newInstance(
@@ -32,13 +30,9 @@ class ProfileEULAFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { arg ->
-            content = arg.getString(ProfileEULAFragment.CONTENT_KEY)
-
+            content = arg.getString(CONTENT_KEY)
         } ?: throw IllegalArgumentException()
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile_eula, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,15 +40,15 @@ class ProfileEULAFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        scroll_view.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
+        viewBinding.scrollView.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
             updateSubmitButton(scrollY)
         }
 
-        this.submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             listener()
         }
 
-        submit_button.isEnabled = false
+        viewBinding.submitButton.isEnabled = false
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {
@@ -64,7 +58,7 @@ class ProfileEULAFragment : Fragment() {
     private fun updateSubmitButton(scrollY: Int) {
         if (scrollY > 1000) {
             //It is possible when OnScrollChangeListener is called this view is already destroyed
-            submit_button?.isEnabled = true
+            viewBinding.submitButton.isEnabled = true
         }
     }
 }

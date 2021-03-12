@@ -1,23 +1,20 @@
 package com.mymasimo.masimosleep.ui.program_report.outcome.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.databinding.FragmentOutcomeDetailsBinding
 import com.mymasimo.masimosleep.ui.program_report.outcome.SleepOutcome
-import kotlinx.android.synthetic.main.fragment_outcome_details.*
 
-
-class OutcomeDetailsFragment : Fragment() {
+class OutcomeDetailsFragment : Fragment(R.layout.fragment_outcome_details) {
 
     val args: OutcomeDetailsFragmentArgs by navArgs()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_outcome_details, container, false)
+    private val viewBinding by viewBinding(FragmentOutcomeDetailsBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,7 +22,7 @@ class OutcomeDetailsFragment : Fragment() {
     }
 
     fun loadViewContent() {
-        close_button.setOnClickListener {
+        viewBinding.closeButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
 
@@ -64,8 +61,8 @@ class OutcomeDetailsFragment : Fragment() {
 
         }
 
-        outcome_title.text = resources.getString(titleID)
-        outcome_body.text = resources.getString(bodyID)
-        outcome_image.setImageDrawable(resources.getDrawable(imageID, null))
+        viewBinding.outcomeTitle.text = resources.getString(titleID)
+        viewBinding.outcomeBody.text = resources.getString(bodyID)
+        viewBinding.outcomeImage.setImageDrawable(ResourcesCompat.getDrawable(resources, imageID, null))
     }
 }

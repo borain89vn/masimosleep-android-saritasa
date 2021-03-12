@@ -1,14 +1,13 @@
 package com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -19,11 +18,11 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
+import com.mymasimo.masimosleep.databinding.FragmentReportLineGraphBinding
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.util.LineGraphViewData
 import com.mymasimo.masimosleep.util.calculateXZoomScale
 import com.mymasimo.masimosleep.util.getMaxChartValue
 import com.mymasimo.masimosleep.util.getMinChartValue
-import kotlinx.android.synthetic.main.fragment_report_line_graph.*
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,11 +33,12 @@ import kotlin.collections.ArrayList
 const val CHART_OFFSET_PERCENT = 0.1f
 private const val BLOCK_SEPARATION_THRESHOLD_MILLIS = 3 * 60 * 1000 // 3 minutes.
 
-class ReportLineGraphFragment : Fragment() {
+class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportLineGraphViewModel by viewModels { vmFactory }
+    private val viewBinding by viewBinding(FragmentReportLineGraphBinding::bind)
 
     private lateinit var readingType: ReadingType
     private var sessionId: Long = -1
@@ -54,9 +54,6 @@ class ReportLineGraphFragment : Fragment() {
 
         vm.onCreate(readingType, sessionId)
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_report_line_graph, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,21 +76,21 @@ class ReportLineGraphFragment : Fragment() {
             iconID = R.drawable.rrp_icon
         }
 
-        chart_title.text = resources.getString(titleID)
-        type_icon.setImageDrawable(resources.getDrawable(iconID, null))
+        viewBinding.chartTitle.text = resources.getString(titleID)
+        viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
 
         configureChart()
     }
 
     fun configureChart() {
-        chart_live.description.isEnabled = false
-        chart_live.setNoDataTextColor(resources.getColor(R.color.white, null))
-        chart_live.isScaleYEnabled = false
-        chart_live.isHighlightPerTapEnabled = false
-        chart_live.isHighlightPerDragEnabled = false
-        chart_live.legend.isEnabled = false
+        viewBinding.chartLive.description.isEnabled = false
+        viewBinding.chartLive.setNoDataTextColor(resources.getColor(R.color.white, null))
+        viewBinding.chartLive.isScaleYEnabled = false
+        viewBinding.chartLive.isHighlightPerTapEnabled = false
+        viewBinding.chartLive.isHighlightPerDragEnabled = false
+        viewBinding.chartLive.legend.isEnabled = false
 
-        val xAxis = chart_live.xAxis
+        val xAxis = viewBinding.chartLive.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
 
         xAxis.gridColor = resources.getColor(gridColorID, null)
@@ -108,15 +105,12 @@ class ReportLineGraphFragment : Fragment() {
 
         val dateFormatter = SimpleDateFormat("hh:mm")
         val formatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                return dateFormatter.format(Date(value.toLong()))
-            }
+            override fun getFormattedValue(value: Float): String = dateFormatter.format(Date(value.toLong()))
         }
-
 
         xAxis.valueFormatter = formatter
 
-        val rightAxis = chart_live.axisRight
+        val rightAxis = viewBinding.chartLive.axisRight
         rightAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         //font
         rightAxis.setDrawGridLines(true)
@@ -129,7 +123,7 @@ class ReportLineGraphFragment : Fragment() {
         rightAxis.gridColor = resources.getColor(gridColorID, null)
         rightAxis.textColor = resources.getColor(yAxisColorID, null)
 
-        val leftAxis = chart_live.axisLeft
+        val leftAxis = viewBinding.chartLive.axisLeft
         leftAxis.setDrawLabels(false)
         leftAxis.setDrawGridLines(false)
         leftAxis.axisLineColor = resources.getColor(gridColorID, null)
@@ -145,7 +139,7 @@ class ReportLineGraphFragment : Fragment() {
 
 
 
-        avg_text.text = avgRounded.toString()
+        viewBinding.avgText.text = avgRounded.toString()
         updateChart(lineGraphData.points)
     }
 
@@ -225,16 +219,16 @@ class ReportLineGraphFragment : Fragment() {
                 .setScale(1, RoundingMode.UP)
                 .toDouble()
 
-            low_high_text.text = "$lowRounded - $highRounded"
+            viewBinding.lowHighText.text = "$lowRounded - $highRounded"
 
         }
 
         val lineData: LineData = LineData(chartDataSets)
 
 
-        chart_live.data = lineData
+        viewBinding.chartLive.data = lineData
 
-        chart_live.zoom(
+        viewBinding.chartLive.zoom(
             calculateXZoomScale(
                 (BLOCK_SEPARATION_THRESHOLD_MILLIS).toLong(), startTime, endTime
             ),
@@ -243,7 +237,7 @@ class ReportLineGraphFragment : Fragment() {
             (getMaxChartValue(readingType).toFloat() + getMinChartValue(readingType).toFloat()) / 2
         )
 
-        chart_live.invalidate()
+        viewBinding.chartLive.invalidate()
 
     }
 
@@ -251,10 +245,10 @@ class ReportLineGraphFragment : Fragment() {
         private const val READING_TYPE_KEY = "READING_TYPE"
         private const val SESSION_ID_KEY = "SESSION_ID"
 
-        private val gridColorID: Int = R.color.chart_grid_light
-        private val xAxisColorID: Int = R.color.chart_x_label_light
-        private val yAxisColorID: Int = R.color.chart_y_label_light
-        private val lineColorID: Int = R.color.chart_line_light
+        private const val gridColorID: Int = R.color.chart_grid_light
+        private const val xAxisColorID: Int = R.color.chart_x_label_light
+        private const val yAxisColorID: Int = R.color.chart_y_label_light
+        private const val lineColorID: Int = R.color.chart_line_light
 
         fun newInstance(type: ReadingType, sessionId: Long) = ReportLineGraphFragment().apply {
             arguments = bundleOf(

@@ -1,26 +1,23 @@
 package com.mymasimo.masimosleep.ui.night_report.report_vitals
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
+import com.mymasimo.masimosleep.databinding.FragmentReportVitalsBinding
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.intervalgraph.ReportIntervalGraphFragment
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
 import com.mymasimo.masimosleep.ui.session.view_vitals.ChartIntervalType
-import kotlinx.android.synthetic.main.fragment_report_vitals.*
 
-class ReportVitalsFragment : Fragment() {
+class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
 
     private var chartIntervalType: ChartIntervalType = ChartIntervalType.ALL
     private val args: ReportVitalsFragmentArgs by navArgs()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_report_vitals, container, false)
+    private val viewBinding by viewBinding(FragmentReportVitalsBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,32 +25,32 @@ class ReportVitalsFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        back_button.setOnClickListener {
+        viewBinding.backButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
 
-        all_button.isSelected = true
+        viewBinding.allButton.isSelected = true
         chartIntervalType = ChartIntervalType.ALL
         updateUI()
 
-        all_button.setOnClickListener {
+        viewBinding.allButton.setOnClickListener {
             clearSelection()
-            all_button.isSelected = true
+            viewBinding.allButton.isSelected = true
             chartIntervalType = ChartIntervalType.ALL
             updateUI()
 
         }
 
-        hour_button.setOnClickListener {
+        viewBinding.hourButton.setOnClickListener {
             clearSelection()
-            hour_button.isSelected = true
+            viewBinding.hourButton.isSelected = true
             chartIntervalType = ChartIntervalType.HOUR
             updateUI()
         }
 
-        minute_button.setOnClickListener {
+        viewBinding.minuteButton.setOnClickListener {
             clearSelection()
-            minute_button.isSelected = true
+            viewBinding.minuteButton.isSelected = true
             chartIntervalType = ChartIntervalType.MINUTE
             updateUI()
         }
@@ -61,9 +58,9 @@ class ReportVitalsFragment : Fragment() {
     }
 
     private fun clearSelection() {
-        all_button.isSelected = false
-        hour_button.isSelected = false
-        minute_button.isSelected = false
+        viewBinding.allButton.isSelected = false
+        viewBinding.hourButton.isSelected = false
+        viewBinding.minuteButton.isSelected = false
     }
 
     private fun updateUI() {

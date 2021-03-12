@@ -1,25 +1,26 @@
 package com.mymasimo.masimosleep.ui.program_report.outcome
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.databinding.FragmentProgramOutcomeBinding
 import com.mymasimo.masimosleep.ui.program_report.ProgramReportFragmentDirections
-import kotlinx.android.synthetic.main.fragment_program_outcome.*
 import javax.inject.Inject
 
-class ProgramOutcomeFragment : Fragment() {
+class ProgramOutcomeFragment : Fragment(R.layout.fragment_program_outcome) {
 
-    @Inject lateinit var vmFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ProgramOutcomeViewModel by viewModels { vmFactory }
+    private val viewBinding by viewBinding(FragmentProgramOutcomeBinding::bind)
 
     private var programId: Long = -1
 
@@ -29,14 +30,6 @@ class ProgramOutcomeFragment : Fragment() {
 
         programId = requireArguments().getLong(KEY_PROGRAM_ID)
         vm.onCreated(programId)
-    }
-
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_program_outcome, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +53,7 @@ class ProgramOutcomeFragment : Fragment() {
 
         when (outcome) {
 
-            SleepOutcome.SLIGHT        -> {
+            SleepOutcome.SLIGHT -> {
                 titleID = R.string.outcome_slight_title
                 bodyID = R.string.outcome_slight_body
                 imageID = R.drawable.outcome_slight_thumb
@@ -74,14 +67,14 @@ class ProgramOutcomeFragment : Fragment() {
                 bgColorID = R.color.outcome_deterioration
             }
 
-            SleepOutcome.STABLE        -> {
+            SleepOutcome.STABLE -> {
                 titleID = R.string.outcome_inconclusive_title
                 bodyID = R.string.outcome_inconclusive_body
                 imageID = R.drawable.outcome_inconclusive_thumb
                 bgColorID = R.color.outcome_inconclusive
             }
 
-            SleepOutcome.SIGNIFICANT   -> {
+            SleepOutcome.SIGNIFICANT -> {
                 titleID = R.string.outcome_significant_title
                 bodyID = R.string.outcome_significant_body
                 imageID = R.drawable.outcome_significant_thumb
@@ -90,25 +83,17 @@ class ProgramOutcomeFragment : Fragment() {
 
         }
 
-        outcome_title_text.text = resources.getString(titleID)
-        outcome_desc_text.text = resources.getString(bodyID)
-        thumb_icon.setImageDrawable(resources.getDrawable(imageID, null))
-        outcome_tray.setBackgroundTintList(resources.getColorStateList(bgColorID, null))
+        viewBinding.outcomeTitleText.text = resources.getString(titleID)
+        viewBinding.outcomeDescText.text = resources.getString(bodyID)
+        viewBinding.thumbIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, imageID, null))
+        viewBinding.outcomeTray.backgroundTintList = resources.getColorStateList(bgColorID, null)
 
-        outcome_button.setOnClickListener {
-
-            requireView().findNavController().navigate(
-                    ProgramReportFragmentDirections.actionProgramReportFragmentToOutcomeDetailsFragment(
-                            outcome
-                    )
-            )
-
+        viewBinding.outcomeButton.setOnClickListener {
+            requireView().findNavController().navigate(ProgramReportFragmentDirections.actionProgramReportFragmentToOutcomeDetailsFragment(outcome))
         }
-
     }
 
     companion object {
-
         private const val KEY_PROGRAM_ID = "PROGRAM_ID"
 
         fun newInstance(programId: Long) = ProgramOutcomeFragment().apply {

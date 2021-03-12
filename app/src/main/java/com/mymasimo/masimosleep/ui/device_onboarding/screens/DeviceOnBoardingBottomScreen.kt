@@ -1,39 +1,30 @@
 package com.mymasimo.masimosleep.ui.device_onboarding.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.databinding.FragmentDeviceOnboardingBottomScreenBinding
 
-class DeviceOnBoardingBottomScreen : Fragment() {
-    private lateinit var binding: FragmentDeviceOnboardingBottomScreenBinding
-
+class DeviceOnBoardingBottomScreen : Fragment(R.layout.fragment_device_onboarding_bottom_screen) {
     private lateinit var submitListener: () -> Unit
 
     private lateinit var skipListener: () -> Unit
 
-    private var buttonTitle: String?= null
+    private var buttonTitle: String? = null
+    private val viewBinding by viewBinding(FragmentDeviceOnboardingBottomScreenBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         buttonTitle = arguments?.getString(EXTRA_BUTTON_TITLE)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return FragmentDeviceOnboardingBottomScreenBinding.inflate(inflater, container, false).also {
-            binding = it
-        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding.submitButton) {
+        with(viewBinding.submitButton) {
             setOnClickListener {
                 submitListener()
             }
@@ -41,9 +32,9 @@ class DeviceOnBoardingBottomScreen : Fragment() {
             text = buttonTitle
         }
 
-        binding.skipButton.visibility = if(buttonTitle == getString(R.string.device_onboarding_button_5)) View.INVISIBLE else View.VISIBLE
+        viewBinding.skipButton.visibility = if (buttonTitle == getString(R.string.device_onboarding_button_5)) View.INVISIBLE else View.VISIBLE
 
-        binding.skipButton.setOnClickListener {
+        viewBinding.skipButton.setOnClickListener {
             skipListener()
         }
     }

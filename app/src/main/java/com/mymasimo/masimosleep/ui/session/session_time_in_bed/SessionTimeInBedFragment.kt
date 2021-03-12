@@ -1,25 +1,23 @@
 package com.mymasimo.masimosleep.ui.session.session_time_in_bed
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentSessionTimeInBedBinding
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_session_time_in_bed.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
-class SessionTimeInBedFragment : Fragment() {
+class SessionTimeInBedFragment : Fragment(R.layout.fragment_session_time_in_bed) {
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
@@ -29,7 +27,7 @@ class SessionTimeInBedFragment : Fragment() {
     // Epoch timestamp of when the session started.
     private var startTimeMillis: Long = 0
 
-    private lateinit var bindings: FragmentSessionTimeInBedBinding
+    private val viewBinding by viewBinding(FragmentSessionTimeInBedBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -37,17 +35,6 @@ class SessionTimeInBedFragment : Fragment() {
 
         startTimeMillis = requireArguments().getLong(KEY_SESSION_START_AT)
     }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        bindings = FragmentSessionTimeInBedBinding.inflate(inflater, container, false)
-        return bindings.root
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,14 +66,14 @@ class SessionTimeInBedFragment : Fragment() {
             elapsedString = minute.toString() + "m"
         }
 
-        time_in_bed_text.text = elapsedString
+        viewBinding.timeInBedText.text = elapsedString
 
         val formatter = SimpleDateFormat("MMM d, hh:mm aa", Locale.getDefault())
         val startTimeCalendar = Calendar.getInstance().apply {
             timeInMillis = startTimeMillis
         }
 
-        sleep_time_text.text = formatter.format(startTimeCalendar.time)
+        viewBinding.sleepTimeText.text = formatter.format(startTimeCalendar.time)
     }
 
 

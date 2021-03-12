@@ -1,20 +1,17 @@
 package com.mymasimo.masimosleep.ui.welcome.screens
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
-import kotlinx.android.synthetic.main.fragment_welcome_screen.*
+import com.mymasimo.masimosleep.databinding.FragmentWelcomeScreenBinding
 
-
-class WelcomeScreenFragment : Fragment() {
+class WelcomeScreenFragment : Fragment(R.layout.fragment_welcome_screen) {
 
     companion object {
-        private val TAG = WelcomeScreenFragment::class.simpleName
-
         private const val TITLE_KEY = "TITLE"
         private const val IMAGE_KEY = "IMAGE"
         private const val SUBTITLE_KEY = "SUBTITLE"
@@ -45,6 +42,7 @@ class WelcomeScreenFragment : Fragment() {
     private var buttonTitle: String? = null
 
     private lateinit var listener: () -> Unit
+    private val viewBinding by viewBinding(FragmentWelcomeScreenBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +56,6 @@ class WelcomeScreenFragment : Fragment() {
         } ?: throw IllegalArgumentException()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_welcome_screen, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
@@ -68,26 +63,24 @@ class WelcomeScreenFragment : Fragment() {
 
     private fun loadViewContent() {
         title?.let {
-            title_text_view.text = it
-            title_text_view.visibility = View.VISIBLE
+            viewBinding.titleTextView.text = it
+            viewBinding.titleTextView.visibility = View.VISIBLE
         } ?: run {
-            title_text_view.visibility = View.INVISIBLE
+            viewBinding.titleTextView.visibility = View.INVISIBLE
         }
 
-        this.content_image_view.setImageDrawable(resources.getDrawable(this.image, null))
-
-        this.sub_title_text_view.text = this.subTitle
-
-        this.content_text_view.text = this.content
+        viewBinding.contentImageView.setImageDrawable(ResourcesCompat.getDrawable(resources, this.image, null))
+        viewBinding.subTitleTextView.text = this.subTitle
+        viewBinding.contentTextView.text = this.content
 
         this.buttonTitle?.let {
-            this.submit_button.text = it
-            this.submit_button.visibility = View.VISIBLE
+            viewBinding.submitButton.text = it
+            viewBinding.submitButton.visibility = View.VISIBLE
         } ?: run {
-            this.submit_button.visibility = View.INVISIBLE
+            viewBinding.submitButton.visibility = View.INVISIBLE
         }
 
-        this.submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             listener()
         }
     }

@@ -1,127 +1,89 @@
 package com.mymasimo.masimosleep.ui.settings.profile.container
 
 import android.os.Bundle
-import android.provider.ContactsContract
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
+import com.mymasimo.masimosleep.databinding.FragmentSettingsProfileContainerBinding
 import com.mymasimo.masimosleep.ui.profile.screens.*
-import com.mymasimo.masimosleep.ui.settings.SettingsFragment
-import kotlinx.android.synthetic.main.fragment_settings_profile_container.*
 
-class SettingsProfileContainerFragment : Fragment() {
+class SettingsProfileContainerFragment : Fragment(R.layout.fragment_settings_profile_container) {
 
-    val args : SettingsProfileContainerFragmentArgs by navArgs()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_profile_container, container, false)
-    }
+    val args: SettingsProfileContainerFragmentArgs by navArgs()
+    private val viewBinding by viewBinding(FragmentSettingsProfileContainerBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadViewContent()
     }
 
     private fun loadViewContent() {
-
-        back_button.setOnClickListener {
+        viewBinding.backButton.setOnClickListener {
             goBack()
         }
-
-
         buildUI()
-
     }
 
     private fun buildUI() {
-
         removeAllFragments()
 
-        when(args.fieldType) {
-
+        when (args.fieldType) {
             ProfileFieldType.NAME -> addName()
             ProfileFieldType.GENDER -> addGender()
             ProfileFieldType.BIRTHDATE -> addBirthdate()
             ProfileFieldType.CONDITIONS -> addConditions()
             ProfileFieldType.BEDTIME -> addBedtime()
             ProfileFieldType.REMINDER -> addReminder()
-
         }
-
-
-
     }
 
 
-    fun addName() {
-
+    private fun addName() {
         addFragment(ProfileNameFragment.newInstance(MasimoSleepPreferences.name).apply {
             setOnButtonClickListener {
                 goBack()
             }
         }, PROFILE_NAME_TAG)
-
     }
 
-    fun addGender() {
-
+    private fun addGender() {
         addFragment(ProfileGenderFragment.newInstance(MasimoSleepPreferences.gender).apply {
-
             setOnButtonClickListener {
                 goBack()
             }
-
         }, GENDER_TAG)
-
     }
 
 
-    fun addBirthdate() {
-
+    private fun addBirthdate() {
         addFragment(ProfileBirthdateFragment.newInstance(MasimoSleepPreferences.birthdate).apply {
             setOnButtonClickListener {
                 goBack()
             }
-
         }, BIRTHDATE_TAG)
-
     }
 
-    fun addConditions() {
-
+    private fun addConditions() {
         addFragment(ProfileConditionsFragment.newInstance(MasimoSleepPreferences.conditionList).apply {
-
             setOnButtonClickListener {
                 goBack()
             }
-
         }, CONDITIONS_TAG)
-
     }
 
-    fun addBedtime() {
-
+    private fun addBedtime() {
         addFragment(ProfileBedtimeFragment.newInstance("").apply {
-
             setOnButtonClickListener {
                 goBack()
             }
-
         }, BEDTIME_TAG)
-
     }
 
-    fun addReminder() {
+    private fun addReminder() {
         addFragment(ProfileReminderFragment.newInstance(MasimoSleepPreferences.reminderTime).apply {
             setOnButtonClickListener {
                 goBack()
@@ -130,10 +92,9 @@ class SettingsProfileContainerFragment : Fragment() {
     }
 
 
-    fun goBack() {
+    private fun goBack() {
         requireView().findNavController().navigateUp()
     }
-
 
     private fun removeAllFragments() {
         ALL_FRAGMENT_TAGS.forEach { tag ->
@@ -144,7 +105,6 @@ class SettingsProfileContainerFragment : Fragment() {
             }
         }
     }
-
 
     private fun addFragment(fragment: Fragment, tag: String) {
         parentFragmentManager.beginTransaction()
@@ -169,5 +129,4 @@ class SettingsProfileContainerFragment : Fragment() {
             REMINDER_TAG
         )
     }
-
 }

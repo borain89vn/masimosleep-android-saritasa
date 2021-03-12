@@ -1,45 +1,41 @@
 package com.mymasimo.masimosleep.ui.program_completed
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
-import kotlinx.android.synthetic.main.fragment_program_completed.*
+import com.mymasimo.masimosleep.databinding.FragmentProgramCompletedBinding
 import javax.inject.Inject
 
-class ProgramCompletedFragment : Fragment() {
+class ProgramCompletedFragment : Fragment(R.layout.fragment_program_completed) {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ProgramCompletedViewModel by viewModels { vmFactory }
     private val args: ProgramCompletedFragmentArgs by navArgs()
+    private val viewBinding by viewBinding(FragmentProgramCompletedBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_program_completed, container, false)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sub_title_label.text = getString(R.string.program_complete_content, MasimoSleepPreferences.name)
+        viewBinding.subTitleLabel.text = getString(R.string.program_complete_content, MasimoSleepPreferences.name)
 
         vm.enableFullReportButton.observe(viewLifecycleOwner) { enable ->
-            submit_button.isEnabled = enable
+            viewBinding.submitButton.isEnabled = enable
         }
 
-        submit_button.setOnClickListener {
+        viewBinding.submitButton.setOnClickListener {
             if (args.endedEarly) {
                 findNavController().navigateUp()
             } else {

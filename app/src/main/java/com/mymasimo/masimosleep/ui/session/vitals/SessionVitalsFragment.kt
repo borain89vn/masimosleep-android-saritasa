@@ -1,20 +1,19 @@
 package com.mymasimo.masimosleep.ui.session.vitals
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
+import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
 import com.mymasimo.masimosleep.ui.session.view_vitals.ChartIntervalType
 import com.mymasimo.masimosleep.ui.session.vitals.live.intervalgraph.LiveIntervalGraphFragment
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
-import kotlinx.android.synthetic.main.fragment_session_vitals.*
 
-class SessionVitalsFragment : Fragment() {
+class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
 
     companion object {
         fun newInstance(): SessionVitalsFragment {
@@ -40,14 +39,12 @@ class SessionVitalsFragment : Fragment() {
 
     private var chartIntervalType: ChartIntervalType = ChartIntervalType.ALL
     val args: SessionVitalsFragmentArgs by navArgs()
+    private val viewBinding by viewBinding(FragmentSessionVitalsBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         args.sessionStart
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_session_vitals, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,32 +52,32 @@ class SessionVitalsFragment : Fragment() {
     }
 
     private fun loadViewContent() {
-        back_button.setOnClickListener {
+        viewBinding.backButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
 
-        all_button.isSelected = true
+        viewBinding.allButton.isSelected = true
         chartIntervalType = ChartIntervalType.ALL
         updateUI()
 
-        all_button.setOnClickListener {
+        viewBinding.allButton.setOnClickListener {
             clearSelection()
-            all_button.isSelected = true
+            viewBinding.allButton.isSelected = true
             chartIntervalType = ChartIntervalType.ALL
             updateUI()
 
         }
 
-        hour_button.setOnClickListener {
+        viewBinding.hourButton.setOnClickListener {
             clearSelection()
-            hour_button.isSelected = true
+            viewBinding.hourButton.isSelected = true
             chartIntervalType = ChartIntervalType.HOUR
             updateUI()
         }
 
-        minute_button.setOnClickListener {
+        viewBinding.minuteButton.setOnClickListener {
             clearSelection()
-            minute_button.isSelected = true
+            viewBinding.minuteButton.isSelected = true
             chartIntervalType = ChartIntervalType.MINUTE
             updateUI()
         }
@@ -88,9 +85,9 @@ class SessionVitalsFragment : Fragment() {
     }
 
     private fun clearSelection() {
-        all_button.isSelected = false
-        hour_button.isSelected = false
-        minute_button.isSelected = false
+        viewBinding.allButton.isSelected = false
+        viewBinding.hourButton.isSelected = false
+        viewBinding.minuteButton.isSelected = false
     }
 
     private fun updateUI() {
@@ -101,7 +98,6 @@ class SessionVitalsFragment : Fragment() {
         } else if (this.chartIntervalType == ChartIntervalType.HOUR) {
             showIntervalCharts(15, 60)
         }
-
     }
 
     private fun showIntervalCharts(minutes: Int, timeSpanInMinute: Int) {
