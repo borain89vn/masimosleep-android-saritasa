@@ -38,7 +38,8 @@
         app:layout_constraintBottom_toTopOf="@id/view_summary_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/score_progress">
+        app:layout_constraintTop_toBottomOf="@id/score_progress"
+        android:baselineAligned="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

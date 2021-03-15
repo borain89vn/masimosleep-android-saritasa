@@ -35,13 +35,12 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 class PairingViewModel @Inject constructor(
-        app: Application,
-        private val context: Context,
-        private val schedulerProvider: SchedulerProvider,
-        private val disposables: CompositeDisposable
+    app: Application,
+    private val schedulerProvider: SchedulerProvider,
+    private val disposables: CompositeDisposable
 ) : AndroidViewModel(app) {
 
-    private val _isScanning = MutableLiveData<Boolean>(false)
+    private val _isScanning = MutableLiveData(false)
     val isScanning: LiveData<Boolean>
         get() = _isScanning
 
@@ -83,15 +82,15 @@ class PairingViewModel @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
-                    onComplete = {
-                        Timber.d("Module ${module.id} saved to the DB")
-                        ModelStore.currentModule = module
-                        stopScanningDevices()
-                        goToDevicePairedScreenRelay.accept(Unit)
-                    },
-                    onError = { e ->
-                        Timber.e(e, "Failed to add module to the db")
-                    }
+                onComplete = {
+                    Timber.d("Module ${module.id} saved to the DB")
+                    ModelStore.currentModule = module
+                    stopScanningDevices()
+                    goToDevicePairedScreenRelay.accept(Unit)
+                },
+                onError = { e ->
+                    Timber.e(e, "Failed to add module to the db")
+                }
             )
             .addTo(disposables)
     }
@@ -127,13 +126,13 @@ class PairingViewModel @Inject constructor(
         }
 
         localBroadcastManager.registerReceiver(bleScanResultReceiver, intentFilter)
-        startBLEScan(context)
+        startBLEScan(getApplication())
     }
 
     fun stopScanningDevices() {
         Timber.d("Scanning stopped...")
         reset()
-        stopBLEScan(context)
+        stopBLEScan(getApplication())
     }
 
     private fun onFoundBLEDevice(result: ScanResult) {
@@ -187,7 +186,7 @@ class PairingViewModel @Inject constructor(
     private val bleScanResultReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
-                ACTION_BLE_SCAN_RESULT  -> {
+                ACTION_BLE_SCAN_RESULT -> {
                     val result = intent.getParcelableExtra<ScanResult>(EXTRA_SCAN_RESULT)
 
                     if (intent.getBooleanExtra(EXTRA_MATCH_LOST, false)) {
@@ -199,10 +198,10 @@ class PairingViewModel @Inject constructor(
                     }
                 }
                 ACTION_BLE_SCAN_TIMEOUT -> onScanTimeout()
-                ACTION_BLE_SCAN_FAILED  -> {
+                ACTION_BLE_SCAN_FAILED -> {
                     val code = intent.getIntExtra(
-                            EXTRA_ERROR_CODE,
-                            ScanCallback.SCAN_FAILED_INTERNAL_ERROR
+                        EXTRA_ERROR_CODE,
+                        ScanCallback.SCAN_FAILED_INTERNAL_ERROR
                     )
                     Timber.d("Scan failed with error code: $code")
                 }
@@ -219,30 +218,31 @@ class PairingViewModel @Inject constructor(
         val manufacturerData = record.getManufacturerSpecificData(id) ?: return null
 
         val parser = ScanRecordParser(
-                manufacturerData,
-                setOf(ProductType.AIR_SPO2),
-                setOf(ProductVariant.AIR_SPO2_P05),
-                null).apply {
+            manufacturerData,
+            setOf(ProductType.AIR_SPO2),
+            setOf(ProductVariant.AIR_SPO2_P05),
+            null
+        ).apply {
             parse()
         }
 
         if (!parser.foundSupportedDevice) return null
 
         return Module(
-                parser.productType,
-                parser.productVariant,
-                DEFAULT_MANUFACTURER_NAME,
-                parser.firmwareVersion,
-                parser.serialNumber.toString(),
-                device.address,
-                EnumSet.of(ParameterID.FUNC_SPO2, ParameterID.PR, ParameterID.PI, ParameterID.PVI, ParameterID.RRP)
+            parser.productType,
+            parser.productVariant,
+            DEFAULT_MANUFACTURER_NAME,
+            parser.firmwareVersion,
+            parser.serialNumber.toString(),
+            device.address,
+            EnumSet.of(ParameterID.FUNC_SPO2, ParameterID.PR, ParameterID.PI, ParameterID.PVI, ParameterID.RRP)
         )
     }
 
     companion object {
         private val SN_VALIDATOR = Pattern.compile(
-                "^([A-F0-9]{2}:){5}[A-F0-9]{2}$",
-                Pattern.CASE_INSENSITIVE
+            "^([A-F0-9]{2}:){5}[A-F0-9]{2}$",
+            Pattern.CASE_INSENSITIVE
         )
     }
 }

@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:background="@drawable/connection_button"
-        tools:text="@string/connected_btn"
+        tools:text="@string/connected_status_btn"
         android:textAllCaps="true"
         android:textAppearance="@style/onboardingContent"
         android:textColor="@drawable/connection_button_text"
