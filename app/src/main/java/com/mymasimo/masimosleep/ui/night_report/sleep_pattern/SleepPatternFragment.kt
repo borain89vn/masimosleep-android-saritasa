@@ -130,7 +130,7 @@ class SleepPatternFragment : Fragment(R.layout.fragment_sleep_pattern) {
 
                 //Timber.d("night: ${session.night}, ratio: $ratio, startPercent: $startPercent, lengthPercent: $lengthPercentage")
 
-                getViewForNight(session.night)?.let { percentView ->
+                getViewForNight(session.night).let { percentView ->
                     percentView.visibility = View.VISIBLE
 
                     val params = ConstraintLayout.LayoutParams(

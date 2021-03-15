@@ -28,5 +28,3 @@ enum class SleepOutcome {
 
     }
 }
-
-fun SleepOutcomeFromInt(status: Int) = SleepOutcome.values()[status]

@@ -14,17 +14,16 @@ import com.mymasimo.masimosleep.ui.night_report.recommendations.MIN_SLEEP_RECOMM
 import com.mymasimo.masimosleep.ui.night_report.recommendations.util.Recommendation
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function
 import io.reactivex.rxkotlin.addTo
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ProgramRecommendationsViewModel @Inject constructor(
-        private val surveyRepository: SurveyRepository,
-        private val sessionRepository: SessionRepository,
-        private val schedulerProvider: SchedulerProvider,
-        private val disposables: CompositeDisposable
+    private val surveyRepository: SurveyRepository,
+    private val sessionRepository: SessionRepository,
+    private val schedulerProvider: SchedulerProvider,
+    private val disposables: CompositeDisposable
 ) : ViewModel() {
 
     private val _recommendations = MutableLiveData<Set<Recommendation>>()
@@ -38,20 +37,18 @@ class ProgramRecommendationsViewModel @Inject constructor(
                     return@flatMap Single.just(emptySet<Recommendation>())
                 }
                 return@flatMap Single.zip(
-                        sessions.map { sessionEntity ->
-                            surveyRepository.getSessionSurveyEntries(sessionEntity.id ?: throw IllegalStateException())
-                                .zipWith(sessionRepository.getSessionById(sessionEntity.id ?: throw IllegalStateException()),
-                                         BiFunction<List<SurveyQuestionEntity>, SessionEntity, Set<Recommendation>> { entries, session ->
-                                             parseRecommendationsFromSurvey(entries, session)
-                                         })
-                        },
-                        Function<Array<Any>, Set<Recommendation>> { data ->
-                            val recommendations = mutableSetOf<Recommendation>()
-                            data.forEach { it ->
-                                recommendations.addAll(it as Set<Recommendation>)
-                            }
-                            return@Function recommendations
-                        })
+                    sessions.map { sessionEntity ->
+                        surveyRepository.getSessionSurveyEntries(sessionEntity.id ?: throw IllegalStateException())
+                            .zipWith(sessionRepository.getSessionById(sessionEntity.id ?: throw IllegalStateException()),
+                                { entries, session -> parseRecommendationsFromSurvey(entries, session) })
+                    },
+                    Function<Array<Any>, Set<Recommendation>> { data ->
+                        val recommendations = mutableSetOf<Recommendation>()
+                        data.forEach {
+                            recommendations.addAll(it as Set<Recommendation>)
+                        }
+                        return@Function recommendations
+                    })
             }
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
@@ -67,8 +64,8 @@ class ProgramRecommendationsViewModel @Inject constructor(
     }
 
     private fun parseRecommendationsFromSurvey(
-            entries: List<SurveyQuestionEntity>,
-            sessionEntity: SessionEntity
+        entries: List<SurveyQuestionEntity>,
+        sessionEntity: SessionEntity
     ): Set<Recommendation> {
         val recommendations = mutableSetOf<Recommendation>()
         entries.forEach { entry ->
@@ -93,16 +90,16 @@ class ProgramRecommendationsViewModel @Inject constructor(
         if (entry.answer == SurveyAnswer.NO_ANSWER) return null
 
         return when (entry.question) {
-            SurveyQuestion.CAFFEINE_  -> {
+            SurveyQuestion.CAFFEINE_ -> {
                 if (entry.answer == SurveyAnswer.YES) Recommendation.NO_CAFFEINE else null
             }
-            SurveyQuestion.SNORING    -> {
+            SurveyQuestion.SNORING -> {
                 if (entry.answer == SurveyAnswer.YES) Recommendation.SLEEP_SIDEWAYS else null
             }
-            SurveyQuestion.ALCOHOL    -> {
+            SurveyQuestion.ALCOHOL -> {
                 if (entry.answer == SurveyAnswer.YES) Recommendation.NO_ALCOHOL else null
             }
-            SurveyQuestion.EXERCISE   -> {
+            SurveyQuestion.EXERCISE -> {
                 if (entry.answer == SurveyAnswer.NO) Recommendation.EXERCISE else null
             }
             SurveyQuestion.SLEEP_DRUG -> {

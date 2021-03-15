@@ -2,7 +2,6 @@ package com.mymasimo.masimosleep.ui.profile.screens
 
 import android.os.Bundle
 import android.view.View
-import android.widget.DatePicker
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -67,12 +66,8 @@ class ProfileBirthdateFragment : Fragment(R.layout.fragment_profile_birthdate) {
         viewBinding.datePicker.init(
             today.get(Calendar.YEAR),
             today.get(Calendar.MONTH),
-            today.get(Calendar.DAY_OF_MONTH),
-            object : DatePicker.OnDateChangedListener {
-                override fun onDateChanged(p0: DatePicker?, year: Int, month: Int, day: Int) {
-                    dateChanged(year, month, day)
-                }
-            })
+            today.get(Calendar.DAY_OF_MONTH)
+        ) { _, year, month, day -> dateChanged(year, month, day) }
 
         updateSubmitButton()
 

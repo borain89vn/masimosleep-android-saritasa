@@ -203,7 +203,7 @@ class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_slee
         boundarySet.setDrawValues(false)
         chartDataSets.add(boundarySet)
 
-        val lineData: LineData = LineData(chartDataSets)
+        val lineData = LineData(chartDataSets)
 
         viewBinding.chartSleepScore.data = lineData
         viewBinding.chartSleepScore.invalidate()

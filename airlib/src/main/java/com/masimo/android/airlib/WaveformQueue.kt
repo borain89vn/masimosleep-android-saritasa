@@ -15,7 +15,7 @@ internal class WaveformQueue {
     }
 
     fun Enqueue(pleth: Float, sigIq: Float) {
-        enQueueIndex = enQueueIndex % QUEUE_SIZE
+        enQueueIndex %= QUEUE_SIZE
         aQueue[enQueueIndex][0] = pleth
         aQueue[enQueueIndex][1] = sigIq
         enQueueIndex++

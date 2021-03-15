@@ -48,7 +48,7 @@ class SessionTerminatedFragment : DialogFragment(R.layout.fragment_session_termi
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.cancelButton.setOnClickListener {
-            args.sessionTerminatedEntity?.let {
+            args.sessionTerminatedEntity.let {
                 if (it.sessionId == null || it.night == null || !it.recorded) {
                     requireParentFragment().findNavController().navigate(R.id.homeFragment, null, NavOptions.Builder().setLaunchSingleTop(true).build())
                 } else {
@@ -62,7 +62,7 @@ class SessionTerminatedFragment : DialogFragment(R.layout.fragment_session_termi
             dismiss()
         }
 
-        args.sessionTerminatedEntity?.cause?.let {
+        args.sessionTerminatedEntity.cause?.let {
             setupView(it)
         } ?: kotlin.run {
             setupView(SessionTerminatedCause.NONE)

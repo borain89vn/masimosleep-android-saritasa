@@ -193,7 +193,7 @@ class ReportIntervalGraphFragment : Fragment(R.layout.fragment_report_interval_g
             chartDataSets.add(scatterDataSet)
 
         }
-        val scatterData: ScatterData = ScatterData(chartDataSets)
+        val scatterData = ScatterData(chartDataSets)
 
         val boundaryEntryList: ArrayList<Entry> = ArrayList()
         boundaryEntryList.add(

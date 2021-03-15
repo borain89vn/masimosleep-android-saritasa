@@ -167,7 +167,7 @@ class ParameterReadingRepository @Inject constructor(
             ReadingType.SP02 -> spO2Buffer
             ReadingType.PR -> prBuffer
             ReadingType.RRP -> rrpBuffer
-            else -> listOf<Float>()
+            else -> listOf()
         }
         val average = buffer.sumByDouble { it.toDouble() } / buffer.size
 

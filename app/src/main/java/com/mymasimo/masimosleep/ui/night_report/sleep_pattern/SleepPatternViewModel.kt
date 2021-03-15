@@ -105,7 +105,7 @@ class SleepPatternViewModel @Inject constructor(
 
         val avgSleepEndAt = generateAverageTime(forStartTime = false, sessions = completedSessions)
 
-        val mostLateEndAt = completedSessions.maxBy {
+        val mostLateEndAt = completedSessions.maxByOrNull {
             it.endAt ?: throw IllegalStateException()
         }?.endAt ?: throw IllegalStateException()
 

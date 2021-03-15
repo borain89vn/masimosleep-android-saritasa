@@ -19,7 +19,7 @@ class SleepEventViewDataParser @Inject constructor() {
 
         // Create a list of interval start times from the first event in a session start time to the current time. The
         // intervals are [intervalWindow] long and the last one could end beyond the current time.
-        var intervalStartAtMillis = events.filter { it.type == SleepEventType.MILD || it.type == SleepEventType.SEVERE }.filter { it.startTime > sessionStartAt && it.endTime < sessionEndAt }.minBy { it.startTime }?.startTime?: sessionStartAt
+        var intervalStartAtMillis = events.filter { it.type == SleepEventType.MILD || it.type == SleepEventType.SEVERE }.filter { it.startTime > sessionStartAt && it.endTime < sessionEndAt }.minByOrNull { it.startTime }?.startTime?: sessionStartAt
 
         val intervalsStartAtMillis = mutableListOf<Long>()
 

@@ -2,7 +2,6 @@ package com.mymasimo.masimosleep.util
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.annotation.Size
 import androidx.core.content.FileProvider
 import com.masimo.common.logging.Log
@@ -39,7 +38,7 @@ val SUPPORTED_PARAMETER_EXCEPTION_MASK_MAP = EnumMap<ExceptionID, Int>(Exception
     this[ExceptionID.SMOOTH_PI_STARTUP_STATE] = 1 shl 4
 }.toMap()
 
-val DISPLAYABLE_PARAMETER_AVERAGES = EnumSet.noneOf(ParameterID::class.java).apply {
+val DISPLAYABLE_PARAMETER_AVERAGES: EnumSet<ParameterID> = EnumSet.noneOf(ParameterID::class.java).apply {
     add(ParameterID.FUNC_SPO2)
     add(ParameterID.PR)
     add(ParameterID.PI)
@@ -48,7 +47,7 @@ val DISPLAYABLE_PARAMETER_AVERAGES = EnumSet.noneOf(ParameterID::class.java).app
 internal fun externalShareIntent(context: Context, mime: String?, subject: String?, text: String?, vararg files: File): Intent {
     val intent = when {
         files.size > 1 -> Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-            putExtra(Intent.EXTRA_STREAM, ArrayList<Uri>(files.map { FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, it) }))
+            putExtra(Intent.EXTRA_STREAM, ArrayList(files.map { FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, it) }))
         }
         files.size == 1 -> Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, files[0]))

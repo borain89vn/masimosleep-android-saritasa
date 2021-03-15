@@ -223,7 +223,7 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
 
         }
 
-        val lineData: LineData = LineData(chartDataSets)
+        val lineData = LineData(chartDataSets)
 
 
         viewBinding.chartLive.data = lineData

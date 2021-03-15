@@ -46,7 +46,7 @@ class SleepReminderAlarmScheduler @Inject constructor(
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
                 onSuccess = { sessionsInProgram ->
-                  scheduleAlarms(numNightsRemaining = NUM_OF_NIGHTS - sessionsInProgram)
+                    scheduleAlarms(numNightsRemaining = NUM_OF_NIGHTS - sessionsInProgram)
                 },
                 onError = {},
                 onComplete = {}
@@ -58,13 +58,12 @@ class SleepReminderAlarmScheduler @Inject constructor(
         enableBootReceiver()
         cancelAlarms()
 
-        val reminderMode = getReminderTime()
-        if (reminderMode == -1) {
+        val reminderTime = getReminderTime()
+        if (reminderTime == -1) {
             // No alarm wanted.
             return
         }
-        val beforeBedOffsetSeconds = reminderMode
-        val alarmTimes = getAlarmTimes(beforeBedOffsetSeconds, numNightsRemaining)
+        val alarmTimes = getAlarmTimes(reminderTime, numNightsRemaining)
 
         alarmTimes.forEachIndexed { index, timeUTC ->
             Timber.d("Scheduling alarm for $timeUTC")
@@ -144,8 +143,10 @@ class SleepReminderAlarmScheduler @Inject constructor(
 
     private fun createReminderNotification(): Notification {
         val resultIntent = Intent(context, MainActivity::class.java)
-        val resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT)
+        val resultPendingIntent = PendingIntent.getActivity(
+            context, 0, resultIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         return NotificationCompat.Builder(context, CHANNEL_REMINDERS)
             .setContentTitle("It's time to get ready for bed.")
