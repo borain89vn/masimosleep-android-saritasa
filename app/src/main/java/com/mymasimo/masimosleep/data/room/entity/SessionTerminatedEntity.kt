@@ -17,12 +17,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = TABLE_NAME)
 data class SessionTerminatedEntity(
-        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = COLUMN_ID) var id: Long? = null,
-        @ColumnInfo(name = COLUMN_SESSION_ID) val sessionId: Long?,
-        @ColumnInfo(name = COLUMN_SESSION_NIGHT) val night: Int?,
-        @ColumnInfo(name = COLUMN_CAUSE) val cause: SessionTerminatedCause?,
-        @ColumnInfo(name = COLUMN_HANDLED) val handled: Boolean,
-        @ColumnInfo(name = COLUMN_RECORDED) val recorded: Boolean
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = COLUMN_ID) var id: Long? = null,
+    @ColumnInfo(name = COLUMN_SESSION_ID) val sessionId: Long?,
+    @ColumnInfo(name = COLUMN_SESSION_NIGHT) val night: Int?,
+    @ColumnInfo(name = COLUMN_CAUSE) val cause: SessionTerminatedCause?,
+    @ColumnInfo(name = COLUMN_HANDLED) val handled: Boolean,
+    @ColumnInfo(name = COLUMN_RECORDED) val recorded: Boolean,
 ) : Parcelable
 
 object SessionTerminatedContract {

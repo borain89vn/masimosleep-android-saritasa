@@ -20,18 +20,19 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-        private val programRepository: ProgramRepository,
-        private val sessionRepository: SessionRepository,
-        private val schedulerProvider: SchedulerProvider,
-        private val disposables: CompositeDisposable,
-        private val dialogActionHandler: DialogActionHandler,
-        private val sleepReminderAlarmScheduler: SleepReminderAlarmScheduler,
-        private val sleepSessionScoreManager: SleepSessionScoreManager,
-        private val programEntityDao: ProgramEntityDao
+    private val programRepository: ProgramRepository,
+    private val sessionRepository: SessionRepository,
+    private val schedulerProvider: SchedulerProvider,
+    private val disposables: CompositeDisposable,
+    private val dialogActionHandler: DialogActionHandler,
+    private val sleepReminderAlarmScheduler: SleepReminderAlarmScheduler,
+    private val sleepSessionScoreManager: SleepSessionScoreManager,
+    private val programEntityDao: ProgramEntityDao
 ) : ViewModel() {
 
     private val _programState = MutableLiveData<ProgramState>(ProgramState.NoProgramInProgress)
@@ -141,7 +142,7 @@ class HomeViewModel @Inject constructor(
                             if (_sessionConfiguration.value is SessionConfiguration.Summary) (_sessionConfiguration.value as SessionConfiguration.Summary).sessionId else sessionIdToAutoSelect
                         val currentNight = when {
                             sleepSessionScoreManager.isSessionInProgress -> sessions.size
-                            else                                         -> sessions.size + 1
+                            else -> sessions.size + 1
                         }
 
                         val selectedNight: Int
@@ -158,19 +159,19 @@ class HomeViewModel @Inject constructor(
                         sessionIdToAutoSelect = null
 
                         return@map ProgramState.ProgramInProgress(
-                                program = program,
-                                sessions = sessions,
-                                currentNight = currentNight,
-                                selectedNight = selectedNight,
-                                selectedSessionId = selectedSessionId
-                        ) as ProgramState
+                            program = program,
+                            sessions = sessions,
+                            currentNight = currentNight,
+                            selectedNight = selectedNight,
+                            selectedSessionId = selectedSessionId
+                        )
                     }
                     .toMaybe()
             }
             .defaultIfEmpty(ProgramState.NoProgramInProgress)
             .doOnSuccess { programState ->
                 when (programState) {
-                    ProgramState.NoProgramInProgress  -> {
+                    ProgramState.NoProgramInProgress -> {
                         sleepReminderAlarmScheduler.cancelAlarms()
                     }
                     is ProgramState.ProgramInProgress -> {
@@ -185,7 +186,7 @@ class HomeViewModel @Inject constructor(
                 _programState.value = programState
 
                 when (programState) {
-                    ProgramState.NoProgramInProgress  -> {
+                    ProgramState.NoProgramInProgress -> {
                         _sessionConfiguration.value = SessionConfiguration.Today
                     }
                     is ProgramState.ProgramInProgress -> {
@@ -197,11 +198,10 @@ class HomeViewModel @Inject constructor(
                             SessionConfiguration.Today
                         } else {
                             SessionConfiguration.Summary(
-                                    programState.selectedSessionId ?: throw IllegalStateException(),
-                                    programState.selectedNight
+                                programState.selectedSessionId ?: throw IllegalStateException(),
+                                programState.selectedNight
                             )
                         }
-
                     }
                 }
             }
@@ -212,7 +212,7 @@ class HomeViewModel @Inject constructor(
                 programRepository.getCurrentProgram()
                     .flatMap { program ->
                         sessionRepository.countAllSessionsInProgram(
-                                program.id ?: throw IllegalStateException()
+                            program.id ?: throw IllegalStateException()
                         )
                     }
                     .map { currentNight -> Pair(sessionId, currentNight) }
@@ -221,45 +221,40 @@ class HomeViewModel @Inject constructor(
             .take(1)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe({ (sessionTerminatedInfo, currentNight) ->
-                           sessionEnded.accept(Pair(sessionTerminatedInfo.first, currentNight))
-
-                       },
-                       {
-                           it.printStackTrace()
-                       })
+            .subscribe(
+                { (sessionId, currentNight) -> sessionEnded.accept(Pair(sessionId, currentNight)) },
+                { it.printStackTrace() }
+            )
             .addTo(disposables)
 
         sessionRepository.onSessionCanceledUpdates
             .take(1)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe {
-                sessionCanceled.accept(it.first)
-
-            }
+            .subscribe { sessionId -> sessionCanceled.accept(sessionId) }
             .addTo(disposables)
 
         sessionRepository.getSessionInProgress()
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe({ sessionEntity ->
-                           if (sleepSessionScoreManager.isSessionInProgress)
-                               _sessionInProgress.accept(sessionEntity)
-                       }, {
-                           it.printStackTrace()
-                       })
+            .subscribe(
+                { sessionEntity ->
+                    if (sleepSessionScoreManager.isSessionInProgress)
+                        _sessionInProgress.accept(sessionEntity)
+                },
+                { Timber.e(it) }
+            )
             .addTo(disposables)
     }
 
     sealed class ProgramState {
         object NoProgramInProgress : ProgramState()
         data class ProgramInProgress(
-                val program: ProgramEntity,
-                val sessions: List<SessionEntity>,
-                val currentNight: Int,
-                val selectedNight: Int,
-                val selectedSessionId: Long?
+            val program: ProgramEntity,
+            val sessions: List<SessionEntity>,
+            val currentNight: Int,
+            val selectedNight: Int,
+            val selectedSessionId: Long?
         ) : ProgramState()
     }
 

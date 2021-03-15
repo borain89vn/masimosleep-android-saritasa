@@ -76,9 +76,7 @@ class SurveyViewModel @Inject constructor(
         val sessionId = this.sessionId
             ?: throw IllegalStateException("Null session id. Did you forget to call onCreated()?")
 
-        val questionAnswerPairs = questionAnswerMap.map { entry ->
-            Pair(entry.key, entry.value)
-        }
+        val questionAnswerPairs = questionAnswerMap.map { entry -> entry.key to entry.value }
         surveyRepository.saveSurvey(sessionId, questionAnswerPairs)
     }
 

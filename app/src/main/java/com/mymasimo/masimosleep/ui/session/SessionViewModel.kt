@@ -3,7 +3,6 @@ package com.mymasimo.masimosleep.ui.session
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
@@ -22,15 +21,15 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SessionViewModel @Inject constructor(
-        private val sessionRepository: SessionRepository,
-        private val schedulerProvider: SchedulerProvider,
-        sleepScoreRepository: SleepScoreRepository,
-        deviceExceptionHandler: DeviceExceptionHandler,
-        dialogActionHandler: DialogActionHandler,
-        private val bleConnectionState: BLEConnectionState,
-        programRepository: ProgramRepository,
-        private val disposables: CompositeDisposable,
-        private val sleepSessionScoreManager: SleepSessionScoreManager
+    private val sessionRepository: SessionRepository,
+    private val schedulerProvider: SchedulerProvider,
+    sleepScoreRepository: SleepScoreRepository,
+    deviceExceptionHandler: DeviceExceptionHandler,
+    dialogActionHandler: DialogActionHandler,
+    bleConnectionState: BLEConnectionState,
+    programRepository: ProgramRepository,
+    private val disposables: CompositeDisposable,
+    private val sleepSessionScoreManager: SleepSessionScoreManager
 ) : ViewModel() {
 
     private var hasBatteryLowWarningBeenShown = false
@@ -90,30 +89,27 @@ class SessionViewModel @Inject constructor(
             .flatMap { sessionId ->
                 programRepository.getCurrentProgram()
                     .flatMap { program ->
-                        sessionRepository.countAllSessionsInProgram(
-                                program.id ?: throw IllegalStateException()
-                        )
+                        sessionRepository.countAllSessionsInProgram(program.id ?: throw IllegalStateException())
                     }
                     .map { currentNight -> Pair(sessionId, currentNight) }
                     .toObservable()
             }
-
             .take(1)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe({ (sessionTerminatedInfo, currentNight) ->
-                           sessionEnded.accept(Pair(sessionTerminatedInfo.first, currentNight))
-                       }, {
-                           it.printStackTrace()
-                       })
+            .subscribe({ (sessionId, currentNight) ->
+                sessionEnded.accept(Pair(sessionId, currentNight))
+            }, {
+                it.printStackTrace()
+            })
             .addTo(disposables)
 
         sessionRepository.onSessionCanceledUpdates
             .take(1)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe {
-                sessionCanceled.accept(it.first)
+            .subscribe { sessionId ->
+                sessionCanceled.accept(sessionId)
             }
             .addTo(disposables)
 
@@ -130,8 +126,8 @@ class SessionViewModel @Inject constructor(
             .observeOn(schedulerProvider.ui())
             .subscribe { action ->
                 when (action) {
-                    Action.EndSessionClicked                -> onEndSessionClick()
-                    Action.EndSessionConfirmationClicked    -> onEndSessionConfirmed()
+                    Action.EndSessionClicked -> onEndSessionClick()
+                    Action.EndSessionConfirmationClicked -> onEndSessionConfirmed()
                     Action.CancelSessionConfirmationClicked -> onCancelSessionConfirmed()
                 }
             }
@@ -219,11 +215,11 @@ class SessionViewModel @Inject constructor(
         }
     }
 
-    fun onCancelSessionConfirmed() {
+    private fun onCancelSessionConfirmed() {
         sleepSessionScoreManager.cancelSession(null)
     }
 
-    fun onEndSessionConfirmed() {
+    private fun onEndSessionConfirmed() {
         sleepSessionScoreManager.endSession(null)
     }
 
@@ -243,10 +239,10 @@ class SessionViewModel @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({
-                           _sessionInProgress.accept(true)
-                       }, {
-                           _sessionInProgress.accept(false)
-                       })
+                _sessionInProgress.accept(true)
+            }, {
+                _sessionInProgress.accept(false)
+            })
 
     }
 

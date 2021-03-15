@@ -48,16 +48,16 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
 
         loadViewContent()
 
-        vm.score.observe(viewLifecycleOwner) { score ->
-            updateScore(score.first, score.second)
+        vm.score.observe(viewLifecycleOwner) { scoreWithSessions ->
+            updateScore(scoreWithSessions)
         }
 
         vm.trendData.observe(viewLifecycleOwner) { viewDate ->
             updateChart(viewDate)
         }
 
-        vm.sleepQualityDesc.observe(viewLifecycleOwner) { pairOfScoreAndOutcome ->
-            updateSleepQualityDesc(pairOfScoreAndOutcome)
+        vm.sleepQualityDesc.observe(viewLifecycleOwner) { scoreWithOutcome ->
+            updateSleepQualityDesc(scoreWithOutcome)
         }
     }
 
@@ -71,10 +71,10 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
         configureChart()
     }
 
-    private fun updateSleepQualityDesc(pairOfScoreAndOutcome: Triple<Double, Double, Int>) {
-        if (pairOfScoreAndOutcome.third >= NUM_OF_NIGHTS - 1) {
-            val scoreInt = (pairOfScoreAndOutcome.first * 100).toInt()
-            val outcome = SleepOutcome.fromValue(pairOfScoreAndOutcome.second)
+    private fun updateSleepQualityDesc(scoreWithOutcome: Triple<Double, SleepOutcome, Int>) {
+        val (score, outcome, sessionCount) = scoreWithOutcome
+        if (sessionCount >= NUM_OF_NIGHTS - 1) {
+            val scoreInt = (score * 100).toInt()
 
             var qualityDesc = R.string.program_quality_desc_poor
             when {
@@ -103,7 +103,8 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
         }
     }
 
-    private fun updateScore(score: Double, sessionCount: Int) {
+    private fun updateScore(scoreWithSessions: Pair<Double, Int>) {
+        val (score, sessionCount) = scoreWithSessions
         if (sessionCount >= NUM_OF_NIGHTS - 1) {
             viewBinding.qualitySoFarText.text = getString(R.string.average_sleep_quality_index)
 

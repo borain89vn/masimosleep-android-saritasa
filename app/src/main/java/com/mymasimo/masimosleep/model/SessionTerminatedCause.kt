@@ -12,7 +12,7 @@ enum class SessionTerminatedCause(@StringRes val title: Int, @StringRes val cont
     ENOUGH_SLEEP_ENDED(R.string.session_terminated_dialog_ended_title, R.string.session_terminated_dialog_ended_des_prolonged_session, isRecorded = true);
 
     companion object {
-        private val map = SessionTerminatedCause.values().associateBy { it.name }
+        private val map = values().associateBy { it.name }
         fun fromKey(key: String): SessionTerminatedCause = map[key]
             ?: throw IllegalArgumentException("Invalid key $key")
     }

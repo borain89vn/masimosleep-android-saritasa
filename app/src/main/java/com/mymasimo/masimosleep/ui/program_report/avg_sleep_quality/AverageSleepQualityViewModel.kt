@@ -7,22 +7,20 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.repository.SleepScoreRepository
-import com.mymasimo.masimosleep.data.room.entity.ProgramEntity
 import com.mymasimo.masimosleep.data.room.entity.ScoreEntity
-import com.mymasimo.masimosleep.data.room.entity.SessionEntity
+import com.mymasimo.masimosleep.ui.program_report.outcome.SleepOutcome
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class AverageSleepQualityViewModel @Inject constructor(
-        private val programRepository: ProgramRepository,
-        private val sessionRepository: SessionRepository,
-        private val scoreRepository: SleepScoreRepository,
-        private val schedulerProvider: SchedulerProvider,
-        private val disposables: CompositeDisposable
+    private val programRepository: ProgramRepository,
+    private val sessionRepository: SessionRepository,
+    private val scoreRepository: SleepScoreRepository,
+    private val schedulerProvider: SchedulerProvider,
+    private val disposables: CompositeDisposable
 ) : ViewModel() {
 
     private val _score = MutableLiveData<Pair<Double, Int>>()
@@ -33,8 +31,8 @@ class AverageSleepQualityViewModel @Inject constructor(
     val trendData: LiveData<ProgramSleepQualityTrendViewData>
         get() = _trendData
 
-    private val _sleepQualityDesc = MutableLiveData<Triple<Double, Double, Int>>()
-    val sleepQualityDesc: LiveData<Triple<Double, Double, Int>>
+    private val _sleepQualityDesc = MutableLiveData<Triple<Double, SleepOutcome, Int>>()
+    val sleepQualityDesc: LiveData<Triple<Double, SleepOutcome, Int>>
         get() = _sleepQualityDesc
 
     fun onCreated(programId: Long) {
@@ -53,37 +51,34 @@ class AverageSleepQualityViewModel @Inject constructor(
                         } else Single.zip(sessions.map { session ->
                             scoreRepository.getSessionScore(session.id ?: throw IllegalStateException())
                         },
-                                          Function<Array<Any>, List<Double>> { data ->
-                                              val sessionScores = mutableListOf<ScoreEntity>()
-                                              data.forEach {
-                                                  sessionScores.add(it as ScoreEntity)
-                                              }
-                                              return@Function sessionScores.map { it.value }
-                                          })
+                            Function<Array<Any>, List<Double>> { data ->
+                                val sessionScores = mutableListOf<ScoreEntity>()
+                                data.forEach {
+                                    sessionScores.add(it as ScoreEntity)
+                                }
+                                return@Function sessionScores.map { it.value }
+                            })
                     }
             }.subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe { scores ->
                 _trendData.value = ProgramSleepQualityTrendViewData(
-                        sessions = scores.mapIndexed { index, score ->
-                            ProgramSleepQualityTrendViewData.Session(
-                                    index, score
-                            )
-                        }
+                    sessions = scores.mapIndexed { index, score ->
+                        ProgramSleepQualityTrendViewData.Session(
+                            index, score
+                        )
+                    }
                 )
             }
             .addTo(disposables)
 
         programRepository.getProgramFlowable(programId)
-            .zipWith(sessionRepository.getAllSessionsByProgramIdAsc(programId).toFlowable(), BiFunction<ProgramEntity, List<SessionEntity>, Triple<Double, Double, Int>> { program, sessions ->
-                Triple(program.score, program.outcome, sessions.size)
+            .zipWith(sessionRepository.getAllSessionsByProgramIdAsc(programId).toFlowable(), { program, sessions ->
+                Triple(program.score, SleepOutcome.fromValue(program.outcome), sessions.size)
             })
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe { result ->
-                _sleepQualityDesc.postValue(result)
-
-            }
+            .subscribe { result -> _sleepQualityDesc.postValue(result) }
             .addTo(disposables)
     }
 
@@ -93,11 +88,11 @@ class AverageSleepQualityViewModel @Inject constructor(
     }
 
     data class ProgramSleepQualityTrendViewData(
-            val sessions: List<Session>
+        val sessions: List<Session>
     ) {
         data class Session(
-                val index: Int,
-                val score: Double
+            val index: Int,
+            val score: Double
         )
     }
 }

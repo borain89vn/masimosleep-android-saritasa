@@ -20,20 +20,20 @@ import javax.inject.Singleton
 
 @Singleton
 class SessionRepository @Inject constructor(
-        private val sessionEntityDao: SessionEntityDao,
-        private val scoreRepository: SleepScoreRepository,
-        private val sessionTerminatedRepository: SessionTerminatedRepository,
-        private val schedulerProvider: SchedulerProvider,
-        private val disposables: CompositeDisposable,
-        private val programEntityDao: ProgramEntityDao
+    private val sessionEntityDao: SessionEntityDao,
+    private val scoreRepository: SleepScoreRepository,
+    private val sessionTerminatedRepository: SessionTerminatedRepository,
+    private val schedulerProvider: SchedulerProvider,
+    private val disposables: CompositeDisposable,
+    private val programEntityDao: ProgramEntityDao
 ) {
 
-    private val onSessionEndedRelay = PublishRelay.create<Pair<Long, SessionTerminatedCause?>>()
-    val onSessionEndedUpdates: Observable<Pair<Long, SessionTerminatedCause?>>
+    private val onSessionEndedRelay = PublishRelay.create<Long>()
+    val onSessionEndedUpdates: Observable<Long>
         get() = onSessionEndedRelay
 
-    private val onSessionCanceledRelay = PublishRelay.create<Pair<Long, SessionTerminatedCause?>>()
-    val onSessionCanceledUpdates: Observable<Pair<Long, SessionTerminatedCause?>>
+    private val onSessionCanceledRelay = PublishRelay.create<Long>()
+    val onSessionCanceledUpdates: Observable<Long>
         get() = onSessionCanceledRelay
 
     fun getSessionInProgressId(): Single<Long> {
@@ -75,22 +75,22 @@ class SessionRepository @Inject constructor(
         programEntityDao.findCurrentProgram()
             .flatMapCompletable { program ->
                 sessionEntityDao.insert(
-                        SessionEntity(
-                                programId = program.id ?: throw IllegalStateException(),
-                                nightNumber = nightNumber,
-                                startAt = startAt
-                        )
+                    SessionEntity(
+                        programId = program.id ?: throw IllegalStateException(),
+                        nightNumber = nightNumber,
+                        startAt = startAt
+                    )
                 )
             }
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
-                    onComplete = {
-                        Timber.d("Session for night=$nightNumber started and saved to the DB with startAt=$startAt")
-                    },
-                    onError = { e ->
-                        Timber.e(e, "Error saving session for night=$nightNumber")
-                    }
+                onComplete = {
+                    Timber.d("Session for night=$nightNumber started and saved to the DB with startAt=$startAt")
+                },
+                onError = { e ->
+                    Timber.e(e, "Error saving session for night=$nightNumber")
+                }
             )
             .addTo(disposables)
     }
@@ -104,10 +104,12 @@ class SessionRepository @Inject constructor(
                     .toSingleDefault(sessionInProgress)
             }
             .flatMap { sessionJustEnded ->
-                return@flatMap sessionTerminatedRepository.saveTerminatedCause(sessionId = sessionJustEnded.id,
-                                                                               night = sessionJustEnded.nightNumber,
-                                                                               sessionTerminatedCause = cause,
-                                                                               recorded = true)
+                return@flatMap sessionTerminatedRepository.saveTerminatedCause(
+                    sessionId = sessionJustEnded.id,
+                    night = sessionJustEnded.nightNumber,
+                    sessionTerminatedCause = cause,
+                    recorded = true
+                )
                     .doOnComplete { Timber.d("Session end cause saved") }
                     .doOnError {
                         Timber.d("Session end cause saved exception happened")
@@ -117,7 +119,7 @@ class SessionRepository @Inject constructor(
             }
             .flatMap { sessionJustEnded ->
                 val sessionId = sessionJustEnded.id ?: throw IllegalStateException()
-                onSessionEndedRelay.accept(Pair(sessionId, cause))
+                onSessionEndedRelay.accept(sessionId)
                 scoreRepository.getAllLiveScoresInSession(sessionId).map { scores ->
                     Pair(scores, sessionJustEnded)
                 }.onErrorReturn {
@@ -129,8 +131,7 @@ class SessionRepository @Inject constructor(
                 val sessionEntity = liveScoresEntity.second
                 Completable.create { emitter ->
                     try {
-                        val liveScores =
-                            liveScoresInSession.map { scoreEntity -> scoreEntity.value }
+                        val liveScores = liveScoresInSession.map { scoreEntity -> scoreEntity.value }
                         Timber.d("Supplying all session scores to score provider")
                         SleepSessionScoreProvider.getSessionSummary(liveScores.map { it.toFloat() }, sessionEntity.id ?: throw IllegalStateException())
                         emitter.onComplete()
@@ -140,25 +141,24 @@ class SessionRepository @Inject constructor(
                 }
             }
             .andThen(
-                    programEntityDao.findLatestProgram()
-                        .flatMapCompletable { program ->
-                            scoreRepository.getProgramSessionScores(
-                                    program.id ?: throw IllegalStateException())
-                                .doOnSuccess { scores ->
-                                    SleepSessionScoreProvider.getProgramSummary(scores.map { it.toFloat() }, program.id ?: throw IllegalStateException())
-                                }
-                                .toCompletable()
-                        }
+                programEntityDao.findLatestProgram()
+                    .flatMapCompletable { program ->
+                        scoreRepository.getProgramSessionScores(program.id ?: throw IllegalStateException())
+                            .doOnSuccess { scores ->
+                                SleepSessionScoreProvider.getProgramSummary(scores.map { it.toFloat() }, program.id ?: throw IllegalStateException())
+                            }
+                            .ignoreElement()
+                    }
             )
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
-                    onComplete = {
-                        Timber.d("Session ended successfully")
-                    },
-                    onError = { e ->
-                        Timber.e(e, "Could not end session with session score generation")
-                    }
+                onComplete = {
+                    Timber.d("Session ended successfully")
+                },
+                onError = { e ->
+                    Timber.e(e, "Could not end session with session score generation")
+                }
             )
             .addTo(disposables)
     }
@@ -170,26 +170,28 @@ class SessionRepository @Inject constructor(
                     .doOnComplete {
                         Timber.d("Session deleted")
                         sessionInProgress.id?.let { sessionInProgressId ->
-                            onSessionCanceledRelay.accept(Pair(sessionInProgressId, cause))
+                            onSessionCanceledRelay.accept(sessionInProgressId)
                         }
                     }
             }.doOnComplete {
-                sessionTerminatedRepository.saveTerminatedCause(sessionId = null,
-                                                                night = null,
-                                                                sessionTerminatedCause = cause,
-                                                                recorded = false)
+                sessionTerminatedRepository.saveTerminatedCause(
+                    sessionId = null,
+                    night = null,
+                    sessionTerminatedCause = cause,
+                    recorded = false
+                )
                     .doOnComplete { Timber.d("Session end cause saved") }
                     .subscribe()
             }
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
-                    onComplete = {
-                        Timber.d("Session ended successfully")
-                    },
-                    onError = { e ->
-                        Timber.e(e, "Could cancel session")
-                    }
+                onComplete = {
+                    Timber.d("Session ended successfully")
+                },
+                onError = { e ->
+                    Timber.e(e, "Could cancel session")
+                }
             )
             .addTo(disposables)
     }

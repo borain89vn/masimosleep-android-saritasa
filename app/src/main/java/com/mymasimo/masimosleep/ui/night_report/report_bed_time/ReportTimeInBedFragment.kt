@@ -30,7 +30,7 @@ class ReportTimeInBedFragment : Fragment(R.layout.fragment_report_time_in_bed) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vm.sleepRange.observe(viewLifecycleOwner) { sleepRange ->
-            updateTime(sleepRange.first, sleepRange.second)
+            updateTime(sleepRange.first, sleepRange.last)
         }
     }
 

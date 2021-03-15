@@ -49,11 +49,11 @@ class SleepSessionScoreManager @Inject constructor(
             )
         }
 
-        override fun handle(sleepImprovementResult: SleepImprovementResult, programId: Long) {
+        override fun handle(sleepImprovementResult: SleepImprovementResult, id: Long) {
             if (sleepImprovementResult.isValid) {
-                programRepository.setProgramOutcomeOfProgram(sleepImprovementResult.value.toDouble(), programId)
+                programRepository.setProgramOutcomeOfProgram(sleepImprovementResult.value.toDouble(), id)
             } else {
-                programRepository.setProgramOutcomeOfProgram(0.0, programId)
+                programRepository.setProgramOutcomeOfProgram(0.0, id)
                 Timber.e("Received invalid SleepImprovementResult!")
             }
         }

@@ -74,7 +74,7 @@ class ProgramReportFragment : Fragment(R.layout.fragment_program_report) {
         }.addTo(disposables)
 
         vm.programRange.observe(viewLifecycleOwner, { range ->
-            updateTime(range.first, range.second)
+            updateTime(range.first, range.last)
         })
 
         vm.onCreated(args.programId)
@@ -104,7 +104,6 @@ class ProgramReportFragment : Fragment(R.layout.fragment_program_report) {
     }
 
     private fun showReportConfiguration() {
-
         removeAllFragments()
 
         addFragment(AverageSleepQualityFragment.newInstance(args.programId), AVG_SLEEP_QUALITY_FRAGMENT_TAG)

@@ -15,8 +15,8 @@ class ReportTimeInBedViewModel @Inject constructor(
     private val disposable: CompositeDisposable
 ) : ViewModel() {
 
-    private val _sleepRange = MutableLiveData<Pair<Long, Long>>()
-    val sleepRange: LiveData<Pair<Long, Long>>
+    private val _sleepRange = MutableLiveData<LongRange>()
+    val sleepRange: LiveData<LongRange>
         get() = _sleepRange
 
     fun onCreated(sessionId: Long) {
@@ -25,7 +25,7 @@ class ReportTimeInBedViewModel @Inject constructor(
             .observeOn(schedulerProvider.ui())
             .subscribe { session ->
                 val endAt = session.endAt ?: throw IllegalStateException()
-                _sleepRange.value = Pair(session.startAt, endAt)
+                _sleepRange.value = LongRange(session.startAt, endAt)
             }
             .addTo(disposable)
     }
