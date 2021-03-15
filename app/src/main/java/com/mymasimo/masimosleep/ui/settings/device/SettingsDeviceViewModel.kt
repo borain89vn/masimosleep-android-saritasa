@@ -9,17 +9,15 @@ import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.service.serviceDisconnectBLE
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
 class SettingsDeviceViewModel @Inject constructor(
-        private val schedulerProvider: SchedulerProvider,
-        private val disposables: CompositeDisposable,
-        private val dialogActionHandler: DialogActionHandler
+    private val schedulerProvider: SchedulerProvider,
+    private val disposables: CompositeDisposable,
+    dialogActionHandler: DialogActionHandler
 ) : ViewModel() {
     private val _confirmReplaceDevice = PublishRelay.create<Unit>()
     val confirmReplaceDevice: Observable<Unit>
@@ -48,18 +46,18 @@ class SettingsDeviceViewModel @Inject constructor(
     fun deleteDevice() {
         ModelStore.currentModule?.id?.let {
             DataRepository.deleteModule(it)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ rows ->
-                               Timber.d("Deleted module $it. $rows rows affected.")
-                               serviceDisconnectBLE(MasimoSleepApp.get(), it)
-                               _deviceDeleted.accept(Unit)
-                           },
-                           { error ->
-                               Timber.e(error, "Failed to delete module $it")
-                           })
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(
+                    { rows ->
+                        Timber.d("Deleted module $it. $rows rows affected.")
+                        serviceDisconnectBLE(MasimoSleepApp.get(), it)
+                        _deviceDeleted.accept(Unit)
+                    },
+                    { error -> Timber.e(error, "Failed to delete module $it") }
+                )
+                .addTo(disposables)
         }
-
     }
 
     override fun onCleared() {

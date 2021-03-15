@@ -2,6 +2,7 @@ package com.mymasimo.masimosleep.ui.program_history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
@@ -100,6 +101,6 @@ class ProgramViewHolder(
             }
         }
 
-        bindings.faceImage.setImageDrawable(bindings.root.resources.getDrawable(faceImageID, null))
+        bindings.faceImage.setImageDrawable(ResourcesCompat.getDrawable(bindings.root.resources, faceImageID, null))
     }
 }

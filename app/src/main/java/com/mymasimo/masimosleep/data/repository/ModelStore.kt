@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
+// TODO: 3/15/21 Rewrite to repository for modules
 object ModelStore {
 
     val currentModuleUpdates: MutableLiveData<Module> = MutableLiveData()
@@ -42,12 +43,13 @@ object ModelStore {
         DataRepository.observeModule(moduleId)
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.trampoline())
-            .subscribe({ module ->
-                Timber.d("Current module loaded: $module")
-                currentModule = module
-                onStartUpModuleLoadedRelay.accept(Unit)
-            }, {
-                Timber.w("Unable to load module with id $moduleId")
-            })
+            .subscribe(
+                { module ->
+                    Timber.d("Current module loaded: $module")
+                    currentModule = module
+                    onStartUpModuleLoadedRelay.accept(Unit)
+                },
+                { Timber.e(it, "Unable to load module with id $moduleId") }
+            )
     }
 }

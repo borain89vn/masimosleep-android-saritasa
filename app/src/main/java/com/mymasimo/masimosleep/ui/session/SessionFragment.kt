@@ -101,7 +101,7 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
             .observeOn(schedulerProvider.ui())
             .flatMap { (sessionId, currentNight) ->
                 Timber.d("Session Ended, checking cause.")
-                sessionTerminatedRepository.findLatestTerminatedModelNotHandled()
+                sessionTerminatedRepository.findLatestTerminatedModelNotHandled() // TODO MC: 3/15/21 simplify chain
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .doOnError {

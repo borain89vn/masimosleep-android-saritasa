@@ -242,8 +242,7 @@ class SessionViewModel @Inject constructor(
                 _sessionInProgress.accept(true)
             }, {
                 _sessionInProgress.accept(false)
-            })
-
+            }).addTo(disposables)
     }
 
     override fun onCleared() {

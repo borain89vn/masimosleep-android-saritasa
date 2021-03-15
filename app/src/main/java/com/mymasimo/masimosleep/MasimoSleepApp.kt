@@ -22,13 +22,20 @@ import javax.inject.Inject
 
 class MasimoSleepApp : Application(), LifecycleObserver {
 
-    @Inject lateinit var schedulerProvider: SchedulerProvider
-    @Inject lateinit var disposables: CompositeDisposable
-    @Inject lateinit var fakeTicker: FakeTicker
-    @Inject lateinit var fakeEventGenerator: FakeEventGenerator
-    @Inject lateinit var programRepository: ProgramRepository
-    @Inject lateinit var sessionRepository: SessionRepository
-    @Inject lateinit var sleepSessionScoreManager: SleepSessionScoreManager
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var fakeTicker: FakeTicker
+    @Inject
+    lateinit var fakeEventGenerator: FakeEventGenerator
+    @Inject
+    lateinit var programRepository: ProgramRepository
+    @Inject
+    lateinit var sessionRepository: SessionRepository
+    @Inject
+    lateinit var sleepSessionScoreManager: SleepSessionScoreManager
 
     lateinit var component: SingletonComponent
 
@@ -122,11 +129,11 @@ class MasimoSleepApp : Application(), LifecycleObserver {
         sessionRepository.getSessionInProgress()
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe({ session ->
-                           sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt)
-                       }, {
-                           Timber.d("No session to resume.")
-                       })
+            .subscribe(
+                { session -> sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt) },
+                { Timber.d("No session to resume.") }
+            )
+            .addTo(disposables)
     }
 
     companion object {

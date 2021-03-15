@@ -2,6 +2,7 @@ package com.mymasimo.masimosleep.ui.night_report.report_events.details
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.SleepEventType
@@ -57,7 +58,7 @@ class EventViewHolder(
             severityStringID = R.string.major_event_name
         }
 
-        bindings.severityDot.background = bindings.root.resources.getDrawable(severityDotID, null)
+        bindings.severityDot.background = ResourcesCompat.getDrawable(bindings.root.resources, severityDotID, null)
         bindings.severityLabel.text = bindings.root.resources.getString(severityStringID)
 
         var bgColorID = R.color.white
@@ -65,6 +66,6 @@ class EventViewHolder(
             bgColorID = R.color.lightGray
         }
 
-        bindings.root.background = bindings.root.resources.getDrawable(bgColorID, null)
+        bindings.root.background = ResourcesCompat.getDrawable(bindings.root.resources, bgColorID, null)
     }
 }
