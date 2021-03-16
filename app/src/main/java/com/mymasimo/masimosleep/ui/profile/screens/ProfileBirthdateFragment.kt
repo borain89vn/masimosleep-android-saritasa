@@ -81,8 +81,7 @@ class ProfileBirthdateFragment : Fragment(R.layout.fragment_profile_birthdate) {
         }
     }
 
-    fun dateChanged(year: Int, month: Int, day: Int) {
-
+    private fun dateChanged(year: Int, month: Int, day: Int) {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)
