@@ -100,7 +100,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewBinding.settingsButton.setOnClickListener {
             requireView().findNavController().navigateSafe(R.id.action_homeFragment_to_settingsFragment)
-
         }
 
         viewBinding.calendarButton.setOnClickListener {
