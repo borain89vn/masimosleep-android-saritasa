@@ -6,15 +6,18 @@ rootProject.ext{
             buildToolsVersion  : '29.0.3',
 
             //Plugins
-            kotlin             : '1.4.31',
             androidGradlePlugin: '4.1.3',
-            googleServices     : '4.3.4',
+            googleServices     : '4.3.5',
             craslyticsPlugin   : '2.4.1',
+
+            //Kotlin
+            kotlin             : '1.4.31',
+            ktxCore            : '1.3.2',
+            ktxFragment        : '1.3.1',
+            kotlinCoroutines   : '1.4.3',
 
             timber             : '4.7.1',
             dagger             : '2.26',
-            ktxCore            : '1.3.2',
-            ktxFragment        : '1.3.1',
             flipper            : '0.79.1',
             soloader           : '0.10.1',
             slf4j              : '1.7.30',
@@ -36,8 +39,7 @@ rootProject.ext{
             lifecycle          : '2.3.0',
 
             // Firebase
-            firebaseCrashlytics: '17.3.1',
-            firebaseAnalytics  : '18.0.2',
+            firebaseBom        : '26.7.0',
 
             // UI
             material           : '1.1.0',
@@ -68,23 +70,24 @@ rootProject.ext{
     libraries = [
             annotation              : "androidx.annotation:annotation:$versions.annotation",
             appCompat               : "androidx.appcompat:appcompat:$versions.appcompat", // https://developer.android.com/jetpack/androidx/releases/appcompat
+
+            circleIndicator         : "me.relex:circleindicator:$versions.circleIndicator", // A lightweight indicator like in nexus 5 launcher (https://github.com/ongakuer/CircleIndicator)
             constraintLayout        : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout", // https://developer.android.com/jetpack/androidx/releases/constraintlayout
 
             dagger                  : "com.google.dagger:dagger:$versions.dagger", // Dependency injection framework (https://github.com/google/dagger)
             daggerCompiler          : "com.google.dagger:dagger-compiler:$versions.dagger",
 
-            circleIndicator         : "me.relex:circleindicator:$versions.circleIndicator", // A lightweight indicator like in nexus 5 launcher (https://github.com/ongakuer/CircleIndicator)
-
-            firebaseAnalytics       : "com.google.firebase:firebase-analytics:$versions.firebaseAnalytics", // https://firebase.google.com/docs/analytics/
-            firebaseAnalyticsKtx    : "com.google.firebase:firebase-analytics-ktx:$versions.firebaseAnalytics",
-            firebaseCrashlytics     : "com.google.firebase:firebase-crashlytics:$versions.firebaseCrashlytics", // https://firebase.google.com/docs/crashlytics/
-
+            firebaseBom             : "com.google.firebase:firebase-bom:$versions.firebaseBom", // Bill of Materials enables you to manage all your Firebase library versions by specifying only one version — the BoM's version https://firebase.google.com/docs/android/learn-more#bom
+            firebaseAnalytics       : "com.google.firebase:firebase-analytics-ktx", // https://firebase.google.com/docs/analytics/
+            firebaseCrashlytics     : "com.google.firebase:firebase-crashlytics", // https://firebase.google.com/docs/crashlytics/
+            firebaseFirestore       : "com.google.firebase:firebase-firestore-ktx", // https://firebase.google.com/docs/firestore
             flipper                 : "com.facebook.flipper:flipper:$versions.flipper", // platform for debugging mobile apps on iOS and Android (https://github.com/facebook/flipper)
             flipperNoOp             : "com.facebook.flipper:flipper-noop:$versions.flipper",
 
             kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin",
             ktxCore                 : "androidx.core:core-ktx:$versions.ktxCore", // https://developer.android.com/jetpack/androidx/releases/core
             ktxFragment             : "androidx.fragment:fragment-ktx:$versions.ktxFragment", // https://developer.android.com/jetpack/androidx/releases/fragment
+            kotlinCoroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.kotlinCoroutines", // https://github.com/Kotlin/kotlinx.coroutines
 
             lifecycleCompiler       : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle", // https://developer.android.com/jetpack/androidx/releases/lifecycle
             lifecycleRuntime        : "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle",
@@ -97,11 +100,11 @@ rootProject.ext{
             navFragmentKtx          : "androidx.navigation:navigation-fragment-ktx:$versions.navigation", // Framework for navigating between 'destinations' within an Android application (https://developer.android.com/jetpack/androidx/releases/navigation)
             navUiKtx                : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
 
+            ripplePulse             : "com.kuassivi.android.view:ripple-pulse-layout:$versions.ripplePulse", // Layout container that generates animated pulses (https://github.com/FranRiadigos/android-ripple-pulse-layout)
             room                    : "androidx.room:room-runtime:$versions.room", // Persistence library that provides an abstraction layer over SQLite(https://developer.android.com/topic/libraries/architecture/room.html)
             roomCompiler            : "androidx.room:room-compiler:$versions.room",
             roomKtx                 : "androidx.room:room-ktx:$versions.room",
             roomRxJava              : "androidx.room:room-rxjava2:$versions.room",
-
             rxAndroid               : "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid", // Android specific bindings for RxJava (https://github.com/ReactiveX/RxAndroid)
             rxJava                  : "io.reactivex.rxjava2:rxjava:$versions.rxJava", // JVM implementation of Reactive Extensions (https://github.com/ReactiveX/RxJava)
             rxKotlin                : "io.reactivex.rxjava2:rxkotlin:$versions.rxKotlin", // RxJava bindings for Kotlin (https://github.com/ReactiveX/RxKotlin)
@@ -109,10 +112,11 @@ rootProject.ext{
 
             slf4j                   : "org.slf4j:slf4j-api:$versions.slf4j", // http://www.slf4j.org/index.html
             soloader                : "com.facebook.soloader:soloader:$versions.soloader", // Native code loader for Android (https://github.com/facebook/SoLoader)
+
             timber                  : "com.jakewharton.timber:timber:$versions.timber", // Logger which provides utility on top of Android's normal Log class. (https://github.com/JakeWharton/timber)
+
             viewPager2              : "androidx.viewpager2:viewpager2:$versions.viewPager2", // Display Views or Fragments in a swipeable format (https://developer.android.com/jetpack/androidx/releases/viewpager2)
             viewBindingDelegate     : "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$versions.viewBindingDelegate", // https://github.com/kirich1409/ViewBindingPropertyDelegate
-            ripplePulse             : "com.kuassivi.android.view:ripple-pulse-layout:$versions.ripplePulse", // Layout container that generates animated pulses (https://github.com/FranRiadigos/android-ripple-pulse-layout)
 
             // Masimo
             masimoCommon            : "com.masimo:common:$versions.masimoCommon",

@@ -125,19 +125,23 @@ dependencies {
     implementation(libraries.masimoLogback) { transitive = true }
     implementation(libraries.masimoSleepScore) { transitive = true }
 
-    //Firebase Crashlytics
+    //Firebase
+    implementation platform(libraries.firebaseBom)
     implementation libraries.firebaseAnalytics
-    implementation libraries.firebaseAnalyticsKtx
     implementation libraries.firebaseCrashlytics
+    implementation libraries.firebaseFirestore
+
+    //Kotlin
+    implementation libraries.kotlin
+    implementation libraries.ktxCore
+    implementation libraries.ktxFragment
+    implementation libraries.kotlinCoroutines
 
     implementation libraries.appCompat
     implementation libraries.circleIndicator
     implementation libraries.constraintLayout
     implementation libraries.dagger
     kapt libraries.daggerCompiler
-    implementation libraries.kotlin
-    implementation libraries.ktxCore
-    implementation libraries.ktxFragment
     kapt libraries.lifecycleCompiler
     implementation libraries.lifecycleRuntime
     implementation libraries.lifecycleViewModel
