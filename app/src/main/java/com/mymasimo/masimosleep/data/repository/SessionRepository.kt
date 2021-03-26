@@ -6,7 +6,6 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.room.dao.ProgramEntityDao
 import com.mymasimo.masimosleep.data.room.dao.SessionEntityDao
 import com.mymasimo.masimosleep.data.room.entity.SessionEntity
-import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -48,10 +47,6 @@ class SessionRepository @Inject constructor(
         return sessionEntityDao.findSessionById(sessionId)
     }
 
-    fun getLatestSession(): Single<SessionEntity> {
-        return sessionEntityDao.findLatestSession()
-    }
-
     fun getAllSessionsByProgramIdAsc(programId: Long): Single<List<SessionEntity>> {
         return sessionEntityDao.findAllByProgramIdAsc(programId)
     }
@@ -64,10 +59,6 @@ class SessionRepository @Inject constructor(
 
     fun countAllSessionsInProgram(programId: Long): Single<Int> {
         return sessionEntityDao.countAllByProgramId(programId)
-    }
-
-    fun deleteUncompletedSessionsInProgram(programId: Long): Completable {
-        return sessionEntityDao.deleteUncompletedSessionsInProgram(programId)
     }
 
     fun saveSession(nightNumber: Int, startAt: Long) {
@@ -163,7 +154,7 @@ class SessionRepository @Inject constructor(
             .addTo(disposables)
     }
 
-    fun cancelCurrentSession(cause: SessionTerminatedCause?, sleepSessionScoreManager: SleepSessionScoreManager) {
+    fun cancelCurrentSession(cause: SessionTerminatedCause?) {
         sessionEntityDao.findSessionInProgress()
             .flatMapCompletable { sessionInProgress ->
                 sessionEntityDao.delete(sessionInProgress)

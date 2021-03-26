@@ -218,7 +218,7 @@ class SleepSessionScoreManager @Inject constructor(
 
         Timber.d("Canceling session $currentNight - start=$currentNightStartAt")
 
-        sessionRepository.cancelCurrentSession(sessionTerminatedCause, this)
+        sessionRepository.cancelCurrentSession(sessionTerminatedCause)
 
         resetCurrentSession()
     }

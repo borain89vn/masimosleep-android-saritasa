@@ -16,18 +16,18 @@ import timber.log.Timber
  * The Modules database that contains module data and its readings.
  */
 @Database(
-        version = 8,
-        entities = [
-            Module::class,
-            ParameterReadingEntity::class,
-            ProgramEntity::class,
-            SessionEntity::class,
-            SessionNoteEntity::class,
-            ScoreEntity::class,
-            SleepEventEntity::class,
-            SurveyQuestionEntity::class,
-            SessionTerminatedEntity::class
-        ]
+    version = 8,
+    entities = [
+        Module::class,
+        ParameterReadingEntity::class,
+        ProgramEntity::class,
+        SessionEntity::class,
+        SessionNoteEntity::class,
+        ScoreEntity::class,
+        SleepEventEntity::class,
+        SurveyQuestionEntity::class,
+        SessionTerminatedEntity::class
+    ]
 )
 @TypeConverters(RoomConverters::class)
 abstract class ModulesDatabase : RoomDatabase() {
@@ -44,7 +44,8 @@ abstract class ModulesDatabase : RoomDatabase() {
     companion object {
         private const val DB_FILE_NAME = "zeek.masimo.sleep.db"
 
-        @Volatile private var INSTANCE: ModulesDatabase? = null
+        @Volatile
+        private var INSTANCE: ModulesDatabase? = null
 
         fun getInstance(context: Context): ModulesDatabase =
             INSTANCE ?: synchronized(this) {
@@ -53,9 +54,10 @@ abstract class ModulesDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): ModulesDatabase {
             return Room.databaseBuilder(
-                    context.applicationContext,
-                    ModulesDatabase::class.java,
-                    DB_FILE_NAME)
+                context.applicationContext,
+                ModulesDatabase::class.java,
+                DB_FILE_NAME
+            )
                 .addMigrations(MIGRATION_6_7)
                 .addMigrations(MIGRATION_7_8)
                 .addCallback(object : RoomDatabase.Callback() {
@@ -92,7 +94,8 @@ abstract class ModulesDatabase : RoomDatabase() {
         private val MIGRATION_7_8 = object : Migration(7, 8) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
-                        "CREATE TABLE IF NOT EXISTS `session_terminated` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `sessionId` INTEGER, `night` INTEGER, `cause` TEXT, `handled` INTEGER NOT NULL, `recorded` INTEGER NOT NULL)")
+                    "CREATE TABLE IF NOT EXISTS `session_terminated` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `sessionId` INTEGER, `night` INTEGER, `cause` TEXT, `handled` INTEGER NOT NULL, `recorded` INTEGER NOT NULL)"
+                )
             }
         }
     }

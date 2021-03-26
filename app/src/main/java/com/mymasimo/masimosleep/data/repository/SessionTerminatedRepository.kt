@@ -28,9 +28,6 @@ class SessionTerminatedRepository @Inject constructor(
         return sessionTerminatedEntityDao.findLatestTerminatedModelNotHandled()
     }
 
-    fun updateSessionTerminatedEntity(sessionTerminatedEntity: SessionTerminatedEntity): Completable {
-        return sessionTerminatedEntityDao.update(sessionTerminatedEntity)
-    }
 
     fun updatedHandledLatestTerminatedModel(): Completable {
         return sessionTerminatedEntityDao.findLatestTerminatedModelNotHandled()

@@ -52,15 +52,6 @@ class SleepEventRepository @Inject constructor(
         return sleepEventEntityDao.findAllAfterTimeUpdates(startAt)
     }
 
-    fun getAllEventsInProgramBySession(programId: Long): Single<List<SleepEventEntity>> {
-        return programRepository.getProgram(programId)
-            .flatMap { program ->
-                val start = program.startDate
-                val end = program.endDate ?: Calendar.getInstance().timeInMillis
-                sleepEventEntityDao.findAllBetweenTimestamps(start, end)
-            }
-    }
-
     fun getAllEventsInSession(sessionId: Long): Single<List<SleepEventEntity>> {
         return sessionRepository.getSessionById(sessionId)
             .flatMap { session ->
