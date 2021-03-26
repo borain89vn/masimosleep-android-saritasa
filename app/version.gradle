@@ -1,6 +1,6 @@
 def VERSION_MAJOR = 1
-def VERSION_MINOR = 0
-def VERSION_PATCH = 2
+def VERSION_MINOR = 1
+def VERSION_PATCH = 0
 
 assert VERSION_MAJOR in (0..9)
 assert VERSION_MINOR in (0..9)
