@@ -32,6 +32,7 @@ import com.mymasimo.masimosleep.data.repository.ProgramRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
+import com.mymasimo.masimosleep.model.Tick
 import com.mymasimo.masimosleep.util.CHANNEL_SYSTEM
 import com.mymasimo.masimosleep.util.ExceptionMaskUtil
 import io.reactivex.Completable
@@ -602,7 +603,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
                     params.rrp,
                     ExceptionMaskUtil.convertExceptionToMask(params.rrpExceptions)
             )
-            sleepSessionScoreManager.sendTick(pSPO2, pPR, pRRP)
+            sleepSessionScoreManager.sendTick(Tick(pSPO2, pPR, pRRP))
         }
 
         override fun onWaveformData(waveforms: AirProtocolWaveformData) {

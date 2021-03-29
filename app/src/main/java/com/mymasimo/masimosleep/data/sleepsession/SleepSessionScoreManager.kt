@@ -3,7 +3,6 @@ package com.mymasimo.masimosleep.data.sleepsession
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.masimo.sleepscore.sleepscorelib.SleepSessionScoreObserver
 import com.masimo.sleepscore.sleepscorelib.SleepSessionScoreProvider
-import com.masimo.sleepscore.sleepscorelib.model.Parameter
 import com.masimo.sleepscore.sleepscorelib.model.SleepEvent
 import com.masimo.sleepscore.sleepscorelib.model.SleepImprovementResult
 import com.masimo.sleepscore.sleepscorelib.model.SleepSessionScore
@@ -15,6 +14,7 @@ import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.data.room.entity.ScoreType
 import com.mymasimo.masimosleep.data.room.entity.SleepEventType
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
+import com.mymasimo.masimosleep.model.Tick
 import com.mymasimo.masimosleep.service.DeviceExceptionHandler
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -230,7 +230,9 @@ class SleepSessionScoreManager @Inject constructor(
         SleepSessionScoreProvider.interrupt()
     }
 
-    fun sendTick(pSPO2: Parameter, pPR: Parameter, pRRP: Parameter) {
+    fun sendTick(tick: Tick) {
+        val (pSPO2, pPR, pRRP) = tick
+
         if (pSPO2.value == 0f && pPR.value == 0f && pRRP.value == 0f) {
             Timber.d("Ignoring tick with all values in 0f")
             return

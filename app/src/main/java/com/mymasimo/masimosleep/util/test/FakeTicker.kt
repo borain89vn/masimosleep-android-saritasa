@@ -4,6 +4,7 @@ import com.masimo.common.model.universal.ParameterID
 import com.masimo.sleepscore.sleepscorelib.model.Parameter
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
+import com.mymasimo.masimosleep.model.Tick
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -63,7 +64,7 @@ class FakeTicker @Inject constructor(
         val pSPO2 = Parameter(ParameterID.FUNC_SPO2, 0f, 0x00)
         val pPR = Parameter(ParameterID.PR, 0f, 0x00)
         val pRRP = Parameter(ParameterID.RRP, 0f, 0x00)
-        sleepSessionScoreManager.sendTick(pSPO2, pPR, pRRP)
+        sleepSessionScoreManager.sendTick(Tick(pSPO2, pPR, pRRP))
     }
 
     private fun halfEmptyTickOnlySPO2() {
@@ -71,7 +72,7 @@ class FakeTicker @Inject constructor(
         val pSPO2 = Parameter(ParameterID.FUNC_SPO2,  randomSPO2.toFloat(), 0x00)
         val pPR = Parameter(ParameterID.PR, 0f, 0x00)
         val pRRP = Parameter(ParameterID.RRP, 0f, 0x00)
-        sleepSessionScoreManager.sendTick(pSPO2, pPR, pRRP)
+        sleepSessionScoreManager.sendTick(Tick(pSPO2, pPR, pRRP))
     }
 
     private fun halfEmptyTickOnlySPO2AndPR() {
@@ -80,7 +81,7 @@ class FakeTicker @Inject constructor(
         val randomPR = Random.nextDouble(60.0, 70.0)
         val pPR = Parameter(ParameterID.PR, randomPR.toFloat(), 0x00)
         val pRRP = Parameter(ParameterID.RRP, 0f, 0x00)
-        sleepSessionScoreManager.sendTick(pSPO2, pPR, pRRP)
+        sleepSessionScoreManager.sendTick(Tick(pSPO2, pPR, pRRP))
     }
 
     private fun newTick() {
@@ -93,7 +94,7 @@ class FakeTicker @Inject constructor(
         val randomRRP = Random.nextDouble(11.0, 12.0)
         val pRRP = Parameter(ParameterID.RRP, randomRRP.toFloat(), 0x00)
 
-        sleepSessionScoreManager.sendTick(pSPO2, pPR, pRRP)
+        sleepSessionScoreManager.sendTick(Tick(pSPO2, pPR, pRRP))
     }
 
     companion object {

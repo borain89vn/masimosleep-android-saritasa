@@ -3,7 +3,6 @@ package com.mymasimo.masimosleep.ui.dashboard.sleeping
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mymasimo.masimosleep.BuildConfig
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.repository.SleepScoreRepository
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
@@ -28,9 +27,10 @@ class SleepSessionViewModel @Inject constructor(
         val startedAt = sleepSessionScoreManager.startSession(1)
         startUpdatingLiveScore(startedAt)
 
-        if (BuildConfig.FAKE_TICKS_ENABLED) {
-            fakeTicker.startFakeTicking()
-        }
+        // TODO MC: 3/29/21 check that fake generator is actual yet
+//        if (BuildConfig.FAKE_TICKS_ENABLED) {
+//            fakeTicker.startFakeTicking()
+//        }
     }
 
     fun onEndSessionClick() {
