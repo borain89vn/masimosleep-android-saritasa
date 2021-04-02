@@ -11,6 +11,7 @@ import android.content.IntentFilter
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.jakewharton.rxrelay2.PublishRelay
 import com.masimo.android.airlib.MASIMO_BLUETOOTH_SIG_MANUFACTURER_ID
@@ -19,8 +20,10 @@ import com.masimo.android.airlib.ProductVariant
 import com.masimo.android.airlib.ScanRecordParser
 import com.masimo.common.model.universal.ParameterID
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
+import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.DataRepository
 import com.mymasimo.masimosleep.data.repository.ModelStore
+import com.mymasimo.masimosleep.data.repository.SensorFirestoreRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.service.*
 import com.mymasimo.masimosleep.util.DEFAULT_MANUFACTURER_NAME
@@ -28,6 +31,9 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -36,13 +42,12 @@ import javax.inject.Inject
 
 class PairingViewModel @Inject constructor(
     app: Application,
+    private val sensorFirestoreRepository: SensorFirestoreRepository,
     private val schedulerProvider: SchedulerProvider,
     private val disposables: CompositeDisposable
 ) : AndroidViewModel(app) {
 
     private val _isScanning = MutableLiveData(false)
-    val isScanning: LiveData<Boolean>
-        get() = _isScanning
 
     private val _nearbyBleModules = MutableLiveData<List<Module>>(emptyList())
     val nearbyBleModules: LiveData<List<Module>>
@@ -63,7 +68,7 @@ class PairingViewModel @Inject constructor(
     val isBTEnabled: Boolean
         get() = BluetoothAdapter.getDefaultAdapter()?.isEnabled ?: false
 
-    private fun isScanning() = isScanning.value == true
+    private fun isScanning() = _isScanning.value == true
     private val scannedDeviceCache = mutableMapOf<String, Module>()
     private val rssiMap = mutableMapOf<String, Int>()
     private val localBroadcastManager = LocalBroadcastManager.getInstance(app)
@@ -85,6 +90,7 @@ class PairingViewModel @Inject constructor(
                 onComplete = {
                     Timber.d("Module ${module.id} saved to the DB")
                     ModelStore.currentModule = module
+                    MasimoSleepPreferences.emulatorUsed = false
                     stopScanningDevices()
                     goToDevicePairedScreenRelay.accept(Unit)
                 },
@@ -133,6 +139,30 @@ class PairingViewModel @Inject constructor(
         Timber.d("Scanning stopped...")
         reset()
         stopBLEScan(getApplication())
+    }
+
+    fun connectToEmulator() = viewModelScope.launch {
+        val address = MasimoSleepPreferences.name ?: "default"
+        val module = Module(
+            type = ProductType.OTHER,
+            variant = ProductVariant.OTHER,
+            manufacturerName = "",
+            firmwareVersion = "",
+            serialNumber = "",
+            address = address,
+            supportedParameters = EnumSet.of(ParameterID.PR)
+        )
+
+        withContext(Dispatchers.IO){
+            sensorFirestoreRepository.insertSensor(module)
+            MasimoSleepPreferences.emulatorUsed = true
+            DataRepository.addModule(module).blockingGet()
+            Timber.d("Module ${module.id} saved to the DB")
+        }
+
+        ModelStore.currentModule = module
+        stopScanningDevices()
+        goToDevicePairedScreenRelay.accept(Unit)
     }
 
     private fun onFoundBLEDevice(result: ScanResult) {

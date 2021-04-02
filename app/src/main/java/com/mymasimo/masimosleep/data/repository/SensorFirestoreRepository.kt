@@ -7,19 +7,24 @@ import com.masimo.common.model.universal.ParameterID
 import com.masimo.sleepscore.sleepscorelib.model.Parameter
 import com.mymasimo.masimosleep.data.asFlow
 import com.mymasimo.masimosleep.data.await
+import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.model.Tick
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SensorFirestoreRepository {
+@Singleton
+class SensorFirestoreRepository @Inject constructor() {
     val db = Firebase.firestore
     private fun sensor(id: Int) = db.collection("users").document(id.toString())
 
     @ExperimentalCoroutinesApi
     fun getTicks(name: String): Flow<Tick> = sensor(name.hashCode()).asFlow().map { it.toTick() }
 
-    suspend fun insertSensor(name: String) {
+    suspend fun insertSensor(sensor: Module) {
+        val name = sensor.address
         val data = mapOf(
             "username" to name,
             OXYGEN_LEVEL to 98F,
@@ -38,6 +43,6 @@ fun DocumentSnapshot.toTick(): Tick {
     return Tick(oxygenLevel, pulseRate, respirationRate)
 }
 
-private const val OXYGEN_LEVEL = "sp02"
+private const val OXYGEN_LEVEL = "spO2"
 private const val PULSE_RATE = "pr"
 private const val RESPIRATION_RATE = "rrp"

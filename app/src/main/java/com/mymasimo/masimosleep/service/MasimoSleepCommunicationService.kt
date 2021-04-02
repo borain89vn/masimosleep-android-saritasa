@@ -27,6 +27,7 @@ import com.mymasimo.masimosleep.MasimoSleepApp
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
@@ -359,13 +360,17 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             return@synchronized
         }
 
-        currentModule?.let {
-            Timber.d("Connecting to BLE device $it")
-            connectBLE()
-        } ?: kotlin.run {
+        if(currentModule == null) {
             Timber.e("No device to connect to.")
             bleConnectionState.setCurrentState(State.NO_DEVICE_CONNECTED)
             stopConstantReconnectBLETask()
+        } else {
+            Timber.d("Connecting to BLE device $currentModule")
+            if(MasimoSleepPreferences.emulatorUsed) {
+                Timber.d("work with emulator")
+                bleConnectionState.setCurrentState(State.DEVICE_CONNECTED)
+                stopConstantReconnectBLETask()
+            } else connectBLE()
         }
     }
 

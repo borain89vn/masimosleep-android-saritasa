@@ -15,6 +15,7 @@ private const val PREF_USER_TIME_HOUR = "pref.user.timehour"
 private const val PREF_USER_TIME_MIN = "pref.user.timemin"
 private const val PREF_USER_REMINDER_TIME = "pref.user.reminder"
 private const val PREF_USER_EULA_ACCEPTED = "pref.user.eula.accepted"
+private const val PREF_USED_EMULATOR = "pref.used.emulator"
 
 object MasimoSleepPreferences {
     private val store: PreferenceStore = PreferenceStore(MasimoSleepApp.get(), "common_preferences")
@@ -60,4 +61,9 @@ object MasimoSleepPreferences {
     var eulaAccepted: Boolean
         get() = store.getBoolean(PREF_USER_EULA_ACCEPTED, false)
         set(value) = store.edit { putBoolean(PREF_USER_EULA_ACCEPTED, value) }
+
+    var emulatorUsed: Boolean
+        get() = store.getBoolean(PREF_USED_EMULATOR, false)
+        set(value) = store.edit { putBoolean(PREF_USED_EMULATOR, value) }
+
 }

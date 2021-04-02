@@ -438,5 +438,6 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="searching_status_btn">Searching…</string>
     <string name="sleep_session_label">Sleep Session</string>
     <string name="start_new_program_btn">Start a new program</string>
+    <string name="btn_emulator_sensor">Emulated Sensor</string>
 
 </resources>
