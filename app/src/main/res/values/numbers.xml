@@ -18,9 +18,4 @@
     <integer name="rrp_optimal">12</integer>
     <integer name="rrp_optimal_high">18</integer>
     <integer name="rrp_high">24</integer>
-
-    <!--session auto end or cancel time in seconds-->
-    <integer name="max_sensor_off_time">1800</integer>
-    <integer name="max_ble_disconnect_time">1800</integer>
-    <integer name="max_sleep_time">43200</integer>
 </resources>

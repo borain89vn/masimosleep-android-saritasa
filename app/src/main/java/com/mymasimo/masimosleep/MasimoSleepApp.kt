@@ -60,8 +60,6 @@ class MasimoSleepApp : Application(), LifecycleObserver {
 
         connectToSavedModuleIfExists()
 
-        setUpFakeData()
-
         resumeSessionIfWasInProgress()
     }
 
@@ -112,17 +110,6 @@ class MasimoSleepApp : Application(), LifecycleObserver {
         } else {
             // TODO: Setup crash reporting tree.
             Timber.plant(Timber.DebugTree())
-        }
-    }
-
-    @Suppress("ConstantConditionIf")
-    private fun setUpFakeData() {
-        // TODO MC: 3/29/21 check that fake generator is actual yet
-//        if (BuildConfig.FAKE_TICKS_ENABLED) {
-//            fakeTicker.startFakeTicking()
-//        }
-        if (BuildConfig.FAKE_EVENTS_ENABLED) {
-            fakeEventGenerator.generateRandomEvents()
         }
     }
 

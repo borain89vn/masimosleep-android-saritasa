@@ -24,13 +24,9 @@ android {
 
         buildConfigField "String", "BUILD_NUMBER", "\"$MasimoSleepBuildNumber\""
         buildConfigField "String", "GIT_HASH", "\"$MasimoSleepGitHash\""
+        buildConfigField "boolean", "ALLOW_EMULATION", "true"
 
-        // debug fields
-        buildConfigField "boolean", "ALLOW_SHORT_SLEEP", "false"
-        buildConfigField "boolean", "FAKE_TICKS_ENABLED", "false"
-        buildConfigField "boolean", "FAKE_EVENTS_ENABLED", "false"
-
-        resValue "string", "DISPLAY_VERSION", "V${versionName}-${MasimoSleepBuildNumber}"
+        resValue "string", "display_version", "V${versionName}-${MasimoSleepBuildNumber}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -59,6 +55,7 @@ android {
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             matchingFallbacks = ['release']
+            buildConfigField "boolean", "ALLOW_EMULATION", "false"
         }
         debug {
             applicationIdSuffix ".debug"
@@ -71,22 +68,6 @@ android {
             applicationIdSuffix ".enterprise"
             matchingFallbacks = ['debug']
             signingConfig signingConfigs.release
-        }
-    }
-
-    flavorDimensions "target"
-    productFlavors {
-        simulation {
-            dimension "target"
-            buildConfigField "boolean", "ALLOW_SHORT_SLEEP", "true"
-            buildConfigField "boolean", "FAKE_TICKS_ENABLED", "true"
-            buildConfigField "boolean", "FAKE_EVENTS_ENABLED", "true"
-        }
-        production {
-            dimension "target"
-        }
-        automation {
-            dimension "target"
         }
     }
 
