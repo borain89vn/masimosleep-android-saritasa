@@ -89,6 +89,7 @@ class PairingViewModel @Inject constructor(
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
                 onComplete = {
+                    stopScanningDevices()
                     Timber.d("Module ${module.id} saved to the DB")
                     ModelStore.currentModule = module
                     MasimoSleepPreferences.emulatorUsed = false
@@ -142,6 +143,7 @@ class PairingViewModel @Inject constructor(
     }
 
     fun connectToEmulator() = viewModelScope.launch {
+        stopScanningDevices()
         val module = withContext(dispatchers.io()){
             val address = MasimoSleepPreferences.name ?: "default"
             val module = Module(
@@ -275,7 +277,6 @@ class PairingViewModel @Inject constructor(
     }
 
     private fun onPairingFinish() {
-        stopScanningDevices()
         _pairingFinish.value = true
     }
 

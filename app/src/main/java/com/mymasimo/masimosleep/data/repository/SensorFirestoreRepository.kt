@@ -27,7 +27,7 @@ class SensorFirestoreRepository @Inject constructor(
     @ExperimentalCoroutinesApi
     fun getTicks(sensor: Module): Flow<Tick> = sensorDocument(sensor.address.toDocumentId()).asFlow().map { it.toTick() }
 
-    suspend fun insertSensor(sensor: Module): Void = withContext(dispatchers.io()) {
+    suspend fun insertSensor(sensor: Module) = withContext(dispatchers.io()) {
         val name = sensor.address
         val data = mapOf(
             "username" to name,
