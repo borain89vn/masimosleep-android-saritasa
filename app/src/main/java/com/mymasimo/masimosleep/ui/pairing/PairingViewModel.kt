@@ -28,6 +28,7 @@ import com.mymasimo.masimosleep.data.repository.SensorFirestoreRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.service.*
 import com.mymasimo.masimosleep.util.DEFAULT_MANUFACTURER_NAME
+import com.mymasimo.masimosleep.util.test.FakeTicker
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -42,6 +43,7 @@ import javax.inject.Inject
 
 class PairingViewModel @Inject constructor(
     app: Application,
+    private val fakeTicker: FakeTicker,
     private val sensorFirestoreRepository: SensorFirestoreRepository,
     private val schedulerProvider: SchedulerProvider,
     private val disposables: CompositeDisposable,
@@ -163,6 +165,7 @@ class PairingViewModel @Inject constructor(
 
             module
         }
+//        fakeTicker.createNights(6)
 
         ModelStore.currentModule = module
         onPairingFinish()

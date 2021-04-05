@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.repository.SleepScoreRepository
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
-import com.mymasimo.masimosleep.util.test.FakeTicker
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
@@ -17,7 +16,6 @@ class SleepSessionViewModel @Inject constructor(
     private val disposables: CompositeDisposable,
     private val sleepSessionScoreManager: SleepSessionScoreManager,
     private val sleepScoreRepository: SleepScoreRepository,
-    private val fakeTicker: FakeTicker
 ) : ViewModel() {
     private val _liveScore = MutableLiveData<Double>()
     val liveScore: LiveData<Double>
@@ -26,11 +24,6 @@ class SleepSessionViewModel @Inject constructor(
     fun onStartSessionClick() {
         val startedAt = sleepSessionScoreManager.startSession(1)
         startUpdatingLiveScore(startedAt)
-
-        // TODO MC: 3/29/21 check that fake generator is actual yet
-//        if (BuildConfig.FAKE_TICKS_ENABLED) {
-//            fakeTicker.startFakeTicking()
-//        }
     }
 
     fun onEndSessionClick() {

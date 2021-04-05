@@ -14,8 +14,6 @@ import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.service.serviceConnectBLE
 import com.mymasimo.masimosleep.util.initializeNotificationChannels
-import com.mymasimo.masimosleep.util.test.FakeEventGenerator
-import com.mymasimo.masimosleep.util.test.FakeTicker
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -26,16 +24,16 @@ class MasimoSleepApp : Application(), LifecycleObserver {
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var disposables: CompositeDisposable
-    @Inject
-    lateinit var fakeTicker: FakeTicker
-    @Inject
-    lateinit var fakeEventGenerator: FakeEventGenerator
+
     @Inject
     lateinit var programRepository: ProgramRepository
+
     @Inject
     lateinit var sessionRepository: SessionRepository
+
     @Inject
     lateinit var sleepSessionScoreManager: SleepSessionScoreManager
 
