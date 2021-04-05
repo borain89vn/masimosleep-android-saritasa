@@ -2,10 +2,7 @@ package com.mymasimo.masimosleep.dagger
 
 import com.mymasimo.masimosleep.MasimoSleepApp
 import com.mymasimo.masimosleep.alarm.MasimoBootReceiver
-import com.mymasimo.masimosleep.dagger.modules.ContextModule
-import com.mymasimo.masimosleep.dagger.modules.RoomModule
-import com.mymasimo.masimosleep.dagger.modules.RxJavaUtilsModule
-import com.mymasimo.masimosleep.dagger.modules.ViewModelModule
+import com.mymasimo.masimosleep.dagger.modules.*
 import com.mymasimo.masimosleep.service.MasimoSleepCommunicationService
 import com.mymasimo.masimosleep.ui.dashboard.sleeping.nightsession.NightSessionFragment
 import com.mymasimo.masimosleep.ui.dashboard.sleeping.program.SleepingProgramFragment
@@ -55,12 +52,15 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    ContextModule::class,
-    RoomModule::class,
-    RxJavaUtilsModule::class,
-    ViewModelModule::class
-])
+@Component(
+    modules = [
+        ContextModule::class,
+        RoomModule::class,
+        RxJavaUtilsModule::class,
+        ViewModelModule::class,
+        CoroutineDispatchersModule::class,
+    ]
+)
 interface SingletonComponent {
     fun inject(target: SplashFragment)
     fun inject(target: MasimoBootReceiver)

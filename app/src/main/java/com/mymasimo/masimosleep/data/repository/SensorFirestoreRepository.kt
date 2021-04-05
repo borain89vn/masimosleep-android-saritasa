@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.masimo.common.model.universal.ParameterID
 import com.masimo.sleepscore.sleepscorelib.model.Parameter
+import com.mymasimo.masimosleep.base.dispatchers.CoroutineDispatchers
 import com.mymasimo.masimosleep.data.asFlow
 import com.mymasimo.masimosleep.data.await
 import com.mymasimo.masimosleep.data.room.entity.Module
@@ -12,18 +13,21 @@ import com.mymasimo.masimosleep.model.Tick
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SensorFirestoreRepository @Inject constructor() {
+class SensorFirestoreRepository @Inject constructor(
+    private val dispatchers: CoroutineDispatchers,
+) {
     val db = Firebase.firestore
     private fun sensorDocument(id: String) = db.collection("users").document(id)
 
     @ExperimentalCoroutinesApi
     fun getTicks(sensor: Module): Flow<Tick> = sensorDocument(sensor.address.toDocumentId()).asFlow().map { it.toTick() }
 
-    suspend fun insertSensor(sensor: Module) {
+    suspend fun insertSensor(sensor: Module): Void = withContext(dispatchers.io()) {
         val name = sensor.address
         val data = mapOf(
             "username" to name,

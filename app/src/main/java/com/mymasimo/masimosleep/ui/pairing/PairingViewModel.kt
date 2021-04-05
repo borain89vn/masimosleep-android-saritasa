@@ -19,6 +19,7 @@ import com.masimo.android.airlib.ProductType
 import com.masimo.android.airlib.ProductVariant
 import com.masimo.android.airlib.ScanRecordParser
 import com.masimo.common.model.universal.ParameterID
+import com.mymasimo.masimosleep.base.dispatchers.CoroutineDispatchers
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.DataRepository
@@ -31,7 +32,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -44,7 +44,8 @@ class PairingViewModel @Inject constructor(
     app: Application,
     private val sensorFirestoreRepository: SensorFirestoreRepository,
     private val schedulerProvider: SchedulerProvider,
-    private val disposables: CompositeDisposable
+    private val disposables: CompositeDisposable,
+    private val dispatchers: CoroutineDispatchers,
 ) : AndroidViewModel(app) {
 
     private val _isScanning = MutableLiveData(false)
@@ -141,7 +142,7 @@ class PairingViewModel @Inject constructor(
     }
 
     fun connectToEmulator() = viewModelScope.launch {
-        val module = withContext(Dispatchers.IO){
+        val module = withContext(dispatchers.io()){
             val address = MasimoSleepPreferences.name ?: "default"
             val module = Module(
                 type = ProductType.OTHER,

@@ -11,7 +11,7 @@ import com.mymasimo.masimosleep.data.room.entity.ProgramContract as Contract
 @Dao
 interface ProgramEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(program: ProgramEntity): Completable
+    suspend fun insert(program: ProgramEntity)
 
     @Update
     fun update(program: ProgramEntity): Completable

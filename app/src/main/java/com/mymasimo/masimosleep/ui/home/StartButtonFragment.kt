@@ -162,8 +162,6 @@ class StartButtonFragment : Fragment(R.layout.fragment_start_button) {
     }
 
     companion object {
-        fun newInstance(): StartButtonFragment {
-            return StartButtonFragment()
-        }
+        fun newInstance(): StartButtonFragment = StartButtonFragment()
     }
 }
