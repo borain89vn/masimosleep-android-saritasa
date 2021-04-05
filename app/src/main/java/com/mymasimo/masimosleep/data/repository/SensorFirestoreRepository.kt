@@ -18,10 +18,10 @@ import javax.inject.Singleton
 @Singleton
 class SensorFirestoreRepository @Inject constructor() {
     val db = Firebase.firestore
-    private fun sensorDocument(id: Int) = db.collection("users").document(id.toString())
+    private fun sensorDocument(id: String) = db.collection("users").document(id)
 
     @ExperimentalCoroutinesApi
-    fun getTicks(sensor: Module): Flow<Tick> = sensorDocument(sensor.address.hashCode()).asFlow().map { it.toTick() }
+    fun getTicks(sensor: Module): Flow<Tick> = sensorDocument(sensor.address.toDocumentId()).asFlow().map { it.toTick() }
 
     suspend fun insertSensor(sensor: Module) {
         val name = sensor.address
@@ -32,7 +32,7 @@ class SensorFirestoreRepository @Inject constructor() {
             RESPIRATION_RATE to 33F,
         )
 
-        sensorDocument(name.hashCode()).set(data).await()
+        sensorDocument(name.toDocumentId()).set(data).await()
     }
 }
 
@@ -46,3 +46,6 @@ fun DocumentSnapshot.toTick(): Tick {
 private const val OXYGEN_LEVEL = "spO2"
 private const val PULSE_RATE = "pr"
 private const val RESPIRATION_RATE = "rrp"
+
+//private fun String.toDocumentId(): String = Base64.encodeToString(encodeToByteArray(), Base64.DEFAULT)
+private fun String.toDocumentId(): String = hashCode().toString()
