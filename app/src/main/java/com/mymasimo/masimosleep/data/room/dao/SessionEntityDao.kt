@@ -3,6 +3,7 @@ package com.mymasimo.masimosleep.data.room.dao
 import androidx.room.*
 import com.mymasimo.masimosleep.data.room.entity.SessionEntity
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 import com.mymasimo.masimosleep.data.room.entity.SessionContract as Contract
 
@@ -23,7 +24,7 @@ interface SessionEntityDao {
                 "ORDER BY ${Contract.COLUMN_START_AT} DESC " +
                 "LIMIT 1"
     )
-    fun findSessionInProgress(): Single<SessionEntity>
+    fun findSessionInProgress(): Maybe<SessionEntity>
 
     @Query(
         "SELECT ${Contract.COLUMN_ID} FROM ${Contract.TABLE_NAME} " +

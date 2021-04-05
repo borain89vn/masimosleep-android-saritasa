@@ -2,6 +2,7 @@ package com.mymasimo.masimosleep
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.DaggerSingletonComponent
 import com.mymasimo.masimosleep.dagger.SingletonComponent
@@ -17,6 +18,7 @@ import com.mymasimo.masimosleep.util.test.FakeEventGenerator
 import com.mymasimo.masimosleep.util.test.FakeTicker
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -107,19 +109,19 @@ class MasimoSleepApp : Application(), LifecycleObserver {
     private fun plantTimberTree() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        } else {
-            // TODO: Setup crash reporting tree.
-            Timber.plant(Timber.DebugTree())
         }
+
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun resumeSessionIfWasInProgress() {
         sessionRepository.getSessionInProgress()
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe(
-                { session -> sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt) },
-                { Timber.d("No session to resume.") }
+            .subscribeBy(
+                onSuccess = { session -> sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt) },
+                onComplete = { Timber.d("No session to resume.") },
+                onError = { Timber.e(it) }
             )
             .addTo(disposables)
     }

@@ -16,6 +16,7 @@ import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler.Action
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -238,11 +239,11 @@ class SessionViewModel @Inject constructor(
         sessionRepository.getSessionInProgress()
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe({
-                _sessionInProgress.accept(true)
-            }, {
-                _sessionInProgress.accept(false)
-            }).addTo(disposables)
+            .subscribeBy(
+                onSuccess = { _sessionInProgress.accept(true) },
+                onComplete = { _sessionInProgress.accept(false) },
+                onError = { _sessionInProgress.accept(false) }
+            ).addTo(disposables)
     }
 
     override fun onCleared() {

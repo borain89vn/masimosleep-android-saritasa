@@ -8,6 +8,7 @@ import com.mymasimo.masimosleep.data.room.dao.SessionEntityDao
 import com.mymasimo.masimosleep.data.room.entity.SessionEntity
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -39,7 +40,7 @@ class SessionRepository @Inject constructor(
         return sessionEntityDao.findSessionInProgressId()
     }
 
-    fun getSessionInProgress(): Single<SessionEntity> {
+    fun getSessionInProgress(): Maybe<SessionEntity> {
         return sessionEntityDao.findSessionInProgress()
     }
 
@@ -92,10 +93,10 @@ class SessionRepository @Inject constructor(
                 sessionInProgress.endAt = endAt
                 return@flatMap sessionEntityDao.update(sessionInProgress)
                     .doOnComplete { Timber.d("Session end time saved") }
-                    .toSingleDefault(sessionInProgress)
+                    .andThen(Maybe.just(sessionInProgress))
             }
-            .flatMap { sessionJustEnded ->
-                return@flatMap sessionTerminatedRepository.saveTerminatedCause(
+            .flatMapSingle { sessionJustEnded ->
+                return@flatMapSingle sessionTerminatedRepository.saveTerminatedCause(
                     sessionId = sessionJustEnded.id,
                     night = sessionJustEnded.nightNumber,
                     sessionTerminatedCause = cause,
