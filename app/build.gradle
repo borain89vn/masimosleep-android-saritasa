@@ -50,8 +50,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             matchingFallbacks = ['release']
@@ -62,6 +62,14 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.debug
             matchingFallbacks = ['debug']
+        }
+        emulator {
+            applicationIdSuffix ".emulator"
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['emulator']
         }
         enterprise {
             initWith buildTypes.debug
