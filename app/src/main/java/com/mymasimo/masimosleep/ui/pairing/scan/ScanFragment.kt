@@ -21,6 +21,7 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentScanBinding
 import com.mymasimo.masimosleep.ui.pairing.PairingViewModel
+import com.mymasimo.masimosleep.util.navigateSafe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
@@ -58,6 +59,13 @@ class ScanFragment : Fragment(R.layout.fragment_scan), PermissionHandlerClient {
             ripplePulse.startPulse()
             ripplePulse2.startPulse()
         }
+
+        vm.pairingFinish.observe(viewLifecycleOwner, { hasFinished ->
+            if (hasFinished) {
+                view.findNavController().navigateSafe(R.id.action_scanFragment_to_devicePairedFragment)
+                vm.onPairingFinishComplete()
+            }
+        })
 
         vm.scanTimedOut
             .subscribeOn(schedulerProvider.io())

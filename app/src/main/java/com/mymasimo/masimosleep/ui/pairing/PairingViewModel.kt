@@ -61,9 +61,9 @@ class PairingViewModel @Inject constructor(
     val goToSelectDeviceScreen: Observable<Unit>
         get() = goToSelectDeviceScreenRelay
 
-    private val goToDevicePairedScreenRelay = PublishRelay.create<Unit>()
-    val goToDevicePairedScreen: Observable<Unit>
-        get() = goToDevicePairedScreenRelay
+    private val _pairingFinish = MutableLiveData<Boolean>()
+    val pairingFinish: LiveData<Boolean>
+        get() = _pairingFinish
 
     val isBTEnabled: Boolean
         get() = BluetoothAdapter.getDefaultAdapter()?.isEnabled ?: false
@@ -91,8 +91,7 @@ class PairingViewModel @Inject constructor(
                     Timber.d("Module ${module.id} saved to the DB")
                     ModelStore.currentModule = module
                     MasimoSleepPreferences.emulatorUsed = false
-                    stopScanningDevices()
-                    goToDevicePairedScreenRelay.accept(Unit)
+                    onPairingFinish()
                 },
                 onError = { e ->
                     Timber.e(e, "Failed to add module to the db")
@@ -142,27 +141,32 @@ class PairingViewModel @Inject constructor(
     }
 
     fun connectToEmulator() = viewModelScope.launch {
-        val address = MasimoSleepPreferences.name ?: "default"
-        val module = Module(
-            type = ProductType.OTHER,
-            variant = ProductVariant.OTHER,
-            manufacturerName = "",
-            firmwareVersion = "",
-            serialNumber = "",
-            address = address,
-            supportedParameters = EnumSet.of(ParameterID.PR)
-        )
+        val module = withContext(Dispatchers.IO){
+            val address = MasimoSleepPreferences.name ?: "default"
+            val module = Module(
+                type = ProductType.OTHER,
+                variant = ProductVariant.OTHER,
+                manufacturerName = "",
+                firmwareVersion = "",
+                serialNumber = "",
+                address = address,
+                supportedParameters = EnumSet.of(ParameterID.PR)
+            )
 
-        withContext(Dispatchers.IO){
             sensorFirestoreRepository.insertSensor(module)
             MasimoSleepPreferences.emulatorUsed = true
             DataRepository.addModule(module).blockingGet()
             Timber.d("Module ${module.id} saved to the DB")
+
+            module
         }
 
         ModelStore.currentModule = module
-        stopScanningDevices()
-        goToDevicePairedScreenRelay.accept(Unit)
+        onPairingFinish()
+    }
+
+    fun onPairingFinishComplete() {
+        _pairingFinish.value = false
     }
 
     private fun onFoundBLEDevice(result: ScanResult) {
@@ -267,6 +271,11 @@ class PairingViewModel @Inject constructor(
             device.address,
             EnumSet.of(ParameterID.FUNC_SPO2, ParameterID.PR, ParameterID.PI, ParameterID.PVI, ParameterID.RRP)
         )
+    }
+
+    private fun onPairingFinish() {
+        stopScanningDevices()
+        _pairingFinish.value = true
     }
 
     companion object {
