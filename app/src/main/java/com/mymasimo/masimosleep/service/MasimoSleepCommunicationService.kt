@@ -27,11 +27,14 @@ import com.mymasimo.masimosleep.MasimoSleepApp
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
+import com.mymasimo.masimosleep.data.repository.SensorFirestoreRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
+import com.mymasimo.masimosleep.model.Tick
 import com.mymasimo.masimosleep.util.CHANNEL_SYSTEM
 import com.mymasimo.masimosleep.util.ExceptionMaskUtil
 import io.reactivex.Completable
@@ -43,6 +46,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -102,15 +109,24 @@ fun stopBLEScan(context: Context) {
     startForegroundService(context, serviceIntent(context, ACTION_STOP_BLE_SCAN))
 }
 
-class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConnectionListener {
+class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConnectionListener, CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
-    @Inject lateinit var sleepSessionScoreManager: SleepSessionScoreManager
-    @Inject lateinit var bleConnectionState: BLEConnectionState
-    @Inject lateinit var deviceExceptionHandler: DeviceExceptionHandler
-    @Inject lateinit var disposables: CompositeDisposable
-    @Inject lateinit var sessionRepository: SessionRepository
-    @Inject lateinit var programRepository: ProgramRepository
-    @Inject lateinit var schedulerProvider: SchedulerProvider
+    @Inject
+    lateinit var sleepSessionScoreManager: SleepSessionScoreManager
+    @Inject
+    lateinit var bleConnectionState: BLEConnectionState
+    @Inject
+    lateinit var deviceExceptionHandler: DeviceExceptionHandler
+    @Inject
+    lateinit var disposables: CompositeDisposable
+    @Inject
+    lateinit var sessionRepository: SessionRepository
+    @Inject
+    lateinit var sensorRepository: SensorFirestoreRepository
+    @Inject
+    lateinit var programRepository: ProgramRepository
+    @Inject
+    lateinit var schedulerProvider: SchedulerProvider
 
     private val LOCK = Any()
 
@@ -168,8 +184,8 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
 
         handlerThread = HandlerThread("MasimoSleepService").apply { start() }
         scanHandler = BLEScanHandler(
-                handlerThread.looper,
-                LocalBroadcastManager.getInstance(applicationContext)
+            handlerThread.looper,
+            LocalBroadcastManager.getInstance(applicationContext)
         )
         scheduler = AndroidSchedulers.from(handlerThread.looper)
 
@@ -181,11 +197,13 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             .setDefaults(NotificationCompat.DEFAULT_ALL xor NotificationCompat.DEFAULT_SOUND xor NotificationCompat.DEFAULT_VIBRATE)
             .setSound(null)
             .setOngoing(true)
-            .setContentIntent(PendingIntent.getActivity(
+            .setContentIntent(
+                PendingIntent.getActivity(
                     this,
                     0,
                     Intent(this, MainActivity::class.java),
-                    PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
@@ -239,14 +257,14 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         intent?.action?.let { action ->
             Timber.d("Servicing action: $action")
             when (action) {
-                ACTION_CONNECT_BLE            -> tryConnectBLE()
-                ACTION_DISCONNECT_BLE         -> disConnectBLE(id = intent.getLongExtra(EXTRA_MODULE_ID, 0L))
+                ACTION_CONNECT_BLE -> tryConnectBLE()
+                ACTION_DISCONNECT_BLE -> disConnectBLE(id = intent.getLongExtra(EXTRA_MODULE_ID, 0L))
                 ACTION_START_LOCATION_UPDATES -> TODO()
-                ACTION_STOP_LOCATION_UPDATES  -> TODO()
-                ACTION_USER_DECLINE_BT        -> showBtDisabledNotification()
-                ACTION_START_BLE_SCAN         -> startScan()
-                ACTION_STOP_BLE_SCAN          -> stopScan()
-                else                          -> Timber.d("Ignoring unknown action $action")
+                ACTION_STOP_LOCATION_UPDATES -> TODO()
+                ACTION_USER_DECLINE_BT -> showBtDisabledNotification()
+                ACTION_START_BLE_SCAN -> startScan()
+                ACTION_STOP_BLE_SCAN -> stopScan()
+                else -> Timber.d("Ignoring unknown action $action")
             }
         } ?: tryConnectBLE()
         return START_STICKY
@@ -283,7 +301,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
     private fun startConstantReconnectBLETask() {
         reconnectTimer?.dispose()
 
-        if(currentModule == null) return
+        if (currentModule == null) return
 
         Timber.d("Will attempt to reconnect every 200 milliseconds...")
         reconnectTimer = Observable.interval(0, 200, TimeUnit.MILLISECONDS, scheduler)
@@ -320,7 +338,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             Timber.d("Loading Air Communication for $it")
 
             val shouldStartReconnectTask = when (val connect = bleConnection.connect(it.address)) {
-                RESULT_OK                   -> {
+                RESULT_OK -> {
                     Timber.d("BLE connection starting")
                     false
                 }
@@ -332,11 +350,11 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
                     // TODO:
                     false
                 }
-                RESULT_ERROR_BT_DISABLED    -> {
+                RESULT_ERROR_BT_DISABLED -> {
                     // TODO: let the user know to enable BT
                     true
                 }
-                else                        -> {
+                else -> {
                     Timber.w("Received code $connect from connect.")
                     true
                 }
@@ -358,13 +376,22 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             return@synchronized
         }
 
-        currentModule?.let {
-            Timber.d("Connecting to BLE device $it")
-            connectBLE()
-        } ?: kotlin.run {
+        val module = currentModule
+        if (module == null) {
             Timber.e("No device to connect to.")
             bleConnectionState.setCurrentState(State.NO_DEVICE_CONNECTED)
             stopConstantReconnectBLETask()
+        } else {
+            Timber.d("Connecting to BLE device $module")
+            if (MasimoSleepPreferences.emulatorUsed) {
+                Timber.d("work with emulator")
+                bleConnectionState.setCurrentState(State.DEVICE_CONNECTED)
+                stopConstantReconnectBLETask()
+                launch { sensorRepository.getTicks(module).collect { tick ->
+                    Timber.d("Tick from emulator: $tick")
+                    sleepSessionScoreManager.sendTick(tick)
+                } }
+            } else connectBLE()
         }
     }
 
@@ -384,7 +411,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             ModelStore.currentModule = null
             bleConnection.disconnect(user)
             bleConnectionState.setCurrentState(State.NO_DEVICE_CONNECTED)
-        }?: run {
+        } ?: run {
             Timber.e("No current module, but somehow connected")
         }
     }
@@ -429,7 +456,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
                     Timber.e("BT turned off")
                     onBTStateChanged(false)
                 }
-                BluetoothAdapter.STATE_ON  -> {
+                BluetoothAdapter.STATE_ON -> {
                     Timber.e("BT turned on")
                     onBTStateChanged(true)
                 }
@@ -482,13 +509,14 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             .setSmallIcon(R.drawable.ic_stat_bt_disabled)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .addAction(
-                    R.drawable.ic_bluetooth,
-                    getString(R.string.enable),
-                    PendingIntent.getActivity(
-                            this,
-                            1,
-                            Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),
-                            PendingIntent.FLAG_UPDATE_CURRENT)
+                R.drawable.ic_bluetooth,
+                getString(R.string.enable),
+                PendingIntent.getActivity(
+                    this,
+                    1,
+                    Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
             )
             .setContentText(message)
             .setTicker(message)
@@ -548,9 +576,9 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
     override fun onConnectionStateChanged(state: BluetoothLEConnection.ConnectionState) = synchronized(SVC_LOCK) {
         Timber.d("onConnectionStateChanged state: $state")
         when (state) {
-            BluetoothLEConnection.ConnectionState.CONNECTED    -> onBLEConnected()
+            BluetoothLEConnection.ConnectionState.CONNECTED -> onBLEConnected()
             BluetoothLEConnection.ConnectionState.DISCONNECTED -> onBLEDisconnected()
-            else                                               -> Timber.d("BLE connection state: $state")
+            else -> Timber.d("BLE connection state: $state")
         }
         updateNotification()
     }
@@ -588,21 +616,21 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             }
 
             val pSPO2 = Parameter(
-                    ParameterID.FUNC_SPO2,
-                    params.spo2,
-                    ExceptionMaskUtil.convertExceptionToMask(params.spo2Exceptions)
+                ParameterID.FUNC_SPO2,
+                params.spo2,
+                ExceptionMaskUtil.convertExceptionToMask(params.spo2Exceptions)
             )
             val pPR = Parameter(
-                    ParameterID.PR,
-                    params.pr,
-                    ExceptionMaskUtil.convertExceptionToMask(params.prExceptions)
+                ParameterID.PR,
+                params.pr,
+                ExceptionMaskUtil.convertExceptionToMask(params.prExceptions)
             )
             val pRRP = Parameter(
-                    ParameterID.RRP,
-                    params.rrp,
-                    ExceptionMaskUtil.convertExceptionToMask(params.rrpExceptions)
+                ParameterID.RRP,
+                params.rrp,
+                ExceptionMaskUtil.convertExceptionToMask(params.rrpExceptions)
             )
-            sleepSessionScoreManager.sendTick(pSPO2, pPR, pRRP)
+            sleepSessionScoreManager.sendTick(Tick(pSPO2, pPR, pRRP))
         }
 
         override fun onWaveformData(waveforms: AirProtocolWaveformData) {

@@ -24,13 +24,9 @@ android {
 
         buildConfigField "String", "BUILD_NUMBER", "\"$MasimoSleepBuildNumber\""
         buildConfigField "String", "GIT_HASH", "\"$MasimoSleepGitHash\""
+        buildConfigField "boolean", "ALLOW_EMULATION", "true"
 
-        // debug fields
-        buildConfigField "boolean", "ALLOW_SHORT_SLEEP", "false"
-        buildConfigField "boolean", "FAKE_TICKS_ENABLED", "false"
-        buildConfigField "boolean", "FAKE_EVENTS_ENABLED", "false"
-
-        resValue "string", "DISPLAY_VERSION", "V${versionName}-${MasimoSleepBuildNumber}"
+        resValue "string", "display_version", "V${versionName}-${MasimoSleepBuildNumber}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,11 +50,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             matchingFallbacks = ['release']
+            buildConfigField "boolean", "ALLOW_EMULATION", "false"
         }
         debug {
             applicationIdSuffix ".debug"
@@ -66,27 +63,19 @@ android {
             signingConfig signingConfigs.debug
             matchingFallbacks = ['debug']
         }
+        emulator {
+            applicationIdSuffix ".emulator"
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['emulator']
+        }
         enterprise {
             initWith buildTypes.debug
             applicationIdSuffix ".enterprise"
             matchingFallbacks = ['debug']
             signingConfig signingConfigs.release
-        }
-    }
-
-    flavorDimensions "target"
-    productFlavors {
-        simulation {
-            dimension "target"
-            buildConfigField "boolean", "ALLOW_SHORT_SLEEP", "true"
-            buildConfigField "boolean", "FAKE_TICKS_ENABLED", "true"
-            buildConfigField "boolean", "FAKE_EVENTS_ENABLED", "true"
-        }
-        production {
-            dimension "target"
-        }
-        automation {
-            dimension "target"
         }
     }
 
@@ -125,19 +114,23 @@ dependencies {
     implementation(libraries.masimoLogback) { transitive = true }
     implementation(libraries.masimoSleepScore) { transitive = true }
 
-    //Firebase Crashlytics
+    //Firebase
+    implementation platform(libraries.firebaseBom)
     implementation libraries.firebaseAnalytics
-    implementation libraries.firebaseAnalyticsKtx
     implementation libraries.firebaseCrashlytics
+    implementation libraries.firebaseFirestore
+
+    //Kotlin
+    implementation libraries.kotlin
+    implementation libraries.ktxCore
+    implementation libraries.ktxFragment
+    implementation libraries.kotlinCoroutines
 
     implementation libraries.appCompat
     implementation libraries.circleIndicator
     implementation libraries.constraintLayout
     implementation libraries.dagger
     kapt libraries.daggerCompiler
-    implementation libraries.kotlin
-    implementation libraries.ktxCore
-    implementation libraries.ktxFragment
     kapt libraries.lifecycleCompiler
     implementation libraries.lifecycleRuntime
     implementation libraries.lifecycleViewModel

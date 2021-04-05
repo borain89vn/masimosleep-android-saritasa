@@ -2,6 +2,7 @@ package com.mymasimo.masimosleep
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.DaggerSingletonComponent
 import com.mymasimo.masimosleep.dagger.SingletonComponent
@@ -13,10 +14,9 @@ import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.service.serviceConnectBLE
 import com.mymasimo.masimosleep.util.initializeNotificationChannels
-import com.mymasimo.masimosleep.util.test.FakeEventGenerator
-import com.mymasimo.masimosleep.util.test.FakeTicker
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,16 +24,16 @@ class MasimoSleepApp : Application(), LifecycleObserver {
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var disposables: CompositeDisposable
-    @Inject
-    lateinit var fakeTicker: FakeTicker
-    @Inject
-    lateinit var fakeEventGenerator: FakeEventGenerator
+
     @Inject
     lateinit var programRepository: ProgramRepository
+
     @Inject
     lateinit var sessionRepository: SessionRepository
+
     @Inject
     lateinit var sleepSessionScoreManager: SleepSessionScoreManager
 
@@ -59,8 +59,6 @@ class MasimoSleepApp : Application(), LifecycleObserver {
             }
 
         connectToSavedModuleIfExists()
-
-        setUpFakeData()
 
         resumeSessionIfWasInProgress()
     }
@@ -109,29 +107,19 @@ class MasimoSleepApp : Application(), LifecycleObserver {
     private fun plantTimberTree() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        } else {
-            // TODO: Setup crash reporting tree.
-            Timber.plant(Timber.DebugTree())
         }
-    }
 
-    @Suppress("ConstantConditionIf")
-    private fun setUpFakeData() {
-        if (BuildConfig.FAKE_TICKS_ENABLED) {
-            fakeTicker.startFakeTicking()
-        }
-        if (BuildConfig.FAKE_EVENTS_ENABLED) {
-            fakeEventGenerator.generateRandomEvents()
-        }
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun resumeSessionIfWasInProgress() {
         sessionRepository.getSessionInProgress()
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
-            .subscribe(
-                { session -> sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt) },
-                { Timber.d("No session to resume.") }
+            .subscribeBy(
+                onSuccess = { session -> sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt) },
+                onComplete = { Timber.d("No session to resume.") },
+                onError = { Timber.e(it) }
             )
             .addTo(disposables)
     }

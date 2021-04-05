@@ -20,7 +20,7 @@ class ReportNotesViewModel @Inject constructor(
         get() = _notes
 
     fun onCreated(sessionId: Long) {
-        notesRepository.getAllSessionNotesUpdates(sessionId)
+        notesRepository.getAllSessionNotes(sessionId)
             .map { notes -> notes.map { Note(it.createdAt, it.note) } }
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())

@@ -6,9 +6,9 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.room.dao.ProgramEntityDao
 import com.mymasimo.masimosleep.data.room.dao.SessionEntityDao
 import com.mymasimo.masimosleep.data.room.entity.SessionEntity
-import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -40,16 +40,12 @@ class SessionRepository @Inject constructor(
         return sessionEntityDao.findSessionInProgressId()
     }
 
-    fun getSessionInProgress(): Single<SessionEntity> {
+    fun getSessionInProgress(): Maybe<SessionEntity> {
         return sessionEntityDao.findSessionInProgress()
     }
 
     fun getSessionById(sessionId: Long): Single<SessionEntity> {
         return sessionEntityDao.findSessionById(sessionId)
-    }
-
-    fun getLatestSession(): Single<SessionEntity> {
-        return sessionEntityDao.findLatestSession()
     }
 
     fun getAllSessionsByProgramIdAsc(programId: Long): Single<List<SessionEntity>> {
@@ -64,10 +60,6 @@ class SessionRepository @Inject constructor(
 
     fun countAllSessionsInProgram(programId: Long): Single<Int> {
         return sessionEntityDao.countAllByProgramId(programId)
-    }
-
-    fun deleteUncompletedSessionsInProgram(programId: Long): Completable {
-        return sessionEntityDao.deleteUncompletedSessionsInProgram(programId)
     }
 
     fun saveSession(nightNumber: Int, startAt: Long) {
@@ -101,10 +93,10 @@ class SessionRepository @Inject constructor(
                 sessionInProgress.endAt = endAt
                 return@flatMap sessionEntityDao.update(sessionInProgress)
                     .doOnComplete { Timber.d("Session end time saved") }
-                    .toSingleDefault(sessionInProgress)
+                    .andThen(Maybe.just(sessionInProgress))
             }
-            .flatMap { sessionJustEnded ->
-                return@flatMap sessionTerminatedRepository.saveTerminatedCause(
+            .flatMapSingle { sessionJustEnded ->
+                return@flatMapSingle sessionTerminatedRepository.saveTerminatedCause(
                     sessionId = sessionJustEnded.id,
                     night = sessionJustEnded.nightNumber,
                     sessionTerminatedCause = cause,
@@ -163,7 +155,7 @@ class SessionRepository @Inject constructor(
             .addTo(disposables)
     }
 
-    fun cancelCurrentSession(cause: SessionTerminatedCause?, sleepSessionScoreManager: SleepSessionScoreManager) {
+    fun cancelCurrentSession(cause: SessionTerminatedCause?) {
         sessionEntityDao.findSessionInProgress()
             .flatMapCompletable { sessionInProgress ->
                 sessionEntityDao.delete(sessionInProgress)

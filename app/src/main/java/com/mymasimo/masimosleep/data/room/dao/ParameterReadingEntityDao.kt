@@ -18,28 +18,31 @@ interface ParameterReadingEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(parameterReading: ParameterReadingEntity): Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(parameterReadings: List<ParameterReadingEntity>): Completable
-
-    @Query("SELECT * FROM ${Contract.TABLE_NAME} " +
-            "WHERE ${Contract.COLUMN_TYPE} = 'spO2' " +
-            "ORDER BY ${Contract.COLUMN_CREATED_AT} DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * FROM ${Contract.TABLE_NAME} " +
+                "WHERE ${Contract.COLUMN_TYPE} = 'spO2' " +
+                "ORDER BY ${Contract.COLUMN_CREATED_AT} DESC " +
+                "LIMIT 1"
+    )
     fun latestSPO2Reading(): Maybe<ParameterReadingEntity>
 
-    @Query("SELECT * FROM ${Contract.TABLE_NAME} " +
-            "WHERE ${Contract.COLUMN_TYPE} = :type AND ${Contract.COLUMN_CREATED_AT} >= :startAt " +
-            "ORDER BY ${Contract.COLUMN_CREATED_AT} ASC")
+    @Query(
+        "SELECT * FROM ${Contract.TABLE_NAME} " +
+                "WHERE ${Contract.COLUMN_TYPE} = :type AND ${Contract.COLUMN_CREATED_AT} >= :startAt " +
+                "ORDER BY ${Contract.COLUMN_CREATED_AT} ASC"
+    )
     fun findAllByTypeAfterTimestampUpdating(
         type: ReadingType,
         startAt: Long
     ): Observable<List<ParameterReadingEntity>>
 
-    @Query("SELECT * FROM ${Contract.TABLE_NAME} " +
-            "WHERE ${Contract.COLUMN_TYPE} = :type " +
-            "AND ${Contract.COLUMN_CREATED_AT} >= :startAt " +
-            "AND ${Contract.COLUMN_CREATED_AT} < :endAt " +
-            "ORDER BY ${Contract.COLUMN_CREATED_AT} ASC")
+    @Query(
+        "SELECT * FROM ${Contract.TABLE_NAME} " +
+                "WHERE ${Contract.COLUMN_TYPE} = :type " +
+                "AND ${Contract.COLUMN_CREATED_AT} >= :startAt " +
+                "AND ${Contract.COLUMN_CREATED_AT} < :endAt " +
+                "ORDER BY ${Contract.COLUMN_CREATED_AT} ASC"
+    )
     fun findAllByTypeBetweenTimestamps(
         type: ReadingType,
         startAt: Long,

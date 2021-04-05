@@ -1,5 +1,6 @@
 package com.mymasimo.masimosleep.data.repository
 
+import com.mymasimo.masimosleep.base.dispatchers.CoroutineDispatchers
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.room.dao.ProgramEntityDao
 import com.mymasimo.masimosleep.data.room.entity.ProgramEntity
@@ -10,6 +11,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -17,14 +19,14 @@ import javax.inject.Singleton
 
 @Singleton
 class ProgramRepository @Inject constructor(
-        private val programEntityDao: ProgramEntityDao,
-        private val schedulerProvider: SchedulerProvider,
-        private val disposables: CompositeDisposable
+    private val programEntityDao: ProgramEntityDao,
+    private val schedulerProvider: SchedulerProvider,
+    private val disposables: CompositeDisposable,
+    private val dispatchers: CoroutineDispatchers,
 ) {
-    fun createProgram(): Completable {
-        return programEntityDao.insert(
-                ProgramEntity(startDate = Calendar.getInstance().timeInMillis)
-        )
+    suspend fun createProgram() = withContext(dispatchers.io()) {
+        val program = ProgramEntity(startDate = Calendar.getInstance().timeInMillis)
+        programEntityDao.insert(program)
     }
 
     fun endProgram(programId: Long): Completable {
@@ -60,12 +62,12 @@ class ProgramRepository @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
-                    onComplete = {
-                        Timber.d("Program score saved")
-                    },
-                    onError = {
-                        Timber.d("Error saving program score")
-                    }
+                onComplete = {
+                    Timber.d("Program score saved")
+                },
+                onError = {
+                    Timber.d("Error saving program score")
+                }
             )
             .addTo(disposables)
     }
@@ -83,12 +85,12 @@ class ProgramRepository @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
-                    onComplete = {
-                        Timber.d("Program outcome saved + $outcomeValue")
-                    },
-                    onError = {
-                        Timber.d("Error saving program outcome")
-                    }
+                onComplete = {
+                    Timber.d("Program outcome saved + $outcomeValue")
+                },
+                onError = {
+                    Timber.d("Error saving program outcome")
+                }
             )
             .addTo(disposables)
     }

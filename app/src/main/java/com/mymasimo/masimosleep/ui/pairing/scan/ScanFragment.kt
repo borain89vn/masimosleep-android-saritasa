@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -14,11 +15,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.android.ui.permission.PermissionHandlerClient
 import com.masimo.android.ui.permission.PermissionRationalDialogConfig
 import com.masimo.android.ui.permission.PermissionsHandler
+import com.mymasimo.masimosleep.BuildConfig
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentScanBinding
 import com.mymasimo.masimosleep.ui.pairing.PairingViewModel
+import com.mymasimo.masimosleep.util.navigateSafe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
@@ -47,9 +50,22 @@ class ScanFragment : Fragment(R.layout.fragment_scan), PermissionHandlerClient {
             cancelButton.setOnClickListener {
                 goToScanFailedScreen()
             }
+
+            btnEmulator.isVisible = BuildConfig.ALLOW_EMULATION
+            btnEmulator.setOnClickListener {
+                vm.connectToEmulator()
+            }
+
             ripplePulse.startPulse()
             ripplePulse2.startPulse()
         }
+
+        vm.pairingFinish.observe(viewLifecycleOwner, { hasFinished ->
+            if (hasFinished) {
+                view.findNavController().navigateSafe(R.id.action_scanFragment_to_devicePairedFragment)
+                vm.onPairingFinishComplete()
+            }
+        })
 
         vm.scanTimedOut
             .subscribeOn(schedulerProvider.io())

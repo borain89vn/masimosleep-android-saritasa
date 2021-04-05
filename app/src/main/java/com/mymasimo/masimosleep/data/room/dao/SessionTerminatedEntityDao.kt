@@ -14,11 +14,10 @@ interface SessionTerminatedEntityDao {
     @Update
     fun update(sessionTerminatedEntity: SessionTerminatedEntity): Completable
 
-    @Delete
-    fun delete(sessionTerminatedEntity: SessionTerminatedEntity): Completable
-
-    @Query("SELECT * FROM ${SessionTerminatedContract.TABLE_NAME} " +
-                   "WHERE ${SessionTerminatedContract.COLUMN_HANDLED} = 0 " +
-                   "ORDER BY ${SessionTerminatedContract.COLUMN_ID} DESC LIMIT 1")
+    @Query(
+        "SELECT * FROM ${SessionTerminatedContract.TABLE_NAME} " +
+                "WHERE ${SessionTerminatedContract.COLUMN_HANDLED} = 0 " +
+                "ORDER BY ${SessionTerminatedContract.COLUMN_ID} DESC LIMIT 1"
+    )
     fun findLatestTerminatedModelNotHandled(): Single<SessionTerminatedEntity>
 }

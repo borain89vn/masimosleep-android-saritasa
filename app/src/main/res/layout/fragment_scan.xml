@@ -7,6 +7,20 @@
     tools:context=".ui.pairing.scan.ScanFragment">
 
     <Button
+        android:id="@+id/btnEmulator"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/black_button"
+        android:text="@string/btn_emulator_sensor"
+        android:textAppearance="@style/roundedButton_WhiteText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/cancelButton"
         android:layout_width="30dp"
         android:layout_height="30dp"

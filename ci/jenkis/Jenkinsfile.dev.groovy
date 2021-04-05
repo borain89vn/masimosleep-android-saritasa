@@ -23,7 +23,11 @@ node("android"){
         }
 
         stage('Deploy:artifacts') {
+<<<<<<< HEAD
             archiveArtifacts("app/build/outputs/apk/emulation/MasimoSleep*.apk")
+=======
+            archiveArtifacts("app/build/outputs/apk/emulator/release/MasimoSleep*.apk")
+>>>>>>> dev
         }
         
   } catch(error) {

@@ -41,7 +41,6 @@ object ModelStore {
         // TODO: This needs to be disposed.
         Timber.d("Loading module with id: $moduleId")
         DataRepository.observeModule(moduleId)
-            .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.trampoline())
             .subscribe(
                 { module ->

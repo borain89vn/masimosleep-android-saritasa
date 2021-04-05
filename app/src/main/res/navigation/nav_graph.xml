@@ -187,6 +187,9 @@
             app:popEnterAnim="@anim/slide_in_top"
             app:popExitAnim="@anim/slide_out_bottom" />
         <action
+            android:id="@+id/action_scanFragment_to_devicePairedFragment"
+            app:destination="@id/devicePairedFragment" />
+        <action
             android:id="@+id/action_scanFragment_to_selectDeviceFragment"
             app:destination="@id/selectDeviceFragment"
 

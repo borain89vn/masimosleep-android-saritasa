@@ -61,15 +61,9 @@ class SettingsDeviceFragment : Fragment(R.layout.fragment_settings_device) {
     private fun setupButtons() {
         viewBinding.connectButton.setOnClickListener {
             when {
-                isDeviceConnected() -> {
-                    requireView().findNavController().navigate(R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment)
-                }
-                ModelStore.currentModule != null -> {
-                    requireView().findNavController().navigate(R.id.action_settingsFragment_to_confirmReplaceSensorDialogFragment)
-                }
-                else -> {
-                    requireView().findNavController().navigate(R.id.action_settingsFragment_to_scanFragment)
-                }
+                isDeviceConnected() -> requireView().findNavController().navigate(R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment)
+                ModelStore.currentModule != null -> requireView().findNavController().navigate(R.id.action_settingsFragment_to_confirmReplaceSensorDialogFragment)
+                else -> requireView().findNavController().navigate(R.id.action_settingsFragment_to_scanFragment)
             }
         }
 

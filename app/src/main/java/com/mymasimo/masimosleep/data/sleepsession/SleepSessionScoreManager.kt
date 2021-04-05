@@ -3,18 +3,16 @@ package com.mymasimo.masimosleep.data.sleepsession
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.masimo.sleepscore.sleepscorelib.SleepSessionScoreObserver
 import com.masimo.sleepscore.sleepscorelib.SleepSessionScoreProvider
-import com.masimo.sleepscore.sleepscorelib.model.Parameter
 import com.masimo.sleepscore.sleepscorelib.model.SleepEvent
 import com.masimo.sleepscore.sleepscorelib.model.SleepImprovementResult
 import com.masimo.sleepscore.sleepscorelib.model.SleepSessionScore
 import com.mymasimo.masimosleep.BuildConfig
-import com.mymasimo.masimosleep.MasimoSleepApp
-import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.repository.*
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.data.room.entity.ScoreType
 import com.mymasimo.masimosleep.data.room.entity.SleepEventType
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
+import com.mymasimo.masimosleep.model.Tick
 import com.mymasimo.masimosleep.service.DeviceExceptionHandler
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -156,7 +154,7 @@ class SleepSessionScoreManager @Inject constructor(
         maxSleepHourDisposable = Observable
             .interval(1, TimeUnit.SECONDS)
             .doOnNext {
-                if (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - startAt) > MasimoSleepApp.get().resources.getInteger(R.integer.max_sleep_time).toLong()) {
+                if (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - startAt) > MAX_SLEEP_TIME) {
                     if (isSessionInProgress && nightNumber == currentNight) {
                         //current night is still in progress
                         Timber.d("Current sleep exceeds 12 hours, ending sleep session")
@@ -179,7 +177,7 @@ class SleepSessionScoreManager @Inject constructor(
 
         // Allow less than 2 hours sleep for debug
         @Suppress("ConstantConditionIf")
-        if (BuildConfig.ALLOW_SHORT_SLEEP) {
+        if (BuildConfig.ALLOW_EMULATION) {
             return true
         }
 
@@ -218,7 +216,7 @@ class SleepSessionScoreManager @Inject constructor(
 
         Timber.d("Canceling session $currentNight - start=$currentNightStartAt")
 
-        sessionRepository.cancelCurrentSession(sessionTerminatedCause, this)
+        sessionRepository.cancelCurrentSession(sessionTerminatedCause)
 
         resetCurrentSession()
     }
@@ -230,7 +228,9 @@ class SleepSessionScoreManager @Inject constructor(
         SleepSessionScoreProvider.interrupt()
     }
 
-    fun sendTick(pSPO2: Parameter, pPR: Parameter, pRRP: Parameter) {
+    fun sendTick(tick: Tick) {
+        val (pSPO2, pPR, pRRP) = tick
+
         if (pSPO2.value == 0f && pPR.value == 0f && pRRP.value == 0f) {
             Timber.d("Ignoring tick with all values in 0f")
             return
@@ -294,7 +294,7 @@ class SleepSessionScoreManager @Inject constructor(
      * Auto-end session if sensor is OFF for more than 30 minutes
      */
     fun startDisconnectionEndSessionCountDown() {
-        val observable = Observable.timer(MasimoSleepApp.get().resources.getInteger(R.integer.max_ble_disconnect_time).toLong(), TimeUnit.SECONDS)
+        val observable = Observable.timer(MAX_BLE_DISCONNECT_TIME, TimeUnit.SECONDS)
             .doOnNext {
                 if (isSessionInProgress) {
                     if (isSessionDurationValid()) {
@@ -324,7 +324,7 @@ class SleepSessionScoreManager @Inject constructor(
      * Auto-end session if sensor is OFF for more than 30 minutes
      */
     fun startSensorOffEndSessionCountDown() {
-        val observable = Observable.timer(MasimoSleepApp.get().resources.getInteger(R.integer.max_sensor_off_time).toLong(), TimeUnit.SECONDS)
+        val observable = Observable.timer(MAX_SENSOR_OFF_TIME, TimeUnit.SECONDS)
             .doOnNext {
                 if (isSessionInProgress) {
                     if (isSessionDurationValid()) {
@@ -348,3 +348,7 @@ class SleepSessionScoreManager @Inject constructor(
         sensorOffEndSessionCountDownDisposable = null
     }
 }
+
+private const val MAX_SENSOR_OFF_TIME = 1800L
+private const val MAX_BLE_DISCONNECT_TIME = 1800L
+private const val MAX_SLEEP_TIME = 43200L
