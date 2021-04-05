@@ -4,23 +4,28 @@ node("android"){
         JAVA_HOME = tool(name: 'jdk-latest', type: 'jdk')
 
         stage('Clean'){
-            if ("${BUILD_CLEAN}" == "true") {
+            if ("${BUILD_CLEAN}" == "false") {
                 cleanWs()
             }
         }
+
         stage('SCM'){
             checkout(scm)
         }
 
-        stage('build') {
+        stage('Build:apk') {
             withEnv(["JAVA_HOME=${JAVA_HOME}"]) {
-                sh('./gradlew assembleDebug')
+                ansiColor('xterm') {
+                    sh('./gradlew assembleEmulator')
+               }
         
             }
         }
-        stage('Artifacts') {
-            archiveArtifacts("app/build/outputs/apk/debug/MasimoSleep*.apk")
+
+        stage('Deploy:artifacts') {
+            archiveArtifacts("app/build/outputs/apk/emulation/MasimoSleep*.apk")
         }
+        
   } catch(error) {
     currentBuild.result = 'FAILURE'
     println("ERROR: ${error}")
