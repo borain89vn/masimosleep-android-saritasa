@@ -29,11 +29,11 @@ node("android"){
             ).content
             ).data
 
-            fileContent = readFile('../../app/keystore/emulator.properties')
+            fileContent = readFile('app/keystore/keystore.properties')
             for (item in credentials) {
             fileContent = fileContent.replace("%${item.key}%", "${item.value}")
             }
-            writeFile(file: '../../app/keystore/emulator.properties', text: fileContent)
+            writeFile(file: 'app/keystore/keystore.properties', text: fileContent)
         }
 
         stage('Build:apk') {
