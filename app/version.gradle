@@ -6,8 +6,7 @@ assert VERSION_MAJOR in (0..9)
 assert VERSION_MINOR in (0..9)
 assert VERSION_PATCH in (0..9)
 
-def BUILD_NUMBER = 1
-assert BUILD_NUMBER in (0..255)
+def BUILD_NUMBER = Integer.parseInt(System.getenv("BUILD_NUMBER") ?: '1')
 
 def getGitHash = { ->
     def stdout = new ByteArrayOutputStream()
