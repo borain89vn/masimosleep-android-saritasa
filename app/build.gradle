@@ -46,6 +46,12 @@ android {
             keyAlias debugKeyAlias
             keyPassword debugAliasPassword
         }
+        emulator {
+            storeFile emulatorKeystoreFile
+            storePassword emulatorKeystorePassword
+            keyAlias emulatorKeyAlias
+            keyPassword emulatorAliasPassword
+        }
     }
 
     buildTypes {
@@ -66,7 +72,7 @@ android {
         emulator {
             initWith buildTypes.release
             applicationIdSuffix ".emulator"
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.emulator
             buildConfigField "boolean", "ALLOW_EMULATION", "true"
         }
         enterprise {

@@ -36,6 +36,12 @@ ext {
     debugKeystorePassword = PROPS.getProperty("keystore.debug.keystorePass")
     debugKeyAlias = PROPS.getProperty ("keystore.debug.alias")
     debugAliasPassword = PROPS.getProperty ("keystore.debug.aliasPass")
+
+    // Emulator keystore
+    emulatorKeystoreFile = file(PROPS.getProperty("keystore.emulator.path"))
+    emulatorKeystorePassword = PROPS.getProperty("keystore.emulator.keystorePass")
+    emulatorKeyAlias = PROPS.getProperty ("keystore.emulator.alias")
+    emulatorAliasPassword = PROPS.getProperty ("keystore.emulator.aliasPass")
 }
 
 // TODO: See https://confluence.masimo.com:8443/display/MBLAND/Building+Android+Apps
