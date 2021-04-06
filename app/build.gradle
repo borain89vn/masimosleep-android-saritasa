@@ -64,17 +64,14 @@ android {
             matchingFallbacks = ['debug']
         }
         emulator {
+            initWith buildTypes.release
             applicationIdSuffix ".emulator"
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            matchingFallbacks = ['emulator']
+            signingConfig signingConfigs.debug
+            buildConfigField "boolean", "ALLOW_EMULATION", "true"
         }
         enterprise {
             initWith buildTypes.debug
             applicationIdSuffix ".enterprise"
-            matchingFallbacks = ['debug']
             signingConfig signingConfigs.release
         }
     }
@@ -107,9 +104,11 @@ dependencies {
     implementation(libraries.masimoCommon) { transitive = true }
     debugImplementation(libraries.masimoAndroidCommonDebug) { transitive = true }
     releaseImplementation(libraries.masimoAndroidCommon) { transitive = true }
+    emulatorImplementation(libraries.masimoAndroidCommon) { transitive = true }
     enterpriseImplementation(libraries.masimoAndroidCommonDebug) { transitive = true }
     debugImplementation(libraries.masimoUiDebug) { transitive = true }
     releaseImplementation(libraries.masimoUi) { transitive = true }
+    emulatorImplementation(libraries.masimoUi) { transitive = true }
     enterpriseImplementation(libraries.masimoUi) { transitive = true }
     implementation(libraries.masimoLogback) { transitive = true }
     implementation(libraries.masimoSleepScore) { transitive = true }
@@ -156,6 +155,7 @@ dependencies {
     debugImplementation libraries.soloader
 
     releaseImplementation libraries.flipperNoOp
+    emulatorImplementation libraries.flipperNoOp
 
     enterpriseImplementation libraries.flipper
     enterpriseImplementation libraries.soloader
