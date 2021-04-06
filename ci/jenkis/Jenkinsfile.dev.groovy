@@ -28,10 +28,9 @@ node("android"){
                 url: config.vault_url
             ).content
             ).data
-
             fileContent = readFile('app/keystore/keystore.properties')
-            for (item in credentials) {
-            fileContent = fileContent.replace("%${item.key}%", "${item.value}")
+            for (item in credentials.get('data')) {
+                fileContent = fileContent.replace("%${item.key}%", "${item.value}")
             }
             writeFile(file: 'app/keystore/keystore.properties', text: fileContent)
         }
@@ -40,13 +39,13 @@ node("android"){
             withEnv(["JAVA_HOME=${JAVA_HOME}"]) {
                 ansiColor('xterm') {
                     sh('./gradlew assembleEmulator')
-               }
+              }
         
             }
         }
         stage('Deploy:firebase') {
                  sh("firebase appdistribution:distribute \
-               app/build/outputs/apk/emulator/MasimoSleep*.apk \
+              app/build/outputs/apk/emulator/MasimoSleep*.apk \
                 --app ${config.firebaseID} \
                 --groups ${config.firebaseGroup}")
         }
