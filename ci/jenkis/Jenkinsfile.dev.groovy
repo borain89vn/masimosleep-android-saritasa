@@ -46,13 +46,13 @@ node("android"){
         }
         stage('Deploy:firebase') {
                  sh("firebase appdistribution:distribute \
-               app/build/outputs/apk/emulator/release/MasimoSleep*.apk \
+               app/build/outputs/apk/emulator/MasimoSleep*.apk \
                 --app ${config.firebaseID} \
                 --groups ${config.firebaseGroup}")
         }
         
         stage('Deploy:artifacts') {
-            archiveArtifacts("app/build/outputs/apk/emulator/release/MasimoSleep*.apk")
+            archiveArtifacts("app/build/outputs/apk/emulator/MasimoSleep*.apk")
         }
         
   } catch(error) {
