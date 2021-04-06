@@ -46,7 +46,7 @@ node("android"){
         stage('Deploy:firebase') {
                  sh("firebase appdistribution:distribute \
               app/build/outputs/apk/emulator/MasimoSleep*.apk \
-                --app ${config.firebaseID} \
+                --app ${config.firebaseId} \
                 --groups ${config.firebaseGroup}")
         }
         
