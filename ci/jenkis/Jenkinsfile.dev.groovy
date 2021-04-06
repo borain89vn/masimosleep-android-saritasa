@@ -21,20 +21,20 @@ node("android"){
             checkout(scm)
         }
         
-        // stage('Credentials') {
-        //     credentials = new JsonSlurper().parseText(
-        //     httpRequest(
-        //         customHeaders: [[maskValue: true, name: 'X-Vault-Token', value: "${env.VAULT_TOKEN}"]],
-        //         url: config.vault_url
-        //     ).content
-        //     ).data
+        stage('Credentials') {
+            credentials = new JsonSlurper().parseText(
+            httpRequest(
+                customHeaders: [[maskValue: true, name: 'X-Vault-Token', value: "${env.VAULT_TOKEN}"]],
+                url: config.vault_url
+            ).content
+            ).data
 
-        //     fileContent = readFile('../../app/keystore/keystore.properties')
-        //     for (item in credentials) {
-        //     fileContent = fileContent.replace("%${item.key}%", "${item.value}")
-        //     }
-        //     writeFile(file: '../../app/keystore/keystore.properties', text: fileContent)
-        // }
+            fileContent = readFile('../../app/keystore/keystore.properties')
+            for (item in credentials) {
+            fileContent = fileContent.replace("%${item.key}%", "${item.value}")
+            }
+            writeFile(file: '../../app/keystore/keystore.properties', text: fileContent)
+        }
 
         stage('Build:apk') {
             withEnv(["JAVA_HOME=${JAVA_HOME}"]) {
@@ -44,12 +44,12 @@ node("android"){
         
             }
         }
-        // stage('Deploy:firebase') {
-        //          sh("firebase appdistribution:distribute \
-        //        app/build/outputs/apk/emulator/release/MasimoSleep*.apk \
-        //         --app ${config.firebaseID} \
-        //         --groups ${config.firebaseGroup}")
-        // }
+        stage('Deploy:firebase') {
+                 sh("firebase appdistribution:distribute \
+               app/build/outputs/apk/emulator/release/MasimoSleep*.apk \
+                --app ${config.firebaseID} \
+                --groups ${config.firebaseGroup}")
+        }
         
         stage('Deploy:artifacts') {
             archiveArtifacts("app/build/outputs/apk/emulator/release/MasimoSleep*.apk")
