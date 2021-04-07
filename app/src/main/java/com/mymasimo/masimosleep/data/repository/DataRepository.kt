@@ -3,33 +3,12 @@ package com.mymasimo.masimosleep.data.repository
 import com.mymasimo.masimosleep.MasimoSleepApp
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.room.ModulesDatabase
-import com.mymasimo.masimosleep.data.room.entity.Module
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 object DataRepository {
-
-    fun addModule(module: Module) = Completable.create {
-        try {
-            val id = ModulesDatabase.getInstance(MasimoSleepApp.get()).moduleDao().insert(module)
-
-            module.id = id
-            Timber.d("Inserted ${module.type}|${module.variant} at row ${module.id}")
-            it.onComplete()
-            MasimoSleepPreferences.selectedModuleId = id
-
-        } catch (e: Exception) {
-            it.onError(e)
-        }
-    }
-
-    fun observeModule(id: Long): Observable<Module> {
-        return ModulesDatabase.getInstance(MasimoSleepApp.get()).moduleDao()
-            .getModule(id)
-            .subscribeOn(Schedulers.io())
-    }
 
     fun deleteModule(id: Long) = Single.fromCallable {
         val rowsAffected = ModulesDatabase.getInstance(MasimoSleepApp.get()).moduleDao().delete(id)

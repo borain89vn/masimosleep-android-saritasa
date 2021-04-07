@@ -10,6 +10,7 @@ import com.mymasimo.masimosleep.dagger.modules.ContextModule
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
+import com.mymasimo.masimosleep.data.repository.SensorRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.service.serviceConnectBLE
@@ -33,6 +34,9 @@ class MasimoSleepApp : Application(), LifecycleObserver {
 
     @Inject
     lateinit var sessionRepository: SessionRepository
+
+    @Inject
+    lateinit var sensorRepository: SensorRepository
 
     @Inject
     lateinit var sleepSessionScoreManager: SleepSessionScoreManager
@@ -59,7 +63,6 @@ class MasimoSleepApp : Application(), LifecycleObserver {
             }
 
         connectToSavedModuleIfExists()
-
         resumeSessionIfWasInProgress()
     }
 
@@ -94,7 +97,9 @@ class MasimoSleepApp : Application(), LifecycleObserver {
             Timber.d("No saved module in DB - no need to connect right now...")
             return
         }
-        ModelStore.loadModule(MasimoSleepPreferences.selectedModuleId)
+
+        // TODO MC: 4/7/21 why do we load sensor and then connect to sensor again if it exists
+        sensorRepository.loadSensor(MasimoSleepPreferences.selectedModuleId)
         connectToSavedModuleIfExists()
     }
 

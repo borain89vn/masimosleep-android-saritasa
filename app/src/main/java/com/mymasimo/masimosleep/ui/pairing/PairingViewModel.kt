@@ -19,12 +19,8 @@ import com.masimo.android.airlib.ProductType
 import com.masimo.android.airlib.ProductVariant
 import com.masimo.android.airlib.ScanRecordParser
 import com.masimo.common.model.universal.ParameterID
-import com.mymasimo.masimosleep.base.dispatchers.CoroutineDispatchers
-import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
-import com.mymasimo.masimosleep.data.repository.DataRepository
-import com.mymasimo.masimosleep.data.repository.ModelStore
-import com.mymasimo.masimosleep.data.repository.SensorFirestoreRepository
+import com.mymasimo.masimosleep.data.repository.SensorRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.service.*
 import com.mymasimo.masimosleep.util.DEFAULT_MANUFACTURER_NAME
@@ -32,9 +28,7 @@ import com.mymasimo.masimosleep.util.test.FakeTicker
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -44,10 +38,8 @@ import javax.inject.Inject
 class PairingViewModel @Inject constructor(
     app: Application,
     private val fakeTicker: FakeTicker,
-    private val sensorFirestoreRepository: SensorFirestoreRepository,
-    private val schedulerProvider: SchedulerProvider,
+    private val sensorRepository: SensorRepository,
     private val disposables: CompositeDisposable,
-    private val dispatchers: CoroutineDispatchers,
 ) : AndroidViewModel(app) {
 
     private val _isScanning = MutableLiveData(false)
@@ -85,23 +77,11 @@ class PairingViewModel @Inject constructor(
             return
         }
 
-        // Persist external BLE Module in database
-        DataRepository.addModule(module)
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-            .subscribeBy(
-                onComplete = {
-                    stopScanningDevices()
-                    Timber.d("Module ${module.id} saved to the DB")
-                    ModelStore.currentModule = module
-                    MasimoSleepPreferences.emulatorUsed = false
-                    onPairingFinish()
-                },
-                onError = { e ->
-                    Timber.e(e, "Failed to add module to the db")
-                }
-            )
-            .addTo(disposables)
+        viewModelScope.launch {
+            stopScanningDevices()
+            sensorRepository.addSensor(module)
+            onPairingFinish()
+        }
     }
 
     fun startAutomaticConnectCountDown() {
@@ -146,28 +126,19 @@ class PairingViewModel @Inject constructor(
 
     fun connectToEmulator() = viewModelScope.launch {
         stopScanningDevices()
-        val module = withContext(dispatchers.io()){
-            val address = MasimoSleepPreferences.name ?: "default"
-            val module = Module(
-                type = ProductType.OTHER,
-                variant = ProductVariant.OTHER,
-                manufacturerName = "",
-                firmwareVersion = "",
-                serialNumber = "",
-                address = address,
-                supportedParameters = EnumSet.of(ParameterID.PR)
-            )
+        val address = MasimoSleepPreferences.name ?: "default"
+        val module = Module(
+            type = ProductType.OTHER,
+            variant = ProductVariant.OTHER,
+            manufacturerName = "",
+            firmwareVersion = "",
+            serialNumber = "",
+            address = address,
+            supportedParameters = EnumSet.of(ParameterID.PR)
+        )
 
-            sensorFirestoreRepository.insertSensor(module)
-            MasimoSleepPreferences.emulatorUsed = true
-            DataRepository.addModule(module).blockingGet()
-            Timber.d("Module ${module.id} saved to the DB")
-
-            module
-        }
-//        fakeTicker.createNights(6)
-
-        ModelStore.currentModule = module
+        sensorRepository.addSensor(module)
+//      fakeTicker.createNights(6)
         onPairingFinish()
     }
 
