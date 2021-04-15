@@ -106,12 +106,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':airlib')
 
-    implementation('com.masimo.timelinechart:TimelineChart') {
-        version {
-            branch = 'feature/slpapp-31-integration-chart-to-app'
-        }
-    }
-
     // Masimo Libs
     implementation(libraries.masimoCommon) { transitive = true }
     debugImplementation(libraries.masimoAndroidCommonDebug) { transitive = true }
@@ -124,6 +118,7 @@ dependencies {
     enterpriseImplementation(libraries.masimoUi) { transitive = true }
     implementation(libraries.masimoLogback) { transitive = true }
     implementation(libraries.masimoSleepScore) { transitive = true }
+    implementation(libraries.masimoTimelineChart) { transitive = true }
 
     //Firebase
     implementation platform(libraries.firebaseBom)

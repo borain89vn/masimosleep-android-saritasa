@@ -57,6 +57,7 @@ rootProject.ext{
             masimoSleepScore   : '0.1.0',
             masimoCommunication: '2.0.0',
             masimoAirProtocol  : '1.0.0',
+            masimoTimelineChart: '1.0.0',
     ]
 
     gradlePlugins = [
@@ -128,5 +129,6 @@ rootProject.ext{
             masimoSleepScore        : "com.masimo.android:sleep-score:$versions.masimoSleepScore",
             masimoCommunication     : "com.masimo:communication:$versions.masimoCommunication",
             masimoAirProtocol       : "com.masimo:protocol-air:$versions.masimoAirProtocol",
+            masimoTimelineChart     : "com.masimo:timelinechart:$versions.masimoTimelineChart",
     ]
 }
