@@ -1,3 +1,9 @@
 include ':airlib'
 include ':app'
 rootProject.name = "Masimo Sleep"
+
+sourceControl {
+    gitRepository("ssh://git@bitbucket.org/masimo-admin/mobile-library-android-saritasa.git") {
+        producesModule("com.masimo.timelinechart:TimelineChart")
+    }
+}

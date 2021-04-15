@@ -106,6 +106,12 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':airlib')
 
+    implementation('com.masimo.timelinechart:TimelineChart') {
+        version {
+            branch = 'feature/slpapp-31-integration-chart-to-app'
+        }
+    }
+
     // Masimo Libs
     implementation(libraries.masimoCommon) { transitive = true }
     debugImplementation(libraries.masimoAndroidCommonDebug) { transitive = true }
