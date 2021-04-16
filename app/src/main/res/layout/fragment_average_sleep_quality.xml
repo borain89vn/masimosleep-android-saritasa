@@ -80,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quality_desc" />
 
-    <com.github.mikephil.charting.charts.LineChart
+    <com.masimo.timelinechart.TimelineChartView
         android:id="@+id/chart_sleep_score"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -88,7 +88,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:background="#00000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

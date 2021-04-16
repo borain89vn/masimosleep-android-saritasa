@@ -10,7 +10,6 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
 import com.mymasimo.masimosleep.ui.session.view_vitals.ChartIntervalType
-import com.mymasimo.masimosleep.ui.session.vitals.live.intervalgraph.LiveIntervalGraphFragment
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
 
 class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
@@ -90,46 +89,25 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         viewBinding.minuteButton.isSelected = false
     }
 
-    private fun updateUI() {
-        if (this.chartIntervalType == ChartIntervalType.MINUTE) {
-            showLinearCharts()
-        } else if (this.chartIntervalType == ChartIntervalType.ALL) {
-            showIntervalCharts(60, Int.MAX_VALUE)
-        } else if (this.chartIntervalType == ChartIntervalType.HOUR) {
-            showIntervalCharts(15, 60)
-        }
+    private fun updateUI() = when (chartIntervalType) {
+        ChartIntervalType.MINUTE -> showLinearCharts(1)
+        ChartIntervalType.ALL -> showLinearCharts(60 * 24)
+        ChartIntervalType.HOUR -> showLinearCharts(60)
     }
 
-    private fun showIntervalCharts(minutes: Int, timeSpanInMinute: Int) {
-
-        removeAllFragments()
-        addFragment(
-            LiveIntervalGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, minutes, timeSpanInMinute),
-            SPO2_INTERVAL_FRAGMENT_TAG
-        )
-        addFragment(
-            LiveIntervalGraphFragment.newInstance(ReadingType.PR, args.sessionStart, minutes, timeSpanInMinute),
-            PR_INTERVAL_FRAGMENT_TAG
-        )
-        addFragment(
-            LiveIntervalGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, minutes, timeSpanInMinute),
-            RRP_INTERVAL_FRAGMENT_TAG
-        )
-    }
-
-    private fun showLinearCharts() {
+    private fun showLinearCharts(scale: Int) {
         removeAllFragments()
 
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart),
+            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, scale),
             SPO2_LINE_FRAGMENT_TAG
         )
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart),
+            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart, scale),
             PR_LINE_FRAGMENT_TAG
         )
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart),
+            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, scale),
             RRP_LINE_FRAGMENT_TAG
         )
 

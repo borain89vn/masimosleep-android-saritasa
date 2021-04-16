@@ -4,7 +4,4 @@ enum class ChartIntervalType {
     ALL,
     HOUR,
     MINUTE,
-    INT;
 }
-
-fun chartIntervalTypeFromInt(status: Int) = ChartIntervalType.values()[status]

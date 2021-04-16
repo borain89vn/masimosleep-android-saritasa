@@ -9,7 +9,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentReportVitalsBinding
-import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.intervalgraph.ReportIntervalGraphFragment
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
 import com.mymasimo.masimosleep.ui.session.view_vitals.ChartIntervalType
 
@@ -63,47 +62,25 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
         viewBinding.minuteButton.isSelected = false
     }
 
-    private fun updateUI() {
-        if (this.chartIntervalType == ChartIntervalType.MINUTE) {
-            showLinearCharts()
-        } else if (this.chartIntervalType == ChartIntervalType.ALL) {
-            showIntervalCharts(60, Int.MAX_VALUE)
-        } else if (this.chartIntervalType == ChartIntervalType.HOUR) {
-            showIntervalCharts(15, 60)
-        }
-
+    private fun updateUI() = when (chartIntervalType) {
+        ChartIntervalType.MINUTE -> showLinearCharts(1)
+        ChartIntervalType.ALL -> showLinearCharts(60 * 24)
+        ChartIntervalType.HOUR -> showLinearCharts(60)
     }
 
-    private fun showIntervalCharts(minutes: Int, timeSpanInMinutes: Int) {
+    private fun showLinearCharts(scale: Int) {
         removeAllFragments()
 
         addFragment(
-            ReportIntervalGraphFragment.newInstance(ReadingType.SP02, args.sessionId, minutes, timeSpanInMinutes),
-            SPO2_INTERVAL_FRAGMENT_TAG
-        )
-        addFragment(
-            ReportIntervalGraphFragment.newInstance(ReadingType.PR, args.sessionId, minutes, timeSpanInMinutes),
-            PR_INTERVAL_FRAGMENT_TAG
-        )
-        addFragment(
-            ReportIntervalGraphFragment.newInstance(ReadingType.RRP, args.sessionId, minutes, timeSpanInMinutes),
-            RRP_INTERVAL_FRAGMENT_TAG
-        )
-    }
-
-    private fun showLinearCharts() {
-        removeAllFragments()
-
-        addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.SP02, args.sessionId),
+            ReportLineGraphFragment.newInstance(ReadingType.SP02, args.sessionId, scale),
             SPO2_LINE_FRAGMENT_TAG
         )
         addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.PR, args.sessionId),
+            ReportLineGraphFragment.newInstance(ReadingType.PR, args.sessionId, scale),
             PR_LINE_FRAGMENT_TAG
         )
         addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.RRP, args.sessionId),
+            ReportLineGraphFragment.newInstance(ReadingType.RRP, args.sessionId, scale),
             RRP_LINE_FRAGMENT_TAG
         )
     }
