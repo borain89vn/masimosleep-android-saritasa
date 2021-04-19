@@ -132,9 +132,9 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
                 continue
             }
 
-            val score = (point.score * 100.0).toInt()
-            val night = point.index + 1
-            chartData.add(InputData(score))
+            val score = (point.score * 100.0).toFloat()
+            val night = (point.index + 1).toLong()
+            chartData.add(InputData(score, night))
 
             var circleColorId = R.color.subtleGray
             if (score.toInt() <= resources.getInteger(R.integer.red_upper)) {
@@ -148,7 +148,7 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
             colorList.add(resources.getColor(circleColorId, null))
         }
 
-        viewBinding.chartSleepScore.setData(chartData, ArrayList())
+        viewBinding.chartSleepScore.setData(chartData, ArrayList(), ArrayList())
         viewBinding.chartSleepScore.invalidate()
     }
 

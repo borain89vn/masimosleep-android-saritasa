@@ -142,7 +142,7 @@
         <com.masimo.timelinechart.TimelineChartView
             android:id="@+id/chart_live"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="400dp"
             android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

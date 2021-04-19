@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.masimo.timelinechart.data.AxisYData
 import com.masimo.timelinechart.data.InputData
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
@@ -85,7 +86,7 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
 
         for (pointList in pointLists) {
             for (point in pointList) {
-                chartData.add(InputData(point.value.toInt()))
+                chartData.add(InputData(point.value.toFloat(), point.timestamp))
 
                 if (point.value < minVal) {
                     minVal = point.value
@@ -118,7 +119,13 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
             viewBinding.lowHighText.text = "$lowRounded - $highRounded"
         }
 
-        viewBinding.chartLive.setData(chartData, ArrayList())
+        val axisYList = ArrayList<AxisYData>()
+        axisYList.add(AxisYData(text = "40.6°"))
+        axisYList.add(AxisYData(text = "38.9°"))
+        axisYList.add(AxisYData(text = "37.3°"))
+        axisYList.add(AxisYData(text = "35.6°"))
+
+        viewBinding.chartLive.setData(chartData, ArrayList(), axisYList)
         viewBinding.chartLive.invalidate()
     }
 

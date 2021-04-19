@@ -47,8 +47,8 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend) 
                 continue
             }
 
-            val score = (point.score * 100.0).toInt()
-            chartData.add(InputData(score))
+            val score = (point.score * 100.0).toFloat()
+            chartData.add(InputData(score, point.startAt))
 
 
             var circleColorId = R.color.subtleGray
@@ -71,7 +71,7 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend) 
             }
         }
 
-        viewBinding.chartSleepScore.setData(chartData, ArrayList())
+        viewBinding.chartSleepScore.setData(chartData, ArrayList(), ArrayList())
         viewBinding.chartSleepScore.invalidate()
     }
 
