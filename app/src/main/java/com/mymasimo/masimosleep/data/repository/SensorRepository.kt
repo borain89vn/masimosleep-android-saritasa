@@ -32,33 +32,33 @@ class SensorRepository @Inject constructor(
         sensor.id = id
         Timber.d("Inserted ${sensor.type}|${sensor.variant} at row ${sensor.id}")
         MasimoSleepPreferences.selectedModuleId = id
-        ModelStore.currentModule = sensor
     }
 
+    suspend fun getSelectedSensorId() = withContext(dispatchers.io()) { MasimoSleepPreferences.selectedModuleId }
 
     fun loadSensor(id: Long): Flow<Module> = sensorDao.getModule(id)
 
-    suspend fun deleteSensor(id: Long): Int = withContext(dispatchers.io()) {
+    suspend fun deleteSensor(id: Long): Int {
         val rowsAffected = sensorDao.delete(id)
-        Timber.d("Deleted $rowsAffected modules (id=$id)")
+        Timber.d("Deleted $rowsAffected sensors (id=$id)")
         updateSelectedSensor(id)
-        rowsAffected
+        return rowsAffected
     }
 
     private suspend fun updateSelectedSensor(deletedModuleId: Long) = withContext(dispatchers.io()) {
         // nothing to do if the selected module wasn't deleted
         if (deletedModuleId != MasimoSleepPreferences.selectedModuleId) {
-            Timber.d("Selected module not deleted. Not updating selectedModuleId.")
+            Timber.d("Selected sensor not deleted.")
             return@withContext
         }
 
         // replace the selected module id with the next
         try {
             val nextId = sensorDao.getNextSelectedId()
-            Timber.d("Next module id: $nextId")
+            Timber.d("Next sensor id: $nextId")
             MasimoSleepPreferences.selectedModuleId = nextId
         } catch (e: Throwable) {
-            Timber.e(e, "Error getting next selected module id")
+            Timber.e(e, "Error getting next selected sensor id")
             MasimoSleepPreferences.selectedModuleId = 0L
         }
     }

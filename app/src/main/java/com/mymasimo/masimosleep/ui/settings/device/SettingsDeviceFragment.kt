@@ -12,7 +12,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
-import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.databinding.FragmentSettingsDeviceBinding
 import com.mymasimo.masimosleep.service.isDeviceConnected
 import com.mymasimo.masimosleep.ui.settings.SettingsFragmentDirections

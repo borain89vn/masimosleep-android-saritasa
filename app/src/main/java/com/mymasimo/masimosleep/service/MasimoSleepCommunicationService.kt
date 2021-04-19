@@ -28,7 +28,6 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
-import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
 import com.mymasimo.masimosleep.data.repository.SensorFirestoreRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
