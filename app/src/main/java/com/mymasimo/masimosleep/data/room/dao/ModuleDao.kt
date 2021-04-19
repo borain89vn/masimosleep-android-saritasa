@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.data.room.entity.ModuleContract
-import io.reactivex.Maybe
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,11 +15,11 @@ interface ModuleDao {
     suspend fun insert(module: Module): Long
 
     @Query("DELETE FROM ${ModuleContract.TABLE_NAME} WHERE ${ModuleContract.ID}=:id")
-    fun delete(id: Long): Int
+    suspend fun delete(id: Long): Int
 
     @Query("SELECT * FROM ${ModuleContract.TABLE_NAME} WHERE ${ModuleContract.ID}=:moduleId LIMIT 1")
     fun getModule(moduleId: Long): Flow<Module>
 
     @Query("SELECT ${ModuleContract.ID} FROM ${ModuleContract.TABLE_NAME} ORDER BY ${ModuleContract.ID} DESC LIMIT 1")
-    fun getNextSelectedId(): Maybe<Long>
+    suspend fun getNextSelectedId(): Long
 }

@@ -37,4 +37,29 @@ class SensorRepository @Inject constructor(
 
 
     fun loadSensor(id: Long): Flow<Module> = sensorDao.getModule(id)
+
+    suspend fun deleteSensor(id: Long): Int = withContext(dispatchers.io()) {
+        val rowsAffected = sensorDao.delete(id)
+        Timber.d("Deleted $rowsAffected modules (id=$id)")
+        updateSelectedSensor(id)
+        rowsAffected
+    }
+
+    private suspend fun updateSelectedSensor(deletedModuleId: Long) = withContext(dispatchers.io()) {
+        // nothing to do if the selected module wasn't deleted
+        if (deletedModuleId != MasimoSleepPreferences.selectedModuleId) {
+            Timber.d("Selected module not deleted. Not updating selectedModuleId.")
+            return@withContext
+        }
+
+        // replace the selected module id with the next
+        try {
+            val nextId = sensorDao.getNextSelectedId()
+            Timber.d("Next module id: $nextId")
+            MasimoSleepPreferences.selectedModuleId = nextId
+        } catch (e: Throwable) {
+            Timber.e(e, "Error getting next selected module id")
+            MasimoSleepPreferences.selectedModuleId = 0L
+        }
+    }
 }
