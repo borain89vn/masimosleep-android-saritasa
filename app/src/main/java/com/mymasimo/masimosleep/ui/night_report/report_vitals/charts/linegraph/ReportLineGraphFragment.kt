@@ -86,7 +86,7 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
 
         for (pointList in pointLists) {
             for (point in pointList) {
-                chartData.add(InputData(point.value.toFloat(), point.timestamp))
+                chartData.add(InputData(point.timestamp.toFloat(), point.value.toFloat()))
 
                 if (point.value < minVal) {
                     minVal = point.value
@@ -120,12 +120,8 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
         }
 
         val axisYList = ArrayList<AxisYData>()
-        axisYList.add(AxisYData(text = "40.6°"))
-        axisYList.add(AxisYData(text = "38.9°"))
-        axisYList.add(AxisYData(text = "37.3°"))
-        axisYList.add(AxisYData(text = "35.6°"))
 
-        viewBinding.chartLive.setData(chartData, ArrayList(), axisYList)
+        viewBinding.chartLive.setData(chartData, axisYList)
         viewBinding.chartLive.invalidate()
     }
 

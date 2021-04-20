@@ -77,7 +77,7 @@ class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_slee
             }
 
             val score = (point.score * 100.0).toFloat()
-            chartData.add(InputData(score, point.startAt))
+            chartData.add(InputData(point.startAt.toFloat(), score))
 
             var circleColorId = R.color.subtleGray
             if (score.toInt() <= resources.getInteger(R.integer.red_upper)) {
@@ -100,7 +100,7 @@ class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_slee
 
         }
 
-        viewBinding.chartSleepScore.setData(chartData, ArrayList(), ArrayList())
+        viewBinding.chartSleepScore.setData(chartData, ArrayList())
         viewBinding.chartSleepScore.invalidate()
     }
 }

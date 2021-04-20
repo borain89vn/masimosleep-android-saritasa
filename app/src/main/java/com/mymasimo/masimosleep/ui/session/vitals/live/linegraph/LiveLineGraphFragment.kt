@@ -115,7 +115,7 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
 
         for (pointList in pointLists) {
             for (point in pointList) {
-                chartData.add(InputData(point.value.toFloat(), point.timestamp))
+                chartData.add(InputData(point.timestamp.toFloat(), point.value.toFloat()))
 
                 if (point.value < minVal) {
                     minVal = point.value
@@ -147,7 +147,7 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
             viewBinding.lowHighText.text = "$lowRounded - $highRounded"
         }
 
-        viewBinding.chartLive.setData(chartData, ArrayList(), ArrayList())
+        viewBinding.chartLive.setData(chartData, ArrayList())
         viewBinding.chartLive.invalidate()
     }
 }
