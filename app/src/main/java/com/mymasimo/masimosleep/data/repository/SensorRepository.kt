@@ -5,7 +5,11 @@ import com.mymasimo.masimosleep.base.dispatchers.CoroutineDispatchers
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.room.dao.ModuleDao
 import com.mymasimo.masimosleep.data.room.entity.Module
+import com.mymasimo.masimosleep.model.Tick
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -34,7 +38,10 @@ class SensorRepository @Inject constructor(
         MasimoSleepPreferences.selectedModuleId = id
     }
 
-    suspend fun getSelectedSensorId() = withContext(dispatchers.io()) { MasimoSleepPreferences.selectedModuleId }
+    suspend fun getSelectedSensor(): Module? = withContext(dispatchers.io()) {
+        val sensorId = MasimoSleepPreferences.selectedModuleId
+        loadSensor(sensorId).firstOrNull()
+    }
 
     fun loadSensor(id: Long): Flow<Module> = sensorDao.getModule(id)
 
@@ -44,6 +51,9 @@ class SensorRepository @Inject constructor(
         updateSelectedSensor(id)
         return rowsAffected
     }
+
+    @ExperimentalCoroutinesApi
+    fun getTicks(sensor: Module): Flow<Tick> = if (BuildConfig.ALLOW_EMULATION) sensorFirestoreRepository.getTicks(sensor) else emptyFlow()
 
     private suspend fun updateSelectedSensor(deletedModuleId: Long) = withContext(dispatchers.io()) {
         // nothing to do if the selected module wasn't deleted

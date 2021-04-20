@@ -47,4 +47,9 @@ class RoomModule {
     fun provideSessionTerminatedEntityDao(context: Context): SessionTerminatedEntityDao {
         return ModulesDatabase.getInstance(context).sessionTerminatedEntityDao()
     }
+
+    @Provides
+    fun provideSensorDao(context: Context): ModuleDao {
+        return ModulesDatabase.getInstance(context).moduleDao()
+    }
 }

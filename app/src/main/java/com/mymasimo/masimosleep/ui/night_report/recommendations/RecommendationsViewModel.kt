@@ -1,8 +1,9 @@
 package com.mymasimo.masimosleep.ui.night_report.recommendations
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.mymasimo.masimosleep.MasimoSleepApp
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
@@ -20,21 +21,23 @@ import javax.inject.Inject
 const val MIN_SLEEP_RECOMMEND_HOURS = 7
 
 class RecommendationsViewModel @Inject constructor(
-        private val surveyRepository: SurveyRepository,
-        private val sessionRepository: SessionRepository,
-        private val scoreRepository: SleepScoreRepository,
-        private val schedulerProvider: SchedulerProvider,
-        private val disposable: CompositeDisposable
-) : ViewModel() {
+    app: Application,
+    private val surveyRepository: SurveyRepository,
+    private val sessionRepository: SessionRepository,
+    private val scoreRepository: SleepScoreRepository,
+    private val schedulerProvider: SchedulerProvider,
+    private val disposable: CompositeDisposable
+) : AndroidViewModel(app) {
 
     private val _recommendations = MutableLiveData<Set<Recommendation>>()
     val recommendations: LiveData<Set<Recommendation>>
         get() = _recommendations
 
     fun onCreated(sessionId: Long) {
-        Observables.zip(surveyRepository.getSessionSurveyEntries(sessionId).toObservable(),
-                        sessionRepository.getSessionById(sessionId).toObservable(),
-                        scoreRepository.getSessionScore(sessionId).toObservable()
+        Observables.zip(
+            surveyRepository.getSessionSurveyEntries(sessionId).toObservable(),
+            sessionRepository.getSessionById(sessionId).toObservable(),
+            scoreRepository.getSessionScore(sessionId).toObservable()
         ) { entries, session, score ->
             parseRecommendationsFromSurvey(entries, session, score)
         }.subscribeOn(schedulerProvider.io())
@@ -51,13 +54,13 @@ class RecommendationsViewModel @Inject constructor(
     }
 
     private fun parseRecommendationsFromSurvey(
-            entries: List<SurveyQuestionEntity>,
-            sessionEntity: SessionEntity,
-            scoreEntity: ScoreEntity
+        entries: List<SurveyQuestionEntity>,
+        sessionEntity: SessionEntity,
+        scoreEntity: ScoreEntity
     ): Set<Recommendation> {
         val recommendations = mutableSetOf<Recommendation>()
         val scoreInt = (scoreEntity.value * 100).toInt()
-        if (scoreInt <= MasimoSleepApp.get().resources.getInteger(R.integer.yellow_upper)) { //Not GOOD
+        if (scoreInt <= getApplication<MasimoSleepApp>().resources.getInteger(R.integer.yellow_upper)) { //Not GOOD
             entries.forEach { entry ->
                 getRecommendationForAnswer(entry)?.let { recommendation ->
                     recommendations.add(recommendation)
@@ -82,16 +85,16 @@ class RecommendationsViewModel @Inject constructor(
         if (entry.answer == SurveyAnswer.NO_ANSWER) return null
 
         return when (entry.question) {
-            SurveyQuestion.CAFFEINE_  -> {
+            SurveyQuestion.CAFFEINE_ -> {
                 if (entry.answer == SurveyAnswer.YES) Recommendation.NO_CAFFEINE else null
             }
-            SurveyQuestion.SNORING    -> {
+            SurveyQuestion.SNORING -> {
                 if (entry.answer == SurveyAnswer.YES) Recommendation.SLEEP_SIDEWAYS else null
             }
-            SurveyQuestion.ALCOHOL    -> {
+            SurveyQuestion.ALCOHOL -> {
                 if (entry.answer == SurveyAnswer.YES) Recommendation.NO_ALCOHOL else null
             }
-            SurveyQuestion.EXERCISE   -> {
+            SurveyQuestion.EXERCISE -> {
                 if (entry.answer == SurveyAnswer.NO) Recommendation.EXERCISE else null
             }
             SurveyQuestion.SLEEP_DRUG -> {

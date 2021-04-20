@@ -3,21 +3,19 @@ package com.mymasimo.masimosleep
 import android.app.Application
 import androidx.lifecycle.*
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.mymasimo.masimosleep.base.dispatchers.CoroutineDispatchers
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.DaggerSingletonComponent
 import com.mymasimo.masimosleep.dagger.SingletonComponent
 import com.mymasimo.masimosleep.dagger.modules.ContextModule
-import com.mymasimo.masimosleep.data.repository.ProgramRepository
 import com.mymasimo.masimosleep.data.repository.SensorRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
+import com.mymasimo.masimosleep.data.room.entity.SessionEntity
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.service.serviceConnectBLE
 import com.mymasimo.masimosleep.util.initializeNotificationChannels
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,10 +25,7 @@ class MasimoSleepApp : Application(), LifecycleObserver {
     lateinit var schedulerProvider: SchedulerProvider
 
     @Inject
-    lateinit var disposables: CompositeDisposable
-
-    @Inject
-    lateinit var programRepository: ProgramRepository
+    lateinit var dispatchers: CoroutineDispatchers
 
     @Inject
     lateinit var sessionRepository: SessionRepository
@@ -90,20 +85,18 @@ class MasimoSleepApp : Application(), LifecycleObserver {
     }
 
     private fun resumeSessionIfWasInProgress() {
-        sessionRepository.getSessionInProgress()
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-            .subscribeBy(
-                onSuccess = { session -> sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt) },
-                onComplete = { Timber.d("No session to resume.") },
-                onError = { Timber.e(it) }
-            )
-            .addTo(disposables)
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
+            val session: SessionEntity? = withContext(dispatchers.io()) { sessionRepository.getSessionInProgress().blockingGet() }
+            if (session == null) {
+                Timber.d("No session to resume.")
+            } else {
+                sleepSessionScoreManager.resumeSession(session.nightNumber, session.startAt)
+            }
+        }
     }
 
     private suspend fun connectToSavedSensorIfExists() {
-        val sensorId = sensorRepository.getSelectedSensorId()
-        val sensor = sensorRepository.loadSensor(sensorId).firstOrNull()
+        val sensor = sensorRepository.getSelectedSensor()
         if (sensor == null) {
             Timber.d("No saved sensor - no need to connect right now...")
         } else {

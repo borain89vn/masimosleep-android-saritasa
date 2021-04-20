@@ -46,10 +46,12 @@ class SettingsDeviceViewModel @Inject constructor(
     }
 
     fun deleteDevice() = viewModelScope.launch {
-        val sensorId = sensorRepository.getSelectedSensorId()
-        sensorRepository.deleteSensor(sensorId)
-        serviceDisconnectBLE(getApplication(), sensorId)
-        _deviceDeleted.accept(Unit)
+        val sensorId = sensorRepository.getSelectedSensor()?.id
+        if (sensorId != null) {
+            sensorRepository.deleteSensor(sensorId)
+            serviceDisconnectBLE(getApplication(), sensorId)
+            _deviceDeleted.accept(Unit)
+        }
     }
 
     override fun onCleared() {
