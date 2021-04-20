@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.data.InputData
+import com.masimo.timelinechart.formatter.AxisFormatter
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
@@ -58,6 +59,11 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
                 R.id.action_programReportFragment_to_sleepQualityDescriptionFragment
             )
         }
+
+        viewBinding.chartSleepScore.setAxisXPageStep(10, 5)
+        viewBinding.chartSleepScore.setAxisXFormatter(object : AxisFormatter {
+            override fun formatData(value: Float): String = value.toInt().toString()
+        })
     }
 
     private fun updateSleepQualityDesc(scoreWithOutcome: Triple<Double, SleepOutcome, Int>) {

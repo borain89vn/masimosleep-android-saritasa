@@ -8,12 +8,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.data.InputData
+import com.masimo.timelinechart.formatter.AxisFormatter
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentSessionSleepQualityTrendBinding
 import io.reactivex.disposables.CompositeDisposable
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_sleep_quality_trend) {
 
@@ -62,6 +66,11 @@ class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_slee
         vm.viewData.observe(viewLifecycleOwner) { trendData ->
             updateChart(trendData)
         }
+
+        viewBinding.chartSleepScore.setAxisXPageStep(10, 5)
+        viewBinding.chartSleepScore.setAxisXFormatter(object : AxisFormatter {
+            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
+        })
     }
 
     private fun updateChart(trendData: SleepQualityTrendViewModel.SleepQualityTrendViewData) {

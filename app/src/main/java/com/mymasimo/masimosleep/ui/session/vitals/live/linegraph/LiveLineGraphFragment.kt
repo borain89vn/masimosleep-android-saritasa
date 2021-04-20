@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.data.InputData
+import com.masimo.timelinechart.formatter.AxisFormatter
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
@@ -17,7 +18,10 @@ import com.mymasimo.masimosleep.databinding.FragmentLiveLineGraphBinding
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.util.LineGraphViewData
 import io.reactivex.disposables.CompositeDisposable
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
 
@@ -92,6 +96,10 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
 
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
+        viewBinding.chartLive.setAxisXPageStep(10, 5)
+        viewBinding.chartLive.setAxisXFormatter(object : AxisFormatter {
+            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
+        })
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {

@@ -10,13 +10,17 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.data.AxisYData
 import com.masimo.timelinechart.data.InputData
+import com.masimo.timelinechart.formatter.AxisFormatter
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentReportLineGraphBinding
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.util.LineGraphViewData
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
 
@@ -63,6 +67,11 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
 
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
+        viewBinding.chartLive.setAxisXPageStep(10, 5)
+        viewBinding.chartLive.setLimitTemperature(0f, 150f)
+        viewBinding.chartLive.setAxisXFormatter(object : AxisFormatter {
+            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
+        })
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
@@ -81,9 +90,6 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
         var minVal: Double = Double.MAX_VALUE
         var maxVal: Double = Double.MIN_VALUE
 
-        var startTime: Long = Long.MAX_VALUE
-        var endTime: Long = Long.MIN_VALUE
-
         for (pointList in pointLists) {
             for (point in pointList) {
                 chartData.add(InputData(point.timestamp.toFloat(), point.value.toFloat()))
@@ -95,15 +101,6 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
                 if (point.value > maxVal) {
                     maxVal = point.value
                 }
-
-                if (point.timestamp < startTime) {
-                    startTime = point.timestamp
-                }
-
-                if (point.timestamp > endTime) {
-                    endTime = point.timestamp
-                }
-
             }
 
             val lowRounded = minVal
@@ -120,6 +117,10 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
         }
 
         val axisYList = ArrayList<AxisYData>()
+//        axisYList.add(AxisYData(y = 120f))
+//        axisYList.add(AxisYData(y = 90f))
+        axisYList.add(AxisYData(y = 60f))
+        axisYList.add(AxisYData(y = 30f))
 
         viewBinding.chartLive.setData(chartData, axisYList)
         viewBinding.chartLive.invalidate()
