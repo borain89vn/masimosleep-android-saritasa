@@ -71,6 +71,7 @@ class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_slee
         viewBinding.chartSleepScore.setAxisXFormatter(object : AxisFormatter {
             override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
         })
+        viewBinding.chartSleepScore.setShowCirclePoint(true)
     }
 
     private fun updateChart(trendData: SleepQualityTrendViewModel.SleepQualityTrendViewData) {

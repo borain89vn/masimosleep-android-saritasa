@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.masimo.timelinechart.data.AxisYData
 import com.masimo.timelinechart.data.InputData
 import com.masimo.timelinechart.formatter.AxisFormatter
 import com.mymasimo.masimosleep.R
@@ -83,23 +84,28 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
     }
 
     private fun loadViewContent() {
+        viewBinding.chartLive.setAxisXPageStep(10, 5)
+        viewBinding.chartLive.setAxisXFormatter(object : AxisFormatter {
+            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
+        })
+
+        viewBinding.chartLive.setShowCirclePoint(true)
+        viewBinding.chartLive.setLimitRange(97f, 90f)
         var titleID: Int = R.string.vital_title_SPO2
         var iconID: Int = R.drawable.spo2_icon
 
         if (readingType == ReadingType.PR) {
             titleID = R.string.vital_title_PR
             iconID = R.drawable.pr_icon
+            viewBinding.chartLive.setLimitRange(100f, 40f)
         } else if (readingType == ReadingType.RRP) {
             titleID = R.string.vital_title_RRP
             iconID = R.drawable.rrp_icon
+            viewBinding.chartLive.setLimitRange(18f, 2f)
         }
 
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
-        viewBinding.chartLive.setAxisXPageStep(10, 5)
-        viewBinding.chartLive.setAxisXFormatter(object : AxisFormatter {
-            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
-        })
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
@@ -118,9 +124,6 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
         var minVal: Double = Double.MAX_VALUE
         var maxVal: Double = Double.MIN_VALUE
 
-        var startTime: Long = Long.MAX_VALUE
-        var endTime: Long = Long.MIN_VALUE
-
         for (pointList in pointLists) {
             for (point in pointList) {
                 chartData.add(InputData(point.timestamp.toFloat(), point.value.toFloat()))
@@ -131,14 +134,6 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
 
                 if (point.value > maxVal) {
                     maxVal = point.value
-                }
-
-                if (point.timestamp < startTime) {
-                    startTime = point.timestamp
-                }
-
-                if (point.timestamp > endTime) {
-                    endTime = point.timestamp
                 }
             }
 
@@ -155,7 +150,36 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
             viewBinding.lowHighText.text = "$lowRounded - $highRounded"
         }
 
-        viewBinding.chartLive.setData(chartData, ArrayList())
+        val axisYList = ArrayList<AxisYData>()
+        when (readingType) {
+            ReadingType.SP02 -> {
+                axisYList.add(AxisYData(y = 100f))
+                axisYList.add(AxisYData(y = 90f))
+                axisYList.add(AxisYData(y = 80f))
+                axisYList.add(AxisYData(y = 70f))
+                axisYList.add(AxisYData(y = 60f))
+                axisYList.add(AxisYData(y = 50f))
+            }
+            ReadingType.PR -> {
+                axisYList.add(AxisYData(y = 160f))
+                axisYList.add(AxisYData(y = 140f))
+                axisYList.add(AxisYData(y = 120f))
+                axisYList.add(AxisYData(y = 100f))
+                axisYList.add(AxisYData(y = 80f))
+                axisYList.add(AxisYData(y = 60f))
+                axisYList.add(AxisYData(y = 40f))
+                axisYList.add(AxisYData(y = 20f))
+            }
+            ReadingType.RRP -> {
+                axisYList.add(AxisYData(y = 40f))
+                axisYList.add(AxisYData(y = 31f))
+                axisYList.add(AxisYData(y = 22f))
+                axisYList.add(AxisYData(y = 13f))
+                axisYList.add(AxisYData(y = 4f))
+            }
+        }
+
+        viewBinding.chartLive.setData(chartData, axisYList)
         viewBinding.chartLive.invalidate()
     }
 }

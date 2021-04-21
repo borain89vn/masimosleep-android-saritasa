@@ -64,6 +64,7 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
         viewBinding.chartSleepScore.setAxisXFormatter(object : AxisFormatter {
             override fun formatData(value: Float): String = value.toInt().toString()
         })
+        viewBinding.chartSleepScore.setShowCirclePoint(true)
     }
 
     private fun updateSleepQualityDesc(scoreWithOutcome: Triple<Double, SleepOutcome, Int>) {
