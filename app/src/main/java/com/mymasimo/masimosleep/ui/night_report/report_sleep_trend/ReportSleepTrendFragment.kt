@@ -7,23 +7,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.masimo.timelinechart.data.AxisYData
-import com.masimo.timelinechart.data.InputData
-import com.masimo.timelinechart.formatter.AxisFormatter
+import com.masimo.timelinechart.DataSource
+import com.masimo.timelinechart.TimelineChartView
+import com.masimo.timelinechart.data.*
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentReportSleepTrendBinding
-import java.text.SimpleDateFormat
-import java.util.*
+import org.joda.time.LocalDateTime
+import org.joda.time.Seconds
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend) {
+class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend), DataSource {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportSleepTrendViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentReportSleepTrendBinding::bind)
+    private var coordinates: ArrayList<Coordinate> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -39,36 +40,25 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend) 
             updateChart(viewData)
         }
 
-        viewBinding.chartSleepScore.setAxisXPageStep(10, 5)
-        viewBinding.chartSleepScore.setAxisXFormatter(object : AxisFormatter {
-            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
-        })
-        viewBinding.chartSleepScore.setShowCirclePoint(true)
+        viewBinding.chartSleepScore.dataSource = this
     }
 
     private fun updateChart(trendData: ReportSleepTrendViewModel.SleepQualityTrendViewData) {
-        val chartData: ArrayList<InputData> = ArrayList()
-
+        coordinates = ArrayList()
         for (point in trendData.intervals) {
             if (point.score.isNaN()) {
                 continue
             }
-
-            val time = point.startAt.toFloat()
-            val score = (point.score * 100.0).toFloat()
-            chartData.add(InputData(time, score))
+            coordinates.add(Coordinate(LocalDateTime(point.startAt), point.score.toFloat()))
         }
 
-        val axisYList = ArrayList<AxisYData>()
-        axisYList.add(AxisYData(y = 100f))
-        axisYList.add(AxisYData(y = 80f))
-        axisYList.add(AxisYData(y = 60f))
-        axisYList.add(AxisYData(y = 40f))
-        axisYList.add(AxisYData(y = 20f))
-        axisYList.add(AxisYData(y = 0f))
-
-        viewBinding.chartSleepScore.setData(chartData, ArrayList())
-        viewBinding.chartSleepScore.invalidate()
+        val start = coordinates.firstOrNull()?.dateTime
+        val end = coordinates.lastOrNull()?.dateTime
+        if (start != null && end != null) {
+            val interval = Seconds.secondsBetween(start, end)
+            viewBinding.chartSleepScore.setMinMaxVisibleTimeInterval(Seconds.seconds(60 * 60), interval)
+            viewBinding.chartSleepScore.setVisibleTimeInterval(interval, false)
+        }
     }
 
     companion object {
@@ -77,5 +67,41 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend) 
         fun newInstance(sessionId: Long) = ReportSleepTrendFragment().apply {
             arguments = bundleOf(KEY_SESSION_ID to sessionId)
         }
+    }
+
+    override fun timelineChartViewLowerBoundDate(view: TimelineChartView): LocalDateTime {
+        return coordinates.firstOrNull()?.dateTime ?: LocalDateTime.now()
+    }
+
+    override fun timelineChartViewUpperBoundDate(view: TimelineChartView): LocalDateTime {
+        return coordinates.lastOrNull()?.dateTime ?: LocalDateTime.now()
+    }
+
+    override fun timelineChartViewAxisValues(view: TimelineChartView): List<AxisValue> {
+        val list = listOf(0, 20, 40, 60, 80, 100)
+        return list.map { AxisValue(it.toString(), it.toFloat() / 100.0f) }
+    }
+
+    override fun timelineChartViewZones(view: TimelineChartView): List<Zone> {
+        // TODO: Need actual values for zones.
+        return listOf(Zone(resources.getColor(R.color.optimal, null), 1.0f))
+    }
+
+    override fun timelineChartViewCoordinateSections(
+        view: TimelineChartView,
+        dateRange: Pair<LocalDateTime, LocalDateTime>
+    ): List<List<Coordinate>> {
+        return listOf(coordinates)
+    }
+
+    override fun timelineChartViewMarkers(
+        view: TimelineChartView,
+        dateRange: Pair<LocalDateTime, LocalDateTime>
+    ): List<Marker> {
+        return emptyList()
+    }
+
+    override fun timelineChartViewPrefetchInterval(view: TimelineChartView): Seconds {
+        return Seconds.seconds(60 * 60)
     }
 }
