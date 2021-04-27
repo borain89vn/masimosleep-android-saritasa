@@ -16,7 +16,7 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentLiveLineGraphBinding
-import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.util.LineGraphViewData
+import com.mymasimo.masimosleep.model.LineGraphViewData
 import io.reactivex.disposables.CompositeDisposable
 import java.math.RoundingMode
 import java.text.SimpleDateFormat

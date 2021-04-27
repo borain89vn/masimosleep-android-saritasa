@@ -15,7 +15,7 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentReportLineGraphBinding
-import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.util.LineGraphViewData
+import com.mymasimo.masimosleep.model.LineGraphViewData
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.*
