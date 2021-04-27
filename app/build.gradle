@@ -126,6 +126,9 @@ dependencies {
     implementation libraries.firebaseCrashlytics
     implementation libraries.firebaseFirestore
 
+    //Joda Time
+    implementation "joda-time:joda-time:2.10.6"
+
     //Kotlin
     implementation libraries.kotlin
     implementation libraries.ktxCore
