@@ -2,7 +2,6 @@ package com.mymasimo.masimosleep.model
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.masimo.timelinechart.DataSource
 import com.masimo.timelinechart.TimelineChartView
 import com.masimo.timelinechart.ViewStyle
 import com.masimo.timelinechart.data.AxisValue
@@ -24,7 +23,7 @@ class VitalsChartDataSource(
     private val isLive: Boolean,
     private val context: Context,
     private val readingType: ReadingType
-) : DataSource {
+) : TimelineChartView.DataSource {
 
     private var allCoordinatesReversed: ArrayList<Coordinate> = ArrayList()
 

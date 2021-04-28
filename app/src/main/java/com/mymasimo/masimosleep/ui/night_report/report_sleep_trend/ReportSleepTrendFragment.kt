@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.masimo.timelinechart.DataSource
 import com.masimo.timelinechart.EdgeInsets
 import com.masimo.timelinechart.TimelineChartView
 import com.masimo.timelinechart.data.*
@@ -19,7 +18,8 @@ import org.joda.time.Seconds
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend), DataSource {
+class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend),
+    TimelineChartView.DataSource {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory

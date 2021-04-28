@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.masimo.timelinechart.DataSource
 import com.masimo.timelinechart.TimelineChartView
 import com.masimo.timelinechart.data.*
 import com.mymasimo.masimosleep.R
@@ -21,7 +20,7 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_sleep_quality_trend),
-    DataSource {
+    TimelineChartView.DataSource {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
