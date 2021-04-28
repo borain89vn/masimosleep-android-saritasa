@@ -9,13 +9,21 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.masimo.timelinechart.data.InputData
-import com.masimo.timelinechart.formatter.AxisFormatter
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentAverageSleepQualityBinding
 import com.mymasimo.masimosleep.ui.program_report.outcome.SleepOutcome
+import com.mymasimo.masimosleep.util.getMaxChartValue
+import com.mymasimo.masimosleep.util.getMinChartValue
+import java.util.*
 import javax.inject.Inject
 
 class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_quality) {
@@ -60,11 +68,7 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
             )
         }
 
-        viewBinding.chartSleepScore.setAxisXPageStep(10, 5)
-        viewBinding.chartSleepScore.setAxisXFormatter(object : AxisFormatter {
-            override fun formatData(value: Float): String = value.toInt().toString()
-        })
-        viewBinding.chartSleepScore.setShowCirclePoint(true)
+        configureChart()
     }
 
     private fun updateSleepQualityDesc(scoreWithOutcome: Triple<Double, SleepOutcome, Int>) {
@@ -130,8 +134,54 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
         }
     }
 
+    private fun configureChart() {
+        viewBinding.chartSleepScore.description.isEnabled = false
+        viewBinding.chartSleepScore.setNoDataTextColor(resources.getColor(R.color.white, null))
+        viewBinding.chartSleepScore.isScaleYEnabled = false
+        viewBinding.chartSleepScore.isHighlightPerTapEnabled = false
+        viewBinding.chartSleepScore.isHighlightPerDragEnabled = false
+        viewBinding.chartSleepScore.legend.isEnabled = false
+
+        val xAxis = viewBinding.chartSleepScore.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+        xAxis.gridColor = resources.getColor(gridColorID, null)
+        xAxis.axisLineColor = resources.getColor(gridColorID, null)
+        xAxis.textColor = resources.getColor(xAxisColorID, null)
+        xAxis.setDrawAxisLine(true)
+        xAxis.setDrawGridLines(true)
+        xAxis.setCenterAxisLabels(false)
+        xAxis.granularity = 1.0f
+        xAxis.labelCount = NUM_OF_NIGHTS
+
+        val formatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String = value.toInt().toString()
+        }
+
+        xAxis.valueFormatter = formatter
+
+        val rightAxis = viewBinding.chartSleepScore.axisRight
+        rightAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+        //font
+        rightAxis.setDrawGridLines(true)
+        rightAxis.setDrawAxisLine(true)
+        rightAxis.isGranularityEnabled = true
+        //dashed lines
+        rightAxis.spaceTop = 0.1F
+        rightAxis.spaceBottom = 0.1F
+        rightAxis.yOffset = -9F
+        rightAxis.gridColor = resources.getColor(gridColorID, null)
+        rightAxis.textColor = resources.getColor(yAxisColorID, null)
+
+        val leftAxis = viewBinding.chartSleepScore.axisLeft
+        leftAxis.setDrawLabels(false)
+        leftAxis.setDrawGridLines(false)
+        leftAxis.axisLineColor = resources.getColor(gridColorID, null)
+    }
+
     private fun updateChart(trendData: AverageSleepQualityViewModel.ProgramSleepQualityTrendViewData) {
-        val chartData: ArrayList<InputData> = ArrayList()
+        val chartDataSets: ArrayList<ILineDataSet> = ArrayList<ILineDataSet>()
+        val chartEntryList: ArrayList<Entry> = ArrayList<Entry>()
         val colorList: ArrayList<Int> = ArrayList()
 
         for (point in trendData.sessions) {
@@ -140,8 +190,10 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
             }
 
             val score = (point.score * 100.0).toFloat()
-            val night = (point.index + 1).toFloat()
-            chartData.add(InputData(night, score))
+            val night = point.index + 1
+            chartEntryList.add(
+                Entry(night.toFloat(), score)
+            )
 
             var circleColorId = R.color.subtleGray
             if (score.toInt() <= resources.getInteger(R.integer.red_upper)) {
@@ -153,13 +205,44 @@ class AverageSleepQualityFragment : Fragment(R.layout.fragment_average_sleep_qua
             }
 
             colorList.add(resources.getColor(circleColorId, null))
+
         }
 
-        viewBinding.chartSleepScore.setData(chartData, ArrayList())
+        val lineDataSet = LineDataSet(chartEntryList, "")
+        lineDataSet.color = resources.getColor(lineColorID, null)
+        lineDataSet.circleColors = colorList
+        lineDataSet.setDrawCircles(true)
+        lineDataSet.setDrawCircleHole(false)
+        lineDataSet.setDrawValues(false)
+        lineDataSet.circleRadius = 4.0f
+        lineDataSet.lineWidth = 2.0f
+        chartDataSets.add(lineDataSet)
+
+        val boundaryEntryList: ArrayList<Entry> = ArrayList<Entry>()
+        boundaryEntryList.add(
+            Entry(0.0f, getMinChartValue().toFloat())
+        )
+        boundaryEntryList.add(
+            Entry((NUM_OF_NIGHTS + 1).toFloat(), getMaxChartValue().toFloat())
+        )
+        val boundarySet = LineDataSet(boundaryEntryList, "")
+        boundarySet.color = resources.getColor(R.color.clear, null)
+        boundarySet.setDrawCircles(false)
+        boundarySet.setDrawValues(false)
+        chartDataSets.add(boundarySet)
+
+        val lineData = LineData(chartDataSets)
+
+        viewBinding.chartSleepScore.data = lineData
         viewBinding.chartSleepScore.invalidate()
     }
 
     companion object {
+        private const val gridColorID: Int = R.color.chart_grid_light
+        private const val xAxisColorID: Int = R.color.chart_x_label_light
+        private const val yAxisColorID: Int = R.color.chart_y_label_light
+        private const val lineColorID: Int = R.color.chart_line_light
+
         private const val KEY_PROGRAM_ID = "PROGRAM_ID"
 
         fun newInstance(programId: Long) = AverageSleepQualityFragment().apply {
