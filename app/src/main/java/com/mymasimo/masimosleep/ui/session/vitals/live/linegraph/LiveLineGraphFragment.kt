@@ -8,21 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.masimo.timelinechart.data.AxisYData
-import com.masimo.timelinechart.data.InputData
-import com.masimo.timelinechart.formatter.AxisFormatter
+import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentLiveLineGraphBinding
 import com.mymasimo.masimosleep.model.LineGraphViewData
+import com.mymasimo.masimosleep.model.VitalsChartDataSource
 import io.reactivex.disposables.CompositeDisposable
+import org.joda.time.Seconds
 import java.math.RoundingMode
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
 
@@ -41,18 +38,20 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
     companion object {
         private const val READING_TYPE_KEY = "READING_TYPE"
         private const val START_TIME_KEY = "START_TIME"
-        private const val SCALE_KEY = "SCALE"
+        private const val VIEW_STYLE_KEY = "VIEW_STYLE"
 
-        fun newInstance(type: ReadingType, startAt: Long, scale: Int) = LiveLineGraphFragment().apply {
+        fun newInstance(type: ReadingType, startAt: Long, viewStyle: ViewStyle) = LiveLineGraphFragment().apply {
             arguments = bundleOf(
                 READING_TYPE_KEY to type,
                 START_TIME_KEY to startAt,
-                SCALE_KEY to scale,
+                VIEW_STYLE_KEY to viewStyle,
             )
         }
     }
 
     private lateinit var readingType: ReadingType
+    private lateinit var chartViewStyle: ViewStyle
+    private lateinit var dataSource: VitalsChartDataSource
     private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +60,7 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
 
         with(requireArguments()) {
             readingType = getSerializable(READING_TYPE_KEY) as ReadingType
+            chartViewStyle = getSerializable(VIEW_STYLE_KEY) as ViewStyle
             startTime = getLong(START_TIME_KEY)
         }
 
@@ -69,6 +69,9 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dataSource = VitalsChartDataSource(true, view.context, readingType)
+
         loadViewContent()
 
         vm.lineGraphViewData.observe(viewLifecycleOwner) { lineGraphData ->
@@ -84,28 +87,26 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
     }
 
     private fun loadViewContent() {
-        viewBinding.chartLive.setAxisXPageStep(10, 5)
-        viewBinding.chartLive.setAxisXFormatter(object : AxisFormatter {
-            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
-        })
-
-        viewBinding.chartLive.setShowCirclePoint(true)
-        viewBinding.chartLive.setLimitRange(97f, 90f)
         var titleID: Int = R.string.vital_title_SPO2
         var iconID: Int = R.drawable.spo2_icon
 
         if (readingType == ReadingType.PR) {
             titleID = R.string.vital_title_PR
             iconID = R.drawable.pr_icon
-            viewBinding.chartLive.setLimitRange(100f, 40f)
         } else if (readingType == ReadingType.RRP) {
             titleID = R.string.vital_title_RRP
             iconID = R.drawable.rrp_icon
-            viewBinding.chartLive.setLimitRange(18f, 2f)
         }
 
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
+
+        viewBinding.chartLive.setMinMaxVisibleTimeInterval(
+            Seconds.seconds(5 * 60),
+            Seconds.seconds(24 * 60 * 60)
+        )
+        viewBinding.chartLive.setVisibleTimeInterval(chartViewStyle.preferredVisibleTimeInterval(), true)
+        viewBinding.chartLive.dataSource = dataSource
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
@@ -118,68 +119,9 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
         updateChart(lineGraphData.points)
     }
 
-    private fun updateChart(pointLists: List<List<LineGraphViewData.LineGraphPoint>>) {
-        val chartData: ArrayList<InputData> = ArrayList()
-
-        var minVal: Double = Double.MAX_VALUE
-        var maxVal: Double = Double.MIN_VALUE
-
-        for (pointList in pointLists) {
-            for (point in pointList) {
-                chartData.add(InputData(point.timestamp.toFloat(), point.value.toFloat()))
-
-                if (point.value < minVal) {
-                    minVal = point.value
-                }
-
-                if (point.value > maxVal) {
-                    maxVal = point.value
-                }
-            }
-
-            val lowRounded = minVal
-                .toBigDecimal()
-                .setScale(1, RoundingMode.UP)
-                .toDouble()
-
-            val highRounded = maxVal
-                .toBigDecimal()
-                .setScale(1, RoundingMode.UP)
-                .toDouble()
-
-            viewBinding.lowHighText.text = "$lowRounded - $highRounded"
-        }
-
-        val axisYList = ArrayList<AxisYData>()
-        when (readingType) {
-            ReadingType.SP02 -> {
-                axisYList.add(AxisYData(y = 100f))
-                axisYList.add(AxisYData(y = 90f))
-                axisYList.add(AxisYData(y = 80f))
-                axisYList.add(AxisYData(y = 70f))
-                axisYList.add(AxisYData(y = 60f))
-                axisYList.add(AxisYData(y = 50f))
-            }
-            ReadingType.PR -> {
-                axisYList.add(AxisYData(y = 160f))
-                axisYList.add(AxisYData(y = 140f))
-                axisYList.add(AxisYData(y = 120f))
-                axisYList.add(AxisYData(y = 100f))
-                axisYList.add(AxisYData(y = 80f))
-                axisYList.add(AxisYData(y = 60f))
-                axisYList.add(AxisYData(y = 40f))
-                axisYList.add(AxisYData(y = 20f))
-            }
-            ReadingType.RRP -> {
-                axisYList.add(AxisYData(y = 40f))
-                axisYList.add(AxisYData(y = 31f))
-                axisYList.add(AxisYData(y = 22f))
-                axisYList.add(AxisYData(y = 13f))
-                axisYList.add(AxisYData(y = 4f))
-            }
-        }
-
-        viewBinding.chartLive.setData(chartData, axisYList)
-        viewBinding.chartLive.invalidate()
+    private fun updateChart(points: List<LineGraphViewData.LineGraphPoint>) {
+        dataSource.update(points)
+        viewBinding.lowHighText.text = dataSource.lowHighText
+        viewBinding.chartLive.reloadData()
     }
 }

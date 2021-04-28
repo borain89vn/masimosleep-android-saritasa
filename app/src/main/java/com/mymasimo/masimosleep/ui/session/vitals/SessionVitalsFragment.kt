@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
-import com.mymasimo.masimosleep.ui.session.view_vitals.ChartIntervalType
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
 
 class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
@@ -36,7 +36,6 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         )
     }
 
-    private var chartIntervalType: ChartIntervalType = ChartIntervalType.ALL
     val args: SessionVitalsFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentSessionVitalsBinding::bind)
 
@@ -55,30 +54,23 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             requireView().findNavController().navigateUp()
         }
 
-        viewBinding.allButton.isSelected = true
-        chartIntervalType = ChartIntervalType.ALL
-        updateUI()
-
         viewBinding.allButton.setOnClickListener {
             clearSelection()
             viewBinding.allButton.isSelected = true
-            chartIntervalType = ChartIntervalType.ALL
-            updateUI()
+            showLinearCharts(ViewStyle.DAYS)
 
         }
 
         viewBinding.hourButton.setOnClickListener {
             clearSelection()
             viewBinding.hourButton.isSelected = true
-            chartIntervalType = ChartIntervalType.HOUR
-            updateUI()
+            showLinearCharts(ViewStyle.HOURS)
         }
 
         viewBinding.minuteButton.setOnClickListener {
             clearSelection()
             viewBinding.minuteButton.isSelected = true
-            chartIntervalType = ChartIntervalType.MINUTE
-            updateUI()
+            showLinearCharts(ViewStyle.MINUTES)
         }
 
     }
@@ -89,25 +81,19 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         viewBinding.minuteButton.isSelected = false
     }
 
-    private fun updateUI() = when (chartIntervalType) {
-        ChartIntervalType.MINUTE -> showLinearCharts(1)
-        ChartIntervalType.ALL -> showLinearCharts(60 * 24)
-        ChartIntervalType.HOUR -> showLinearCharts(60)
-    }
-
-    private fun showLinearCharts(scale: Int) {
+    private fun showLinearCharts(viewStyle: ViewStyle) {
         removeAllFragments()
 
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, scale),
+            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, viewStyle),
             SPO2_LINE_FRAGMENT_TAG
         )
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart, scale),
+            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart, viewStyle),
             PR_LINE_FRAGMENT_TAG
         )
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, scale),
+            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, viewStyle),
             RRP_LINE_FRAGMENT_TAG
         )
 

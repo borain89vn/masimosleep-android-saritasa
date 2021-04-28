@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentReportVitalsBinding
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
-import com.mymasimo.masimosleep.ui.session.view_vitals.ChartIntervalType
 
 class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
 
-    private var chartIntervalType: ChartIntervalType = ChartIntervalType.ALL
     private val args: ReportVitalsFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentReportVitalsBinding::bind)
 
@@ -28,30 +27,22 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
             requireView().findNavController().navigateUp()
         }
 
-        viewBinding.allButton.isSelected = true
-        chartIntervalType = ChartIntervalType.ALL
-        updateUI()
-
         viewBinding.allButton.setOnClickListener {
             clearSelection()
             viewBinding.allButton.isSelected = true
-            chartIntervalType = ChartIntervalType.ALL
-            updateUI()
-
+            showLinearCharts(ViewStyle.DAYS)
         }
 
         viewBinding.hourButton.setOnClickListener {
             clearSelection()
             viewBinding.hourButton.isSelected = true
-            chartIntervalType = ChartIntervalType.HOUR
-            updateUI()
+            showLinearCharts(ViewStyle.HOURS)
         }
 
         viewBinding.minuteButton.setOnClickListener {
             clearSelection()
             viewBinding.minuteButton.isSelected = true
-            chartIntervalType = ChartIntervalType.MINUTE
-            updateUI()
+            showLinearCharts(ViewStyle.MINUTES)
         }
 
     }
@@ -62,25 +53,19 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
         viewBinding.minuteButton.isSelected = false
     }
 
-    private fun updateUI() = when (chartIntervalType) {
-        ChartIntervalType.MINUTE -> showLinearCharts(1)
-        ChartIntervalType.ALL -> showLinearCharts(60 * 24)
-        ChartIntervalType.HOUR -> showLinearCharts(60)
-    }
-
-    private fun showLinearCharts(scale: Int) {
+    private fun showLinearCharts(viewStyle: ViewStyle) {
         removeAllFragments()
 
         addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.SP02, args.sessionId, scale),
+            ReportLineGraphFragment.newInstance(ReadingType.SP02, args.sessionId, viewStyle),
             SPO2_LINE_FRAGMENT_TAG
         )
         addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.PR, args.sessionId, scale),
+            ReportLineGraphFragment.newInstance(ReadingType.PR, args.sessionId, viewStyle),
             PR_LINE_FRAGMENT_TAG
         )
         addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.RRP, args.sessionId, scale),
+            ReportLineGraphFragment.newInstance(ReadingType.RRP, args.sessionId, viewStyle),
             RRP_LINE_FRAGMENT_TAG
         )
     }
