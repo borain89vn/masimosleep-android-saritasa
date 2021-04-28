@@ -1,13 +1,16 @@
 package com.mymasimo.masimosleep.ui.session.vitals.live.linegraph
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.masimo.timelinechart.EdgeInsets
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
@@ -101,6 +104,9 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph) {
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
 
+        viewBinding.chartLive.textColor = resources.getColor(R.color.trayText, null)
+        viewBinding.chartLive.gridColor = resources.getColor(R.color.trayText, null)
+        viewBinding.chartLive.plotInsets = EdgeInsets(10, 10, 40, 35)
         viewBinding.chartLive.setMinMaxVisibleTimeInterval(
             Seconds.seconds(5 * 60),
             Seconds.seconds(24 * 60 * 60)

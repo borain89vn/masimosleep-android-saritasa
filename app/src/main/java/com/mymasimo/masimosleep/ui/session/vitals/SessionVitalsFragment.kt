@@ -54,11 +54,14 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             requireView().findNavController().navigateUp()
         }
 
+        clearSelection()
+        viewBinding.allButton.isSelected = true
+        showLinearCharts(ViewStyle.DAYS)
+
         viewBinding.allButton.setOnClickListener {
             clearSelection()
             viewBinding.allButton.isSelected = true
             showLinearCharts(ViewStyle.DAYS)
-
         }
 
         viewBinding.hourButton.setOnClickListener {
@@ -72,7 +75,6 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             viewBinding.minuteButton.isSelected = true
             showLinearCharts(ViewStyle.MINUTES)
         }
-
     }
 
     private fun clearSelection() {

@@ -39,6 +39,11 @@ class VitalsChartDataSource(
 
     var lowHighText: String = ""
 
+    init {
+        axisValues = prepareAxisValues(readingType)
+        zones = prepareZones(readingType)
+    }
+
     fun switchViewStyle(viewStyle: ViewStyle) {
         chartViewStyle = viewStyle
     }
@@ -46,8 +51,6 @@ class VitalsChartDataSource(
     fun update(points: List<LineGraphViewData.LineGraphPoint>) {
         allCoordinatesReversed = ArrayList()
         coordinates.clear()
-        axisValues = prepareAxisValues(readingType)
-        zones = prepareZones(readingType)
 
         var minVal: Double = Double.MAX_VALUE
         var maxVal: Double = Double.MIN_VALUE

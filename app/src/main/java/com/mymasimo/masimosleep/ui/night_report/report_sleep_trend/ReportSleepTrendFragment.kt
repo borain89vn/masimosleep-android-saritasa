@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.DataSource
+import com.masimo.timelinechart.EdgeInsets
 import com.masimo.timelinechart.TimelineChartView
 import com.masimo.timelinechart.data.*
 import com.mymasimo.masimosleep.R
@@ -40,6 +41,7 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend),
             updateChart(viewData)
         }
 
+        viewBinding.chartSleepScore.plotInsets = EdgeInsets(5, 5, 35, 30)
         viewBinding.chartSleepScore.dataSource = this
     }
 
@@ -54,11 +56,13 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend),
 
         val start = coordinates.firstOrNull()?.dateTime
         val end = coordinates.lastOrNull()?.dateTime
-        if (start != null && end != null) {
-            val interval = Seconds.secondsBetween(start, end)
-            viewBinding.chartSleepScore.setMinMaxVisibleTimeInterval(Seconds.seconds(60 * 60), interval)
-            viewBinding.chartSleepScore.setVisibleTimeInterval(interval, false)
+        val interval = if (start != null && end != null) {
+            Seconds.secondsBetween(start, end)
+        } else {
+            Seconds.seconds(8 * 60 * 60)
         }
+        viewBinding.chartSleepScore.setMinMaxVisibleTimeInterval(Seconds.seconds(60 * 60), interval)
+        viewBinding.chartSleepScore.setVisibleTimeInterval(interval, false)
     }
 
     companion object {
