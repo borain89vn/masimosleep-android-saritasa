@@ -7,19 +7,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.masimo.timelinechart.data.InputData
-import com.masimo.timelinechart.formatter.AxisFormatter
+import com.masimo.timelinechart.DataSource
+import com.masimo.timelinechart.TimelineChartView
+import com.masimo.timelinechart.data.*
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentSessionSleepQualityTrendBinding
 import io.reactivex.disposables.CompositeDisposable
-import java.text.SimpleDateFormat
-import java.util.*
+import org.joda.time.LocalDateTime
+import org.joda.time.Seconds
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_sleep_quality_trend) {
+class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_sleep_quality_trend),
+    DataSource {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
@@ -32,6 +34,8 @@ class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_slee
 
     private val vm: SleepQualityTrendViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentSessionSleepQualityTrendBinding::bind)
+
+    private var coordinates: ArrayList<Coordinate> = ArrayList()
 
     companion object {
         private const val START_TIME_KEY = "START_TIME"
@@ -67,50 +71,73 @@ class SessionSleepQualityTrendFragment : Fragment(R.layout.fragment_session_slee
             updateChart(trendData)
         }
 
-        viewBinding.chartSleepScore.setAxisXPageStep(10, 5)
-        viewBinding.chartSleepScore.setAxisXFormatter(object : AxisFormatter {
-            override fun formatData(value: Float): String = SimpleDateFormat("hh:mm").format(Date(value.toLong()))
-        })
-        viewBinding.chartSleepScore.setShowCirclePoint(true)
+        viewBinding.chartSleepScore.dataSource = this
     }
 
     private fun updateChart(trendData: SleepQualityTrendViewModel.SleepQualityTrendViewData) {
-        val chartData: ArrayList<InputData> = ArrayList()
-        val colorList: ArrayList<Int> = ArrayList()
+        coordinates = ArrayList()
 
-        var startTime: Long = Long.MAX_VALUE
-        var endTime: Long = Long.MIN_VALUE
-
-        for (point in trendData.intervals) {
+        for (point in trendData.intervals.sortedBy { it.startAt }) {
             if (point.score.isNaN()) {
                 continue
             }
 
-            val score = (point.score * 100.0).toFloat()
-            chartData.add(InputData(point.startAt.toFloat(), score))
-
-            var circleColorId = R.color.subtleGray
-            if (score.toInt() <= resources.getInteger(R.integer.red_upper)) {
-                circleColorId = R.color.sq_redOn
-            } else if (score.toInt() <= resources.getInteger(R.integer.yellow_upper)) {
-                circleColorId = R.color.sq_yellowOn
-            } else if (score.toInt() > resources.getInteger(R.integer.yellow_upper)) {
-                circleColorId = R.color.sq_greenOn
-            }
-
-            colorList.add(resources.getColor(circleColorId, null))
-
-            if (point.startAt < startTime) {
-                startTime = point.startAt
-            }
-
-            if (point.startAt > endTime) {
-                endTime = point.startAt
-            }
-
+            coordinates.add(Coordinate(LocalDateTime(point.startAt), point.score.toFloat()))
         }
 
-        viewBinding.chartSleepScore.setData(chartData, ArrayList())
-        viewBinding.chartSleepScore.invalidate()
+        val start = coordinates.firstOrNull()?.dateTime
+        val end = coordinates.lastOrNull()?.dateTime
+        val interval = if (start != null && end != null) {
+            Seconds.secondsBetween(start, end)
+        } else {
+            Seconds.seconds(8 * 60 * 60)
+        }
+
+        viewBinding.chartSleepScore.setMinMaxVisibleTimeInterval(interval, interval)
+        viewBinding.chartSleepScore.setVisibleTimeInterval(interval, false)
+    }
+
+    override fun timelineChartViewLowerBoundDate(view: TimelineChartView): LocalDateTime {
+        return coordinates.firstOrNull()?.dateTime ?: LocalDateTime.now()
+    }
+
+    override fun timelineChartViewUpperBoundDate(view: TimelineChartView): LocalDateTime {
+        return coordinates.lastOrNull()?.dateTime ?: LocalDateTime.now()
+    }
+
+    override fun timelineChartViewAxisValues(view: TimelineChartView): List<AxisValue> {
+        return listOf(0, 50, 100).map { AxisValue(it.toString(), it.toFloat() / 100f) }
+    }
+
+    override fun timelineChartViewZones(view: TimelineChartView): List<Zone> {
+        val colorValues = listOf(
+            Pair(R.color.sq_redOn, 55),
+            Pair(R.color.sq_yellowOn, 75),
+            Pair(R.color.sq_greenOn, 100)
+        )
+        return colorValues.map {
+            Zone(
+                resources.getColor(it.first, null),
+                it.second.toFloat() / 100f
+            )
+        }
+    }
+
+    override fun timelineChartViewCoordinateSections(
+        view: TimelineChartView,
+        dateRange: Pair<LocalDateTime, LocalDateTime>
+    ): List<List<Coordinate>> {
+        return listOf(coordinates)
+    }
+
+    override fun timelineChartViewMarkers(
+        view: TimelineChartView,
+        dateRange: Pair<LocalDateTime, LocalDateTime>
+    ): List<Marker> {
+        return emptyList()
+    }
+
+    override fun timelineChartViewPrefetchInterval(view: TimelineChartView): Seconds {
+        return Seconds.seconds(0)
     }
 }
