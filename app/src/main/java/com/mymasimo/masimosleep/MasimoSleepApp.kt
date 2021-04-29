@@ -96,7 +96,7 @@ class MasimoSleepApp : Application(), LifecycleObserver {
     }
 
     private suspend fun connectToSavedSensorIfExists() {
-        val sensor = sensorRepository.getSelectedSensor()
+        val sensor = sensorRepository.getCurrentSensor()
         if (sensor == null) {
             Timber.d("No saved sensor - no need to connect right now...")
         } else {

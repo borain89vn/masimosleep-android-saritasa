@@ -17,9 +17,9 @@ interface ModuleDao {
     @Query("DELETE FROM ${ModuleContract.TABLE_NAME} WHERE ${ModuleContract.ID}=:id")
     suspend fun delete(id: Long): Int
 
-    @Query("SELECT * FROM ${ModuleContract.TABLE_NAME} WHERE ${ModuleContract.ID}=:moduleId LIMIT 1")
-    fun getModule(moduleId: Long): Flow<Module>
+    @Query("SELECT * FROM ${ModuleContract.TABLE_NAME} WHERE ${ModuleContract.IS_CURRENT} = 1 LIMIT 1")
+    fun getCurrentModule(): Flow<Module>
 
-    @Query("SELECT ${ModuleContract.ID} FROM ${ModuleContract.TABLE_NAME} ORDER BY ${ModuleContract.ID} DESC LIMIT 1")
-    suspend fun getNextSelectedId(): Long
+    @Query("SELECT * FROM ${ModuleContract.TABLE_NAME} ORDER BY ${ModuleContract.ID} DESC LIMIT 1")
+    suspend fun getNextSensor(): Module
 }

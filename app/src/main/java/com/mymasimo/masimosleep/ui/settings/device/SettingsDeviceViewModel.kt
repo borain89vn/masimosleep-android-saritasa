@@ -54,7 +54,7 @@ class SettingsDeviceViewModel @Inject constructor(
     }
 
     fun deleteDevice() = viewModelScope.launch {
-        val sensorId = sensorRepository.getSelectedSensor()?.id
+        val sensorId = sensorRepository.getCurrentSensor()?.id
         if (sensorId != null) {
             sensorRepository.deleteSensor(sensorId)
             serviceDisconnectBLE(getApplication(), sensorId)
@@ -63,7 +63,7 @@ class SettingsDeviceViewModel @Inject constructor(
     }
 
     fun onConnectTap() = viewModelScope.launch {
-        val currentSensor = sensorRepository.getSelectedSensor()
+        val currentSensor = sensorRepository.getCurrentSensor()
 
         val action = when {
             isDeviceConnected() -> R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment

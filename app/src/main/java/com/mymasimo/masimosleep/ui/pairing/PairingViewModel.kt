@@ -134,7 +134,8 @@ class PairingViewModel @Inject constructor(
             firmwareVersion = "",
             serialNumber = "",
             address = address,
-            supportedParameters = EnumSet.of(ParameterID.PR)
+            supportedParameters = EnumSet.of(ParameterID.PR),
+            isCurrent = true,
         )
 
         sensorRepository.addSensor(module, isEmulator = true)
@@ -240,13 +241,14 @@ class PairingViewModel @Inject constructor(
         if (!parser.foundSupportedDevice) return null
 
         return Module(
-            parser.productType,
-            parser.productVariant,
-            DEFAULT_MANUFACTURER_NAME,
-            parser.firmwareVersion,
-            parser.serialNumber.toString(),
-            device.address,
-            EnumSet.of(ParameterID.FUNC_SPO2, ParameterID.PR, ParameterID.PI, ParameterID.PVI, ParameterID.RRP)
+            type = parser.productType,
+            variant = parser.productVariant,
+            manufacturerName = DEFAULT_MANUFACTURER_NAME,
+            firmwareVersion = parser.firmwareVersion,
+            serialNumber = parser.serialNumber.toString(),
+            address = device.address,
+            supportedParameters = EnumSet.of(ParameterID.FUNC_SPO2, ParameterID.PR, ParameterID.PI, ParameterID.PVI, ParameterID.RRP),
+            isCurrent = true,
         )
     }
 

@@ -212,7 +212,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         // register service
         registerBLEStateReceiver()
 
-        launch { sensorRepository.loadSensor(MasimoSleepPreferences.selectedModuleId).collect { currentModule = it } }
+        launch { sensorRepository.loadCurrentSensor().collect { currentModule = it } }
         MasimoSleepApp.get().foreground.observeForever(fgObserver)
 
         observeSensorOffExceptions()
@@ -397,7 +397,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         }
 
         launch {
-            sensorRepository.getSelectedSensor()?.let { sensor ->
+            sensorRepository.getCurrentSensor()?.let { sensor ->
                 if (id != 0L && id != sensor.id) {
                     Timber.d("current module id = ${sensor.id}. Disconnect requested for id $id. Not disconnecting.")
                     return@launch

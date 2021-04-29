@@ -33,17 +33,12 @@ class SensorRepository @Inject constructor(
         }
 
         val id = sensorDao.insert(sensor)
-        sensor.id = id
-        Timber.d("Inserted ${sensor.type}|${sensor.variant} at row ${sensor.id}")
-        MasimoSleepPreferences.selectedModuleId = id
+        Timber.d("Inserted ${sensor.type}|${sensor.variant} at row $id")
     }
 
-    suspend fun getSelectedSensor(): Module? = withContext(dispatchers.io()) {
-        val sensorId = MasimoSleepPreferences.selectedModuleId
-        loadSensor(sensorId).firstOrNull()
-    }
+    suspend fun getCurrentSensor(): Module? = loadCurrentSensor().firstOrNull()
 
-    fun loadSensor(id: Long): Flow<Module> = sensorDao.getModule(id)
+    fun loadCurrentSensor(): Flow<Module> = sensorDao.getCurrentModule()
 
     suspend fun deleteSensor(id: Long): Int {
         val rowsAffected = sensorDao.delete(id)
@@ -56,20 +51,17 @@ class SensorRepository @Inject constructor(
     fun getTicks(sensor: Module): Flow<Tick> = if (BuildConfig.ALLOW_EMULATION) sensorFirestoreRepository.getTicks(sensor) else emptyFlow()
 
     private suspend fun updateSelectedSensor(deletedModuleId: Long) = withContext(dispatchers.io()) {
-        // nothing to do if the selected module wasn't deleted
-        if (deletedModuleId != MasimoSleepPreferences.selectedModuleId) {
-            Timber.d("Selected sensor not deleted.")
+        if (deletedModuleId != getCurrentSensor()?.id) {
+            Timber.d("Current sensor not deleted.")
             return@withContext
         }
 
-        // replace the selected module id with the next
         try {
-            val nextId = sensorDao.getNextSelectedId()
-            Timber.d("Next sensor id: $nextId")
-            MasimoSleepPreferences.selectedModuleId = nextId
+            val nextSensor = sensorDao.getNextSensor()
+            Timber.d("Next sensor: $nextSensor")
+            addSensor(nextSensor.copy(isCurrent = true))
         } catch (e: Throwable) {
-            Timber.e(e, "Error getting next selected sensor id")
-            MasimoSleepPreferences.selectedModuleId = 0L
+            Timber.e(e, "Error getting next selected sensor")
         }
     }
 }
