@@ -211,6 +211,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         // register service
         registerBLEStateReceiver()
 
+        launch { sensorRepository.loadSensor(MasimoSleepPreferences.selectedModuleId).collect { currentModule = it } }
         MasimoSleepApp.get().foreground.observeForever(fgObserver)
 
         observeSensorOffExceptions()

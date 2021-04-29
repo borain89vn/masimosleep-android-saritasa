@@ -2,10 +2,14 @@ package com.mymasimo.masimosleep.ui.settings.device
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jakewharton.rxrelay2.PublishRelay
+import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.repository.SensorRepository
+import com.mymasimo.masimosleep.service.isDeviceConnected
 import com.mymasimo.masimosleep.service.serviceDisconnectBLE
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
 import io.reactivex.Observable
@@ -28,6 +32,10 @@ class SettingsDeviceViewModel @Inject constructor(
     private val _deviceDeleted = PublishRelay.create<Unit>()
     val deviceDeleted: Observable<Unit>
         get() = _deviceDeleted
+
+    private val _connect = MutableLiveData<Int>()
+    val connect: LiveData<Int>
+        get() = _connect
 
     init {
         dialogActionHandler.actions
@@ -52,6 +60,17 @@ class SettingsDeviceViewModel @Inject constructor(
             serviceDisconnectBLE(getApplication(), sensorId)
             _deviceDeleted.accept(Unit)
         }
+    }
+
+    fun onConnectTap() = viewModelScope.launch {
+        val currentSensor = sensorRepository.getSelectedSensor()
+
+        val action = when {
+            isDeviceConnected() -> R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment
+            currentSensor != null -> R.id.action_settingsFragment_to_confirmReplaceSensorDialogFragment
+            else -> R.id.action_settingsFragment_to_scanFragment
+        }
+        _connect.value = action
     }
 
     override fun onCleared() {
