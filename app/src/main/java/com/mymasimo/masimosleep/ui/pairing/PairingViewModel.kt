@@ -137,7 +137,7 @@ class PairingViewModel @Inject constructor(
             supportedParameters = EnumSet.of(ParameterID.PR)
         )
 
-        sensorRepository.addSensor(module)
+        sensorRepository.addSensor(module, isEmulator = true)
 //      fakeTicker.createNights(6)
         onPairingFinish()
     }

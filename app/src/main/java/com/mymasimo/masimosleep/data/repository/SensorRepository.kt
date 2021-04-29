@@ -24,8 +24,8 @@ class SensorRepository @Inject constructor(
     /**
      * Saves sensor as current in app. Supports emulation.
      */
-    suspend fun addSensor(sensor: Module) = withContext(dispatchers.io()) {
-        if (BuildConfig.ALLOW_EMULATION) {
+    suspend fun addSensor(sensor: Module, isEmulator: Boolean = false) = withContext(dispatchers.io()) {
+        if (BuildConfig.ALLOW_EMULATION && isEmulator) {
             sensorFirestoreRepository.insertSensor(sensor)
             MasimoSleepPreferences.emulatorUsed = true
         } else {
