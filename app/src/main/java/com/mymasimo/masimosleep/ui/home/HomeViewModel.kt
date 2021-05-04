@@ -3,12 +3,13 @@ package com.mymasimo.masimosleep.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.jakewharton.rxrelay2.PublishRelay
 import com.mymasimo.masimosleep.alarm.SleepReminderAlarmScheduler
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
-import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
+import com.mymasimo.masimosleep.data.repository.SensorRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.room.dao.ProgramEntityDao
 import com.mymasimo.masimosleep.data.room.entity.ProgramEntity
@@ -20,6 +21,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -32,7 +34,8 @@ class HomeViewModel @Inject constructor(
     private val dialogActionHandler: DialogActionHandler,
     private val sleepReminderAlarmScheduler: SleepReminderAlarmScheduler,
     private val sleepSessionScoreManager: SleepSessionScoreManager,
-    private val programEntityDao: ProgramEntityDao
+    private val programEntityDao: ProgramEntityDao,
+    private val sensorRepository: SensorRepository,
 ) : ViewModel() {
 
     private val _programState = MutableLiveData<ProgramState>(ProgramState.NoProgramInProgress)
@@ -84,8 +87,11 @@ class HomeViewModel @Inject constructor(
             }
             .addTo(disposables)
 
-        if (MasimoSleepPreferences.selectedModuleId <= 0L) {
-            _showSetupDeviceDialog.accept(Unit)
+        viewModelScope.launch {
+            val currentSensor = sensorRepository.getCurrentSensor()
+            if (currentSensor == null) {
+                _showSetupDeviceDialog.accept(Unit)
+            }
         }
     }
 

@@ -6,7 +6,6 @@ import com.mymasimo.masimosleep.MasimoSleepApp
 import java.util.*
 import kotlin.collections.ArrayList
 
-private const val PREF_SELECTED_MODULE_ID = "pref.selected.module.id"
 private const val PREF_USER_NAME = "pref.user.name"
 private const val PREF_USER_BIRTHDATE = "pref.user.birthdate"
 private const val PREF_USER_GENDER = "pref.user.gender"
@@ -19,13 +18,6 @@ private const val PREF_USED_EMULATOR = "pref.used.emulator"
 
 object MasimoSleepPreferences {
     private val store: PreferenceStore = PreferenceStore(MasimoSleepApp.get(), "common_preferences")
-
-    var selectedModuleId: Long
-        get() = store.getLong(PREF_SELECTED_MODULE_ID, 0L)
-        set(value) {
-            if (value == 0L) store.edit { remove(PREF_SELECTED_MODULE_ID) }
-            else store.edit { putLong(PREF_SELECTED_MODULE_ID, value) }
-        }
 
     var name: String?
         get() = store.getString(PREF_USER_NAME, null)

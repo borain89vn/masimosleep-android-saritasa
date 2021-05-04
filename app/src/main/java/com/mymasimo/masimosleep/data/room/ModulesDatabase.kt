@@ -16,7 +16,7 @@ import timber.log.Timber
  * The Modules database that contains module data and its readings.
  */
 @Database(
-    version = 8,
+    version = 9,
     entities = [
         Module::class,
         ParameterReadingEntity::class,
@@ -58,8 +58,7 @@ abstract class ModulesDatabase : RoomDatabase() {
                 ModulesDatabase::class.java,
                 DB_FILE_NAME
             )
-                .addMigrations(MIGRATION_6_7)
-                .addMigrations(MIGRATION_7_8)
+                .addMigrations(MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
@@ -96,6 +95,12 @@ abstract class ModulesDatabase : RoomDatabase() {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `session_terminated` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `sessionId` INTEGER, `night` INTEGER, `cause` TEXT, `handled` INTEGER NOT NULL, `recorded` INTEGER NOT NULL)"
                 )
+            }
+        }
+
+        private val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE ${ModuleContract.TABLE_NAME} ADD COLUMN ${ModuleContract.IS_CURRENT} INTEGER NOT NULL DEFAULT 1")
             }
         }
     }

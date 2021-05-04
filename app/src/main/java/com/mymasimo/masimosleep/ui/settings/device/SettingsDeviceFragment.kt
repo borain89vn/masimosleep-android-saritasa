@@ -12,9 +12,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
-import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.databinding.FragmentSettingsDeviceBinding
-import com.mymasimo.masimosleep.service.isDeviceConnected
 import com.mymasimo.masimosleep.ui.settings.SettingsFragmentDirections
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -55,16 +53,17 @@ class SettingsDeviceFragment : Fragment(R.layout.fragment_settings_device) {
                 requireView().findNavController().navigate(R.id.action_settingsFragment_to_scanFragment)
             }
             .addTo(disposables)
+
+        vm.connect.observe(viewLifecycleOwner, { action ->
+            requireView().findNavController().navigate(action)
+        })
+
         setupButtons()
     }
 
     private fun setupButtons() {
         viewBinding.connectButton.setOnClickListener {
-            when {
-                isDeviceConnected() -> requireView().findNavController().navigate(R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment)
-                ModelStore.currentModule != null -> requireView().findNavController().navigate(R.id.action_settingsFragment_to_confirmReplaceSensorDialogFragment)
-                else -> requireView().findNavController().navigate(R.id.action_settingsFragment_to_scanFragment)
-            }
+            vm.onConnectTap()
         }
 
         viewBinding.troubleshootButton.setOnClickListener {

@@ -28,9 +28,8 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
-import com.mymasimo.masimosleep.data.repository.ModelStore
 import com.mymasimo.masimosleep.data.repository.ProgramRepository
-import com.mymasimo.masimosleep.data.repository.SensorFirestoreRepository
+import com.mymasimo.masimosleep.data.repository.SensorRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
@@ -48,6 +47,7 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -122,7 +122,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
     @Inject
     lateinit var sessionRepository: SessionRepository
     @Inject
-    lateinit var sensorRepository: SensorFirestoreRepository
+    lateinit var sensorRepository: SensorRepository
     @Inject
     lateinit var programRepository: ProgramRepository
     @Inject
@@ -156,10 +156,6 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
 
     private val instanceId = serviceInstanceId++
 
-    private val currentModuleObserver = Observer<Module?> {
-        currentModule = it
-    }
-
     private val fgObserver = Observer<Boolean> { isInForeground ->
         val inBackground = !isInForeground
         val sessionInProgress = sleepSessionScoreManager.isSessionInProgress
@@ -173,7 +169,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
                 stopService()
             } else {
                 Timber.d("Disconnecting BLE, then stopping service")
-                disConnectBLE(id = currentModule?.id ?: -1, user = true)
+                disconnectBLE(id = currentModule?.id ?: -1, user = true)
             }
         }
     }
@@ -216,21 +212,19 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         // register service
         registerBLEStateReceiver()
 
-        ModelStore.currentModuleUpdates.observeForever(currentModuleObserver)
+        launch { sensorRepository.loadCurrentSensor().collect { currentModule = it } }
         MasimoSleepApp.get().foreground.observeForever(fgObserver)
 
         observeSensorOffExceptions()
 
         Timber.d("Service created with instance id $instanceId")
-
     }
 
     override fun onDestroy() {
         Timber.d("Destroying BLE service")
         MasimoSleepApp.get().foreground.removeObserver(fgObserver)
-        ModelStore.currentModuleUpdates.removeObserver(currentModuleObserver)
 
-        disConnectBLE()
+        disconnectBLE()
         notificationMgr.cancel(R.id.notification_service_fg)
 
         bleStateReceiver?.let {
@@ -240,6 +234,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         stopConstantReconnectBLETask()
 
         disposables.dispose()
+        coroutineContext.cancel()
 
         if (!handlerThread.quitSafely()) {
             Completable.timer(1L, TimeUnit.SECONDS)
@@ -258,7 +253,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             Timber.d("Servicing action: $action")
             when (action) {
                 ACTION_CONNECT_BLE -> tryConnectBLE()
-                ACTION_DISCONNECT_BLE -> disConnectBLE(id = intent.getLongExtra(EXTRA_MODULE_ID, 0L))
+                ACTION_DISCONNECT_BLE -> disconnectBLE(id = intent.getLongExtra(EXTRA_MODULE_ID, 0L))
                 ACTION_START_LOCATION_UPDATES -> TODO()
                 ACTION_STOP_LOCATION_UPDATES -> TODO()
                 ACTION_USER_DECLINE_BT -> showBtDisabledNotification()
@@ -395,24 +390,25 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         }
     }
 
-    private fun disConnectBLE(id: Long = 0L, user: Boolean = false) = synchronized(LOCK) {
+    private fun disconnectBLE(id: Long = 0L, user: Boolean = false) = synchronized(LOCK) {
         if (bleConnection.isDisconnectedManually) {
             Timber.d("Not currently connected.")
             return@synchronized
         }
 
-        ModelStore.currentModule?.let {
-            if (id != it.id) {
-                Timber.d("current module id = ${it.id}. Disconnect requested for id $id. Not disconnecting.")
-                return@synchronized
-            }
+        launch {
+            sensorRepository.getCurrentSensor()?.let { sensor ->
+                if (id != 0L && id != sensor.id) {
+                    Timber.d("current module id = ${sensor.id}. Disconnect requested for id $id. Not disconnecting.")
+                    return@launch
+                }
 
-            Timber.i("Disconnecting from $it")
-            ModelStore.currentModule = null
-            bleConnection.disconnect(user)
-            bleConnectionState.setCurrentState(State.NO_DEVICE_CONNECTED)
-        } ?: run {
-            Timber.e("No current module, but somehow connected")
+                Timber.i("Disconnecting from $sensor")
+                bleConnection.disconnect(user)
+                bleConnectionState.setCurrentState(State.NO_DEVICE_CONNECTED)
+            } ?: run {
+                Timber.e("No current module, but somehow connected")
+            }
         }
     }
 
@@ -472,7 +468,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             notificationMgr.cancel(R.id.notification_service_bt)
         } else {
             bleConnectionState.setCurrentState(State.BLE_DISCONNECTED)
-            disConnectBLE()
+            disconnectBLE()
         }
 
         // Send an ordered broadcast

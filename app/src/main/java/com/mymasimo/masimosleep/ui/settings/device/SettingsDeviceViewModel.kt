@@ -1,24 +1,30 @@
 package com.mymasimo.masimosleep.ui.settings.device
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.jakewharton.rxrelay2.PublishRelay
-import com.mymasimo.masimosleep.MasimoSleepApp
+import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
-import com.mymasimo.masimosleep.data.repository.DataRepository
-import com.mymasimo.masimosleep.data.repository.ModelStore
+import com.mymasimo.masimosleep.data.repository.SensorRepository
+import com.mymasimo.masimosleep.service.isDeviceConnected
 import com.mymasimo.masimosleep.service.serviceDisconnectBLE
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import timber.log.Timber
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingsDeviceViewModel @Inject constructor(
-    private val schedulerProvider: SchedulerProvider,
+    app: Application,
+    schedulerProvider: SchedulerProvider,
     private val disposables: CompositeDisposable,
-    dialogActionHandler: DialogActionHandler
-) : ViewModel() {
+    private val sensorRepository: SensorRepository,
+    dialogActionHandler: DialogActionHandler,
+) : AndroidViewModel(app) {
     private val _confirmReplaceDevice = PublishRelay.create<Unit>()
     val confirmReplaceDevice: Observable<Unit>
         get() = _confirmReplaceDevice
@@ -26,6 +32,10 @@ class SettingsDeviceViewModel @Inject constructor(
     private val _deviceDeleted = PublishRelay.create<Unit>()
     val deviceDeleted: Observable<Unit>
         get() = _deviceDeleted
+
+    private val _connect = MutableLiveData<Int>()
+    val connect: LiveData<Int>
+        get() = _connect
 
     init {
         dialogActionHandler.actions
@@ -43,21 +53,24 @@ class SettingsDeviceViewModel @Inject constructor(
         _confirmReplaceDevice.accept(Unit)
     }
 
-    fun deleteDevice() {
-        ModelStore.currentModule?.id?.let {
-            DataRepository.deleteModule(it)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe(
-                    { rows ->
-                        Timber.d("Deleted module $it. $rows rows affected.")
-                        serviceDisconnectBLE(MasimoSleepApp.get(), it)
-                        _deviceDeleted.accept(Unit)
-                    },
-                    { error -> Timber.e(error, "Failed to delete module $it") }
-                )
-                .addTo(disposables)
+    fun deleteDevice() = viewModelScope.launch {
+        val sensorId = sensorRepository.getCurrentSensor()?.id
+        if (sensorId != null) {
+            sensorRepository.deleteSensor(sensorId)
+            serviceDisconnectBLE(getApplication(), sensorId)
+            _deviceDeleted.accept(Unit)
         }
+    }
+
+    fun onConnectTap() = viewModelScope.launch {
+        val currentSensor = sensorRepository.getCurrentSensor()
+
+        val action = when {
+            isDeviceConnected() -> R.id.action_settingsFragment_to_sensorAlreadyConnectedDialogFragment
+            currentSensor != null -> R.id.action_settingsFragment_to_confirmReplaceSensorDialogFragment
+            else -> R.id.action_settingsFragment_to_scanFragment
+        }
+        _connect.value = action
     }
 
     override fun onCleared() {
