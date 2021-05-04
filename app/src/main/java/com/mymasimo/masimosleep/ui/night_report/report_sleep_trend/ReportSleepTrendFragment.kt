@@ -1,7 +1,9 @@
 package com.mymasimo.masimosleep.ui.night_report.report_sleep_trend
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -41,6 +43,8 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend),
             updateChart(viewData)
         }
 
+        viewBinding.chartSleepScore.goButtonIconDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_chart_forward_dark, null)
+        viewBinding.chartSleepScore.goButtonBackgrounColor = Color.WHITE
         viewBinding.chartSleepScore.plotInsets = EdgeInsets(5, 5, 35, 30)
         viewBinding.chartSleepScore.dataSource = this
     }

@@ -1,5 +1,6 @@
 package com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.EdgeInsets
+import com.masimo.timelinechart.TimelineChartView
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
@@ -20,7 +22,7 @@ import org.joda.time.Seconds
 import java.math.RoundingMode
 import javax.inject.Inject
 
-class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
+class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), TimelineChartView.Delegate {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
@@ -49,6 +51,7 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
         super.onViewCreated(view, savedInstanceState)
 
         dataSource = VitalsChartDataSource(false, view.context, readingType)
+        dataSource.switchViewStyle(chartViewStyle)
 
         loadViewContent()
 
@@ -72,6 +75,8 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
 
+        viewBinding.chartLive.goButtonIconDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_chart_forward_dark, null)
+        viewBinding.chartLive.goButtonBackgrounColor = Color.WHITE
         viewBinding.chartLive.plotInsets = EdgeInsets(10, 10, 40, 35)
         viewBinding.chartLive.setMinMaxVisibleTimeInterval(
             Seconds.seconds(5 * 60),
@@ -82,6 +87,7 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
             false
         )
         viewBinding.chartLive.dataSource = dataSource
+        viewBinding.chartLive.delegate = this
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
@@ -98,6 +104,16 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph) {
         dataSource.update(points)
         viewBinding.lowHighText.text = dataSource.lowHighText
         viewBinding.chartLive.reloadData()
+    }
+
+    override fun timelineChartViewDidEndZoom(view: TimelineChartView) {
+        super.timelineChartViewDidEndZoom(view)
+        val newViewStyle = ViewStyle.styleFromVisibleTimeInterval(view.visibleTimeInterval)
+        if (newViewStyle != chartViewStyle) {
+            chartViewStyle = newViewStyle
+            dataSource.switchViewStyle(newViewStyle)
+            view.reloadData()
+        }
     }
 
     companion object {

@@ -67,7 +67,7 @@ class VitalsChartDataSource(
 
             val coordinate = Coordinate(
                 LocalDateTime(point.timestamp),
-                (point.value - minReading / minMaxDiffReading).toFloat()
+                ((point.value - minReading) / minMaxDiffReading).toFloat()
             )
             allCoordinatesReversed.add(coordinate)
         }
@@ -161,11 +161,7 @@ class VitalsChartDataSource(
             ViewStyle.HOURS, ViewStyle.DAYS -> true
         }
         val intervalMultiplier = if (shouldUseMixMaxAlgorithm) 2 else 1
-        val stepInterval = when (viewStyle) {
-            ViewStyle.MINUTES -> Seconds.seconds(intervalMultiplier * 60)
-            ViewStyle.HOURS -> Seconds.seconds(intervalMultiplier * 3 * 60)
-            ViewStyle.DAYS -> Seconds.seconds(intervalMultiplier * 16 * 60)
-        }
+        val stepInterval = viewStyle.preferredPointTimeInterval().multipliedBy(intervalMultiplier)
 
         // Move timeline window from newest to oldest.
         var rest: List<Coordinate> = allCoordinatesReversed
@@ -265,7 +261,7 @@ class VitalsChartDataSource(
     override fun timelineChartViewPrefetchInterval(view: TimelineChartView): Seconds {
         for (section in coordinatesForChartViewStyle(chartViewStyle)) {
             if (section.count() > 1) {
-                return Seconds.secondsBetween(section[0].dateTime, section[1].dateTime)
+                return Seconds.secondsBetween(section[1].dateTime, section[0].dateTime)
             }
         }
         return Seconds.seconds(0)
