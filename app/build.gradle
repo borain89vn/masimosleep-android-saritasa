@@ -119,6 +119,7 @@ dependencies {
     implementation(libraries.masimoLogback) { transitive = true }
     implementation(libraries.masimoSleepScore) { transitive = true }
     implementation(libraries.masimoTimelineChart) { transitive = true }
+//    implementation project(':TimelineChart')
 
     //Firebase
     implementation platform(libraries.firebaseBom)
