@@ -118,12 +118,17 @@ dependencies {
     enterpriseImplementation(libraries.masimoUi) { transitive = true }
     implementation(libraries.masimoLogback) { transitive = true }
     implementation(libraries.masimoSleepScore) { transitive = true }
+    implementation(libraries.masimoTimelineChart) { transitive = true }
+//    implementation project(':TimelineChart')
 
     //Firebase
     implementation platform(libraries.firebaseBom)
     implementation libraries.firebaseAnalytics
     implementation libraries.firebaseCrashlytics
     implementation libraries.firebaseFirestore
+
+    //Joda Time
+    implementation "joda-time:joda-time:2.10.6"
 
     //Kotlin
     implementation libraries.kotlin

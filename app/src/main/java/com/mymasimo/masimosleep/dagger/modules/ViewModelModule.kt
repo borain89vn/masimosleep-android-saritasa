@@ -16,7 +16,6 @@ import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsViewMo
 import com.mymasimo.masimosleep.ui.night_report.report_events.details.EventDetailsViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendViewModel
-import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.intervalgraph.ReportIntervalGraphViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphViewModel
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternViewModel
 import com.mymasimo.masimosleep.ui.pairing.PairingViewModel
@@ -35,7 +34,6 @@ import com.mymasimo.masimosleep.ui.session.addnote.AddNoteViewModel
 import com.mymasimo.masimosleep.ui.session.session_events.SessionSleepEventsViewModel
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityViewModel
 import com.mymasimo.masimosleep.ui.session.sleep_quality_trend.SleepQualityTrendViewModel
-import com.mymasimo.masimosleep.ui.session.vitals.live.intervalgraph.IntervalGraphViewModel
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LineGraphViewModel
 import com.mymasimo.masimosleep.ui.settings.device.SettingsDeviceViewModel
 import com.mymasimo.masimosleep.ui.waking.survey.SurveyViewModel
@@ -77,11 +75,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LineGraphViewModel::class)
     internal abstract fun bindLineGraphViewModel(vm: LineGraphViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(IntervalGraphViewModel::class)
-    internal abstract fun bindIntervalGraphViewModel(vm: IntervalGraphViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -147,11 +140,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ReportAddNoteViewModel::class)
     internal abstract fun bindReportAddNoteViewModel(vm: ReportAddNoteViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ReportIntervalGraphViewModel::class)
-    internal abstract fun bindReportIntervalGraphViewModel(vm: ReportIntervalGraphViewModel): ViewModel
 
     @Binds
     @IntoMap

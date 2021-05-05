@@ -1,3 +1,5 @@
 include ':airlib'
 include ':app'
+//include ':TimelineChart'
+//project(':TimelineChart').projectDir = new File('../TimelineChartLibrary/TimelineChart')
 rootProject.name = "Masimo Sleep"

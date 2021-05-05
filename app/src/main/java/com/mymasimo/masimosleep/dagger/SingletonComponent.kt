@@ -19,7 +19,6 @@ import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsFragme
 import com.mymasimo.masimosleep.ui.night_report.report_events.details.EventDetailsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
-import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.intervalgraph.ReportIntervalGraphFragment
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternFragment
 import com.mymasimo.masimosleep.ui.pairing.pair.SelectDeviceFragment
@@ -42,7 +41,6 @@ import com.mymasimo.masimosleep.ui.session.session_events.SessionEventsFragment
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityFragment
 import com.mymasimo.masimosleep.ui.session.session_time_in_bed.SessionTimeInBedFragment
 import com.mymasimo.masimosleep.ui.session.sleep_quality_trend.SessionSleepQualityTrendFragment
-import com.mymasimo.masimosleep.ui.session.vitals.live.intervalgraph.LiveIntervalGraphFragment
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
 import com.mymasimo.masimosleep.ui.settings.device.SettingsDeviceFragment
 import com.mymasimo.masimosleep.ui.settings.sensor.SettingsSensorFragment
@@ -79,7 +77,6 @@ interface SingletonComponent {
     fun inject(target: SessionSleepQualityTrendFragment)
     fun inject(target: SessionEventsFragment)
     fun inject(target: StartButtonFragment)
-    fun inject(target: LiveIntervalGraphFragment)
     fun inject(target: NightPickerFragment)
     fun inject(target: ProgramStartedFragment)
     fun inject(target: NightSummaryFragment)
@@ -90,7 +87,6 @@ interface SingletonComponent {
     fun inject(target: EventDetailsFragment)
     fun inject(target: ReportNotesFragment)
     fun inject(target: ReportAddNoteFragment)
-    fun inject(target: ReportIntervalGraphFragment)
     fun inject(target: ReportLineGraphFragment)
     fun inject(target: RecommendationsFragment)
     fun inject(target: SleepPatternFragment)

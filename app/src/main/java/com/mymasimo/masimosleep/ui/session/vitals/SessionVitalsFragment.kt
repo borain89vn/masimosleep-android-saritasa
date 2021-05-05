@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
-import com.mymasimo.masimosleep.ui.session.view_vitals.ChartIntervalType
-import com.mymasimo.masimosleep.ui.session.vitals.live.intervalgraph.LiveIntervalGraphFragment
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
 
 class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
@@ -37,7 +36,6 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         )
     }
 
-    private var chartIntervalType: ChartIntervalType = ChartIntervalType.ALL
     val args: SessionVitalsFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentSessionVitalsBinding::bind)
 
@@ -56,32 +54,27 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             requireView().findNavController().navigateUp()
         }
 
+        clearSelection()
         viewBinding.allButton.isSelected = true
-        chartIntervalType = ChartIntervalType.ALL
-        updateUI()
+        showLinearCharts(ViewStyle.DAYS)
 
         viewBinding.allButton.setOnClickListener {
             clearSelection()
             viewBinding.allButton.isSelected = true
-            chartIntervalType = ChartIntervalType.ALL
-            updateUI()
-
+            showLinearCharts(ViewStyle.DAYS)
         }
 
         viewBinding.hourButton.setOnClickListener {
             clearSelection()
             viewBinding.hourButton.isSelected = true
-            chartIntervalType = ChartIntervalType.HOUR
-            updateUI()
+            showLinearCharts(ViewStyle.HOURS)
         }
 
         viewBinding.minuteButton.setOnClickListener {
             clearSelection()
             viewBinding.minuteButton.isSelected = true
-            chartIntervalType = ChartIntervalType.MINUTE
-            updateUI()
+            showLinearCharts(ViewStyle.MINUTES)
         }
-
     }
 
     private fun clearSelection() {
@@ -90,46 +83,19 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         viewBinding.minuteButton.isSelected = false
     }
 
-    private fun updateUI() {
-        if (this.chartIntervalType == ChartIntervalType.MINUTE) {
-            showLinearCharts()
-        } else if (this.chartIntervalType == ChartIntervalType.ALL) {
-            showIntervalCharts(60, Int.MAX_VALUE)
-        } else if (this.chartIntervalType == ChartIntervalType.HOUR) {
-            showIntervalCharts(15, 60)
-        }
-    }
-
-    private fun showIntervalCharts(minutes: Int, timeSpanInMinute: Int) {
-
-        removeAllFragments()
-        addFragment(
-            LiveIntervalGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, minutes, timeSpanInMinute),
-            SPO2_INTERVAL_FRAGMENT_TAG
-        )
-        addFragment(
-            LiveIntervalGraphFragment.newInstance(ReadingType.PR, args.sessionStart, minutes, timeSpanInMinute),
-            PR_INTERVAL_FRAGMENT_TAG
-        )
-        addFragment(
-            LiveIntervalGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, minutes, timeSpanInMinute),
-            RRP_INTERVAL_FRAGMENT_TAG
-        )
-    }
-
-    private fun showLinearCharts() {
+    private fun showLinearCharts(viewStyle: ViewStyle) {
         removeAllFragments()
 
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart),
+            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, viewStyle),
             SPO2_LINE_FRAGMENT_TAG
         )
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart),
+            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart, viewStyle),
             PR_LINE_FRAGMENT_TAG
         )
         addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart),
+            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, viewStyle),
             RRP_LINE_FRAGMENT_TAG
         )
 
