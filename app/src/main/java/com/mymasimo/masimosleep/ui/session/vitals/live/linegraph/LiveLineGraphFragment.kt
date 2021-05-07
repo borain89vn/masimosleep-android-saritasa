@@ -56,6 +56,11 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
     private lateinit var dataSource: VitalsChartDataSource
     private var startTime: Long = 0
 
+    /**
+     * Called when user changes the style of the chart by zooming in/out.
+     */
+    var onViewStyleChangeListener: ((ViewStyle) -> Unit)? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
@@ -140,6 +145,7 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
         if (newViewStyle != chartViewStyle) {
             chartViewStyle = newViewStyle
             dataSource.switchViewStyle(newViewStyle)
+            onViewStyleChangeListener?.invoke(newViewStyle)
             view.reloadData()
         }
     }

@@ -11,6 +11,7 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
+import java.util.*
 
 class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
 
@@ -20,24 +21,20 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         }
 
         private const val SPO2_LINE_FRAGMENT_TAG = "SPO2_LINE"
-        private const val SPO2_INTERVAL_FRAGMENT_TAG = "SPO2_INTERVAL"
         private const val PR_LINE_FRAGMENT_TAG = "PR_LINE"
-        private const val PR_INTERVAL_FRAGMENT_TAG = "PR_INTERVAL"
         private const val RRP_LINE_FRAGMENT_TAG = "RRP_LINE"
-        private const val RRP_INTERVAL_FRAGMENT_TAG = "RRP_INTERVAL"
 
         private val ALL_FRAGMENT_TAGS = listOf(
             SPO2_LINE_FRAGMENT_TAG,
-            SPO2_INTERVAL_FRAGMENT_TAG,
             PR_LINE_FRAGMENT_TAG,
-            PR_INTERVAL_FRAGMENT_TAG,
             RRP_LINE_FRAGMENT_TAG,
-            RRP_INTERVAL_FRAGMENT_TAG
         )
     }
 
     val args: SessionVitalsFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentSessionVitalsBinding::bind)
+    private val readingTypesToViewStyle: EnumMap<ReadingType, ViewStyle> =
+        EnumMap(ReadingType::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,51 +51,53 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             requireView().findNavController().navigateUp()
         }
 
-        clearSelection()
-        viewBinding.allButton.isSelected = true
-        showLinearCharts(ViewStyle.DAYS)
+        switchLinearChartsToViewStyle(ViewStyle.DAYS)
 
         viewBinding.allButton.setOnClickListener {
-            clearSelection()
-            viewBinding.allButton.isSelected = true
-            showLinearCharts(ViewStyle.DAYS)
+            switchLinearChartsToViewStyle(ViewStyle.DAYS)
         }
 
         viewBinding.hourButton.setOnClickListener {
-            clearSelection()
-            viewBinding.hourButton.isSelected = true
-            showLinearCharts(ViewStyle.HOURS)
+            switchLinearChartsToViewStyle(ViewStyle.HOURS)
         }
 
         viewBinding.minuteButton.setOnClickListener {
-            clearSelection()
-            viewBinding.minuteButton.isSelected = true
-            showLinearCharts(ViewStyle.MINUTES)
+            switchLinearChartsToViewStyle(ViewStyle.MINUTES)
         }
     }
 
-    private fun clearSelection() {
-        viewBinding.allButton.isSelected = false
-        viewBinding.hourButton.isSelected = false
-        viewBinding.minuteButton.isSelected = false
+    private fun updateSelection() {
+        viewBinding.allButton.isSelected =
+            readingTypesToViewStyle.values.all { it == ViewStyle.DAYS }
+        viewBinding.hourButton.isSelected =
+            readingTypesToViewStyle.values.all { it == ViewStyle.HOURS }
+        viewBinding.minuteButton.isSelected =
+            readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
     }
 
-    private fun showLinearCharts(viewStyle: ViewStyle) {
+    private fun switchLinearChartsToViewStyle(viewStyle: ViewStyle) {
         removeAllFragments()
 
-        addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.SP02, args.sessionStart, viewStyle),
-            SPO2_LINE_FRAGMENT_TAG
-        )
-        addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.PR, args.sessionStart, viewStyle),
-            PR_LINE_FRAGMENT_TAG
-        )
-        addFragment(
-            LiveLineGraphFragment.newInstance(ReadingType.RRP, args.sessionStart, viewStyle),
-            RRP_LINE_FRAGMENT_TAG
-        )
+        for (type in listOf(ReadingType.SP02, ReadingType.PR, ReadingType.RRP)) {
+            readingTypesToViewStyle[type] = viewStyle
+            val fragment = LiveLineGraphFragment.newInstance(type, args.sessionStart, viewStyle)
+            fragment.onViewStyleChangeListener = {
+                readingTypesToViewStyle[type] = it
+                updateSelection()
+            }
+            addFragment(fragment, fragmentTagForReadingType(type))
+        }
 
+        updateSelection()
+    }
+
+    private fun fragmentTagForReadingType(readingType: ReadingType): String {
+        return when (readingType) {
+            ReadingType.SP02 -> SPO2_LINE_FRAGMENT_TAG
+            ReadingType.PR -> PR_LINE_FRAGMENT_TAG
+            ReadingType.RRP -> RRP_LINE_FRAGMENT_TAG
+            ReadingType.DEFAULT -> "" // should not happen.
+        }
     }
 
     private fun removeAllFragments() {
@@ -109,7 +108,6 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
                     .commitAllowingStateLoss()
             }
         }
-
     }
 
     private fun addFragment(fragment: Fragment, tag: String) {
