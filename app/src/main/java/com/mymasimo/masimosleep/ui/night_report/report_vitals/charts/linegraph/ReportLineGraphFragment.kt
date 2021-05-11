@@ -34,6 +34,11 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), T
     private lateinit var dataSource: VitalsChartDataSource
     private var sessionId: Long = -1
 
+    /**
+     * Called when user changes the style of the chart by zooming in/out.
+     */
+    var onViewStyleChangeListener: ((ViewStyle) -> Unit)? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
@@ -112,6 +117,7 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), T
         if (newViewStyle != chartViewStyle) {
             chartViewStyle = newViewStyle
             dataSource.switchViewStyle(newViewStyle)
+            onViewStyleChangeListener?.invoke(newViewStyle)
             view.reloadData()
         }
     }

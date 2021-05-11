@@ -11,11 +11,14 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentReportVitalsBinding
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
+import java.util.*
 
 class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
 
     private val args: ReportVitalsFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentReportVitalsBinding::bind)
+    private val readingTypesToViewStyle: EnumMap<ReadingType, ViewStyle> =
+        EnumMap(ReadingType::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,50 +30,53 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
             requireView().findNavController().navigateUp()
         }
 
-        clearSelection()
-        viewBinding.allButton.isSelected = true
-        showLinearCharts(ViewStyle.DAYS)
+        switchLinearChartsToViewStyle(ViewStyle.DAYS)
 
         viewBinding.allButton.setOnClickListener {
-            clearSelection()
-            viewBinding.allButton.isSelected = true
-            showLinearCharts(ViewStyle.DAYS)
+            switchLinearChartsToViewStyle(ViewStyle.DAYS)
         }
 
         viewBinding.hourButton.setOnClickListener {
-            clearSelection()
-            viewBinding.hourButton.isSelected = true
-            showLinearCharts(ViewStyle.HOURS)
+            switchLinearChartsToViewStyle(ViewStyle.HOURS)
         }
 
         viewBinding.minuteButton.setOnClickListener {
-            clearSelection()
-            viewBinding.minuteButton.isSelected = true
-            showLinearCharts(ViewStyle.MINUTES)
+            switchLinearChartsToViewStyle(ViewStyle.MINUTES)
         }
     }
 
-    private fun clearSelection() {
-        viewBinding.allButton.isSelected = false
-        viewBinding.hourButton.isSelected = false
-        viewBinding.minuteButton.isSelected = false
+    private fun updateSelection() {
+        viewBinding.allButton.isSelected =
+            readingTypesToViewStyle.values.all { it == ViewStyle.DAYS }
+        viewBinding.hourButton.isSelected =
+            readingTypesToViewStyle.values.all { it == ViewStyle.HOURS }
+        viewBinding.minuteButton.isSelected =
+            readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
     }
 
-    private fun showLinearCharts(viewStyle: ViewStyle) {
+    private fun switchLinearChartsToViewStyle(viewStyle: ViewStyle) {
         removeAllFragments()
 
-        addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.SP02, args.sessionId, viewStyle),
-            SPO2_LINE_FRAGMENT_TAG
-        )
-        addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.PR, args.sessionId, viewStyle),
-            PR_LINE_FRAGMENT_TAG
-        )
-        addFragment(
-            ReportLineGraphFragment.newInstance(ReadingType.RRP, args.sessionId, viewStyle),
-            RRP_LINE_FRAGMENT_TAG
-        )
+        for (type in listOf(ReadingType.SP02, ReadingType.PR, ReadingType.RRP)) {
+            readingTypesToViewStyle[type] = viewStyle
+            val fragment = ReportLineGraphFragment.newInstance(type, args.sessionId, viewStyle)
+            fragment.onViewStyleChangeListener = {
+                readingTypesToViewStyle[type] = it
+                updateSelection()
+            }
+            addFragment(fragment, fragmentTagForReadingType(type))
+        }
+
+        updateSelection()
+    }
+
+    private fun fragmentTagForReadingType(readingType: ReadingType): String {
+        return when (readingType) {
+            ReadingType.SP02 -> SPO2_LINE_FRAGMENT_TAG
+            ReadingType.PR -> PR_LINE_FRAGMENT_TAG
+            ReadingType.RRP -> RRP_LINE_FRAGMENT_TAG
+            ReadingType.DEFAULT -> "" // should not happen.
+        }
     }
 
     private fun removeAllFragments() {
@@ -92,19 +98,13 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
 
     companion object {
         private const val SPO2_LINE_FRAGMENT_TAG = "SPO2_LINE"
-        private const val SPO2_INTERVAL_FRAGMENT_TAG = "SPO2_INTERVAL"
         private const val PR_LINE_FRAGMENT_TAG = "PR_LINE"
-        private const val PR_INTERVAL_FRAGMENT_TAG = "PR_INTERVAL"
         private const val RRP_LINE_FRAGMENT_TAG = "RRP_LINE"
-        private const val RRP_INTERVAL_FRAGMENT_TAG = "RRP_INTERVAL"
 
         private val ALL_FRAGMENT_TAGS = listOf(
             SPO2_LINE_FRAGMENT_TAG,
-            SPO2_INTERVAL_FRAGMENT_TAG,
             PR_LINE_FRAGMENT_TAG,
-            PR_INTERVAL_FRAGMENT_TAG,
             RRP_LINE_FRAGMENT_TAG,
-            RRP_INTERVAL_FRAGMENT_TAG
         )
     }
 }
