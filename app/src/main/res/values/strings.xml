@@ -159,6 +159,7 @@ If you choose to take sleeping it is best to use them only on an infrequent, \�
     <string name="feedback_email">mailto:customercare@masimo.com</string>
     <string name="feedback_button">Email Customer Support</string>
 
+    <string name="troubleshoot_title">Troubleshoot Device</string>
     <string name="troubleshoot_body">If you’re having trouble pairing your sensor to your mobile device, check the following:\n\n
 
     •   Finger tape and sensor are attached to your finger and wrist as instructed\n
@@ -289,6 +290,9 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="num_of_nights_recorded">%d %s</string>
     <string name="no_nights_recorded">No data recorded</string>
     <string name="start_to_end_date">%s - %s</string>
+
+    <string name="time_minutes">%dm</string>
+    <string name="time_hours_minutes">%1$dh %2$dm</string>
 
     <string name="go_to_dashboard">Go to Dashboard</string>
 

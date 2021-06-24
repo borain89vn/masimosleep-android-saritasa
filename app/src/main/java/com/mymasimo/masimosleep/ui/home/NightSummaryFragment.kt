@@ -108,9 +108,9 @@ class NightSummaryFragment : Fragment(R.layout.fragment_night_summary) {
         val minutes = durationMinutes % 60
 
         val elapsedString = if (hours == 0) {
-            "${minutes}m"
+            resources.getString(R.string.time_minutes, minutes)
         } else {
-            "${hours}h ${minutes}m"
+            resources.getString(R.string.time_hours_minutes, hours, minutes)
         }
 
         viewBinding.sleepText.text = elapsedString

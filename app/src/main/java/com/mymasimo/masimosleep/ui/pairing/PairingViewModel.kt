@@ -39,7 +39,7 @@ class PairingViewModel @Inject constructor(
     app: Application,
     private val fakeTicker: FakeTicker,
     private val sensorRepository: SensorRepository,
-    private val disposables: CompositeDisposable,
+    private val disposables: CompositeDisposable
 ) : AndroidViewModel(app) {
 
     private val _isScanning = MutableLiveData(false)

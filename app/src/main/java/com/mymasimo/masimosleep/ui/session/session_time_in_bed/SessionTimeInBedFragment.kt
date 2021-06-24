@@ -60,10 +60,10 @@ class SessionTimeInBedFragment : Fragment(R.layout.fragment_session_time_in_bed)
         val hour = elapsedTimeSeconds.toInt() / 3600
         val minute = (elapsedTimeSeconds.toInt() % 3600) / 60
 
-        var elapsedString = hour.toString() + "h " + minute.toString() + "m"
+        var elapsedString = resources.getString(R.string.time_hours_minutes, hour, minute)
 
         if (hour == 0) {
-            elapsedString = minute.toString() + "m"
+            elapsedString = resources.getString(R.string.time_minutes, minute)
         }
 
         viewBinding.timeInBedText.text = elapsedString

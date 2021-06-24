@@ -69,7 +69,7 @@ class SettingsDeviceFragment : Fragment(R.layout.fragment_settings_device) {
         viewBinding.troubleshootButton.setOnClickListener {
             requireView().findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsContentFragment(
-                    "Troubleshoot Device",
+                    resources.getString(R.string.troubleshoot_title),
                     resources.getString(R.string.troubleshoot_body),
                     resources.getString(R.string.troubleshoot_button),
                     resources.getString(R.string.troubleshoot_email)

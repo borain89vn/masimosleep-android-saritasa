@@ -179,7 +179,7 @@ class SessionEventsFragment : Fragment(R.layout.fragment_session_events) {
 
         }
 
-        val barDataSet = BarDataSet(entries, "Events")
+        val barDataSet = BarDataSet(entries, resources.getString(R.string.sleep_events))
         barDataSet.setDrawValues(false)
         barDataSet.setDrawIcons(false)
 
