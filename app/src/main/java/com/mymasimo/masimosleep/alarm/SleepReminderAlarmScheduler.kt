@@ -149,8 +149,8 @@ class SleepReminderAlarmScheduler @Inject constructor(
         )
 
         return NotificationCompat.Builder(context, CHANNEL_REMINDERS)
-            .setContentTitle("It's time to get ready for bed.")
-            .setContentText("Go to the app and start your sleep session")
+            .setContentTitle(context.resources.getString(R.string.bedtime_notification_title))
+            .setContentText(context.resources.getString(R.string.bedtime_notification_body))
             .setAutoCancel(true)
             .setSmallIcon(R.drawable.ic_logo)
             .setContentIntent(resultPendingIntent)

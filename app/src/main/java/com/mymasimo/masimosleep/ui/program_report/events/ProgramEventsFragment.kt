@@ -138,7 +138,7 @@ class ProgramEventsFragment : Fragment(R.layout.fragment_program_events) {
             entries.add(entry)
         }
 
-        val barDataSet = BarDataSet(entries, "Events")
+        val barDataSet = BarDataSet(entries, resources.getString(R.string.sleep_events))
         barDataSet.setDrawValues(false)
         barDataSet.setDrawIcons(false)
 
