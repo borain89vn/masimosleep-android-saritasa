@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Add localized strings for Russian language here -->
+    <string name="sleep_program_title">Ваш сон</string>
+</resources>
