@@ -68,7 +68,7 @@
             android:layout_marginEnd="50dp"
             android:layout_marginStart="50dp"
             android:background="@drawable/selection_button"
-            android:text="@string/gender_other"
+            android:text="@string/gender_other_description"
             android:textAppearance="@style/roundedButton_WhiteText"
             android:textColor="@drawable/selection_button_text" />
     </LinearLayout>

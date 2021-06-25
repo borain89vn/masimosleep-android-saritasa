@@ -29,11 +29,11 @@ class SettingsProfileFragment : Fragment(R.layout.fragment_settings_profile) {
         viewBinding.conditionButton.text = generateConditionsString()
 
         val gender = MasimoSleepPreferences.gender
-        var genderString = "Other"
+        var genderString = getString(R.string.gender_other)
         if (gender == "male") {
-            genderString = "Male"
+            genderString = getString(R.string.gender_male)
         } else if (gender == "female") {
-            genderString = "Female"
+            genderString = getString(R.string.gender_female)
         } else if (gender == "other") {
             genderString = getString(R.string.gender_other)
         }
@@ -68,24 +68,24 @@ class SettingsProfileFragment : Fragment(R.layout.fragment_settings_profile) {
         viewBinding.bedtimeButton.text = "$adjustedHour:$minuteString $amPm"
 
         val reminderTime = MasimoSleepPreferences.reminderTime
-        var reminderString = "No Reminder"
+        var reminderString = getString(R.string.reminder_time_no_reminder)
         if (reminderTime == 3600) {
-            reminderString = "1 hour before"
+            reminderString = getString(R.string.reminder_time_1_hour)
         } else if (reminderTime == 2700) {
-            reminderString = "45 minutes before"
+            reminderString = getString(R.string.reminder_time_45_minutes)
         } else if (reminderTime == 1800) {
-            reminderString = "30 minutes before"
+            reminderString = getString(R.string.reminder_time_30_minutes)
         } else if (reminderTime == 900) {
-            reminderString = "15 minutes before"
+            reminderString = getString(R.string.reminder_time_15_minutes)
         } else if (reminderTime == 0) {
-            reminderString = "At bedtime"
+            reminderString = getString(R.string.reminder_time_bedtime)
         }
 
         viewBinding.reminderButton.text = reminderString
     }
 
     private fun generateConditionsString(): String {
-        var result = "None"
+        var result = getString(R.string.none)
 
         val conditionList = MasimoSleepPreferences.conditionList ?: listOf()
 

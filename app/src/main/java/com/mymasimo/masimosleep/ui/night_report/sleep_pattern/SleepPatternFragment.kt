@@ -57,17 +57,17 @@ class SleepPatternFragment : Fragment(R.layout.fragment_sleep_pattern) {
         val lowHour = viewData.lowMinutes / 60
         val lowMinutes = viewData.lowMinutes % 60
 
-        var lowDurationString = lowHour.toString() + "h " + lowMinutes.toString() + "m"
+        var lowDurationString = getString(R.string.time_hours_minutes, lowHour, lowMinutes)
         if (lowHour == 0) {
-            lowDurationString = lowMinutes.toString() + "m"
+            lowDurationString = getString(R.string.time_minutes, lowMinutes)
         }
 
         val highHour = viewData.highMinutes / 60
         val highMinutes = viewData.highMinutes % 60
 
-        var highDurationString = highHour.toString() + "h " + highMinutes.toString() + "m"
+        var highDurationString = getString(R.string.time_hours_minutes, highHour, highMinutes)
         if (highHour == 0) {
-            highDurationString = highMinutes.toString() + "m"
+            highDurationString = getString(R.string.time_minutes, highMinutes)
         }
 
         viewBinding.lowHighText.text = "$lowDurationString - $highDurationString"
@@ -83,7 +83,7 @@ class SleepPatternFragment : Fragment(R.layout.fragment_sleep_pattern) {
         viewBinding.avgWakeText.text = avgWakeTimeString
 
         // Temporary change to avoid label messed up
-        viewBinding.sleepTimeText.text = "0h"
+        viewBinding.sleepTimeText.text = getString(R.string.time_hours, 0)
         viewBinding.wakeTimeText.text = highDurationString
 
         //calculate average night duration first
@@ -101,9 +101,9 @@ class SleepPatternFragment : Fragment(R.layout.fragment_sleep_pattern) {
         val avgHour = (avgDuration / 3600).toInt()
         val avgMinutes = (avgDuration % 3600 / 60).toInt()
 
-        var avgDurationString = avgHour.toString() + "h " + avgMinutes.toString() + "m"
+        var avgDurationString = getString(R.string.time_hours_minutes, avgHour, avgMinutes)
         if (lowHour == 0) {
-            avgDurationString = avgMinutes.toString() + "m"
+            avgDurationString = getString(R.string.time_minutes, avgMinutes)
         }
 
         viewBinding.avgDurationText.text = avgDurationString
