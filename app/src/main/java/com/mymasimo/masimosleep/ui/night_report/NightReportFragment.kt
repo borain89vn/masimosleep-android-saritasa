@@ -44,6 +44,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         addFragment(SleepPatternFragment.newInstanceWithSessionId(args.sessionId), SLEEP_PATTERN_FRAGMENT_TAG)
         addFragment(RecommendationsFragment.newInstance(args.sessionId), RECOMMENDATIONS_FRAGMENT_TAG)
         addFragment(createViewVitalsFragment(args.sessionId), VIEW_VITALS_FRAGMENT_TAG)
+        // Add button "Download CSV"
         addFragment(ReportNotesFragment.newInstance(args.sessionId), NOTES_FRAGMENT_TAG)
     }
 
@@ -93,8 +94,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             EVENTS_FRAGMENT_TAG,
             RECOMMENDATIONS_FRAGMENT_TAG,
             VIEW_VITALS_FRAGMENT_TAG,
-            NOTES_FRAGMENT_TAG
-
+            NOTES_FRAGMENT_TAG,
         )
     }
 }

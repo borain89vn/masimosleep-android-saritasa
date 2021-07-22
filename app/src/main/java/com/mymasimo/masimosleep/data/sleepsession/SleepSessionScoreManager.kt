@@ -29,7 +29,7 @@ class SleepSessionScoreManager @Inject constructor(
     private val programRepository: ProgramRepository,
     private val parameterReadingRepository: ParameterReadingRepository,
     private val sleepEventRepository: SleepEventRepository,
-    private val deviceExceptionHandler: DeviceExceptionHandler
+    private val deviceExceptionHandler: DeviceExceptionHandler,
 ) {
     private var maxSleepHourDisposable: Disposable? = null
 

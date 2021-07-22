@@ -20,7 +20,8 @@ class ParameterReadingRepository @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val parameterReadingDao: ParameterReadingEntityDao,
     private val schedulerProvider: SchedulerProvider,
-    private val disposable: CompositeDisposable
+    private val disposable: CompositeDisposable,
+    private val rawParameterReadingRepository: RawParameterReadingRepository,
 ) {
 
     private val spO2Buffer = mutableListOf<Float>()
@@ -98,7 +99,7 @@ class ParameterReadingRepository @Inject constructor(
                 return
             }
 
-            // Do batch insert.
+            // Accumulate the data in corresponding buffers
             when (type) {
                 ReadingType.SP02 -> {
                     spO2Buffer.add(value)
@@ -142,10 +143,30 @@ class ParameterReadingRepository @Inject constructor(
     private fun onTimerComplete(type: ReadingType) {
         synchronized(this) {
             Timber.d("Timer expired, averaging buffer of ${type.key} readings to persist to the DB")
+            saveRawReadingData(type)
             val avgReading = mergeBufferReadings(type)
-            clearBuffer(type)
             insertReading(avgReading, isAverage = true)
+            clearBuffer(type)
         }
+    }
+
+    /**
+     * Save all sensor reading data.
+     *
+     * Sensor data is received with 1Hz frequency.
+     * Every minute it is aggregated, the result stored in the DB for charts purposes and removed from buffer.
+     * So we need to persist the data before the buffer is cleaned.
+     */
+    private fun saveRawReadingData(type: ReadingType) {
+
+        val buffer = when (type) {
+            ReadingType.SP02 -> spO2Buffer
+            ReadingType.PR -> prBuffer
+            ReadingType.RRP -> rrpBuffer
+            else -> mutableListOf<Float>()
+        }
+
+        rawParameterReadingRepository.saveRawReadingData(type, buffer)
     }
 
     private fun insertReading(reading: ParameterReadingEntity, isAverage: Boolean) {
@@ -176,7 +197,7 @@ class ParameterReadingRepository @Inject constructor(
             type = type,
             value = average,
             dataPointCount = buffer.size,
-            createdAt = Calendar.getInstance().timeInMillis
+            createdAt = Calendar.getInstance().timeInMillis,
         )
     }
 

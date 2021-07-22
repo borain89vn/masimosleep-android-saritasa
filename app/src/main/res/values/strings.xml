@@ -417,6 +417,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="sleep_time_title">Sleep Time</string>
     <string name="wake_up_time_title">Wake Up Time</string>
     <string name="view_vitals_title">View Vitals</string>
+    <string name="view_get_raw_csv_title">Get CSV with raw data</string>
     <string name="vitals_title">Vitals</string>
     <string name="all_btn">ALL</string>
     <string name="by_hour_btn">BY HOUR</string>
