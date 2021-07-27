@@ -2,6 +2,7 @@ package com.mymasimo.masimosleep.ui.session
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -194,13 +195,18 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
         rawParameterReadingRepository
             .getRawReadingCsvData(args.sessionStart, endAt)
             .subscribe { data ->
-                val resultUri = RawParameterReadingCsvExport.exportToDownloads(context!!, args.sessionStart, endAt, data)
-                val intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    type = RawParameterReadingCsvExport.CSV_MIME_TYPE
-                    putExtra(Intent.EXTRA_STREAM, resultUri)
+                if (data.isNullOrEmpty()) {
+                    Toast.makeText(context!!, R.string.export_no_data, 5000).show()
+                } else {
+                    val resultUri = RawParameterReadingCsvExport.exportToDownloads(context!!, args.sessionStart, endAt, data)
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        type = RawParameterReadingCsvExport.CSV_MIME_TYPE
+                        putExtra(Intent.EXTRA_STREAM, resultUri)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    startActivity(Intent.createChooser(intent, "Open export result"))
                 }
-                startActivity(Intent.createChooser(intent, "Open export result"))
             }
     }
 

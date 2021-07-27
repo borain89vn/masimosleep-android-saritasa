@@ -18,7 +18,7 @@ import java.io.IOException
  * Export raw parameter readings for particular day into CSV file.
  */
 object RawParameterReadingCsvExport {
-    const val CSV_MIME_TYPE = "text/csv"
+    const val CSV_MIME_TYPE = "application/csv"
 
     private val dateTimeFormat = SimpleDateFormat("dd_MM_yyyy HH_mm_ss")
 
@@ -46,7 +46,7 @@ object RawParameterReadingCsvExport {
             Timber.d("Export data len: ${data.size} WRITTEN")
         }
 
-        return Uri.parse(filename)
+        return Uri.fromFile(File(filename))
     }
 
     /**

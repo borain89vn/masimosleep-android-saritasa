@@ -11,6 +11,7 @@ import com.mymasimo.masimosleep.ui.home.HomeFragment
 import com.mymasimo.masimosleep.ui.home.NightSummaryFragment
 import com.mymasimo.masimosleep.ui.home.StartButtonFragment
 import com.mymasimo.masimosleep.ui.home.night_picker.NightPickerFragment
+import com.mymasimo.masimosleep.ui.night_report.NightReportFragment
 import com.mymasimo.masimosleep.ui.night_report.notes.ReportNotesFragment
 import com.mymasimo.masimosleep.ui.night_report.notes.addnote.ReportAddNoteFragment
 import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsFragment
@@ -117,4 +118,5 @@ interface SingletonComponent {
     fun inject(target: SessionTerminatedFragment)
     fun inject(target: SelfDismissDialogFragment)
     fun inject(target: SessionExportMeasurementsFragment)
+    fun inject(target: NightReportFragment)
 }
