@@ -17,7 +17,6 @@ interface RawParameterReadingEntityDao {
         "SELECT * FROM ${Contract.TABLE_NAME} " +
                 "WHERE ${Contract.COLUMN_CREATED_AT} >= :startAt " +
                 "AND ${Contract.COLUMN_CREATED_AT} < :endAt " +
-                "GROUP BY ${Contract.COLUMN_TYPE} " +
                 "ORDER BY ${Contract.COLUMN_ID} ASC, ${Contract.COLUMN_CREATED_AT} ASC"
     )
     fun findAllByTypeBetweenTimestamps(

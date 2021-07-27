@@ -94,6 +94,8 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
      * Export raw sensor reding data for the current session into CSV file.
      */
     private fun exportMeasurements(sessionId: Long) {
+        Toast.makeText(context!!, R.string.export_starting, 5000).show()
+
         val raw = sessionRepository
             .getSessionById(sessionId)
             .flatMap { session ->
@@ -113,7 +115,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
                     val resultUri = RawParameterReadingCsvExport.exportToDownloads(context!!, startAt, endAt, data)
                     val intent = Intent().apply {
                         action = Intent.ACTION_SEND
-                        type = RawParameterReadingCsvExport.CSV_MIME_TYPE
+                        setDataAndType(resultUri, RawParameterReadingCsvExport.CSV_MIME_TYPE)
                         putExtra(Intent.EXTRA_STREAM, resultUri)
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }

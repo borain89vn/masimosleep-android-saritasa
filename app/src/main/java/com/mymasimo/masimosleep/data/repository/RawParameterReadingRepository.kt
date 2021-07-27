@@ -54,7 +54,7 @@ class RawParameterReadingRepository @Inject constructor(
         rawParameterReadingDao
             .findAllByTypeBetweenTimestamps(startAt, endAt)
             .toObservable()
-            .flatMapIterable()
+            .flatMapIterable { entity -> entity }
             .map {
                 listOf(it.id, it.type, it.value, it.createdAt)
                     .map { it.toString() }

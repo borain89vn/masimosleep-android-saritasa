@@ -190,6 +190,7 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
      * Export raw sensor reding data for the current session into CSV file.
      */
     private fun exportMeasurements() {
+        Toast.makeText(context!!, R.string.export_starting, 5000).show()
         val endAt = System.currentTimeMillis()
 
         rawParameterReadingRepository
@@ -201,7 +202,7 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
                     val resultUri = RawParameterReadingCsvExport.exportToDownloads(context!!, args.sessionStart, endAt, data)
                     val intent = Intent().apply {
                         action = Intent.ACTION_SEND
-                        type = RawParameterReadingCsvExport.CSV_MIME_TYPE
+                        setDataAndType(resultUri, RawParameterReadingCsvExport.CSV_MIME_TYPE)
                         putExtra(Intent.EXTRA_STREAM, resultUri)
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }

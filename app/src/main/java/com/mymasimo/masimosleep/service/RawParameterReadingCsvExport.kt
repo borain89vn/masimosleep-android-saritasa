@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.content.FileProvider
 import java.text.SimpleDateFormat
 import com.mymasimo.masimosleep.data.room.entity.RawParameterReadingContract as Contract
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
@@ -46,7 +47,7 @@ object RawParameterReadingCsvExport {
             Timber.d("Export data len: ${data.size} WRITTEN")
         }
 
-        return Uri.fromFile(File(filename))
+        return FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", File(filename) )
     }
 
     /**
