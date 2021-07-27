@@ -13,6 +13,7 @@ import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import io.reactivex.rxkotlin.flatMapIterable
 
 class RawParameterReadingRepository @Inject constructor(
     private val rawParameterReadingDao: RawParameterReadingEntityDao,
@@ -35,7 +36,8 @@ class RawParameterReadingRepository @Inject constructor(
             )
         }
 
-        rawParameterReadingDao.insert(*data.toTypedArray())
+        rawParameterReadingDao
+            .insert(*data.toTypedArray())
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe {
@@ -43,4 +45,21 @@ class RawParameterReadingRepository @Inject constructor(
             }
             .addTo(disposable)
     }
+
+    /**
+     * Return data prepared for CSV export.
+     * Each DB entry converted into a list of its values as strings.
+     */
+    fun getRawReadingCsvData(startAt: Long, endAt: Long) =
+        rawParameterReadingDao
+            .findAllByTypeBetweenTimestamps(startAt, endAt)
+            .toObservable()
+            .flatMapIterable()
+            .map {
+                listOf(it.id, it.type, it.value, it.createdAt)
+                    .map { it.toString() }
+            }
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .toList()
 }

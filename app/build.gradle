@@ -161,6 +161,7 @@ dependencies {
     implementation libraries.viewPager2
     implementation libraries.viewBindingDelegate
     implementation libraries.ripplePulse
+    implementation libraries.kotlinCsv
 
     debugImplementation libraries.flipper
     debugImplementation libraries.soloader

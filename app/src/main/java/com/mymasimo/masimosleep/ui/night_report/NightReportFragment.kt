@@ -15,8 +15,10 @@ import com.mymasimo.masimosleep.ui.night_report.report_bed_time.ReportTimeInBedF
 import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
+import com.mymasimo.masimosleep.ui.night_report.report_export_measurements.ReportExportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_view_vitals.ReportViewVitalsFragment
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternFragment
+import timber.log.Timber
 
 class NightReportFragment : Fragment(R.layout.fragment_night_report) {
 
@@ -44,7 +46,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         addFragment(SleepPatternFragment.newInstanceWithSessionId(args.sessionId), SLEEP_PATTERN_FRAGMENT_TAG)
         addFragment(RecommendationsFragment.newInstance(args.sessionId), RECOMMENDATIONS_FRAGMENT_TAG)
         addFragment(createViewVitalsFragment(args.sessionId), VIEW_VITALS_FRAGMENT_TAG)
-        // Add button "Download CSV"
+        addFragment(createReportExportMeasurementsFragment(args.sessionId), EXPORT_MEASUREMENTS_FRAGMENT_TAG)
         addFragment(ReportNotesFragment.newInstance(args.sessionId), NOTES_FRAGMENT_TAG)
     }
 
@@ -56,6 +58,14 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
                         sessionId
                     )
                 )
+            }
+        }
+    }
+
+    private fun createReportExportMeasurementsFragment(sessionId: Long): ReportExportMeasurementsFragment {
+        return ReportExportMeasurementsFragment.newInstance().apply {
+            setOnClickListener {
+                Timber.d("Export data for session Id: ${sessionId}")
             }
         }
     }
@@ -86,6 +96,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         private const val RECOMMENDATIONS_FRAGMENT_TAG = "RECOMMENDATIONS"
         private const val VIEW_VITALS_FRAGMENT_TAG = "VIEW_VITALS"
         private const val NOTES_FRAGMENT_TAG = "NOTES_FRAGMENT"
+        private const val EXPORT_MEASUREMENTS_FRAGMENT_TAG = "EXPORT_MEASUREMENTS"
 
         private val ALL_FRAGMENT_TAGS = listOf(
             SLEEP_QUALITY_FRAGMENT_TAG,
@@ -95,6 +106,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             RECOMMENDATIONS_FRAGMENT_TAG,
             VIEW_VITALS_FRAGMENT_TAG,
             NOTES_FRAGMENT_TAG,
+            EXPORT_MEASUREMENTS_FRAGMENT_TAG,
         )
     }
 }

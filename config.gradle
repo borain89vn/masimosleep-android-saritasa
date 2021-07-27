@@ -49,6 +49,9 @@ rootProject.ext{
             ripplePulse        : '0.1.9',
             viewPager2         : '1.0.0',
 
+            // CSV processing
+            kotlinCsv          : '0.15.2',
+
             //Masimo
             masimoCommon       : '1.6.11',
             masimoAndroidCommon: '1.6.4',
@@ -118,6 +121,8 @@ rootProject.ext{
 
             viewPager2              : "androidx.viewpager2:viewpager2:$versions.viewPager2", // Display Views or Fragments in a swipeable format (https://developer.android.com/jetpack/androidx/releases/viewpager2)
             viewBindingDelegate     : "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$versions.viewBindingDelegate", // https://github.com/kirich1409/ViewBindingPropertyDelegate
+
+            kotlinCsv               : "com.github.doyaaaaaken:kotlin-csv-jvm:$versions.kotlinCsv", // CSV file reader/writer (https://github.com/doyaaaaaken/kotlin-csv)
 
             // Masimo
             masimoCommon            : "com.masimo:common:$versions.masimoCommon",
