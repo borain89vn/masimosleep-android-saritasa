@@ -61,6 +61,4 @@ object RawParameterReadingCsvExport {
 
         return "${destDir}/$filename"
     }
-
-
 }

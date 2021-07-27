@@ -385,6 +385,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="hint_replace_sensor">Please remove the chip and replace sensor.</string>
     <string name="battery_low_title">Battery Low</string>
     <string name="cancel_sleep_session_title">Cancel Sleep Session</string>
+    <string name="export_csv_btn">Export Measurements</string>
     <string name="end_sleep_session_btn">End Sleep Session</string>
     <string name="end_sleep_session_title">End Sleep Session?</string>
     <string name="defective_sensor_title">Defective Sensor</string>
