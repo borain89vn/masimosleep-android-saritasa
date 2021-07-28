@@ -16,7 +16,7 @@ import timber.log.Timber
  * The Modules database that contains module data and its readings.
  */
 @Database(
-    version = 9,
+    version = 10,
     entities = [
         Module::class,
         ParameterReadingEntity::class,
@@ -26,13 +26,15 @@ import timber.log.Timber
         ScoreEntity::class,
         SleepEventEntity::class,
         SurveyQuestionEntity::class,
-        SessionTerminatedEntity::class
+        SessionTerminatedEntity::class,
+        RawParameterReadingEntity::class,
     ]
 )
 @TypeConverters(RoomConverters::class)
 abstract class ModulesDatabase : RoomDatabase() {
     abstract fun moduleDao(): ModuleDao
     abstract fun parameterReadingEntityDao(): ParameterReadingEntityDao
+    abstract fun rawParameterReadingEntityDao(): RawParameterReadingEntityDao
     abstract fun scoreEntityDao(): ScoreEntityDao
     abstract fun sessionEntityDao(): SessionEntityDao
     abstract fun sessionNoteEntityDao(): SessionNoteEntityDao
@@ -58,7 +60,12 @@ abstract class ModulesDatabase : RoomDatabase() {
                 ModulesDatabase::class.java,
                 DB_FILE_NAME
             )
-                .addMigrations(MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
+                .addMigrations(
+                    MIGRATION_6_7,
+                    MIGRATION_7_8,
+                    MIGRATION_8_9,
+                    MIGRATION_9_10,
+                )
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
@@ -101,6 +108,18 @@ abstract class ModulesDatabase : RoomDatabase() {
         private val MIGRATION_8_9 = object : Migration(8, 9) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE ${ModuleContract.TABLE_NAME} ADD COLUMN ${ModuleContract.IS_CURRENT} INTEGER NOT NULL DEFAULT 1")
+            }
+        }
+
+        private val MIGRATION_9_10 = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS ${RawParameterReadingContract.TABLE_NAME} " +
+                            "(${RawParameterReadingContract.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "${RawParameterReadingContract.COLUMN_TYPE} TEXT NOT NULL, " +
+                            "${RawParameterReadingContract.COLUMN_VALUE} REAL NOT NULL, " +
+                            "${RawParameterReadingContract.COLUMN_CREATED_AT} INTEGER NOT NULL)"
+                )
             }
         }
     }

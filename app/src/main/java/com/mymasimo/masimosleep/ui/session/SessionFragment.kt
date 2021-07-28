@@ -2,6 +2,7 @@ package com.mymasimo.masimosleep.ui.session
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -15,12 +16,14 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.data.repository.RawParameterReadingRepository
 import com.mymasimo.masimosleep.data.repository.SessionTerminatedRepository
 import com.mymasimo.masimosleep.databinding.FragmentSessionBinding
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
 import com.mymasimo.masimosleep.service.BLEConnectionState
 import com.mymasimo.masimosleep.service.DeviceException
 import com.mymasimo.masimosleep.service.DeviceExceptionHandler
+import com.mymasimo.masimosleep.service.RawParameterReadingCsvExport
 import com.mymasimo.masimosleep.ui.dialogs.SessionTerminatedFragmentArgs
 import com.mymasimo.masimosleep.ui.session.no_data_yet.SessionNoDataFragment
 import com.mymasimo.masimosleep.ui.session.session_events.SessionEventsFragment
@@ -33,6 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
+import android.content.Intent
 
 class SessionFragment : Fragment(R.layout.fragment_session) {
 
@@ -48,6 +52,8 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
     lateinit var bleConnectionState: BLEConnectionState
     @Inject
     lateinit var sessionTerminatedRepository: SessionTerminatedRepository
+    @Inject
+    lateinit var rawParameterReadingRepository: RawParameterReadingRepository
 
     private val vm: SessionViewModel by viewModels { vmFactory }
 
@@ -66,6 +72,10 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
         viewBinding.addNoteButton.setOnClickListener {
             val navController = NavHostFragment.findNavController(this)
             navController.navigate(R.id.action_sessionFragment_to_addNoteFragment)
+        }
+
+        viewBinding.exportCsvBtn.setOnClickListener {
+            exportMeasurements()
         }
 
         viewBinding.endSessionBtn.setOnClickListener {
@@ -176,13 +186,37 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
         super.onPause()
     }
 
+    /**
+     * Export raw sensor reding data for the current session into CSV file.
+     */
+    private fun exportMeasurements() {
+        Toast.makeText(context!!, R.string.export_starting, 5000).show()
+        val endAt = System.currentTimeMillis()
+
+        rawParameterReadingRepository
+            .getRawReadingCsvData(args.sessionStart, endAt)
+            .subscribe { data ->
+                if (data.isNullOrEmpty()) {
+                    Toast.makeText(context!!, R.string.export_no_data, 5000).show()
+                } else {
+                    val resultUri = RawParameterReadingCsvExport.exportToDownloads(context!!, args.sessionStart, endAt, data)
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        setDataAndType(resultUri, RawParameterReadingCsvExport.CSV_MIME_TYPE)
+                        putExtra(Intent.EXTRA_STREAM, resultUri)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    startActivity(Intent.createChooser(intent, "Open export result"))
+                }
+            }
+    }
+
     private fun showNoDataConfiguration() {
         removeAllFragments()
 
         addFragment(SessionNoDataFragment.newInstance(), NO_DATA_FRAGMENT_TAG)
         addFragment(SessionTimeInBedFragment.newInstance(args.sessionStart), TIME_IN_BED_FRAGMENT_TAG)
         addFragment(createViewVitalsFragment(), VIEW_VITALS_FRAGMENT_TAG)
-
     }
 
     private fun showDataConfiguration() {
@@ -193,7 +227,6 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
         addFragment(SessionSleepQualityTrendFragment.newInstance(args.sessionStart), SLEEP_QUALITY_TREND_FRAGMENT_TAG)
         addFragment(SessionEventsFragment.newInstance(args.sessionStart), EVENTS_FRAGMENT_TAG)
         addFragment(createViewVitalsFragment(), VIEW_VITALS_FRAGMENT_TAG)
-
     }
 
     private fun createViewVitalsFragment(): SessionViewVitalsFragment {
@@ -245,7 +278,7 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
             VIEW_VITALS_FRAGMENT_TAG,
             SLEEP_QUALITY_FRAGMENT_TAG,
             SLEEP_QUALITY_TREND_FRAGMENT_TAG,
-            EVENTS_FRAGMENT_TAG
+            EVENTS_FRAGMENT_TAG,
         )
     }
 }

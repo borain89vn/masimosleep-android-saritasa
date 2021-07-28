@@ -10,6 +10,9 @@ import com.mymasimo.masimosleep.data.room.entity.ParameterReadingContract.COLUMN
 import com.mymasimo.masimosleep.data.room.entity.ParameterReadingContract.COLUMN_VALUE
 import com.mymasimo.masimosleep.data.room.entity.ParameterReadingContract.TABLE_NAME
 
+/**
+ * Stores aggregated parameter reading. Aggregation performed once per minute.
+ */
 @Entity(tableName = TABLE_NAME)
 data class ParameterReadingEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = COLUMN_ID) var id: Long? = null,

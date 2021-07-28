@@ -11,6 +11,7 @@ import com.mymasimo.masimosleep.ui.home.HomeFragment
 import com.mymasimo.masimosleep.ui.home.NightSummaryFragment
 import com.mymasimo.masimosleep.ui.home.StartButtonFragment
 import com.mymasimo.masimosleep.ui.home.night_picker.NightPickerFragment
+import com.mymasimo.masimosleep.ui.night_report.NightReportFragment
 import com.mymasimo.masimosleep.ui.night_report.notes.ReportNotesFragment
 import com.mymasimo.masimosleep.ui.night_report.notes.addnote.ReportAddNoteFragment
 import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsFragment
@@ -37,6 +38,7 @@ import com.mymasimo.masimosleep.ui.program_started.ProgramStartedFragment
 import com.mymasimo.masimosleep.ui.remove_chip.RemoveChipFragment
 import com.mymasimo.masimosleep.ui.session.SessionFragment
 import com.mymasimo.masimosleep.ui.session.addnote.AddNoteFragment
+import com.mymasimo.masimosleep.ui.session.export_measurements.SessionExportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.session.session_events.SessionEventsFragment
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityFragment
 import com.mymasimo.masimosleep.ui.session.session_time_in_bed.SessionTimeInBedFragment
@@ -115,4 +117,6 @@ interface SingletonComponent {
     fun inject(target: SettingsDeviceFragment)
     fun inject(target: SessionTerminatedFragment)
     fun inject(target: SelfDismissDialogFragment)
+    fun inject(target: SessionExportMeasurementsFragment)
+    fun inject(target: NightReportFragment)
 }

@@ -14,6 +14,11 @@ class RoomModule {
     }
 
     @Provides
+    fun provideRawParameterReadingEntityDao(context: Context): RawParameterReadingEntityDao {
+        return ModulesDatabase.getInstance(context).rawParameterReadingEntityDao()
+    }
+
+    @Provides
     fun provideScoreEntityDao(context: Context): ScoreEntityDao {
         return ModulesDatabase.getInstance(context).scoreEntityDao()
     }
