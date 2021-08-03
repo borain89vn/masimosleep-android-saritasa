@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Masimo Sleep</string>
+    <string name="app_name" translatable="false">Masimo Sleep</string>
 
     <!-- BLE -->
     <string name="radius_ppg"><![CDATA[Radius PPG™]]></string>
@@ -160,12 +160,12 @@ If you choose to take sleeping it is best to use them only on an infrequent, \�
     <string name="outcome_significant_title">Significant Improvement</string>
     <string name="outcome_significant_body">Your Sleep Halo Index improved significantly.</string>
 
-    <string name="order_device_url">https://www.masimopersonalhealth.com/products/masimo-sleep</string>
+    <string name="order_device_url" translatable="false">https://www.masimopersonalhealth.com/products/masimo-sleep</string>
 
     <string name="support">Support</string>
 
     <string name="feedback_body">For more information about the product, please visit www.masimo.com/sleep\n\nFor more information about Masimo technology, visit www.masimo.com/\n\nIf you are looking for information that cannot be found by websites above, please email customer support by clicking below button. </string>
-    <string name="feedback_email">mailto:customercare@masimo.com</string>
+    <string name="feedback_email" translatable="false">mailto:customercare@masimo.com</string>
     <string name="feedback_button">Email Customer Support</string>
 
     <string name="troubleshoot_title">Troubleshoot Device</string>
@@ -177,12 +177,12 @@ If you choose to take sleeping it is best to use them only on an infrequent, \�
     •   Replace sensor if chip indicator light is orange or red\n
 
 If you’ve tried all of these but you still can’t pair your sensor, please contact customer support.</string>
-    <string name="troubleshoot_email">mailto:customercare@masimo.com</string>
+    <string name="troubleshoot_email" translatable="false">mailto:customercare@masimo.com</string>
     <string name="troubleshoot_button">Contact Support</string>
 
 
     <string name="about_body">Masimo Sleep™ is a 7-Night Sleep Checkup. It uses a medical-grade health sensor measuring 3 vital signs: oxygen level, pulse rate and respiration rate. Masimo Sleep analyzes your physiology and provides you with personalized insights every night, so you can better understand what’s happening while you sleep and take steps toward improving your sleep. </string>
-    <string name="about_url">http://www.google.com</string>
+    <string name="about_url" translatable="false">http://www.google.com</string>
     <string name="about_button">Rate Us</string>
 
     <string name="privacy_policy">We believe you should always know what data we collect from you and how we use it, and that you should have meaningful control over both. We want to empower you to make the best decisions about the information that you share with us.\n\n
@@ -298,9 +298,9 @@ When you sign up for or use Masimo you voluntarily share certain information inc
         <item quantity="other">nights recorded</item>
     </plurals>
 
-    <string name="num_of_nights_recorded">%d %s</string>
+    <string name="num_of_nights_recorded" translatable="false">%d %s</string>
     <string name="no_nights_recorded">No data recorded</string>
-    <string name="start_to_end_date">%s - %s</string>
+    <string name="start_to_end_date" translatable="false">%s - %s</string>
 
     <string name="time_hours">%dh</string>
     <string name="time_minutes">%dm</string>
