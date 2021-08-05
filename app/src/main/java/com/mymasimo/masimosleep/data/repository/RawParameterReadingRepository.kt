@@ -49,17 +49,17 @@ class RawParameterReadingRepository @Inject constructor(
      * Return data prepared for CSV export.
      * Each DB entry converted into a list of its values as strings.
      */
-    fun getRawReadingCsvData(startAt: Long, endAt: Long) =
+    fun getRawReadingCsvData(startAt: Long, endAt: Long, nightNumber: Int) =
         rawParameterReadingDao
             .findAllByTypeBetweenTimestamps(startAt, endAt)
             .toObservable()
             .flatMapIterable { list ->
                 list.groupBy { dateTimeFormat.format(Date(it.createdAt)) }
-                    .map { entitiesByDate ->
+                    .map { readingsByDate ->
                         var prValue: Double? = null
                         var spo2Value: Double? = null
                         var rrpValue: Double? = null
-                        entitiesByDate.value.forEach { entity ->
+                        readingsByDate.value.forEach { entity ->
                             when (entity.type) {
                                 ReadingType.PR -> prValue = entity.value
                                 ReadingType.SP02 -> spo2Value = entity.value
@@ -68,10 +68,11 @@ class RawParameterReadingRepository @Inject constructor(
                             }
                         }
                         listOf(
-                            entitiesByDate.key,
-                            spo2Value?.toString() ?: "",
-                            prValue?.toString() ?: "",
-                            rrpValue?.toString() ?: "",
+                            readingsByDate.key, // created_at
+                            nightNumber, // night
+                            spo2Value ?: "", // spo2_value
+                            prValue ?: "", // pr_value
+                            rrpValue ?: "", // rrp_value
                         )
                             .map { it.toString() }
                     }

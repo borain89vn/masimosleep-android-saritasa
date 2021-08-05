@@ -31,6 +31,7 @@ object RawParameterReadingContract {
     const val COLUMN_TYPE = "type"
     const val COLUMN_VALUE = "value"
     const val COLUMN_CREATED_AT = "created_at"
+    const val COLUMN_NIGHT = "night"
     const val COLUMN_SPO2 = "spo2_value"
     const val COLUMN_PR = "pr_value"
     const val COLUMN_RRP = "rrp_value"

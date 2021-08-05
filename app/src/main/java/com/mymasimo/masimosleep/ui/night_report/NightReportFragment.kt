@@ -20,12 +20,11 @@ import com.mymasimo.masimosleep.ui.night_report.notes.ReportNotesFragment
 import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_bed_time.ReportTimeInBedFragment
 import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsFragment
+import com.mymasimo.masimosleep.ui.night_report.report_export_measurements.ReportExportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
-import com.mymasimo.masimosleep.ui.night_report.report_export_measurements.ReportExportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_view_vitals.ReportViewVitalsFragment
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternFragment
-import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -101,7 +100,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             .flatMap { session ->
                 val endAt = session.endAt ?: System.currentTimeMillis()
                 return@flatMap rawParameterReadingRepository
-                    .getRawReadingCsvData(session.startAt, endAt)
+                    .getRawReadingCsvData(session.startAt, endAt, session.nightNumber)
                     .map { data ->
                         Triple(session.startAt, endAt, data)
                     }

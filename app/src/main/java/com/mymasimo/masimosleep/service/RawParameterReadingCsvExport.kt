@@ -32,6 +32,7 @@ object RawParameterReadingCsvExport {
 
         val headers = listOf(
             Contract.COLUMN_CREATED_AT,
+            Contract.COLUMN_NIGHT,
             Contract.COLUMN_SPO2,
             Contract.COLUMN_PR,
             Contract.COLUMN_RRP
