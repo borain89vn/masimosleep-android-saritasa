@@ -1,19 +1,15 @@
 package com.mymasimo.masimosleep.service
 
-import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Environment
-import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import java.text.SimpleDateFormat
-import com.mymasimo.masimosleep.data.room.entity.RawParameterReadingContract as Contract
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
-import java.util.*
 import timber.log.Timber
 import java.io.File
-import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import com.mymasimo.masimosleep.data.room.entity.RawParameterReadingContract as Contract
 
 /**
  * Export raw parameter readings for particular day into CSV file.
@@ -35,10 +31,10 @@ object RawParameterReadingCsvExport {
         Timber.d("Export internal destination: $filename")
 
         val headers = listOf(
-            Contract.COLUMN_ID,
-            Contract.COLUMN_TYPE,
-            Contract.COLUMN_VALUE,
             Contract.COLUMN_CREATED_AT,
+            Contract.COLUMN_SPO2,
+            Contract.COLUMN_PR,
+            Contract.COLUMN_RRP
         )
         csvWriter().open(filename) {
             writeRow(headers)
