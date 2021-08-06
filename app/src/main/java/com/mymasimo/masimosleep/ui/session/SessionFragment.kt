@@ -1,5 +1,6 @@
 package com.mymasimo.masimosleep.ui.session
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -36,7 +37,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
-import android.content.Intent
 
 class SessionFragment : Fragment(R.layout.fragment_session) {
 
@@ -194,7 +194,7 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
         val endAt = System.currentTimeMillis()
 
         rawParameterReadingRepository
-            .getRawReadingCsvData(args.sessionStart, endAt)
+            .getRawReadingCsvData(args.sessionStart, endAt, args.nightNumber)
             .subscribe { data ->
                 if (data.isNullOrEmpty()) {
                     Toast.makeText(context!!, R.string.export_no_data, 5000).show()
