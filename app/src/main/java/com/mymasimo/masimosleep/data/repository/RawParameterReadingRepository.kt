@@ -4,6 +4,7 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.room.dao.RawParameterReadingEntityDao
 import com.mymasimo.masimosleep.data.room.entity.RawParameterReadingEntity
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
+import com.mymasimo.masimosleep.data.room.entity.ReadingWithTimestamp
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
@@ -26,12 +27,12 @@ class RawParameterReadingRepository @Inject constructor(
      * Every minute it is aggregated, the result stored in the DB for charts purposes and removed from buffer.
      * So we need to persist the data before the buffer is cleaned.
      */
-    fun saveRawReadingData(type: ReadingType, values: List<Float>) {
-        val data = values.map { value ->
+    fun saveRawReadingData(readings: List<ReadingWithTimestamp>) {
+        val data = readings.map { reading ->
             RawParameterReadingEntity(
-                type = type,
-                value = value.toDouble(),
-                createdAt = Calendar.getInstance().timeInMillis,
+                type = reading.type,
+                value = reading.value.toDouble(),
+                createdAt = reading.timestamp
             )
         }
 
@@ -40,7 +41,7 @@ class RawParameterReadingRepository @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe {
-                Timber.d("Persist ${values.size} entries of ${type.key} raw data")
+                Timber.d("Persist ${data.size} raw readings")
             }
             .addTo(disposable)
     }

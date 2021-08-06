@@ -16,7 +16,7 @@ import com.mymasimo.masimosleep.data.room.entity.ParameterReadingContract as Con
 @Dao
 interface ParameterReadingEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(parameterReading: ParameterReadingEntity): Completable
+    fun insert(vararg parameterReadings: ParameterReadingEntity): Completable
 
     @Query(
         "SELECT * FROM ${Contract.TABLE_NAME} " +
