@@ -165,7 +165,7 @@ class ParameterReadingRepository @Inject constructor(
         for (type in ReadingType.values()) {
             if (type == ReadingType.DEFAULT) continue
             val readings = readingsBuffer.filter { it.type == type }
-            val average = readings.sumByDouble { it.value.toDouble() } / readings.size
+            val average = readings.map { it.value.toDouble() }.average()
             Timber.d("Calculated average of ${type.key}=$average, from ${readings.size} data points")
             mergedEntities.add(
                 ParameterReadingEntity(
