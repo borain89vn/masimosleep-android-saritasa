@@ -5,6 +5,7 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.room.dao.ParameterReadingEntityDao
 import com.mymasimo.masimosleep.data.room.entity.ParameterReadingEntity
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
+import com.mymasimo.masimosleep.data.room.entity.ReadingWithTimestamp
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -24,9 +25,7 @@ class ParameterReadingRepository @Inject constructor(
     private val rawParameterReadingRepository: RawParameterReadingRepository,
 ) {
 
-    private val spO2Buffer = mutableListOf<Float>()
-    private val prBuffer = mutableListOf<Float>()
-    private val rrpBuffer = mutableListOf<Float>()
+    private val readingsBuffer = mutableListOf<ReadingWithTimestamp>()
 
     private val liveSpO2ReadingRelay = PublishRelay.create<Double>()
     val liveSpO2Reading: Observable<Double>
@@ -88,7 +87,7 @@ class ParameterReadingRepository @Inject constructor(
         synchronized(this) {
             if (!insertWithBatch) {
                 insertReading(
-                    reading = ParameterReadingEntity(
+                    ParameterReadingEntity(
                         type = type,
                         value = value.toDouble(),
                         dataPointCount = 1,
@@ -99,54 +98,40 @@ class ParameterReadingRepository @Inject constructor(
                 return
             }
 
-            // Accumulate the data in corresponding buffers
-            when (type) {
-                ReadingType.SP02 -> {
-                    spO2Buffer.add(value)
-                    // If there was already a value in the buffer then the timer should already be
-                    // running.
-                    if (spO2Buffer.size == 1) {
-                        startInsertTimer(type)
-                    }
-                }
-                ReadingType.PR -> {
-                    prBuffer.add(value)
-                    // If there was already a value in the buffer then the timer should already be
-                    // running.
-                    if (prBuffer.size == 1) {
-                        startInsertTimer(type)
-                    }
-                }
-                ReadingType.RRP -> {
-                    rrpBuffer.add(value)
-                    // If there was already a value in the buffer then the timer should already be
-                    // running.
-                    if (rrpBuffer.size == 1) {
-                        startInsertTimer(type)
-                    }
-                }
+            val currentReading = ReadingWithTimestamp(
+                type = type,
+                value = value,
+                timestamp = Calendar.getInstance().timeInMillis
+            )
+
+            // Accumulate the data in buffer
+            readingsBuffer.add(currentReading)
+            // If there was already a value in the buffer then the timer should already be
+            // running.
+            if (readingsBuffer.size == 1) {
+                 startInsertTimer()
             }
         }
     }
 
-    private fun startInsertTimer(type: ReadingType) {
-        Timber.d("Starting 1 minute timer to persist ${type.key} readings")
+    private fun startInsertTimer() {
+        Timber.d("Starting 1 minute timer to persist readings")
         Observable.timer(1, TimeUnit.MINUTES)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.io())
             .subscribe {
-                onTimerComplete(type)
+                onTimerComplete()
             }
             .addTo(disposable)
     }
 
-    private fun onTimerComplete(type: ReadingType) {
+    private fun onTimerComplete() {
         synchronized(this) {
-            Timber.d("Timer expired, averaging buffer of ${type.key} readings to persist to the DB")
-            saveRawReadingData(type)
-            val avgReading = mergeBufferReadings(type)
-            insertReading(avgReading, isAverage = true)
-            clearBuffer(type)
+                Timber.d("Timer expired, averaging buffer of readings to persist to the DB")
+            val avgReadings = mergeBufferReadings()
+            saveRawReadingData()
+            insertReading(*avgReadings.toTypedArray(), isAverage = true)
+            clearBuffer()
         }
     }
 
@@ -157,55 +142,44 @@ class ParameterReadingRepository @Inject constructor(
      * Every minute it is aggregated, the result stored in the DB for charts purposes and removed from buffer.
      * So we need to persist the data before the buffer is cleaned.
      */
-    private fun saveRawReadingData(type: ReadingType) {
-
-        val buffer = when (type) {
-            ReadingType.SP02 -> spO2Buffer
-            ReadingType.PR -> prBuffer
-            ReadingType.RRP -> rrpBuffer
-            else -> mutableListOf<Float>()
-        }
-
-        rawParameterReadingRepository.saveRawReadingData(type, buffer)
+    private fun saveRawReadingData() {
+        rawParameterReadingRepository.saveRawReadingData(readingsBuffer)
     }
 
-    private fun insertReading(reading: ParameterReadingEntity, isAverage: Boolean) {
-        parameterReadingDao.insert(reading)
+    private fun insertReading(vararg readings: ParameterReadingEntity, isAverage: Boolean) {
+        parameterReadingDao.insert(*readings)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe {
                 if (isAverage) {
-                    Timber.d("Averaged reading of ${reading.type.key} inserted")
+                    Timber.d("Averaged readings inserted")
                 } else {
-                    Timber.d("Single reading of ${reading.type.key} inserted")
+                    Timber.d("Single reading of ${readings.firstOrNull()?.type?.key} inserted")
                 }
             }
             .addTo(disposable)
     }
 
-    private fun mergeBufferReadings(type: ReadingType): ParameterReadingEntity {
-        val buffer = when (type) {
-            ReadingType.SP02 -> spO2Buffer
-            ReadingType.PR -> prBuffer
-            ReadingType.RRP -> rrpBuffer
-            else -> listOf()
+    private fun mergeBufferReadings(): List<ParameterReadingEntity> {
+        val mergedEntities = mutableListOf<ParameterReadingEntity>()
+        for (type in ReadingType.values()) {
+            if (type == ReadingType.DEFAULT) continue
+            val readings = readingsBuffer.filter { it.type == type }
+            val average = readings.map { it.value.toDouble() }.average()
+            Timber.d("Calculated average of ${type.key}=$average, from ${readings.size} data points")
+            mergedEntities.add(
+                ParameterReadingEntity(
+                    type = type,
+                    value = average,
+                    dataPointCount = readings.size,
+                    createdAt = Calendar.getInstance().timeInMillis
+                )
+            )
         }
-        val average = buffer.sumByDouble { it.toDouble() } / buffer.size
-
-        Timber.d("Calculated average of ${type.key}=$average, from ${buffer.size} data points")
-        return ParameterReadingEntity(
-            type = type,
-            value = average,
-            dataPointCount = buffer.size,
-            createdAt = Calendar.getInstance().timeInMillis,
-        )
+        return mergedEntities
     }
 
-    private fun clearBuffer(type: ReadingType) {
-        when (type) {
-            ReadingType.SP02 -> spO2Buffer.clear()
-            ReadingType.PR -> prBuffer.clear()
-            ReadingType.RRP -> rrpBuffer.clear()
-        }
+    private fun clearBuffer() {
+        readingsBuffer.clear()
     }
 }
