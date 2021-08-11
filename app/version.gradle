@@ -6,7 +6,7 @@ assert VERSION_MAJOR in (0..9)
 assert VERSION_MINOR in (0..9)
 assert VERSION_PATCH in (0..9)
 
-def BUILD_NUMBER = 3
+def BUILD_NUMBER = 4
 if ((System.getenv("BUILD_NUMBER") != null)) {
     BUILD_NUMBER = Integer.parseInt(System.getenv("BUILD_NUMBER"))
 }
