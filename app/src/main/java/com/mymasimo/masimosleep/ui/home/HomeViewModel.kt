@@ -66,11 +66,10 @@ class HomeViewModel @Inject constructor(
     val sessionCanceled = PublishRelay.create<Long>()
 
     private var sessionIdToAutoSelect: Long? = null
-    private var _datesOfWeek = mutableListOf<DateOfWeek>()
+    private val _datesOfWeek = mutableListOf<DateOfWeek>()
     val datesOfWeek : List<DateOfWeek>
         get() = _datesOfWeek
     val homeTitle = MutableLiveData<String>()
-
 
     override fun onCleared() {
         disposables.clear()
@@ -262,12 +261,18 @@ class HomeViewModel @Inject constructor(
             .addTo(disposables)
     }
 
-     fun initDatesOfWeek(program:ProgramState.ProgramInProgress){
-       if(datesOfWeek.isNotEmpty()) return
-      val dates = DateUtils.getNextDays(program.program.startDate, NUM_OF_NIGHTS-1)
+    fun initDatesOfWeek(program: ProgramState.ProgramInProgress) {
+        if (datesOfWeek.isNotEmpty()) return
+        val dates = DateUtils.getNextDays(program.program.startDate, NUM_OF_NIGHTS-1)
         dates.forEach {
-            _datesOfWeek.add(DateOfWeek(it.dayOfMonth,it.dayOfWeek.getDisplayName(TextStyle.SHORT,
-                Locale.ENGLISH)))
+            _datesOfWeek.add(
+                DateOfWeek(
+                    it.dayOfMonth, it.dayOfWeek.getDisplayName(
+                        TextStyle.SHORT,
+                        Locale.getDefault()
+                    )
+                )
+            )
         }
     }
 

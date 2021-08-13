@@ -51,7 +51,6 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
                 is HomeViewModel.ProgramState.ProgramInProgress -> {
                     viewBinding.startProgramContainer.isVisible = false
                     viewBinding.nightsContainer.isVisible = true
-
                     currentNight = programState.currentNight
                     selectedNight = programState.selectedNight
                     vm.initDatesOfWeek(programState)
@@ -68,9 +67,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
     }
 
     private fun updateNightsUi() {
-
         viewBinding.nightLabel.text = getString(R.string.night_label, selectedNight, NUM_OF_NIGHTS)
-
         val daysLeft = NUM_OF_NIGHTS - selectedNight
         viewBinding.nightLabel.text = getString(R.string.sleep_program_title)
         viewBinding.daysLeftLabel.text = resources.getQuantityString(R.plurals.dayLeft,daysLeft,daysLeft)
@@ -93,7 +90,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
             //add front and rear blanks
             var state: NightButtonState = NightButtonState.BLANK
             val night: Int = i - f
-           var dayOfWeek :DateOfWeek? =null
+            var dayOfWeek :DateOfWeek? = null
 
             if (night in 1..NUM_OF_NIGHTS) {
                 if (night < currentNight) {
@@ -114,14 +111,11 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
                 dayOfWeek = vm.datesOfWeek[night-1]
             }
 
-
-
             val nightButton = generateNightButton(night, state,dayOfWeek)
             nightButton.setOnButtonClickListener {
                 this.onNightSelected(night)
             }
             viewBinding.nightLayout.addView(nightButton)
-
         }
 
         val screenWidth = resources.displayMetrics.widthPixels
