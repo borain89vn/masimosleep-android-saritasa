@@ -16,7 +16,6 @@ import com.mymasimo.masimosleep.ui.home.HomeFragmentDirections
 import com.mymasimo.masimosleep.ui.home.HomeViewModel
 import com.mymasimo.masimosleep.util.DateOfWeek
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
 
@@ -28,7 +27,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
 
     private var currentNight = 1
     private var selectedNight = 1
-    private var localDates = HashMap<Int,DateOfWeek>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -47,6 +46,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
                 HomeViewModel.ProgramState.NoProgramInProgress -> {
                     viewBinding.startProgramContainer.isVisible = true
                     viewBinding.nightsContainer.isVisible = false
+                    vm.homeTitle.postValue(getString(R.string.sleep_program_title))
                 }
                 is HomeViewModel.ProgramState.ProgramInProgress -> {
                     viewBinding.startProgramContainer.isVisible = false
@@ -93,7 +93,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
             //add front and rear blanks
             var state: NightButtonState = NightButtonState.BLANK
             val night: Int = i - f
-           var dateModel :DateOfWeek? =null
+           var dayOfWeek :DateOfWeek? =null
 
             if (night in 1..NUM_OF_NIGHTS) {
                 if (night < currentNight) {
@@ -106,16 +106,17 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
                     state = NightButtonState.PRESENT
                     if (night == selectedNight) {
                         scrollToPage = i / NUM_NIGHT_BUTTONS_IN_SCREEN
+                        state = NightButtonState.PRESENT_SELECTED
                     }
                 } else {
                     state = NightButtonState.FUTURE
                 }
-                dateModel = vm.datesOfWeek[night-1]
+                dayOfWeek = vm.datesOfWeek[night-1]
             }
 
 
 
-            val nightButton = generateNightButton(night, state,dateModel)
+            val nightButton = generateNightButton(night, state,dayOfWeek)
             nightButton.setOnButtonClickListener {
                 this.onNightSelected(night)
             }

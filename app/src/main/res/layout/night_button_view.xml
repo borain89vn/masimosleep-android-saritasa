@@ -15,6 +15,7 @@
         android:layout_marginRight="4dp"
         android:background="@drawable/night_button_past"
         android:textAppearance="@style/roundedButton_WhiteText"
+        android:textSize="12sp"
         android:textColor="@drawable/night_button_past_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,6 +5,7 @@ enum class NightButtonState {
     PAST,
     PAST_SELECTED,
     PRESENT,
+    PRESENT_SELECTED,
     FUTURE;
 }
 

@@ -53,10 +53,10 @@
     <color name="optimal">#26bd39</color>
     <color name="optimal_high">#fac86c</color>
     <color name="high">#e02020</color>
-
+    <color name="transparent">#00000000</color>
     <color name="home_trademark">#272727</color>
     <color name="home_connected">#515757</color>
-    <color name="transparent">#00000000</color>
+    <color name="home_night_future">#D1E0E2</color>
 
 
 </resources>

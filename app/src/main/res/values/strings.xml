@@ -360,7 +360,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="night_completed_label">Night %1$d of %2$d is complete</string>
     <string name="night_label_btn">Night %1d</string>
     <string name="night_break_label_btn">Night\n%1d</string>
-    <string name="today_label_btn">TODAY</string>
+    <string name="today_label_btn">Today</string>
     <string name="live_score_empty">No live score data available</string>
     <string name="live_score">Live Score: %1$.0f</string>
     <string name="notes_empty">The more detailed the data is, the better the diagnosis is.</string>
