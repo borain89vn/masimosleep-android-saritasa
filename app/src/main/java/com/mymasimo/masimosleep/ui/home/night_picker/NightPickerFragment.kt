@@ -14,7 +14,9 @@ import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentNightPickerBinding
 import com.mymasimo.masimosleep.ui.home.HomeFragmentDirections
 import com.mymasimo.masimosleep.ui.home.HomeViewModel
+import com.mymasimo.masimosleep.util.DateOfWeek
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
 
@@ -26,6 +28,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
 
     private var currentNight = 1
     private var selectedNight = 1
+    private var localDates = HashMap<Int,DateOfWeek>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -51,6 +54,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
 
                     currentNight = programState.currentNight
                     selectedNight = programState.selectedNight
+                    vm.initDatesOfWeek(programState)
                     updateNightsUi()
                 }
             }
@@ -64,7 +68,14 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
     }
 
     private fun updateNightsUi() {
+
         viewBinding.nightLabel.text = getString(R.string.night_label, selectedNight, NUM_OF_NIGHTS)
+
+        val daysLeft = NUM_OF_NIGHTS - selectedNight
+        viewBinding.nightLabel.text = getString(R.string.sleep_program_title)
+        viewBinding.daysLeftLabel.text = resources.getQuantityString(R.plurals.dayLeft,daysLeft,daysLeft)
+        vm.homeTitle.postValue(getString(R.string.night_label_btn,selectedNight))
+
         removeAllNightItems()
 
         val c = selectedNight + 2
@@ -82,6 +93,7 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
             //add front and rear blanks
             var state: NightButtonState = NightButtonState.BLANK
             val night: Int = i - f
+           var dateModel :DateOfWeek? =null
 
             if (night in 1..NUM_OF_NIGHTS) {
                 if (night < currentNight) {
@@ -98,9 +110,12 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
                 } else {
                     state = NightButtonState.FUTURE
                 }
+                dateModel = vm.datesOfWeek[night-1]
             }
 
-            val nightButton = generateNightButton(night, state)
+
+
+            val nightButton = generateNightButton(night, state,dateModel)
             nightButton.setOnButtonClickListener {
                 this.onNightSelected(night)
             }
@@ -124,8 +139,8 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
         vm.onNightSelected(night)
     }
 
-    private fun generateNightButton(night: Int, state: NightButtonState): NightButtonView {
-        return NightButtonView(requireContext(), night, state)
+    private fun generateNightButton(night: Int, state: NightButtonState,dateModel: DateOfWeek?): NightButtonView {
+        return NightButtonView(requireContext(), night, state,dateModel)
     }
 
     private fun removeAllNightItems() {

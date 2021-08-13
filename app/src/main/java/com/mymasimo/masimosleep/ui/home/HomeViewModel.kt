@@ -16,6 +16,8 @@ import com.mymasimo.masimosleep.data.room.entity.ProgramEntity
 import com.mymasimo.masimosleep.data.room.entity.SessionEntity
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.ui.dialogs.util.DialogActionHandler
+import com.mymasimo.masimosleep.util.DateOfWeek
+import com.mymasimo.masimosleep.util.DateUtils
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -23,6 +25,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.format.TextStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -63,6 +66,11 @@ class HomeViewModel @Inject constructor(
     val sessionCanceled = PublishRelay.create<Long>()
 
     private var sessionIdToAutoSelect: Long? = null
+    private var _datesOfWeek = mutableListOf<DateOfWeek>()
+    val datesOfWeek : List<DateOfWeek>
+        get() = _datesOfWeek
+    val homeTitle = MutableLiveData<String>()
+
 
     override fun onCleared() {
         disposables.clear()
@@ -202,6 +210,7 @@ class HomeViewModel @Inject constructor(
 
                         _sessionConfiguration.value = if (isCurrentNightSelected) {
                             SessionConfiguration.Today
+
                         } else {
                             SessionConfiguration.Summary(
                                 programState.selectedSessionId ?: throw IllegalStateException(),
@@ -251,6 +260,15 @@ class HomeViewModel @Inject constructor(
                 { Timber.e(it) }
             )
             .addTo(disposables)
+    }
+
+     fun initDatesOfWeek(program:ProgramState.ProgramInProgress){
+       if(datesOfWeek.isNotEmpty()) return
+      val dates = DateUtils.getNextDays(program.program.startDate, NUM_OF_NIGHTS-1)
+        dates.forEach {
+            _datesOfWeek.add(DateOfWeek(it.dayOfMonth,it.dayOfWeek.getDisplayName(TextStyle.SHORT,
+                Locale.ENGLISH)))
+        }
     }
 
     sealed class ProgramState {

@@ -106,6 +106,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             requireView().findNavController().navigateSafe(R.id.action_homeFragment_to_programHistoryFragment)
         }
 
+        vm.homeTitle.observe(viewLifecycleOwner){
+            viewBinding.titleTextView.text = it
+        }
+
     }
 
     override fun onResume() {

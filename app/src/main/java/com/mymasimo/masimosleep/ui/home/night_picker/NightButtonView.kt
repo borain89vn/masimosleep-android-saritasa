@@ -1,6 +1,7 @@
 package com.mymasimo.masimosleep.ui.home.night_picker
 
 import android.content.Context
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -8,8 +9,17 @@ import androidx.core.content.res.ResourcesCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.databinding.NightButtonViewBinding
+import com.mymasimo.masimosleep.util.DateOfWeek
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.SpannedString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
+import android.widget.Button
 
-class NightButtonView(context: Context, night: Int, state: NightButtonState) : ConstraintLayout(context) {
+
+class NightButtonView(context: Context, night: Int, state: NightButtonState,date:DateOfWeek?=null) : ConstraintLayout(context) {
 
     private val state: NightButtonState
     private lateinit var listener: () -> Unit
@@ -29,13 +39,14 @@ class NightButtonView(context: Context, night: Int, state: NightButtonState) : C
         var buttonBG: Int = R.drawable.night_button_future
         var buttonTextColor: Int = R.color.secondaryText_light
         var selected = false
-        var buttonText = context.getString(R.string.night_break_label_btn, night)
+
+
 
         if (state == NightButtonState.PAST) {
             visibility = View.VISIBLE
             enabled = true
             buttonBG = R.drawable.night_button_past
-            buttonTextColor = R.color.black
+            buttonTextColor = R.color.white
             selected = false
 
             viewBinding.nightButton.setOnClickListener {
@@ -53,7 +64,6 @@ class NightButtonView(context: Context, night: Int, state: NightButtonState) : C
             buttonBG = R.drawable.night_button_present
             buttonTextColor = R.color.white
             selected = true
-            buttonText = context.getString(R.string.today_label_btn)
 
             viewBinding.nightButton.setOnClickListener {
                 listener()
@@ -68,16 +78,39 @@ class NightButtonView(context: Context, night: Int, state: NightButtonState) : C
         this.isEnabled = enabled
 
         viewBinding.nightButton.background = ResourcesCompat.getDrawable(resources, buttonBG, null)
-        viewBinding.nightButton.setTextColor(resources.getColor(buttonTextColor, null))
         viewBinding.nightButton.isSelected = selected
-        viewBinding.nightButton.text = buttonText
+        setTypeFace(viewBinding.nightButton,resources.getColor(buttonTextColor, null),date)
 
         //automation
         contentDescription = "$night"
+
 
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {
         this.listener = listener
     }
+
+    private fun setTypeFace(button: Button,color: Int,date: DateOfWeek?){
+
+         date?.let {
+
+             val s1 = "${date.dayOfWeek}\n"
+             val s2 = date.days
+             val s = "$s1$s2"
+             val ss = SpannableString(s)
+             button.setTextColor(color)
+
+             ss.setSpan(
+                 StyleSpan(Typeface.BOLD),
+                 s1.length,
+                 s.length,
+                 SpannedString.SPAN_EXCLUSIVE_EXCLUSIVE
+             )
+             button.text = ss
+         }
+
+    }
+
+
 }

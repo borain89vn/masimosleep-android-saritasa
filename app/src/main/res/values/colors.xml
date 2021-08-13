@@ -54,5 +54,9 @@
     <color name="optimal_high">#fac86c</color>
     <color name="high">#e02020</color>
 
+    <color name="home_trademark">#272727</color>
+    <color name="home_connected">#515757</color>
+    <color name="transparent">#00000000</color>
+
 
 </resources>
