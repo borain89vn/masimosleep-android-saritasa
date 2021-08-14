@@ -83,7 +83,7 @@ class NightButtonView(context: Context, night: Int, state: NightButtonState, dat
         this.isEnabled = enabled
         viewBinding.nightButton.background = ResourcesCompat.getDrawable(resources, buttonBG, null)
         viewBinding.nightButton.isSelected = selected
-        setTextStyle(state,resources.getColor(buttonTextColor, context.theme),date)
+        setTextStyle(state,resources.getColor(buttonTextColor, context.theme), date)
 
         //automation
         contentDescription = "$night"
