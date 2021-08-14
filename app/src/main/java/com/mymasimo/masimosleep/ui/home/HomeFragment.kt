@@ -109,7 +109,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         vm.homeTitle.observe(viewLifecycleOwner){
             viewBinding.titleTextView.text = it
         }
-
     }
 
     override fun onResume() {

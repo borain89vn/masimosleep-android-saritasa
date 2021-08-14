@@ -14,7 +14,7 @@ import android.text.SpannableString
 import android.text.SpannedString
 import android.text.style.*
 
-class NightButtonView(context: Context, night: Int, state: NightButtonState,date:DateOfWeek?=null) : ConstraintLayout(context) {
+class NightButtonView(context: Context, night: Int, state: NightButtonState, date: DateOfWeek? = null) : ConstraintLayout(context) {
 
     private val state: NightButtonState
     private lateinit var listener: () -> Unit
@@ -126,6 +126,4 @@ class NightButtonView(context: Context, night: Int, state: NightButtonState,date
             button.text = spanString
         }
     }
-
-
 }

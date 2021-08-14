@@ -25,4 +25,4 @@ object DateUtils {
     }
 }
 
-data class DateOfWeek(var days :Int, var dayOfWeek:String)
+data class DateOfWeek(var days: Int, var dayOfWeek: String)

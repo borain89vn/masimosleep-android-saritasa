@@ -70,9 +70,8 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
         viewBinding.nightLabel.text = getString(R.string.night_label, selectedNight, NUM_OF_NIGHTS)
         val daysLeft = NUM_OF_NIGHTS - selectedNight
         viewBinding.nightLabel.text = getString(R.string.sleep_program_title)
-        viewBinding.daysLeftLabel.text = resources.getQuantityString(R.plurals.dayLeft,daysLeft,daysLeft)
-        vm.homeTitle.postValue(getString(R.string.night_label_btn,selectedNight))
-
+        viewBinding.daysLeftLabel.text = resources.getQuantityString(R.plurals.dayLeft, daysLeft, daysLeft)
+        vm.homeTitle.postValue(getString(R.string.night_label_btn, selectedNight))
         removeAllNightItems()
 
         val c = selectedNight + 2
@@ -108,10 +107,10 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
                 } else {
                     state = NightButtonState.FUTURE
                 }
-                dayOfWeek = vm.datesOfWeek[night-1]
+                dayOfWeek = vm.datesOfWeek[night - 1]
             }
 
-            val nightButton = generateNightButton(night, state,dayOfWeek)
+            val nightButton = generateNightButton(night, state, dayOfWeek)
             nightButton.setOnButtonClickListener {
                 this.onNightSelected(night)
             }
@@ -134,8 +133,8 @@ class NightPickerFragment : Fragment(R.layout.fragment_night_picker) {
         vm.onNightSelected(night)
     }
 
-    private fun generateNightButton(night: Int, state: NightButtonState,dateModel: DateOfWeek?): NightButtonView {
-        return NightButtonView(requireContext(), night, state,dateModel)
+    private fun generateNightButton(night: Int, state: NightButtonState, dateModel: DateOfWeek?): NightButtonView {
+        return NightButtonView(requireContext(), night, state, dateModel)
     }
 
     private fun removeAllNightItems() {
