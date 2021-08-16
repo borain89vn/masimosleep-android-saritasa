@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -39,17 +40,38 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
     private val args: NightReportFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentNightReportBinding::bind)
 
+    private var sessionId: Long = -1
+    private var nightNumber: Int = -1
+    private var isShowToolBar = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
+
+        isShowToolBar = requireArguments().getBoolean(KEY_SHOW_TOOL_BAR, true)
+        if (isShowToolBar) {
+            sessionId = args.sessionId
+            nightNumber = args.nightNumber
+        } else {
+            sessionId = requireArguments().getLong(KEY_SESSION_ID)
+            nightNumber = requireArguments().getInt(KEY_NIGHT_NUMBER)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.subtitleText.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
+        if (isShowToolBar) {
+            viewBinding.subtitleText.text =
+                getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
 
-        viewBinding.backButton.setOnClickListener {
-            requireView().findNavController().navigateUp()
+            viewBinding.backButton.setOnClickListener {
+                requireView().findNavController().navigateUp()
+            }
+        } else {
+            viewBinding.backButton.visibility = View.GONE
+            viewBinding.titleLabel.visibility = View.GONE
+            viewBinding.subtitleText.visibility = View.GONE
+            viewBinding.topDiv.visibility = View.GONE
         }
 
         showReportConfiguration()
@@ -58,15 +80,15 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
     private fun showReportConfiguration() {
         removeAllFragments()
 
-        addFragment(ReportSleepQualityFragment.newInstance(args.sessionId), SLEEP_QUALITY_FRAGMENT_TAG)
-        addFragment(ReportTimeInBedFragment.newInstance(args.sessionId), TIME_IN_BED_FRAGMENT_TAG)
-        addFragment(ReportSleepTrendFragment.newInstance(args.sessionId), SLEEP_TREND_FRAGMENT_TAG)
-        addFragment(ReportEventsFragment.newInstance(args.sessionId), EVENTS_FRAGMENT_TAG)
-        addFragment(SleepPatternFragment.newInstanceWithSessionId(args.sessionId), SLEEP_PATTERN_FRAGMENT_TAG)
-        addFragment(RecommendationsFragment.newInstance(args.sessionId), RECOMMENDATIONS_FRAGMENT_TAG)
-        addFragment(createViewVitalsFragment(args.sessionId), VIEW_VITALS_FRAGMENT_TAG)
-        addFragment(createReportExportMeasurementsFragment(args.sessionId), EXPORT_MEASUREMENTS_FRAGMENT_TAG)
-        addFragment(ReportNotesFragment.newInstance(args.sessionId), NOTES_FRAGMENT_TAG)
+        addFragment(ReportSleepQualityFragment.newInstance(sessionId), SLEEP_QUALITY_FRAGMENT_TAG)
+        addFragment(ReportTimeInBedFragment.newInstance(sessionId), TIME_IN_BED_FRAGMENT_TAG)
+        addFragment(ReportSleepTrendFragment.newInstance(sessionId), SLEEP_TREND_FRAGMENT_TAG)
+        addFragment(ReportEventsFragment.newInstance(sessionId), EVENTS_FRAGMENT_TAG)
+        addFragment(SleepPatternFragment.newInstanceWithSessionId(sessionId), SLEEP_PATTERN_FRAGMENT_TAG)
+        addFragment(RecommendationsFragment.newInstance(sessionId), RECOMMENDATIONS_FRAGMENT_TAG)
+        addFragment(createViewVitalsFragment(sessionId), VIEW_VITALS_FRAGMENT_TAG)
+        addFragment(createReportExportMeasurementsFragment(sessionId), EXPORT_MEASUREMENTS_FRAGMENT_TAG)
+        addFragment(ReportNotesFragment.newInstance(sessionId), NOTES_FRAGMENT_TAG)
     }
 
     private fun createViewVitalsFragment(sessionId: Long): ReportViewVitalsFragment {
@@ -151,7 +173,9 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         private const val VIEW_VITALS_FRAGMENT_TAG = "VIEW_VITALS"
         private const val NOTES_FRAGMENT_TAG = "NOTES_FRAGMENT"
         private const val EXPORT_MEASUREMENTS_FRAGMENT_TAG = "EXPORT_MEASUREMENTS"
-
+        private const val KEY_SESSION_ID = "SESSION_ID"
+        private const val KEY_NIGHT_NUMBER = "NIGHT_NUMBER"
+        private const val KEY_SHOW_TOOL_BAR = "HIDE_TOOL_BAR"
         private val ALL_FRAGMENT_TAGS = listOf(
             SLEEP_QUALITY_FRAGMENT_TAG,
             TIME_IN_BED_FRAGMENT_TAG,
@@ -162,5 +186,16 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             NOTES_FRAGMENT_TAG,
             EXPORT_MEASUREMENTS_FRAGMENT_TAG,
         )
+
+        fun newInstance(sessionId: Long, nightNumber: Int): NightReportFragment {
+            return NightReportFragment().apply {
+                arguments = bundleOf(
+                    KEY_SESSION_ID to sessionId,
+                    KEY_NIGHT_NUMBER to nightNumber,
+                    KEY_SHOW_TOOL_BAR to false
+                )
+            }
+        }
+
     }
 }

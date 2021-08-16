@@ -41,11 +41,9 @@ class NightSummaryFragment : Fragment(R.layout.fragment_night_summary) {
         }
 
         viewBinding.viewSummaryButton.setOnClickListener {
-            view.findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToNightReportFragment(
-                    sessionId = sessionId,
-                    nightNumber = nightNumber
-                )
+            parentFragmentManager?.setFragmentResult(
+                KEY_REQUEST_VIEW_SUMMARY,
+                bundleOf(KEY_SESSION_ID to sessionId, KEY_NIGHT_NUMBER to nightNumber)
             )
         }
     }
@@ -119,6 +117,7 @@ class NightSummaryFragment : Fragment(R.layout.fragment_night_summary) {
     companion object {
         private const val KEY_SESSION_ID = "SESSION_ID"
         private const val KEY_NIGHT_NUMBER = "NIGHT_NUMBER"
+        private const val KEY_REQUEST_VIEW_SUMMARY = "REQUEST_VIEW_SUMMARY"
 
         fun newInstance(sessionId: Long, nightNumber: Int): NightSummaryFragment {
             return NightSummaryFragment().apply {

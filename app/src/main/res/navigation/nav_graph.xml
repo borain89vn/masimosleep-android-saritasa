@@ -122,16 +122,6 @@
             app:popEnterAnim="@anim/slide_in_bottom"
             app:popExitAnim="@anim/slide_out_top" />
         <action
-            android:id="@+id/action_homeFragment_to_nightReportFragment"
-            app:destination="@id/nightReportFragment"
-
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-
-            />
-        <action
             android:id="@+id/action_homeFragment_to_programReportFragment"
             app:destination="@id/programReportFragment"
 
@@ -527,70 +517,6 @@
         android:label="fragment_sleep_quality_description"
         tools:layout="@layout/fragment_sleep_quality_description" />
     <fragment
-        android:id="@+id/nightReportFragment"
-        android:name="com.mymasimo.masimosleep.ui.night_report.NightReportFragment"
-        android:label="fragment_night_report"
-        tools:layout="@layout/fragment_night_report">
-        <argument
-            android:name="sessionId"
-            android:defaultValue="-1L"
-            app:argType="long" />
-        <argument
-            android:name="nightNumber"
-            android:defaultValue="0"
-            app:argType="integer" />
-
-        <action
-            android:id="@+id/action_nightReportFragment_to_reportVitalsFragment"
-            app:destination="@id/reportVitalsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-
-            />
-        <action
-            android:id="@+id/action_nightReportFragment_to_recommendationDetailFragment"
-            app:destination="@id/recommendationDetailFragment"
-
-            app:enterAnim="@anim/slide_in_top"
-            app:exitAnim="@anim/slide_out_bottom"
-            app:popEnterAnim="@anim/slide_in_bottom"
-            app:popExitAnim="@anim/slide_out_top"
-
-            />
-        <action
-            android:id="@+id/action_nightReportFragment_to_eventDetailsFragment"
-            app:destination="@id/eventDetailsFragment"
-
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-
-            />
-        <action
-            android:id="@+id/action_nightReportFragment_to_reportAddNoteFragment"
-            app:destination="@id/reportAddNoteFragment"
-
-            app:enterAnim="@anim/slide_in_top"
-            app:exitAnim="@anim/slide_out_bottom"
-            app:popEnterAnim="@anim/slide_in_bottom"
-            app:popExitAnim="@anim/slide_out_top"
-
-            />
-        <action
-            android:id="@+id/action_nightReportFragment_to_sleepQualityDescriptionFragment"
-            app:destination="@id/sleepQualityDescriptionFragment"
-
-            app:enterAnim="@anim/slide_in_top"
-            app:exitAnim="@anim/slide_out_bottom"
-            app:popEnterAnim="@anim/slide_in_bottom"
-            app:popExitAnim="@anim/slide_out_top"
-
-            />
-    </fragment>
-    <fragment
         android:id="@+id/reportVitalsFragment"
         android:name="com.mymasimo.masimosleep.ui.night_report.report_vitals.ReportVitalsFragment"
         android:label="fragment_report_vitals"
@@ -891,4 +817,69 @@
             android:name="fieldType"
             app:argType="com.mymasimo.masimosleep.ui.settings.profile.container.ProfileFieldType" />
     </fragment>
+    <fragment
+        android:id="@+id/nightReportFragment"
+        android:name="com.mymasimo.masimosleep.ui.night_report.NightReportFragment"
+        android:label="fragment_night_report"
+        tools:layout="@layout/fragment_night_report">
+        <argument
+            android:name="sessionId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_nightReportFragment_to_reportVitalsFragment"
+        app:destination="@id/reportVitalsFragment"
+
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+
+        />
+    <action
+        android:id="@+id/action_nightReportFragment_to_recommendationDetailFragment"
+        app:destination="@id/recommendationDetailFragment"
+
+        app:enterAnim="@anim/slide_in_top"
+        app:exitAnim="@anim/slide_out_bottom"
+        app:popEnterAnim="@anim/slide_in_bottom"
+        app:popExitAnim="@anim/slide_out_top"
+
+        />
+    <action
+        android:id="@+id/action_nightReportFragment_to_eventDetailsFragment"
+        app:destination="@id/eventDetailsFragment"
+
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+
+        />
+    <action
+        android:id="@+id/action_nightReportFragment_to_reportAddNoteFragment"
+        app:destination="@id/reportAddNoteFragment"
+
+        app:enterAnim="@anim/slide_in_top"
+        app:exitAnim="@anim/slide_out_bottom"
+        app:popEnterAnim="@anim/slide_in_bottom"
+        app:popExitAnim="@anim/slide_out_top"
+
+        />
+    <action
+        android:id="@+id/action_nightReportFragment_to_sleepQualityDescriptionFragment"
+        app:destination="@id/sleepQualityDescriptionFragment"
+
+        app:enterAnim="@anim/slide_in_top"
+        app:exitAnim="@anim/slide_out_bottom"
+        app:popEnterAnim="@anim/slide_in_bottom"
+        app:popExitAnim="@anim/slide_out_top"
+
+        />
 </navigation>
