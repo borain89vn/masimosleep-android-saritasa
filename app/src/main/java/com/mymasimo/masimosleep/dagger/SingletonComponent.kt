@@ -8,7 +8,6 @@ import com.mymasimo.masimosleep.ui.dashboard.sleeping.nightsession.NightSessionF
 import com.mymasimo.masimosleep.ui.dashboard.sleeping.program.SleepingProgramFragment
 import com.mymasimo.masimosleep.ui.dialogs.*
 import com.mymasimo.masimosleep.ui.home.HomeFragment
-import com.mymasimo.masimosleep.ui.home.NightSummaryFragment
 import com.mymasimo.masimosleep.ui.home.StartButtonFragment
 import com.mymasimo.masimosleep.ui.home.night_picker.NightPickerFragment
 import com.mymasimo.masimosleep.ui.night_report.NightReportFragment
@@ -81,7 +80,6 @@ interface SingletonComponent {
     fun inject(target: StartButtonFragment)
     fun inject(target: NightPickerFragment)
     fun inject(target: ProgramStartedFragment)
-    fun inject(target: NightSummaryFragment)
     fun inject(target: ReportSleepQualityFragment)
     fun inject(target: ReportTimeInBedFragment)
     fun inject(target: ReportSleepTrendFragment)

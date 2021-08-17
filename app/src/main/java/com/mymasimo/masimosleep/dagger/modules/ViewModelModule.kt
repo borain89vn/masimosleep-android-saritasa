@@ -7,7 +7,6 @@ import com.mymasimo.masimosleep.base.viewmodel.ViewModelKey
 import com.mymasimo.masimosleep.ui.dashboard.sleeping.SleepSessionViewModel
 import com.mymasimo.masimosleep.ui.dialogs.SelfDismissDialogFragmentViewModel
 import com.mymasimo.masimosleep.ui.home.HomeViewModel
-import com.mymasimo.masimosleep.ui.home.NightSummaryViewModel
 import com.mymasimo.masimosleep.ui.night_report.notes.ReportNotesViewModel
 import com.mymasimo.masimosleep.ui.night_report.notes.addnote.ReportAddNoteViewModel
 import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsViewModel
@@ -95,11 +94,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProgramStartedViewModel::class)
     internal abstract fun bindProgramStartedViewModel(vm: ProgramStartedViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(NightSummaryViewModel::class)
-    internal abstract fun bindNightSummaryViewModel(vm: NightSummaryViewModel): ViewModel
 
     @Binds
     @IntoMap

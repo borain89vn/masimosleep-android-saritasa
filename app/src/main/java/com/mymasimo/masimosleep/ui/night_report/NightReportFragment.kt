@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -43,6 +44,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
     private var sessionId: Long = -1
     private var nightNumber: Int = -1
     private var isShowToolBar = false
+    private var scrollToPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -55,6 +57,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         } else {
             sessionId = requireArguments().getLong(KEY_SESSION_ID)
             nightNumber = requireArguments().getInt(KEY_NIGHT_NUMBER)
+            scrollToPosition = requireArguments().getInt(KEY_SCROLL_POSITION)
         }
     }
 
@@ -72,10 +75,26 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             viewBinding.titleLabel.visibility = View.GONE
             viewBinding.subtitleText.visibility = View.GONE
             viewBinding.topDiv.visibility = View.GONE
+            viewBinding.scrollView.post { viewBinding.scrollView.scrollTo(0, scrollToPosition) }
         }
 
         showReportConfiguration()
     }
+
+    override fun onPause() {
+        super.onPause()
+        sendScrollPositionToHome()
+    }
+
+    private fun sendScrollPositionToHome() {
+        if (isShowToolBar) return
+        parentFragment?.setFragmentResult(
+            KEY_SCROLL_POSITION_REQUEST, bundleOf(
+                KEY_SCROLL_POSITION to viewBinding.scrollView.scrollY
+            )
+        )
+    }
+
 
     private fun showReportConfiguration() {
         removeAllFragments()
@@ -176,6 +195,9 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         private const val KEY_SESSION_ID = "SESSION_ID"
         private const val KEY_NIGHT_NUMBER = "NIGHT_NUMBER"
         private const val KEY_SHOW_TOOL_BAR = "HIDE_TOOL_BAR"
+        private const val KEY_SCROLL_POSITION_REQUEST = "SCROLL_REQUEST"
+        private const val KEY_SCROLL_POSITION = "SCROLL_POSITION"
+
         private val ALL_FRAGMENT_TAGS = listOf(
             SLEEP_QUALITY_FRAGMENT_TAG,
             TIME_IN_BED_FRAGMENT_TAG,
@@ -187,12 +209,13 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             EXPORT_MEASUREMENTS_FRAGMENT_TAG,
         )
 
-        fun newInstance(sessionId: Long, nightNumber: Int): NightReportFragment {
+        fun newInstance(sessionId: Long, nightNumber: Int,scrollToPosition: Int = 0, showToolBar: Boolean = false): NightReportFragment {
             return NightReportFragment().apply {
                 arguments = bundleOf(
                     KEY_SESSION_ID to sessionId,
                     KEY_NIGHT_NUMBER to nightNumber,
-                    KEY_SHOW_TOOL_BAR to false
+                    KEY_SHOW_TOOL_BAR to showToolBar,
+                    KEY_SCROLL_POSITION to  scrollToPosition
                 )
             }
         }
