@@ -248,7 +248,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
 
     <string name="remove_chip_title">Remove the chip to turn off the sensor, replace the yellow seal to prolong sensor battery life.</string>
 
-    <string name="sleep_program_title">Your Sleep Checkup</string>
+    <string name="sleep_program_title">Your sleep checkup</string>
 
     <string name="eula_title">End User License Agreement</string>
 
@@ -360,7 +360,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="night_completed_label">Night %1$d of %2$d is complete</string>
     <string name="night_label_btn">Night %1d</string>
     <string name="night_break_label_btn">Night\n%1d</string>
-    <string name="today_label_btn">TODAY</string>
+    <string name="today_label_btn">Today</string>
     <string name="live_score_empty">No live score data available</string>
     <string name="live_score">Live Score: %1$.0f</string>
     <string name="notes_empty">The more detailed the data is, the better the diagnosis is.</string>
@@ -459,5 +459,10 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="sleep_session_label">Sleep Session</string>
     <string name="start_new_program_btn">Start a new program</string>
     <string name="btn_emulator_sensor">Emulated Sensor</string>
+    <string name="masimo_sleep_trademark_title">Masimo Sleep&#8482; Device</string>
+    <plurals name="dayLeft">
+        <item quantity="one">%d day left</item>
+        <item quantity="other">%d days left</item>
+    </plurals>
 
 </resources>

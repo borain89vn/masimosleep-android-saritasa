@@ -8,8 +8,13 @@ import androidx.core.content.res.ResourcesCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.databinding.NightButtonViewBinding
+import com.mymasimo.masimosleep.util.DateOfWeek
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.SpannedString
+import android.text.style.*
 
-class NightButtonView(context: Context, night: Int, state: NightButtonState) : ConstraintLayout(context) {
+class NightButtonView(context: Context, night: Int, state: NightButtonState, date: DateOfWeek? = null) : ConstraintLayout(context) {
 
     private val state: NightButtonState
     private lateinit var listener: () -> Unit
@@ -27,57 +32,98 @@ class NightButtonView(context: Context, night: Int, state: NightButtonState) : C
         var visibility: Int = View.VISIBLE
         var enabled = false
         var buttonBG: Int = R.drawable.night_button_future
-        var buttonTextColor: Int = R.color.secondaryText_light
+        var buttonTextColor: Int = R.color.home_night_future
         var selected = false
-        var buttonText = context.getString(R.string.night_break_label_btn, night)
 
-        if (state == NightButtonState.PAST) {
-            visibility = View.VISIBLE
-            enabled = true
-            buttonBG = R.drawable.night_button_past
-            buttonTextColor = R.color.black
-            selected = false
-
-            viewBinding.nightButton.setOnClickListener {
-                listener()
+        when (state) {
+            NightButtonState.PAST -> {
+                visibility = View.VISIBLE
+                enabled = true
+                buttonBG = R.drawable.night_button_past
+                buttonTextColor = R.color.white
+                selected = false
+                viewBinding.nightButton.setOnClickListener {
+                    listener()
+                }
             }
-        } else if (state == NightButtonState.PAST_SELECTED) {
-            visibility = View.VISIBLE
-            enabled = true
-            buttonBG = R.drawable.night_button_past
-            buttonTextColor = R.color.white
-            selected = true
-        } else if (state == NightButtonState.PRESENT) {
-            visibility = View.VISIBLE
-            enabled = true
-            buttonBG = R.drawable.night_button_present
-            buttonTextColor = R.color.white
-            selected = true
-            buttonText = context.getString(R.string.today_label_btn)
-
-            viewBinding.nightButton.setOnClickListener {
-                listener()
+            NightButtonState.PAST_SELECTED -> {
+                visibility = View.VISIBLE
+                enabled = true
+                buttonBG = R.drawable.night_button_past
+                buttonTextColor = R.color.white
+                selected = true
             }
-
-        } else if (state == NightButtonState.BLANK) {
-            visibility = View.INVISIBLE
-            enabled = false
+            NightButtonState.PRESENT -> {
+                visibility = View.VISIBLE
+                enabled = true
+                buttonBG = R.drawable.night_button_present
+                buttonTextColor = R.color.white
+                selected = false
+                viewBinding.nightButton.setOnClickListener {
+                    listener()
+                }
+            }
+            NightButtonState.PRESENT_SELECTED -> {
+                visibility = View.VISIBLE
+                enabled = true
+                buttonBG = R.drawable.night_button_present
+                buttonTextColor = R.color.white
+                selected = true
+                viewBinding.nightButton.setOnClickListener {
+                    listener()
+                }
+            }
+            NightButtonState.BLANK -> {
+                visibility = View.INVISIBLE
+                enabled = false
+            }
         }
 
         this.visibility = visibility
         this.isEnabled = enabled
-
         viewBinding.nightButton.background = ResourcesCompat.getDrawable(resources, buttonBG, null)
-        viewBinding.nightButton.setTextColor(resources.getColor(buttonTextColor, null))
         viewBinding.nightButton.isSelected = selected
-        viewBinding.nightButton.text = buttonText
+        setTextStyle(state,resources.getColor(buttonTextColor, context.theme), date)
 
         //automation
         contentDescription = "$night"
+
 
     }
 
     fun setOnButtonClickListener(listener: () -> Unit) {
         this.listener = listener
+    }
+
+    private fun setTextStyle(state: NightButtonState, color: Int, date: DateOfWeek?) {
+        val button = viewBinding.nightButton
+        if (state == NightButtonState.BLANK) {
+            return
+        } else if (state == NightButtonState.PRESENT_SELECTED || state == NightButtonState.PRESENT) {
+            button.text = context.getString(R.string.today_label_btn)
+            button.setTextColor(color)
+            return
+        }
+        date?.let {
+            val dayOfWeek = "${date.dayOfWeek}\n"
+            val dayOfMonth = date.days
+            val text = "$dayOfWeek$dayOfMonth"
+            val spanString = SpannableString(text)
+
+            button.setTextColor(color)
+            spanString.setSpan(
+                StyleSpan(Typeface.BOLD),
+                dayOfWeek.length,
+                text.length,
+                SpannedString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            spanString.setSpan(
+                RelativeSizeSpan(1.3f),
+                dayOfWeek.length,
+                text.length,
+                SpannedString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            button.text = spanString
+        }
     }
 }

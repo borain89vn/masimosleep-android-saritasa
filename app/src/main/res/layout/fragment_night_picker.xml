@@ -59,7 +59,8 @@
         <TextView
             android:id="@+id/nightLabel"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
+
             tools:text="Night 1 of 10"
             android:textAlignment="center"
             android:textAppearance="@style/onboardingContent" />
@@ -79,6 +80,14 @@
                 android:orientation="horizontal" />
 
         </HorizontalScrollView>
+        <TextView
+            android:id="@+id/daysLeftLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="6 days left"
+            android:textAlignment="center"
+            android:textAppearance="@style/onboardingContent" />
 
     </LinearLayout>
 
