@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
@@ -24,6 +25,7 @@ import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
 import com.mymasimo.masimosleep.databinding.FragmentHomeBinding
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
 import com.mymasimo.masimosleep.ui.dialogs.SessionTerminatedFragmentArgs
+import com.mymasimo.masimosleep.ui.night_report.NightReportFragment
 import com.mymasimo.masimosleep.ui.session.SessionFragmentArgs
 import com.mymasimo.masimosleep.util.navigateSafe
 import io.reactivex.disposables.CompositeDisposable
@@ -53,6 +55,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val viewBinding by viewBinding(FragmentHomeBinding::bind)
 
     private var defaultSessionIdToOpen = -1L
+    private var nightReportScrollPosition = 0
+    private var selectedNight = -1
 
     private val sessionConfigurationObserver = Observer<HomeViewModel.SessionConfiguration> { configuration ->
         //Reset when night is selected so we don't automatically navigate to last ended session/night
@@ -65,7 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             is HomeViewModel.SessionConfiguration.Summary -> {
                 if (!sleepSessionScoreManager.isSessionInProgress)
-                    showSummaryConfiguration(configuration)
+                    showNightReport(configuration)
             }
         }
     }
@@ -75,6 +79,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onCreate(savedInstanceState)
 
         defaultSessionIdToOpen = args.defaultSessionId
+        receiveScrollPositionEvent()
     }
 
     override fun onPause() {
@@ -199,15 +204,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         addFragment(StartButtonFragment.newInstance(), START_SESSION_FRAGMENT_TAG)
     }
 
-    private fun showSummaryConfiguration(configuration: HomeViewModel.SessionConfiguration.Summary) {
+    private fun showNightReport(configuration: HomeViewModel.SessionConfiguration.Summary) {
         removeAllFragments()
+        if (selectedNight != configuration.nightNumber) {
+            nightReportScrollPosition = 0
+            selectedNight = configuration.nightNumber
+        }
         addFragment(
-            NightSummaryFragment.newInstance(
+            NightReportFragment.newInstance(
                 configuration.sessionId,
-                configuration.nightNumber
+                configuration.nightNumber,
+                nightReportScrollPosition
             ),
-            SESSION_SUMMARY_FRAGMENT_TAG
+            NIGHT_REPORT_FRAGMENT_TAG
         )
+    }
+
+    private fun receiveScrollPositionEvent() {
+        parentFragment?.setFragmentResultListener(KEY_SCROLL_POSITION_REQUEST) { _, result ->
+            nightReportScrollPosition = result.getInt(KEY_SCROLL_POSITION)
+        }
     }
 
     private fun removeAllFragments() {
@@ -229,6 +245,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     companion object {
         private const val START_SESSION_FRAGMENT_TAG = "START_SESSION"
         private const val SESSION_SUMMARY_FRAGMENT_TAG = "SESSION_SUMMARY"
+        private const val NIGHT_REPORT_FRAGMENT_TAG = "SESSION_SUMMARY"
+        private const val KEY_SCROLL_POSITION_REQUEST = "SCROLL_REQUEST"
+        private const val KEY_SCROLL_POSITION = "SCROLL_POSITION"
 
         private val ALL_FRAGMENT_TAGS = listOf(
             START_SESSION_FRAGMENT_TAG,
