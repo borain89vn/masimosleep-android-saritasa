@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -55,5 +56,14 @@ fun calculateXZoomScale(visibleTimeSpan: Long, startTime: Long, endTime: Long): 
         } else {
             scale
         }
+    }
+}
+
+
+fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
+    if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+        val p = view.layoutParams as ViewGroup.MarginLayoutParams
+        p.setMargins(left, top, right, bottom)
+        view.requestLayout()
     }
 }

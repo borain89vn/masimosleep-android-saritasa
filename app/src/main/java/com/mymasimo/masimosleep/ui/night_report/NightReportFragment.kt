@@ -27,6 +27,7 @@ import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleep
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
 import com.mymasimo.masimosleep.ui.night_report.report_view_vitals.ReportViewVitalsFragment
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternFragment
+import com.mymasimo.masimosleep.util.setMargins
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -75,7 +76,12 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             viewBinding.titleLabel.visibility = View.GONE
             viewBinding.subtitleText.visibility = View.GONE
             viewBinding.topDiv.visibility = View.GONE
-            viewBinding.scrollView.post { viewBinding.scrollView.scrollTo(0, scrollToPosition) }
+            viewBinding.scrollView.post {
+                setMargins(viewBinding.scrollView, 0, 0, 0, 0)
+                viewBinding.scrollView.scrollTo(0, scrollToPosition)
+            }
+
+
         }
 
         showReportConfiguration()
