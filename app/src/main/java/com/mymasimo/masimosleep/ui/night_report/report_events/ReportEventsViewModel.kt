@@ -40,7 +40,7 @@ class ReportEventsViewModel @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe { sleepEventsViewData ->
-                _sleepEvents.value = sleepEventsViewData
+                _sleepEvents.value = sleepEventsViewData.copy(20,20,10)
             }
             .addTo(disposables)
     }

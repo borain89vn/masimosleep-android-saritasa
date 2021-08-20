@@ -24,6 +24,7 @@ import com.mymasimo.masimosleep.data.repository.SensorRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.service.*
 import com.mymasimo.masimosleep.util.DEFAULT_MANUFACTURER_NAME
+import com.mymasimo.masimosleep.util.test.FakeEventGenerator
 import com.mymasimo.masimosleep.util.test.FakeTicker
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -38,6 +39,7 @@ import javax.inject.Inject
 class PairingViewModel @Inject constructor(
     app: Application,
     private val fakeTicker: FakeTicker,
+    private val fakeEventGenerator: FakeEventGenerator,
     private val sensorRepository: SensorRepository,
     private val disposables: CompositeDisposable
 ) : AndroidViewModel(app) {
@@ -139,7 +141,8 @@ class PairingViewModel @Inject constructor(
         )
 
         sensorRepository.addSensor(module, isEmulator = true)
-//      fakeTicker.createNights(6)
+        //fakeTicker.createNights(6)
+        fakeEventGenerator.generateRandomEvents()
         onPairingFinish()
     }
 

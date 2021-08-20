@@ -13,6 +13,7 @@ import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsV
 import com.mymasimo.masimosleep.ui.night_report.report_bed_time.ReportTimeInBedViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_events.details.EventDetailsViewModel
+import com.mymasimo.masimosleep.ui.night_report.report_measurements.ReportMeasurementsViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphViewModel
@@ -204,4 +205,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SelfDismissDialogFragmentViewModel::class)
     internal abstract fun bindSelfDismissDialogFragmentViewModel(vm: SelfDismissDialogFragmentViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ReportMeasurementsViewModel::class)
+    internal abstract fun bindReportMeasurementsViewModel(vm: ReportMeasurementsViewModel): ViewModel
 }
