@@ -51,7 +51,6 @@ class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurement
         }
     }
 
-
     private fun updateUI(measurement: MeasurementViewData) {
         viewBinding.oxygenLevelText.text = "${measurement.oxygen_level.format()}"
         viewBinding.pureRateText.text = "${measurement.pure_rate.format()}"

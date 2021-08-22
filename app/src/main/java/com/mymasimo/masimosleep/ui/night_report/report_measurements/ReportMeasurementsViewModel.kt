@@ -58,10 +58,9 @@ class ReportMeasurementsViewModel @Inject constructor(
     private fun getSessionByType(type: ReadingType, sessionId: Long): Maybe<Double> {
         return parameterReadingRepository.getAllSessionReadings(type, sessionId)
             .filter { it.isNotEmpty() }
-            .map { readings -> readings.sumByDouble { it.value } / readings.size.toDouble()
+            .map { readings ->
+                readings.sumByDouble { it.value } / readings.size.toDouble()
             }
-
-
     }
 
 

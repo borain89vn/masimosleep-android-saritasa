@@ -2,7 +2,6 @@ package com.mymasimo.masimosleep.data.repository
 
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.masimo.common.model.universal.ParameterID
@@ -70,13 +69,9 @@ fun DocumentSnapshot.toSleepEvent(): FireStoreSleepEvent {
     )
 }
 
-
-
-
 private const val OXYGEN_LEVEL = "spO2"
 private const val PULSE_RATE = "pr"
 private const val RESPIRATION_RATE = "rrp"
-
 private const val START_TIME = "startTime"
 private const val STOP_TIME = "stopTime"
 private const val TYPE = "type"
