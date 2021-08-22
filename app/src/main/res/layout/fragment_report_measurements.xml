@@ -22,10 +22,9 @@
             android:id="@+id/type_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/event_icon"
+            android:src="@drawable/measurement_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
