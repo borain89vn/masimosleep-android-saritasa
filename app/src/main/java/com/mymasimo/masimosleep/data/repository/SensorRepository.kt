@@ -5,6 +5,7 @@ import com.mymasimo.masimosleep.base.dispatchers.CoroutineDispatchers
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.room.dao.ModuleDao
 import com.mymasimo.masimosleep.data.room.entity.Module
+import com.mymasimo.masimosleep.model.FireStoreSleepEvent
 import com.mymasimo.masimosleep.model.Tick
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +50,9 @@ class SensorRepository @Inject constructor(
 
     @ExperimentalCoroutinesApi
     fun getTicks(sensor: Module): Flow<Tick> = if (BuildConfig.ALLOW_EMULATION) sensorFirestoreRepository.getTicks(sensor) else emptyFlow()
+
+    @ExperimentalCoroutinesApi
+    fun getSleepEvents(sensor: Module): Flow<List<FireStoreSleepEvent>> = if (BuildConfig.ALLOW_EMULATION) sensorFirestoreRepository.getSleepEvents(sensor) else emptyFlow()
 
     private suspend fun updateSelectedSensor(deletedModuleId: Long) = withContext(dispatchers.io()) {
         if (deletedModuleId != getCurrentSensor()?.id) {

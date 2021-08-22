@@ -42,6 +42,7 @@ fun DocumentReference.asFlow(): Flow<DocumentSnapshot> {
         awaitClose {
             subscription.remove()
         }
+
     }
 }
 
