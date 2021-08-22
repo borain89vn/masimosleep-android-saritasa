@@ -15,6 +15,7 @@ import com.mymasimo.masimosleep.model.MeasurementViewData
 import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
 import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_events.util.SleepEventsViewData
+import com.mymasimo.masimosleep.util.format
 import javax.inject.Inject
 
 class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurements) {
@@ -43,7 +44,7 @@ class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurement
         }
         viewBinding.arrowIcon.setOnClickListener {
             view.findNavController().navigate(
-                NightReportFragmentDirections.actionNightReportFragmentToEventDetailsFragment(
+                NightReportFragmentDirections.actionNightReportFragmentToReportVitalsFragment(
                     sessionId
                 )
             )
@@ -52,9 +53,9 @@ class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurement
 
 
     private fun updateUI(measurement: MeasurementViewData) {
-        viewBinding.oxygenLevelText.text = "${measurement.oxygen_level}"
-        viewBinding.pureRateText.text = "${measurement.pure_rate}"
-        viewBinding.repiratoryRateText.text = "${measurement.respiratory_rate}"
+        viewBinding.oxygenLevelText.text = "${measurement.oxygen_level.format()}"
+        viewBinding.pureRateText.text = "${measurement.pure_rate.format()}"
+        viewBinding.repiratoryRateText.text = "${measurement.respiratory_rate.format()}"
     }
 
     companion object {

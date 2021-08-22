@@ -46,12 +46,8 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
         super.onViewCreated(view, savedInstanceState)
 
         vm.sleepEvents.observe(viewLifecycleOwner) { viewData ->
-            receivedEventsConfiguration()
             updateUI(viewData)
         }
-
-        viewBinding.noEventsText.text = getString(R.string.day_events_empty, MasimoSleepPreferences.name)
-        noEventsConfiguration()
 
         viewBinding.arrowIcon.setOnClickListener {
             view.findNavController().navigate(
@@ -65,6 +61,7 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
     private fun noEventsConfiguration() {
         viewBinding.noEventsTray.visibility = View.VISIBLE
         viewBinding.eventTray.visibility = View.GONE
+        viewBinding.noEventsText.visibility = View.VISIBLE
     }
 
     private fun receivedEventsConfiguration() {
@@ -82,6 +79,7 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
             receivedEventsConfiguration()
         }
 
+        viewBinding.noEventsText.text = getString(R.string.day_events_empty, MasimoSleepPreferences.name)
         viewBinding.eventText.text = resources.getQuantityString(R.plurals.events_occurred, totalEvents, totalEvents)
 
         viewBinding.minorEventText.text = sleepEventData.minorEvents.toString()
@@ -91,8 +89,6 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
 
     companion object {
         private const val KEY_SESSION_ID = "SESSION_ID"
-
-        private const val FIFTEEN_MINUTES = 15
 
         fun newInstance(sessionId: Long) = ReportEventsFragment().apply {
             arguments = bundleOf(KEY_SESSION_ID to sessionId)

@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat.startForegroundService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.firestore.v1.DocumentChange
 import com.masimo.android.airlib.*
 import com.masimo.common.model.universal.ParameterID
 import com.masimo.sleepscore.sleepscorelib.model.Parameter
@@ -33,6 +34,7 @@ import com.mymasimo.masimosleep.data.repository.SensorRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.data.room.entity.Module
 import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreManager
+import com.mymasimo.masimosleep.data.sleepsession.SleepSessionScoreObserverEmulator
 import com.mymasimo.masimosleep.model.Tick
 import com.mymasimo.masimosleep.util.CHANNEL_SYSTEM
 import com.mymasimo.masimosleep.util.ExceptionMaskUtil
@@ -45,12 +47,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -174,6 +174,25 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
         }
     }
 
+    private var jobSleepEvent: Job? = null
+    private val scoreSessionObserverEmulator = object : SleepSessionScoreObserverEmulator {
+        override fun startSession() {
+            jobSleepEvent = launch {
+                Timber.d("Sleep Event from emulator started")
+                sensorRepository.getSleepEvents(currentModule!!).collect { events ->
+
+                    for (event in events) {
+                        sleepSessionScoreManager.saveSleepEvent(event)
+                    }
+                }
+            }
+        }
+        override fun endSession() {
+            Timber.d("Sleep Event from emulator ended")
+            jobSleepEvent?.cancel()
+        }
+    }
+
     override fun onCreate() {
         Injector.get().inject(this)
         super.onCreate()
@@ -223,6 +242,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
     override fun onDestroy() {
         Timber.d("Destroying BLE service")
         MasimoSleepApp.get().foreground.removeObserver(fgObserver)
+        sleepSessionScoreManager?.setScoreObserverEmulator(null)
 
         disconnectBLE()
         notificationMgr.cancel(R.id.notification_service_fg)
@@ -386,6 +406,10 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
                     Timber.d("Tick from emulator: $tick")
                     sleepSessionScoreManager.sendTick(tick)
                 } }
+
+                if (sleepSessionScoreManager.scoreObserverEmulator == null){
+                    sleepSessionScoreManager.setScoreObserverEmulator(scoreSessionObserverEmulator)
+                }
             } else connectBLE()
         }
     }

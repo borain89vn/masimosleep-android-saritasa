@@ -22,7 +22,7 @@ class ReportMeasurementsViewModel @Inject constructor(
     private val disposables: CompositeDisposable
 ) : ViewModel() {
 
-    private val _measurementsViewData = MutableLiveData<MeasurementViewData>()
+    private val _measurementsViewData = MutableLiveData(MeasurementViewData())
     val measurementViewData : LiveData<MeasurementViewData>
         get() = _measurementsViewData
 

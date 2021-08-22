@@ -7,15 +7,22 @@ import com.masimo.sleepscore.sleepscorelib.model.SleepEvent
 import com.masimo.sleepscore.sleepscorelib.model.SleepImprovementResult
 import com.masimo.sleepscore.sleepscorelib.model.SleepSessionScore
 import com.mymasimo.masimosleep.BuildConfig
+import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.*
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.data.room.entity.ScoreType
 import com.mymasimo.masimosleep.data.room.entity.SleepEventType
+import com.mymasimo.masimosleep.model.FireStoreSleepEvent
 import com.mymasimo.masimosleep.model.SessionTerminatedCause
 import com.mymasimo.masimosleep.model.Tick
 import com.mymasimo.masimosleep.service.DeviceExceptionHandler
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -32,6 +39,10 @@ class SleepSessionScoreManager @Inject constructor(
     private val deviceExceptionHandler: DeviceExceptionHandler,
 ) {
     private var maxSleepHourDisposable: Disposable? = null
+
+    private var _scoreObserverEmulator: SleepSessionScoreObserverEmulator? = null
+    val scoreObserverEmulator: SleepSessionScoreObserverEmulator?
+        get() = _scoreObserverEmulator
 
     private val scoreObserver = object : SleepSessionScoreObserver {
         override fun handle(sleepEvent: SleepEvent) {
@@ -121,6 +132,9 @@ class SleepSessionScoreManager @Inject constructor(
         SleepSessionScoreProvider.startSession()
         SleepSessionScoreProvider.resetSession()
 
+        _scoreObserverEmulator?.startSession()
+
+
         val now = Calendar.getInstance().timeInMillis
         currentNight = nightNumber
         currentNightStartAt = now
@@ -128,6 +142,7 @@ class SleepSessionScoreManager @Inject constructor(
         sessionRepository.saveSession(nightNumber, now)
 
         startMaxHourSleepCountDown(nightNumber, now)
+
 
         return now
     }
@@ -285,6 +300,7 @@ class SleepSessionScoreManager @Inject constructor(
             stopDisconnectionEndSessionCountDown()
             stopSensorOffEndSessionCountDown()
             deviceExceptionHandler.clearExceptions()
+            _scoreObserverEmulator?.endSession()
         }
     }
 
@@ -347,6 +363,24 @@ class SleepSessionScoreManager @Inject constructor(
         sensorOffEndSessionCountDownDisposable?.dispose()
         sensorOffEndSessionCountDownDisposable = null
     }
+
+    fun saveSleepEvent(event: FireStoreSleepEvent) {
+        if (!isSessionInProgress) return
+
+        Timber.d("Sleep Event received with value: ${event.type}")
+
+        val startTime = event?.startAt
+        val endTime = event?.endAt
+        sleepEventRepository.saveSleepEvent(startTime, endTime, event?.type)
+    }
+    fun setScoreObserverEmulator(observer: SleepSessionScoreObserverEmulator?){
+        if (observer==null) _scoreObserverEmulator?.endSession()
+        _scoreObserverEmulator = observer
+    }
+}
+interface SleepSessionScoreObserverEmulator {
+    fun startSession()
+    fun endSession()
 }
 
 private const val MAX_SENSOR_OFF_TIME = 1800L
