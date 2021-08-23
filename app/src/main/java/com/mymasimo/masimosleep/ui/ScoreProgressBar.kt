@@ -13,7 +13,7 @@ import com.mymasimo.masimosleep.util.pxFromDp
 
 private const val BAR_Y = 18f
 
-private const val BAR_SPACING = 3f
+private const val BAR_SPACING = 0f
 
 class ScoreProgressBar @JvmOverloads constructor(
     context: Context,

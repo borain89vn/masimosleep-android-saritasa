@@ -21,12 +21,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textAppearance="@style/onboardingHeader"
+        android:textAppearance="@style/onboardingSubHeader"
+        android:textAllCaps="true"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quality_so_far_text"
         tools:text="EMERGENCY" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/imgInfo"
+        android:src="@drawable/ic_info_gray"
+        app:layout_constraintTop_toTopOf="@id/quality_text"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/quality_text"
+        app:layout_constraintStart_toEndOf="@id/quality_text"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/quality_so_far_text"
@@ -41,18 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/sub_title_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textAppearance="@style/onboardingContent"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/lbl_score_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_image"
-        tools:text="Consider Sleep Improvement Tips below and continue with your checkup to collect more data." />
+
 
     <TextView
         android:id="@+id/lbl_score_text"
@@ -65,7 +66,7 @@
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sub_title_text" />
+        app:layout_constraintTop_toBottomOf="@id/face_image" />
 
 
     <TextView
@@ -93,5 +94,18 @@
         app:scoreBarHeight="10"
         app:secondBarColor="@color/sq_yellowOff"
         app:thirdBarColor="@color/sq_greenOff" />
-
+    <TextView
+        android:id="@+id/sub_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="@style/onboardingContent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score_progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="@string/sq_redShortDesc" />
 </androidx.constraintlayout.widget.ConstraintLayout>

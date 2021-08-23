@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
@@ -33,6 +34,9 @@ class ReportSleepQualityFragment : Fragment(R.layout.fragment_report_sleep_quali
         vm.sessionScore.observe(viewLifecycleOwner) { score ->
             updateScore(score)
         }
+        viewBinding.imgInfo.setOnClickListener {
+            view.findNavController().navigate(R.id.action_homeFragment_to_sleepQualityDescriptionFragment)
+        }
     }
 
     private fun updateScore(score: Double) {
@@ -42,7 +46,7 @@ class ReportSleepQualityFragment : Fragment(R.layout.fragment_report_sleep_quali
         var triangle = R.drawable.triangle_red
         var face = R.drawable.face_red
         var qualityLevel = R.string.sq_redLabel
-        var qualitySubtitle = R.string.sq_redSubtitle
+        var qualitySubtitle = R.string.sq_redShortDesc
 
         viewBinding.scoreProgress.setFirstBarColor(R.color.sq_redOff_light)
         viewBinding.scoreProgress.setSecondBarColor(R.color.sq_yellowOff_light)
@@ -57,14 +61,14 @@ class ReportSleepQualityFragment : Fragment(R.layout.fragment_report_sleep_quali
                 triangle = R.drawable.triangle_yellow
                 face = R.drawable.face_yellow
                 qualityLevel = R.string.sq_yellowLabel
-                qualitySubtitle = R.string.sq_yellowSubtitle
+                qualitySubtitle = R.string.sq_yellowShortDesc
             }
             scoreInt > resources.getInteger(R.integer.yellow_upper) -> {
                 viewBinding.scoreProgress.setThirdBarColor(R.color.sq_greenOn)
                 triangle = R.drawable.triangle_green
                 face = R.drawable.face_green
                 qualityLevel = R.string.sq_greenLabel
-                qualitySubtitle = R.string.sq_greenSubtitle
+                qualitySubtitle = R.string.sq_greenShortDesc
             }
         }
 

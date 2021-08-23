@@ -2,8 +2,8 @@
 <resources>
 
     <integer name="red_lower">0</integer>
-    <integer name="red_upper">55</integer>
-    <integer name="yellow_upper">75</integer>
+    <integer name="red_upper">60</integer>
+    <integer name="yellow_upper">88</integer>
     <integer name="green_upper">100</integer>
 
     <integer name="spo2_optimal_low">95</integer>
