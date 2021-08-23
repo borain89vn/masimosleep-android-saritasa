@@ -164,7 +164,7 @@ If you choose to take sleeping it is best to use them only on an infrequent, \â€
 
     <string name="support">Support</string>
 
-    <string name="feedback_body">For more information about the product, please visit www.masimo.com/sleep\n\nFor more information about Masimo technology, visit www.masimo.com/\n\nIf you are looking for information that cannot be found by websites above, please email customer support by clicking below button. </string>
+    <string name="feedback_body">For more information about the product, please visit <![CDATA[<a href=\"http://www.masimo.com/sleep\">http://www.masimo.com/sleep<br/><br/></a>]]>For more information about Masimo technology, <![CDATA[<a href=\"http://www.masimo.com\">http://www.masimo.com<br/><br/></a>]]>If you are looking for information that cannot be found by websites above, please email customer support by clicking below button. </string>
     <string name="feedback_email">mailto:customercare@masimo.com</string>
     <string name="feedback_button">Email Customer Support</string>
 
