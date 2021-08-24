@@ -3,6 +3,8 @@ package com.mymasimo.masimosleep.ui.settings.content
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -47,6 +49,16 @@ class SettingsContentFragment : Fragment(R.layout.fragment_settings_content) {
     private fun loadViewContent() {
         viewBinding.titleTextView.text = this.title
         viewBinding.contentText.text = this.content
+
+        when (title) {
+            getString(R.string.support) -> {
+                viewBinding.contentText.text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)
+                viewBinding.contentText.movementMethod = LinkMovementMethod.getInstance()
+            }
+            else -> {
+                viewBinding.contentText.text = content
+            }
+        }
 
         //submit_button.visibility = View.VISIBLE
         buttonTitle?.let { buttonTitle ->
