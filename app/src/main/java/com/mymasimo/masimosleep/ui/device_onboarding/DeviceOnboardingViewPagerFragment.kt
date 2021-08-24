@@ -160,5 +160,6 @@ class DeviceOnboardingViewPagerFragment : Fragment(R.layout.fragment_device_onbo
 
         val bottomAdapter = DeviceOnboardingViewPagerAdapter(bottomList, requireActivity().supportFragmentManager, lifecycle)
         viewBinding.viewPagerBottom.adapter = bottomAdapter
+        viewBinding.viewPagerBottom.isUserInputEnabled = false
     }
 }
