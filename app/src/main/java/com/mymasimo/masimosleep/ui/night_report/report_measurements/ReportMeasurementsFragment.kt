@@ -47,6 +47,13 @@ class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurement
                 )
             )
         }
+        viewBinding.viewVitalTitle.setOnClickListener {
+            view.findNavController().navigate(
+                NightReportFragmentDirections.actionNightReportFragmentToReportVitalsFragment(
+                    sessionId
+                )
+            )
+        }
     }
 
     private fun updateUI(measurement: MeasurementViewData) {
