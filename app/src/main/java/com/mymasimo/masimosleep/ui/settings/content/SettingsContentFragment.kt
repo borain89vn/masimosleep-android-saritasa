@@ -50,8 +50,8 @@ class SettingsContentFragment : Fragment(R.layout.fragment_settings_content) {
         viewBinding.titleTextView.text = this.title
         viewBinding.contentText.text = this.content
 
-        when (title.length) {
-            getString(R.string.support).length -> {
+        when (title) {
+            getString(R.string.support) -> {
                 viewBinding.contentText.text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)
                 viewBinding.contentText.movementMethod = LinkMovementMethod.getInstance()
             }
