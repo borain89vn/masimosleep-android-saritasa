@@ -93,12 +93,28 @@
                     android:src="@drawable/forward_arrow"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+                <TextView
+                    android:id="@+id/coffee_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="#00000000"
+                    android:text="@string/reco_coffee_title"
+                    android:textAppearance="@style/onboardingSubHeader"
+                    android:textSize="18sp"
+                    android:maxLines="1"
+                    app:layout_constraintEnd_toStartOf="@id/coffee_arrow"
+                    app:layout_constraintStart_toEndOf="@id/coffee_icon"
+                    app:layout_constraintTop_toTopOf="@id/coffee_icon" />
                 <TextView
                     android:id="@+id/coffee_desc_text"
                     android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/reco_coffee_subtitle"
@@ -108,21 +124,6 @@
                     app:layout_constraintEnd_toStartOf="@id/coffee_arrow"
                     app:layout_constraintStart_toEndOf="@id/coffee_icon" />
 
-                <Button
-                    android:id="@+id/coffee_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:background="#00000000"
-                    android:gravity="start|center"
-                    android:paddingStart="108dp"
-                    android:text="@string/reco_coffee_title"
-                    android:textAppearance="@style/onboardingSubHeader"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -156,8 +157,10 @@
                 <TextView
                     android:id="@+id/snore_desc_text"
                     android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/reco_snore_subtitle"
@@ -167,21 +170,20 @@
                     app:layout_constraintEnd_toStartOf="@id/snore_arrow"
                     app:layout_constraintStart_toEndOf="@id/snore_icon" />
 
-                <Button
+                <TextView
                     android:id="@+id/snore_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:background="#00000000"
-                    android:gravity="start|center"
-                    android:paddingStart="108dp"
                     android:text="@string/reco_snore_title"
                     android:textAppearance="@style/onboardingSubHeader"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@id/snore_arrow"
+                    app:layout_constraintStart_toEndOf="@id/snore_icon"
+                    app:layout_constraintTop_toTopOf="@id/snore_icon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -215,8 +217,10 @@
                 <TextView
                     android:id="@+id/beer_desc_text"
                     android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/reco_beer_subtitle"
@@ -226,21 +230,19 @@
                     app:layout_constraintEnd_toStartOf="@id/beer_arrow"
                     app:layout_constraintStart_toEndOf="@id/beer_icon" />
 
-                <Button
+                <TextView
                     android:id="@+id/beer_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:background="#00000000"
-                    android:gravity="start|center"
-                    android:paddingStart="108dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/reco_beer_title"
                     android:textAppearance="@style/onboardingSubHeader"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@id/beer_arrow"
+                    app:layout_constraintStart_toEndOf="@id/beer_icon"
+                    app:layout_constraintTop_toTopOf="@id/beer_icon"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -274,8 +276,10 @@
                 <TextView
                     android:id="@+id/exercise_desc_text"
                     android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/reco_exercise_subtitle"
@@ -285,21 +289,19 @@
                     app:layout_constraintEnd_toStartOf="@id/exercise_arrow"
                     app:layout_constraintStart_toEndOf="@id/exercise_icon" />
 
-                <Button
+                <TextView
                     android:id="@+id/exercise_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:background="#00000000"
-                    android:gravity="start|center"
-                    android:paddingStart="108dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/reco_exercise_title"
                     android:textAppearance="@style/onboardingSubHeader"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@id/exercise_arrow"
+                    app:layout_constraintStart_toEndOf="@id/exercise_icon"
+                    app:layout_constraintTop_toTopOf="@id/exercise_icon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -333,8 +335,10 @@
                 <TextView
                     android:id="@+id/meds_desc_text"
                     android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/reco_meds_subtitle"
@@ -344,21 +348,19 @@
                     app:layout_constraintEnd_toStartOf="@id/meds_arrow"
                     app:layout_constraintStart_toEndOf="@id/meds_icon" />
 
-                <Button
+                <TextView
                     android:id="@+id/meds_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:background="#00000000"
-                    android:gravity="start|center"
-                    android:paddingStart="108dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/reco_meds_title"
                     android:textAppearance="@style/onboardingSubHeader"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@id/meds_arrow"
+                    app:layout_constraintStart_toEndOf="@id/meds_icon"
+                    app:layout_constraintTop_toTopOf="@id/meds_icon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -392,8 +394,10 @@
                 <TextView
                     android:id="@+id/more_sleep_desc_text"
                     android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/reco_more_sleep_subtitle"
@@ -403,21 +407,19 @@
                     app:layout_constraintEnd_toStartOf="@id/more_sleep_arrow"
                     app:layout_constraintStart_toEndOf="@id/more_sleep_icon" />
 
-                <Button
+                <TextView
                     android:id="@+id/more_sleep_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:background="#00000000"
-                    android:gravity="start|center"
-                    android:paddingStart="108dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/reco_more_sleep_title"
                     android:textAppearance="@style/onboardingSubHeader"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@id/more_sleep_arrow"
+                    app:layout_constraintStart_toEndOf="@id/more_sleep_icon"
+                    app:layout_constraintTop_toTopOf="@id/more_sleep_icon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -451,8 +453,10 @@
                 <TextView
                     android:id="@+id/maintain_desc_text"
                     android:layout_width="0dp"
-                    android:layout_height="22dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/reco_more_sleep_subtitle"
@@ -462,21 +466,19 @@
                     app:layout_constraintEnd_toStartOf="@id/maintain_arrow"
                     app:layout_constraintStart_toEndOf="@id/maintain_icon" />
 
-                <Button
+                <TextView
                     android:id="@+id/maintain_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="8dp"
-                    android:background="#00000000"
-                    android:gravity="start|center"
-                    android:paddingStart="108dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/reco_maintain_title"
                     android:textAppearance="@style/onboardingSubHeader"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@id/maintain_arrow"
+                    app:layout_constraintStart_toEndOf="@id/maintain_icon"
+                    app:layout_constraintTop_toTopOf="@id/maintain_icon"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

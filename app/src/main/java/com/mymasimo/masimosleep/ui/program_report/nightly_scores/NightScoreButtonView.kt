@@ -24,7 +24,7 @@ class NightScoreButtonView(context: Context, night: Int, score: Int, state: Nigh
         val availableWidth = screenWidth - 64 * density
 
         val params = LayoutParams(availableWidth.toInt() / buttonsPerRow, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.setMargins(2 * density.toInt(), 0, 2 * density.toInt(), 0)
+        params.setMargins(2* density.toInt(), 0, 2 * density.toInt(), 0)
         this.layoutParams = params
         this.state = state
 
