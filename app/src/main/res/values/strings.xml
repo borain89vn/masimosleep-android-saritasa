@@ -81,12 +81,17 @@
     <string name="sq_redLabel">Poor</string>
     <string name="sq_redSubtitle">Read Sleep Improvement Tips provided. Continue your 7-Night Sleep Checkup.</string>
     <string name="sq_redDesc">Your Sleep Halo Index is not optimal.\n\nWe noticed significant changes from your normal vitals during the night.</string>
+    <string name="sq_redShortDesc">Your Sleep Halo Index&#8482; is not optimal.</string>
+
     <string name="sq_yellowLabel">Fair</string>
     <string name="sq_yellowSubtitle">Consider Sleep Improvement Tips provided and continue with your 7-Night Sleep Checkup to collect more data.</string>
     <string name="sq_yellowDesc">Your Sleep Halo Index is not optimal.\n\nWe noticed moderate changes from your normal vitals during the night.</string>
+    <string name="sq_yellowShortDesc">Your Sleep Halo Index&#8482; is not optimal.</string>
+
     <string name="sq_greenLabel">Good</string>
     <string name="sq_greenSubtitle">Sleep Halo Index is within the normal range, no action necessary.</string>
     <string name="sq_greenDesc">Your Sleep Halo Index is good.\n\nWe noticed minimal changes from your normal vitals during the night.</string>
+    <string name="sq_greenShortDesc">Your Sleep Halo Index&#8482; is good.</string>
 
     <string name="vital_title_SPO2">Oxygen Level (%)</string>
     <string name="vital_title_PR">Pulse Rate (Beats/min)</string>
@@ -237,7 +242,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="session_no_data_sub_title">SLEEP HALO INDEX IS BEING COMPUTED</string>
     <string name="session_no_data_content">Collecting data</string>
 
-    <string name="session_sleep_quality_title">Sleep Halo Index</string>
+    <string name="session_sleep_quality_title">Sleep Halo Index&#8482;</string>
     <string name="session_sleep_quality_sub_title">Continue your sleep. Your Sleep Halo Index will accumulate over your sleep session.</string>
     <string name="quality_sleep_article_title">Learn about\nSleep Halo Index</string>
     <string name="quality_sleep_article_content">Your Sleep Halo Index is an indicator of physiological distress that can potentially degrade your sleep. Your Sleep Halo Index is given on a 0–100 scale. A higher score indicates fewer signs of physiological distress and a lower score indicates more signs of physiological distress.</string>
