@@ -27,13 +27,11 @@ class ReportMeasurementsViewModel @Inject constructor(
         get() = _measurementsViewData
 
     fun onCreate(sessionId: Long) {
-        Maybe.zip(getSessionByType(ReadingType.SP02,sessionId),
-            getSessionByType(ReadingType.PR,sessionId),
-            getSessionByType(ReadingType.RRP,sessionId),
-            object : Function3<Double, Double, Double, MeasurementViewData> {
-                override fun invoke(sp02: Double, pr: Double, rrp: Double): MeasurementViewData {
-                    return parseReadingIntoViewData(sp02, pr, rrp)
-                }
+        Maybe.zip(getSessionByType(ReadingType.SP02, sessionId),
+            getSessionByType(ReadingType.PR, sessionId),
+            getSessionByType(ReadingType.RRP, sessionId),
+            { oxygenLevel, pulseRate, respirationRate ->
+                MeasurementViewData(oxygenLevel, pulseRate, respirationRate)
             })
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
@@ -42,12 +40,6 @@ class ReportMeasurementsViewModel @Inject constructor(
                 _measurementsViewData.value = measurementViewData
 
             }.addTo(disposables)
-    }
-
-    private fun parseReadingIntoViewData(
-        oxygenLevel: Double, pureRate: Double, repiratoryRate: Double
-    ): MeasurementViewData{
-        return MeasurementViewData(oxygenLevel, pureRate, repiratoryRate)
     }
 
     override fun onCleared() {

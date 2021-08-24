@@ -111,7 +111,7 @@
 
                 app:layout_constraintTop_toTopOf="parent" />
             <TextView
-                android:id="@+id/pure_rate_title"
+                android:id="@+id/pulse_rate_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/measurement_title_PR"
@@ -120,12 +120,12 @@
                 android:textColor="@color/green_05B0ae"
                 android:textAppearance="@style/onboardingContentSmall"
                 app:layout_constraintStart_toEndOf="@id/oxygen_level_title"
-                app:layout_constraintEnd_toStartOf="@id/repiratory_rate_title"
+                app:layout_constraintEnd_toStartOf="@id/respiratory_rate_title"
 
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/repiratory_rate_title"
+                android:id="@+id/respiratory_rate_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -150,7 +150,7 @@
 
                 app:layout_constraintTop_toBottomOf="@id/oxygen_level_title" />
             <TextView
-                android:id="@+id/pure_rate_text"
+                android:id="@+id/pulse_rate_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -160,11 +160,11 @@
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@id/pure_rate_title"
-                app:layout_constraintTop_toBottomOf="@id/pure_rate_title" />
+                app:layout_constraintStart_toStartOf="@id/pulse_rate_title"
+                app:layout_constraintTop_toBottomOf="@id/pulse_rate_title" />
 
             <TextView
-                android:id="@+id/repiratory_rate_text"
+                android:id="@+id/respiratory_rate_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -175,8 +175,8 @@
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@id/repiratory_rate_title"
-                app:layout_constraintTop_toBottomOf="@id/repiratory_rate_title" />
+                app:layout_constraintStart_toStartOf="@id/respiratory_rate_title"
+                app:layout_constraintTop_toBottomOf="@id/respiratory_rate_title" />
 
             <TextView
                 android:id="@+id/oxygen_level_subtitle"
@@ -184,36 +184,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="start"
-                android:text="@string/measurement_percent_title"
+                android:text="@string/oxygen_level_subtitle"
                 android:textAppearance="@style/onboardingContentSmall"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
 
                 app:layout_constraintTop_toBottomOf="@id/oxygen_level_text" />
             <TextView
-                android:id="@+id/pure_rate_subtitle"
+                android:id="@+id/pulse_rate_subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
 
-                android:text="@string/measurement_breaths_beat_title"
+                android:text="@string/pulse_rate_subtitle"
                 android:textAppearance="@style/onboardingContentSmall"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="@id/pure_rate_title"
-                app:layout_constraintTop_toBottomOf="@id/pure_rate_text" />
+                app:layout_constraintStart_toStartOf="@id/pulse_rate_title"
+                app:layout_constraintTop_toBottomOf="@id/pulse_rate_text" />
 
             <TextView
-                android:id="@+id/repiratory_rate_subtitle"
+                android:id="@+id/respiratory_rate_subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="start"
-                android:text="@string/measurement_beat_min_title"
+                android:text="@string/respiratory_rate_subtitle"
                 android:textAppearance="@style/onboardingContentSmall"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="@id/repiratory_rate_title"
+                app:layout_constraintStart_toStartOf="@id/respiratory_rate_title"
 
-                app:layout_constraintTop_toBottomOf="@id/repiratory_rate_text" />
+                app:layout_constraintTop_toBottomOf="@id/respiratory_rate_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

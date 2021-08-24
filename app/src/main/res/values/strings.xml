@@ -468,8 +468,8 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="measurement_title_SPO2">Oxygen Level</string>
     <string name="measurement_title_PR">Pulse Rate</string>
     <string name="measurement_title_RRP">Respiratory Rate</string>
-    <string name="measurement_percent_title">%</string>
-    <string name="measurement_breaths_beat_title">breaths/beat</string>
-    <string name="measurement_beat_min_title">beats/min</string>
+    <string name="oxygen_level_subtitle">%</string>
+    <string name="pulse_rate_subtitle">breaths/beat</string>
+    <string name="respiratory_rate_subtitle">beats/min</string>
     <string name="measurement_title">Measurements</string>
 </resources>
