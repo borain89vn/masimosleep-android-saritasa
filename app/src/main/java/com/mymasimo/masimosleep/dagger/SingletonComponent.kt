@@ -17,6 +17,7 @@ import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsF
 import com.mymasimo.masimosleep.ui.night_report.report_bed_time.ReportTimeInBedFragment
 import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_events.details.EventDetailsFragment
+import com.mymasimo.masimosleep.ui.night_report.report_measurements.ReportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
@@ -117,4 +118,5 @@ interface SingletonComponent {
     fun inject(target: SelfDismissDialogFragment)
     fun inject(target: SessionExportMeasurementsFragment)
     fun inject(target: NightReportFragment)
+    fun inject(target: ReportMeasurementsFragment)
 }

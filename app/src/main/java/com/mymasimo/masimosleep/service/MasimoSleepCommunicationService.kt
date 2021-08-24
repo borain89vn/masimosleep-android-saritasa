@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat.startForegroundService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.firestore.v1.DocumentChange
 import com.masimo.android.airlib.*
 import com.masimo.common.model.universal.ParameterID
 import com.masimo.sleepscore.sleepscorelib.model.Parameter
@@ -49,6 +50,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

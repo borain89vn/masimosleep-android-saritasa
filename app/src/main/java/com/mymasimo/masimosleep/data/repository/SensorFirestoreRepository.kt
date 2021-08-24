@@ -50,6 +50,7 @@ class SensorFirestoreRepository @Inject constructor(
 
         sensorDocument(name.toDocumentId()).set(data).await()
     }
+
 }
 
 fun DocumentSnapshot.toTick(): Tick {

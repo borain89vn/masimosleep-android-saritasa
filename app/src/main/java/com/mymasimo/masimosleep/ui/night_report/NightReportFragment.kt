@@ -23,6 +23,7 @@ import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsF
 import com.mymasimo.masimosleep.ui.night_report.report_bed_time.ReportTimeInBedFragment
 import com.mymasimo.masimosleep.ui.night_report.report_events.ReportEventsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_export_measurements.ReportExportMeasurementsFragment
+import com.mymasimo.masimosleep.ui.night_report.report_measurements.ReportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
 import com.mymasimo.masimosleep.ui.night_report.report_view_vitals.ReportViewVitalsFragment
@@ -106,6 +107,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         removeAllFragments()
 
         addFragment(ReportSleepQualityFragment.newInstance(sessionId), SLEEP_QUALITY_FRAGMENT_TAG)
+        addFragment(ReportMeasurementsFragment.newInstance(sessionId), MEASUREMENTS_FRAGMENT_TAG)
         addFragment(ReportTimeInBedFragment.newInstance(sessionId), TIME_IN_BED_FRAGMENT_TAG)
         addFragment(ReportSleepTrendFragment.newInstance(sessionId), SLEEP_TREND_FRAGMENT_TAG)
         addFragment(ReportEventsFragment.newInstance(sessionId), EVENTS_FRAGMENT_TAG)
@@ -189,6 +191,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
     }
 
     companion object {
+        private const val MEASUREMENTS_FRAGMENT_TAG = "MEASUREMENT_FRAGMENT"
         private const val SLEEP_QUALITY_FRAGMENT_TAG = "SLEEP_QUALITY"
         private const val TIME_IN_BED_FRAGMENT_TAG = "TIME_IN_BED_FRAGMENT"
         private const val SLEEP_TREND_FRAGMENT_TAG = "SLEEP_TREND"
