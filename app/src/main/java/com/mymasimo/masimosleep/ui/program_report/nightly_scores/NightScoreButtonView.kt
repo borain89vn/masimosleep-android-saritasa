@@ -9,7 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.databinding.NightScoreButtonViewBinding
 
-class NightScoreButtonView(context: Context, night: Int, score: Int, state: NightScoreButtonState) : ConstraintLayout(context) {
+class NightScoreButtonView(context: Context, night: Int, score: Int, state: NightScoreButtonState, screenWidth: Int) : ConstraintLayout(context) {
 
     private val state: NightScoreButtonState
     private lateinit var listener: () -> Unit
@@ -18,13 +18,14 @@ class NightScoreButtonView(context: Context, night: Int, score: Int, state: Nigh
     init {
         inflate(context, R.layout.night_score_button_view, this)
 
-        val screenWidth = resources.displayMetrics.widthPixels
         val density = resources.displayMetrics.density
         val buttonsPerRow = 5
-        val availableWidth = screenWidth - 64 * density
+        val margin = 2
+        val totalMargin = (2*margin)*buttonsPerRow*density
+        val availableWidth = screenWidth - totalMargin
 
         val params = LayoutParams(availableWidth.toInt() / buttonsPerRow, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.setMargins(2* density.toInt(), 0, 2 * density.toInt(), 0)
+        params.setMargins(margin* density.toInt(), 0, margin * density.toInt(), 0)
         this.layoutParams = params
         this.state = state
 

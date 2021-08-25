@@ -44,7 +44,7 @@ class ProgramRecommendationsFragment : Fragment(R.layout.fragment_program_recomm
     }
 
     private fun setupButtons() {
-        viewBinding.coffeeButton.setOnClickListener {
+        viewBinding.coffeeTray.setOnClickListener {
             requireView().findNavController().navigate(
                 ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
                     Recommendation.NO_CAFFEINE
@@ -52,7 +52,7 @@ class ProgramRecommendationsFragment : Fragment(R.layout.fragment_program_recomm
             )
         }
 
-        viewBinding.snoreButton.setOnClickListener {
+        viewBinding.snoreTray.setOnClickListener {
             requireView().findNavController().navigate(
                 ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
                     Recommendation.SLEEP_SIDEWAYS
@@ -60,7 +60,7 @@ class ProgramRecommendationsFragment : Fragment(R.layout.fragment_program_recomm
             )
         }
 
-        viewBinding.beerButton.setOnClickListener {
+        viewBinding.beerTray.setOnClickListener {
             requireView().findNavController().navigate(
                 ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
                     Recommendation.NO_ALCOHOL
@@ -68,7 +68,7 @@ class ProgramRecommendationsFragment : Fragment(R.layout.fragment_program_recomm
             )
         }
 
-        viewBinding.exerciseButton.setOnClickListener {
+        viewBinding.exerciseTray.setOnClickListener {
             requireView().findNavController().navigate(
                 ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
                     Recommendation.EXERCISE
@@ -76,7 +76,7 @@ class ProgramRecommendationsFragment : Fragment(R.layout.fragment_program_recomm
             )
         }
 
-        viewBinding.medsButton.setOnClickListener {
+        viewBinding.medsTray.setOnClickListener {
             requireView().findNavController().navigate(
                 ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
                     Recommendation.SLEEP_AID
@@ -84,10 +84,18 @@ class ProgramRecommendationsFragment : Fragment(R.layout.fragment_program_recomm
             )
         }
 
-        viewBinding.maintainButton.setOnClickListener {
+        viewBinding.moreSleepTray.setOnClickListener {
             requireView().findNavController().navigate(
                 ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
                     Recommendation.SLEEP_HOURS
+                )
+            )
+        }
+
+        viewBinding.maintainTray.setOnClickListener {
+            requireView().findNavController().navigate(
+                ProgramReportFragmentDirections.actionProgramReportFragmentToRecommendationDetailFragment(
+                    Recommendation.MAINTAIN_HEALTHY_LIFESTYLE
                 )
             )
         }
