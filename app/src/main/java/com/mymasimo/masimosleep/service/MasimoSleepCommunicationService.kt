@@ -401,6 +401,7 @@ class MasimoSleepCommunicationService : Service(), BluetoothLEConnection.BLEConn
             if (MasimoSleepPreferences.emulatorUsed) {
                 Timber.d("work with emulator")
                 bleConnectionState.setCurrentState(State.DEVICE_CONNECTED)
+                activeServiceModuleIDUpdates.postValue(module.id)
                 stopConstantReconnectBLETask()
                 launch { sensorRepository.getTicks(module).collect { tick ->
                     Timber.d("Tick from emulator: $tick")
