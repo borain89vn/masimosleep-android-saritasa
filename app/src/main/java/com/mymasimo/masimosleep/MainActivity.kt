@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val navController = hostFragment.findNavController()
         val currentDestination = (navController.currentDestination as FragmentNavigator.Destination).className
         if (currentDestination != HomeFragment::class.qualifiedName) {
-            navController.popBackStack().not()
+            navController.popBackStack()
         }
     }
 }
