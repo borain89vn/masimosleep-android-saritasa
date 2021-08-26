@@ -60,11 +60,11 @@ fun DocumentSnapshot.toTick(): Tick {
 }
 
 fun DocumentSnapshot.toSleepEvent(): FireStoreSleepEvent {
-    val starTime = this[START_TIME, Float::class.java] ?: 0F
-    val stopTime = this[STOP_TIME, Float::class.java] ?: 0F
+    val starTime = this[START_TIME, Double::class.java] ?: 0F
+    val stopTime = this[STOP_TIME, Double::class.java] ?: 0F
     val type = this[TYPE, String::class.java]
 
-    return FireStoreSleepEvent((starTime * 1000).toLong(), (stopTime * 1000).toLong(), SleepEventType.fromKey(type!!)
+    return FireStoreSleepEvent((starTime.toDouble() * 1000).toLong(), (stopTime.toDouble() * 1000).toLong(), SleepEventType.fromKey(type!!)
     )
 }
 
