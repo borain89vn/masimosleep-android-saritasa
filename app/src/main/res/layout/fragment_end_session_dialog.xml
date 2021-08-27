@@ -19,28 +19,35 @@
         <Button
             android:id="@+id/cancel_button"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/black_button"
             android:text="@string/cancel_btn"
             android:textAppearance="@style/roundedButton_WhiteText"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintRight_toLeftOf="@id/action_button"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <Button
             android:id="@+id/action_button"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:background="@drawable/round_button"
             android:text="@string/confirm_btn"
             android:textAppearance="@style/roundedButton_WhiteText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/cancel_button"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
         <TextView
             android:id="@+id/title_text"

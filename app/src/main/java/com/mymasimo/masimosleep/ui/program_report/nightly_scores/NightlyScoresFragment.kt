@@ -43,37 +43,40 @@ class NightlyScoresFragment : Fragment(R.layout.fragment_nightly_scores) {
     }
 
     private fun buildUI(scores: List<NightlyScoreItem>) {
-        viewBinding.row1Layout.removeAllViews()
-        viewBinding.row2Layout.removeAllViews()
-        for (i in 1..NUM_OF_NIGHTS) {
-            val index = i - 1
-            var score: Int = -1
-            var type: NightScoreButtonState = NightScoreButtonState.FUTURE
+        viewBinding.row1Layout.post {
+            viewBinding.row1Layout.removeAllViews()
+            viewBinding.row2Layout.removeAllViews()
 
-            var layout = viewBinding.row1Layout
-            if (i > 5) {
-                layout = viewBinding.row2Layout
-            }
+            for (i in 1..NUM_OF_NIGHTS) {
+                val index = i - 1
+                var score: Int = -1
+                var type: NightScoreButtonState = NightScoreButtonState.FUTURE
 
-            if (index < scores.size) {
-                score = (scores[index].score * 100).toInt()
-                type = NightScoreButtonState.PAST
-            }
-
-            val button = NightScoreButtonView(requireContext(), i, score, type)
-
-            if (index < scores.size) {
-                button.setOnButtonClickListener {
-                    val sessionId: Long = scores[index].sessionId
-                    requireView().findNavController().navigate(
-                        ProgramReportFragmentDirections.actionProgramReportFragmentToNightReportFragment(
-                            sessionId = sessionId,
-                            nightNumber = scores[index].nightNumber
-                        )
-                    )
+                var layout = viewBinding.row1Layout
+                if (i > 5) {
+                    layout = viewBinding.row2Layout
                 }
+
+                if (index < scores.size) {
+                    score = (scores[index].score * 100).toInt()
+                    type = NightScoreButtonState.PAST
+                }
+
+                val button = NightScoreButtonView(requireContext(), i, score, type,viewBinding.row1Layout.width)
+
+                if (index < scores.size) {
+                    button.setOnButtonClickListener {
+                        val sessionId: Long = scores[index].sessionId
+                        requireView().findNavController().navigate(
+                            ProgramReportFragmentDirections.actionProgramReportFragmentToNightReportFragment(
+                                sessionId = sessionId,
+                                nightNumber = scores[index].nightNumber
+                            )
+                        )
+                    }
+                }
+                layout.addView(button)
             }
-            layout.addView(button)
         }
     }
 
