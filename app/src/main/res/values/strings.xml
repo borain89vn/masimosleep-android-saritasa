@@ -432,7 +432,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="by_minute_btn">BY MINUTE</string>
     <string name="try_again_btn">Try Again</string>
     <string name="select_device_title">Select a Device</string>
-    <string name="add_note_btn">+ Add Note</string>
+    <string name="add_note_btn">Add Note</string>
     <string name="settings_title">Settings</string>
     <string name="device_title">Device</string>
     <string name="app_information_title">App Information</string>

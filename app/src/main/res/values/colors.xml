@@ -39,7 +39,7 @@
     <color name="event_color_minor">#ffa000</color>
     <color name="event_color_major">#f40000</color>
 
-    <color name="darkText">#2b3639</color>
+    <color name="darkText">#283639</color>
     <color name="lightDiv">#dfe7e8</color>
     <color name="lightTrayText">#6e858d</color>
 
@@ -61,5 +61,7 @@
     <color name="green_05B0ae">#05B0AE</color>
     <color name="blue_0087de">#0087DE</color>
     <color name="orange_f98704">#F98704</color>
+    <color name="gray_49585b">#49585B</color>
+    <color name="gray_747a7c">#747A7C</color>
 
 </resources>
