@@ -1,208 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="#00000000"
+tools:context=".ui.night_report.report_events.ReportEventsFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#00000000"
-    tools:context=".ui.session.session_events.SessionEventsFragment">
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/dark_tray"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+
+    <ImageView
+        android:id="@+id/type_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/event_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/chart_title"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/sleep_events"
+        android:textAppearance="@style/onboardingContent"
+        android:textColor="@color/subtleGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/type_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_vital_title"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/view_vitals_title"
+        android:textAppearance="@style/onboardingContent"
+        android:textColor="@color/subtleGray"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/arrow_icon"
+        android:layout_marginEnd="8dp"
+        />
+
+    <ImageView
+        android:id="@+id/arrow_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/forward_arrow"
+        app:tint="@color/subtleGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/view_vital_title"
+        app:layout_constraintTop_toTopOf="@id/view_vital_title" />
+
+    <View
+        android:id="@+id/title_div"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/dark_tray"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="1dp"
+        android:layout_margin="16dp"
+        android:background="@color/darkDiv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/chart_title" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/event_tray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/dark_inner_tray"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/no_events_tray">
 
         <ImageView
-            android:id="@+id/type_icon"
+            android:id="@+id/warning_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/event_icon"
+            android:layout_margin="16dp"
+            android:src="@drawable/warning_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/chart_title"
+            android:id="@+id/event_text"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:text="@string/sleep_events"
+            android:layout_margin="16dp"
+            android:gravity="start|center"
+            tools:text="516 Events Occured"
+
+            android:textAppearance="@style/onboardingContentBold"
+            android:textColor="@color/subtleGray"
+            android:drawableRight="@drawable/info_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/warning_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/minor_event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_margin="16dp"
+            android:text="@string/minor_events_title"
+            android:textAppearance="@style/onboardingContent"
+            android:textColor="@color/subtleGray"
+            app:layout_constraintStart_toEndOf="@id/minor_dot"
+            app:layout_constraintTop_toBottomOf="@id/event_tray_div" />
+
+        <TextView
+            android:id="@+id/minor_event_text"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_margin="16dp"
+            tools:text="217"
             android:textAppearance="@style/onboardingContent"
             android:textColor="@color/subtleGray"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.875"
-            app:layout_constraintStart_toEndOf="@id/type_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/event_tray_div" />
+
+        <TextView
+            android:id="@+id/major_event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_margin="16dp"
+            android:text="@string/major_events_title"
+            android:textAppearance="@style/onboardingContent"
+            android:textColor="@color/subtleGray"
+            app:layout_constraintStart_toEndOf="@id/minor_dot"
+            app:layout_constraintTop_toBottomOf="@id/minor_event_title" />
+
+        <TextView
+            android:id="@+id/major_event_text"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_margin="16dp"
+            tools:text="217"
+            android:textAppearance="@style/onboardingContent"
+            android:textColor="@color/subtleGray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/minor_event_text" />
 
         <View
-            android:id="@+id/title_div"
+            android:id="@+id/major_dot"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/major_event_dot"
+            app:layout_constraintBottom_toBottomOf="@id/major_event_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/major_event_title" />
+
+        <View
+            android:id="@+id/event_tray_div"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
             android:background="@color/darkDiv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/chart_title" />
+            app:layout_constraintTop_toBottomOf="@id/event_text" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/no_events_tray"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
+        <View
+            android:id="@+id/minor_dot"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_margin="16dp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/minor_event_dot"
+            app:layout_constraintBottom_toBottomOf="@id/minor_event_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_div">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/small_sleeping_moon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/no_events_text"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/no_events_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="16dp"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/subtleGray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Everything looks great!\nEnjoy your sleep, Bobby." />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/event_tray"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/dark_inner_tray"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/no_events_tray">
-
-            <ImageView
-                android:id="@+id/warning_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="16dp"
-                android:src="@drawable/warning_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/event_text"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_margin="16dp"
-                android:gravity="start|center"
-                tools:text="516 Events Occured"
-                android:textAppearance="@style/onboardingContentBold"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/warning_icon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/minor_event_title"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_margin="16dp"
-                android:text="@string/minor_events_title"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/subtleGray"
-                app:layout_constraintStart_toEndOf="@id/minor_dot"
-                app:layout_constraintTop_toBottomOf="@id/event_tray_div" />
-
-            <TextView
-                android:id="@+id/minor_event_text"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:layout_margin="16dp"
-                tools:text="217"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/trayText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_tray_div" />
-
-            <TextView
-                android:id="@+id/major_event_title"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_margin="16dp"
-                android:text="@string/major_events_title"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/subtleGray"
-                app:layout_constraintStart_toEndOf="@id/minor_dot"
-                app:layout_constraintTop_toBottomOf="@id/minor_event_title" />
-
-            <TextView
-                android:id="@+id/major_event_text"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:layout_margin="16dp"
-                tools:text="217"
-                android:textAppearance="@style/onboardingContent"
-                android:textColor="@color/trayText"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/minor_event_text" />
-
-            <View
-                android:id="@+id/major_dot"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/major_event_dot"
-                app:layout_constraintBottom_toBottomOf="@id/major_event_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/major_event_title" />
-
-            <View
-                android:id="@+id/event_tray_div"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/darkDiv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_text" />
-
-            <View
-                android:id="@+id/minor_dot"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/minor_event_dot"
-                app:layout_constraintBottom_toBottomOf="@id/minor_event_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/minor_event_title" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintTop_toTopOf="@id/minor_event_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/no_events_tray"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_margin="16dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_div">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/small_sleeping_moon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/no_events_text"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/no_events_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/onboardingContent"
+            android:textColor="@color/subtleGray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Everything went great!\nEnjoy your day, Bobby." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

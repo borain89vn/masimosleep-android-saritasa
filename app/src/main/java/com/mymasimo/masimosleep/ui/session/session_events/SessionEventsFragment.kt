@@ -41,10 +41,6 @@ class SessionEventsFragment : Fragment(R.layout.fragment_session_events) {
     companion object {
         private const val START_TIME_KEY = "START_TIME"
 
-        private const val gridColorID: Int = R.color.chart_grid_dark
-        private const val xAxisColorID: Int = R.color.chart_x_label_dark
-        private const val yAxisColorID: Int = R.color.chart_y_label_dark
-
         fun newInstance(startAt: Long) = SessionEventsFragment().apply {
             arguments = bundleOf(
                 START_TIME_KEY to startAt

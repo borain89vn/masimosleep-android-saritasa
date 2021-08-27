@@ -40,6 +40,7 @@ import com.mymasimo.masimosleep.ui.session.SessionFragment
 import com.mymasimo.masimosleep.ui.session.addnote.AddNoteFragment
 import com.mymasimo.masimosleep.ui.session.export_measurements.SessionExportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.session.session_events.SessionEventsFragment
+import com.mymasimo.masimosleep.ui.session.session_measurements.SessionMeasurementsFragment
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityFragment
 import com.mymasimo.masimosleep.ui.session.session_time_in_bed.SessionTimeInBedFragment
 import com.mymasimo.masimosleep.ui.session.sleep_quality_trend.SessionSleepQualityTrendFragment
@@ -119,4 +120,5 @@ interface SingletonComponent {
     fun inject(target: SessionExportMeasurementsFragment)
     fun inject(target: NightReportFragment)
     fun inject(target: ReportMeasurementsFragment)
+    fun inject(target: SessionMeasurementsFragment)
 }

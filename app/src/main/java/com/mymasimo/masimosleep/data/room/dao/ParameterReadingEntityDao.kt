@@ -28,6 +28,22 @@ interface ParameterReadingEntityDao {
 
     @Query(
         "SELECT * FROM ${Contract.TABLE_NAME} " +
+                "WHERE ${Contract.COLUMN_TYPE} = 'pr' " +
+                "ORDER BY ${Contract.COLUMN_CREATED_AT} DESC " +
+                "LIMIT 1"
+    )
+    fun latestPRReading(): Maybe<ParameterReadingEntity>
+
+    @Query(
+        "SELECT * FROM ${Contract.TABLE_NAME} " +
+                "WHERE ${Contract.COLUMN_TYPE} = 'rrp' " +
+                "ORDER BY ${Contract.COLUMN_CREATED_AT} DESC " +
+                "LIMIT 1"
+    )
+    fun latestRPRReading(): Maybe<ParameterReadingEntity>
+
+    @Query(
+        "SELECT * FROM ${Contract.TABLE_NAME} " +
                 "WHERE ${Contract.COLUMN_TYPE} = :type AND ${Contract.COLUMN_CREATED_AT} >= :startAt " +
                 "ORDER BY ${Contract.COLUMN_CREATED_AT} ASC"
     )
