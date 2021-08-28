@@ -46,7 +46,7 @@ import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
 
-class SessionFragment : Fragment(R.layout.fragment_session) {
+class  SessionFragment: Fragment(R.layout.fragment_session) {
 
     @Inject
     lateinit var vmFactory: ViewModelProvider.Factory
