@@ -4,15 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentReportMeasurementsBinding
-import com.mymasimo.masimosleep.model.MeasurementViewData
-import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
 import com.mymasimo.masimosleep.util.format
 import javax.inject.Inject
 
@@ -38,18 +36,10 @@ class SessionMeasurementsFragment : Fragment(R.layout.fragment_session_measureme
         updateUI()
 
         viewBinding.arrowIcon.setOnClickListener {
-//            view.findNavController().navigate(
-//                NightReportFragmentDirections.actionNightReportFragmentToReportVitalsFragment(
-//                    sessionId
-//                )
-//            )
+            sendClickEventToParent()
         }
         viewBinding.viewVitalTitle.setOnClickListener {
-//            view.findNavController().navigate(
-//                NightReportFragmentDirections.actionNightReportFragmentToReportVitalsFragment(
-//                    sessionId
-//                )
-//            )
+            sendClickEventToParent()
         }
     }
 
@@ -63,13 +53,16 @@ class SessionMeasurementsFragment : Fragment(R.layout.fragment_session_measureme
         vm.currentReadingRRP.observe(viewLifecycleOwner){ respiratory_rate->
             viewBinding.respiratoryRateText.text = "${respiratory_rate.format()}"
         }
+    }
 
-
+    private fun sendClickEventToParent() {
+        parentFragment?.setFragmentResult(KEY_REQUEST_CLICK, bundleOf(KEY_RESULT_OPEN_VITAL_DETAIL to true))
     }
 
     companion object {
         private const val KEY_SESSION_START = "SESSION_START"
-
+        private const val KEY_REQUEST_CLICK = "CLICK"
+        private const val KEY_RESULT_OPEN_VITAL_DETAIL = "OPEN_VITAL"
         fun newInstance(sessionStart: Long) = SessionMeasurementsFragment().apply {
             arguments = bundleOf(KEY_SESSION_START to sessionStart)
         }

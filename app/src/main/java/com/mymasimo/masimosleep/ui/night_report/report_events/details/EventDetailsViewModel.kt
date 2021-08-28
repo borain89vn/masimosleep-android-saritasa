@@ -32,6 +32,17 @@ class EventDetailsViewModel @Inject constructor(
             .addTo(disposables)
     }
 
+    fun onCreatedWithStartAt(sessionStartAt: Long) {
+        eventsRepository.sleepEventUpdates(sessionStartAt)
+            .map { events -> parseEventsIntoDetailViewData(events) }
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribe { sleepEventsViewData ->
+                _viewData.value = sleepEventsViewData
+            }
+            .addTo(disposables)
+    }
+
     override fun onCleared() {
         disposables.clear()
         super.onCleared()

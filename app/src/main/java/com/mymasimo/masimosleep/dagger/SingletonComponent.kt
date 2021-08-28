@@ -39,6 +39,7 @@ import com.mymasimo.masimosleep.ui.remove_chip.RemoveChipFragment
 import com.mymasimo.masimosleep.ui.session.SessionFragment
 import com.mymasimo.masimosleep.ui.session.addnote.AddNoteFragment
 import com.mymasimo.masimosleep.ui.session.export_measurements.SessionExportMeasurementsFragment
+import com.mymasimo.masimosleep.ui.session.session_event_detail.SessionEventDetailsFragment
 import com.mymasimo.masimosleep.ui.session.session_events.SessionEventsFragment
 import com.mymasimo.masimosleep.ui.session.session_measurements.SessionMeasurementsFragment
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityFragment
@@ -121,4 +122,5 @@ interface SingletonComponent {
     fun inject(target: NightReportFragment)
     fun inject(target: ReportMeasurementsFragment)
     fun inject(target: SessionMeasurementsFragment)
+    fun inject(target: SessionEventDetailsFragment)
 }
