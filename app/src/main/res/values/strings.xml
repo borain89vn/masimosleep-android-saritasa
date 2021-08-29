@@ -103,16 +103,16 @@
     <string name="exercise_question">Did you exercise yesterday?</string>
     <string name="meds_question">Did you take something to help you sleep last night?</string>
 
-    <string name="reco_coffee_title">Avoid caffeine before sleep</string>
-    <string name="reco_coffee_subtitle">Consider eliminating your caffeine intake, it may help your sleep quality.</string>
+    <string name="reco_coffee_title">Reduce Caffeine Intake</string>
+    <string name="reco_coffee_subtitle">Caffeine is a stimulant…</string>
     <string name="reco_coffee_body">Caffeine is a stimulant that helps people wake up and stay alert and energized during the day. It blocks sleep-inducing chemicals in the brain and increases adrenaline production. Caffeine should be avoided for at least six hours before bedtime.</string>
 
-    <string name="reco_snore_title">Adjust your sleep position</string>
-    <string name="reco_snore_subtitle">Consider sleeping on your side to reduce snoring.</string>
+    <string name="reco_snore_title">Sleeping Position</string>
+    <string name="reco_snore_subtitle">Sleeping in a comfortable…</string>
     <string name="reco_snore_body">While it is important to sleep in a comfortable position, some positions can make your snoring worse. Sleeping on your back is associated with increased snoring. Try to sleep on your side instead.</string>
 
-    <string name="reco_beer_title">Reduce alcohol intake</string>
-    <string name="reco_beer_subtitle">Consider reducing or eliminating your alcohol intake, it may help your sleep quality.</string>
+    <string name="reco_beer_title">Alcohol Intake</string>
+    <string name="reco_beer_subtitle">Alcohol contributes to…</string>
     <string name="reco_beer_body">
 Alcohol is not a sleep aid. It can contribute to poor sleep quality by:\n\n
 
@@ -120,12 +120,12 @@ Alcohol is not a sleep aid. It can contribute to poor sleep quality by:\n\n
 • Increasing the chance of waking up at night\n
 • Making snoring worse</string>
 
-    <string name="reco_exercise_title">Get moving!</string>
-    <string name="reco_exercise_subtitle">Consider adding 15 minutes or more of exercise to your daily routine.</string>
+    <string name="reco_exercise_title">Exercise</string>
+    <string name="reco_exercise_subtitle">As little as 15 minutes of…</string>
     <string name="reco_exercise_body">As little as 15 minutes of aerobic exercise, such as walking or cycling, can dramatically improve the quality of your sleep.</string>
 
-    <string name="reco_meds_title">Sleep aid caution</string>
-    <string name="reco_meds_subtitle">If you choose to take something for sleep it is best to use them only on an infrequent as needed basis.</string>
+    <string name="reco_meds_title">Sleep Aid Caution</string>
+    <string name="reco_meds_subtitle">The use of sleep aids…</string>
     <string name="reco_meds_body">Taking something to help you sleep is a tempting choice. When something is keeping you awake, whatever it is, it won\’t be cured with sleeping pills. At best, sleeping pills are a temporary band aid. At worst, they\’re an addictive crutch that can make insomnia worse in the long run.\n\n
 
  The use of sleep aids are most effective when used sparingly for short-term situations, such as traveling across time zones or recovering from a medical procedure.\n\n
