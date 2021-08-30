@@ -49,6 +49,24 @@ class ParameterReadingRepository @Inject constructor(
     }
 
     /**
+     * Returns the latest RP reading from the database.
+     */
+    fun latestPRReading(): Single<Double> {
+        return parameterReadingDao.latestPRReading()
+            .map { it.value }
+            .toSingle(0.0)
+    }
+
+    /**
+     * Returns the latest RPR reading from the database.
+     */
+    fun latestRRPReading(): Single<Double> {
+        return parameterReadingDao.latestRPRReading()
+            .map { it.value }
+            .toSingle(0.0)
+    }
+
+    /**
      * Returns updates with the readings of the [type] that were created after [startAt].
      * Note: these readings update every 1 minute since we do batch inserts every minute.
      */

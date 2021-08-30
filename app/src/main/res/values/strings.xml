@@ -260,7 +260,7 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="program_complete_content">"Congratulations, %1s! You have successfully completed the 7-Night Sleep Checkup™."</string>
 
     <!-- commonly used texts start-->
-    <string name="sleep_quality_index_trend">Sleep Halo Index Trend</string>
+    <string name="sleep_quality_index_trend">Sleep Halo Index&#8482; Trend</string>
     <string name="sleep_session_breakdown">Sleep Session Breakdown</string>
     <string name="duration_range">Duration Range</string>
     <string name="typical_bed_time">Typical Bed Time</string>
@@ -477,4 +477,5 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="pulse_rate_subtitle">beats/min</string>
     <string name="respiratory_rate_subtitle">breaths/min</string>
     <string name="measurement_title">Measurements</string>
+    <string name="measurement_title_live">Live Measurements</string>
 </resources>

@@ -63,5 +63,10 @@
     <color name="orange_f98704">#F98704</color>
     <color name="gray_49585b">#49585B</color>
     <color name="gray_747a7c">#747A7C</color>
+    <color name="gray_2c3e43">#2C3E43</color>
+    <color name="dark_title">#CBD8DA</color>
+    <color name="gray_50_cbd8da">#80CBD8DA</color>
+    <color name="gray_69868e">#69868E</color>
+    <color name="gray_9eb0b5">#9EB0B5</color>
 
 </resources>

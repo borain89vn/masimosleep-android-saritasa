@@ -421,6 +421,14 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/sessionFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_sessionFragment_to_SessionEventDetailsFragment"
+            app:destination="@id/sessionEventDetailsFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+            />
         <argument
             android:name="nightNumber"
             android:defaultValue="-1"
@@ -544,6 +552,7 @@
             android:name="sessionId"
             android:defaultValue="-1L"
             app:argType="long" />
+
     </fragment>
     <fragment
         android:id="@+id/reportAddNoteFragment"
@@ -830,6 +839,17 @@
             android:name="nightNumber"
             android:defaultValue="0"
             app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sessionEventDetailsFragment"
+        android:name="com.mymasimo.masimosleep.ui.session.session_event_detail.SessionEventDetailsFragment"
+        android:label="fragment_session_event_detail"
+        tools:layout="@layout/fragment_event_details">
+        <argument
+            android:name="sessionStart"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
 
     <action

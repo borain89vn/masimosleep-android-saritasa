@@ -5,18 +5,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.mymasimo.masimosleep.BuildConfig
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
+import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.data.repository.RawParameterReadingRepository
 import com.mymasimo.masimosleep.data.repository.SessionTerminatedRepository
 import com.mymasimo.masimosleep.databinding.FragmentSessionBinding
@@ -26,8 +30,12 @@ import com.mymasimo.masimosleep.service.DeviceException
 import com.mymasimo.masimosleep.service.DeviceExceptionHandler
 import com.mymasimo.masimosleep.service.RawParameterReadingCsvExport
 import com.mymasimo.masimosleep.ui.dialogs.SessionTerminatedFragmentArgs
+import com.mymasimo.masimosleep.ui.home.HomeFragment
+import com.mymasimo.masimosleep.ui.night_report.NightReportFragment
+import com.mymasimo.masimosleep.ui.night_report.report_measurements.ReportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.session.no_data_yet.SessionNoDataFragment
 import com.mymasimo.masimosleep.ui.session.session_events.SessionEventsFragment
+import com.mymasimo.masimosleep.ui.session.session_measurements.SessionMeasurementsFragment
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityFragment
 import com.mymasimo.masimosleep.ui.session.session_time_in_bed.SessionTimeInBedFragment
 import com.mymasimo.masimosleep.ui.session.sleep_quality_trend.SessionSleepQualityTrendFragment
@@ -63,6 +71,7 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
+        receiveClickEvent()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,7 +95,12 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
             if (scoreAvailable) {
                 showDataConfiguration()
             } else {
-                showNoDataConfiguration()
+                if (MasimoSleepPreferences.emulatorUsed){
+                    showDataConfiguration()
+                }else {
+                    showNoDataConfiguration()
+                }
+
             }
         }
 
@@ -223,6 +237,7 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
         removeAllFragments()
 
         addFragment(SessionSleepQualityFragment.newInstance(args.sessionStart), SLEEP_QUALITY_FRAGMENT_TAG)
+        addFragment(SessionMeasurementsFragment.newInstance(args.sessionStart), MEASUREMENTS_FRAGMENT_TAG)
         addFragment(SessionTimeInBedFragment.newInstance(args.sessionStart), TIME_IN_BED_FRAGMENT_TAG)
         addFragment(SessionSleepQualityTrendFragment.newInstance(args.sessionStart), SLEEP_QUALITY_TREND_FRAGMENT_TAG)
         addFragment(SessionEventsFragment.newInstance(args.sessionStart), EVENTS_FRAGMENT_TAG)
@@ -264,6 +279,19 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
         }
     }
 
+    private fun receiveClickEvent() {
+       setFragmentResultListener(KEY_REQUEST_CLICK) { _, result ->
+            result.getBoolean(KEY_RESULT_OPEN_VITAL_DETAIL)?.let {
+                if (it) {
+                    findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToSessionVitalsFragment(args.sessionStart))
+                } else {
+                    findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToSessionEventDetailsFragment(args.sessionStart))
+
+                }
+            }
+        }
+    }
+
     companion object {
         private const val NO_DATA_FRAGMENT_TAG = "NO_DATA"
         private const val TIME_IN_BED_FRAGMENT_TAG = "TIME_IN_BED"
@@ -271,6 +299,9 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
         private const val SLEEP_QUALITY_FRAGMENT_TAG = "SLEEP_QUALITY"
         private const val SLEEP_QUALITY_TREND_FRAGMENT_TAG = "SLEEP_QUALITY_TREND"
         private const val EVENTS_FRAGMENT_TAG = "SLEEP_EVENTS"
+        private const val MEASUREMENTS_FRAGMENT_TAG = "MEASUREMENT_FRAGMENT"
+        private const val KEY_REQUEST_CLICK = "CLICK"
+        private const val KEY_RESULT_OPEN_VITAL_DETAIL = "OPEN_VITAL"
 
         private val ALL_FRAGMENT_TAGS = listOf(
             NO_DATA_FRAGMENT_TAG,
@@ -279,6 +310,7 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
             SLEEP_QUALITY_FRAGMENT_TAG,
             SLEEP_QUALITY_TREND_FRAGMENT_TAG,
             EVENTS_FRAGMENT_TAG,
+            MEASUREMENTS_FRAGMENT_TAG
         )
     }
 }

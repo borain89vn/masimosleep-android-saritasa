@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -18,6 +20,8 @@ import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.databinding.FragmentSessionEventsBinding
+import com.mymasimo.masimosleep.ui.night_report.NightReportFragment
+import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
 import com.mymasimo.masimosleep.ui.session.session_events.util.SleepEventsViewData
 import io.reactivex.disposables.CompositeDisposable
 import java.text.SimpleDateFormat
@@ -40,10 +44,9 @@ class SessionEventsFragment : Fragment(R.layout.fragment_session_events) {
 
     companion object {
         private const val START_TIME_KEY = "START_TIME"
+        private const val KEY_REQUEST_CLICK = "CLICK"
+        private const val KEY_RESULT_OPEN_VITAL_DETAIL = "OPEN_VITAL"
 
-        private const val gridColorID: Int = R.color.chart_grid_dark
-        private const val xAxisColorID: Int = R.color.chart_x_label_dark
-        private const val yAxisColorID: Int = R.color.chart_y_label_dark
 
         fun newInstance(startAt: Long) = SessionEventsFragment().apply {
             arguments = bundleOf(
@@ -78,6 +81,23 @@ class SessionEventsFragment : Fragment(R.layout.fragment_session_events) {
             updateUI(sleepEventData)
         }
 
+        viewBinding.arrowIcon.setOnClickListener {
+            sendClickEventToParent(true)
+        }
+
+        viewBinding.viewVitalTitle.setOnClickListener {
+            sendClickEventToParent(true)
+        }
+
+        viewBinding.eventText.setOnClickListener {
+            sendClickEventToParent(false)
+        }
+
+    }
+    private fun sendClickEventToParent(isOpenVitalDetail: Boolean) {
+        parentFragment?.setFragmentResult(
+            KEY_REQUEST_CLICK, bundleOf(KEY_RESULT_OPEN_VITAL_DETAIL to isOpenVitalDetail)
+        )
     }
 
     private fun noEventsConfiguration() {

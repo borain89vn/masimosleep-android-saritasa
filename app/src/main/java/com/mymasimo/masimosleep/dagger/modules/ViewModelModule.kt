@@ -32,6 +32,7 @@ import com.mymasimo.masimosleep.ui.remove_chip.RemoveChipViewModel
 import com.mymasimo.masimosleep.ui.session.SessionViewModel
 import com.mymasimo.masimosleep.ui.session.addnote.AddNoteViewModel
 import com.mymasimo.masimosleep.ui.session.session_events.SessionSleepEventsViewModel
+import com.mymasimo.masimosleep.ui.session.session_measurements.SessionMeasurementsViewModel
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityViewModel
 import com.mymasimo.masimosleep.ui.session.sleep_quality_trend.SleepQualityTrendViewModel
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LineGraphViewModel
@@ -210,4 +211,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ReportMeasurementsViewModel::class)
     internal abstract fun bindReportMeasurementsViewModel(vm: ReportMeasurementsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SessionMeasurementsViewModel::class)
+    internal abstract fun bindSessionMeasurementsViewModel(vm: SessionMeasurementsViewModel): ViewModel
 }

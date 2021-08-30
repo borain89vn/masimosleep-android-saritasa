@@ -3,4 +3,5 @@
     <!-- Add localized strings for Russian language here -->
     <string name="sleep_program_title">Ваш сон</string>
     <string name="measurement_title">Measurements</string>
+    <string name="measurement_title_live">Live measurements</string>
 </resources>
