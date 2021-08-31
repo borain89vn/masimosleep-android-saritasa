@@ -285,7 +285,7 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
                 if (it) {
                     findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToSessionVitalsFragment(args.sessionStart))
                 } else {
-                    findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToSessionEventDetailsFragment(args.sessionStart))
+                    findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToMinorEventDetailFragment(args.sessionStart))
 
                 }
             }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/silver_bg"
+    tools:context=".ui.night_report.notes.addnote.ReportAddNoteFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/white_tray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+        <TextView
+            android:id="@+id/events_occured_title"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/event_occured"
+            android:textAppearance="@style/onboardingTitleNormal"
+
+            app:layout_constraintTop_toTopOf="parent" />
+         <ImageView
+             android:id="@+id/close_button"
+             android:layout_width="18dp"
+             android:layout_height="18dp"
+             android:src="@drawable/close_icon"
+             android:adjustViewBounds="true"
+             android:layout_marginEnd="26dp"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toTopOf="@id/events_occured_title"
+             app:layout_constraintBottom_toBottomOf="@id/events_occured_title"
+             />
+        <ImageView
+            android:id="@+id/minor_event_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/minor_event_background"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toBottomOf="@id/events_occured_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+        <TextView
+            android:id="@+id/minor_major_title"
+            android:layout_width="0dp"
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_f7f8f9"
+            android:text="@string/minor_major_title"
+            android:textAppearance="@style/onboardingSubHeaderNormal"
+            android:padding="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/minor_event_image"
+
+            />
+          <TextView
+              android:id="@+id/minor_event_title"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="32dp"
+              android:layout_marginTop="16dp"
+              android:text="@string/minor_event_title"
+              android:textAppearance="@style/onboardingTitleNormal"
+              android:textSize="18sp"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/minor_major_title"
+
+              />
+        <TextView
+            android:id="@+id/minor_event_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/dummy_text"
+            android:textAppearance="@style/onboardingContent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/minor_event_title"
+
+            />
+
+        <TextView
+            android:id="@+id/major_event_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:text="@string/major_event_title"
+            android:textAppearance="@style/onboardingTitleNormal"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/minor_event_text"
+
+            />
+        <TextView
+            android:id="@+id/major_event_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/dummy_text"
+            android:textAppearance="@style/onboardingContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/major_event_title"
+
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

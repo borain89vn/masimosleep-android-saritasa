@@ -89,7 +89,7 @@ class SessionEventsFragment : Fragment(R.layout.fragment_session_events) {
             sendClickEventToParent(true)
         }
 
-        viewBinding.eventText.setOnClickListener {
+        viewBinding.infoButton.setOnClickListener {
             sendClickEventToParent(false)
         }
 
