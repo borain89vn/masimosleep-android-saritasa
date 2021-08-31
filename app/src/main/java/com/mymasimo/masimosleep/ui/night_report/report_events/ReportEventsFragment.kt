@@ -65,7 +65,7 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
             )
         }
 
-        viewBinding.eventText.setOnClickListener {
+        viewBinding.infoButton.setOnClickListener {
             view.findNavController().navigate(
                 NightReportFragmentDirections.actionNightReportFragmentToEventDetailsFragment(
                     sessionId
