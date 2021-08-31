@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mikephil.charting.components.XAxis
@@ -18,8 +20,11 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.databinding.FragmentReportEventsBinding
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
 import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
 import com.mymasimo.masimosleep.ui.night_report.report_events.util.SleepEventsViewData
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.receiveAsFlow
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -31,7 +36,7 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportEventsViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentReportEventsBinding::bind)
-
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
     private var sessionId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +54,7 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
             receivedEventsConfiguration()
             updateUI(viewData)
         }
+        receiveSharedEvent()
 
         viewBinding.noEventsText.text = getString(R.string.day_events_empty, MasimoSleepPreferences.name)
         noEventsConfiguration()
@@ -60,6 +66,15 @@ class ReportEventsFragment : Fragment(R.layout.fragment_report_events) {
                 )
             )
         }
+    }
+
+    private fun receiveSharedEvent(){
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            homeEventVM.shareEvent.collect {  it->
+                vm.onCreated(it.sessionId)
+            }
+        }
+
     }
 
     private fun noEventsConfiguration() {

@@ -5,15 +5,19 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentRecommendationsBinding
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
 import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
 import com.mymasimo.masimosleep.ui.night_report.recommendations.util.Recommendation
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class RecommendationsFragment : Fragment(R.layout.fragment_recommendations) {
@@ -21,6 +25,7 @@ class RecommendationsFragment : Fragment(R.layout.fragment_recommendations) {
     @Inject lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: RecommendationsViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentRecommendationsBinding::bind)
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -38,6 +43,16 @@ class RecommendationsFragment : Fragment(R.layout.fragment_recommendations) {
         vm.recommendations.observe(viewLifecycleOwner) { recommendations ->
             updateUI(recommendations)
         }
+        receiveSharedEvent()
+    }
+
+    private fun receiveSharedEvent() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            homeEventVM.shareEvent.collect {  it->
+                vm.onCreated(it.sessionId)
+            }
+        }
+
     }
 
     private fun setupButtons() {
