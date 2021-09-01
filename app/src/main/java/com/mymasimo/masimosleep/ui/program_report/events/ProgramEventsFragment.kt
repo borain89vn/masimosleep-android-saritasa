@@ -6,11 +6,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.preferences.MasimoSleepPreferences
 import com.mymasimo.masimosleep.databinding.FragmentProgramEventsBinding
+import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
 import javax.inject.Inject
 
 
@@ -34,17 +36,15 @@ class ProgramEventsFragment : Fragment(R.layout.fragment_program_events) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vm.eventsViewData.observe(viewLifecycleOwner) { viewData ->
-            receivedEventsConfiguration()
             updateUI(viewData)
         }
+
 
     }
 
     private fun noEventsConfiguration() {
         viewBinding.noEventsTray.visibility = View.VISIBLE
         viewBinding.eventTray.visibility = View.GONE
-        viewBinding.viewVitalTitle.visibility = View.GONE
-        viewBinding.arrowIcon.visibility = View.GONE
 
     }
 
