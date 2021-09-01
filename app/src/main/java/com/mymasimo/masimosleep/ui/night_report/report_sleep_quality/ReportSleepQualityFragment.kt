@@ -5,13 +5,17 @@ import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentReportSleepQualityBinding
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 
@@ -21,6 +25,7 @@ class ReportSleepQualityFragment : Fragment(R.layout.fragment_report_sleep_quali
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportSleepQualityViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentReportSleepQualityBinding::bind)
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -37,6 +42,16 @@ class ReportSleepQualityFragment : Fragment(R.layout.fragment_report_sleep_quali
         viewBinding.imgInfo.setOnClickListener {
             view.findNavController().navigate(R.id.action_homeFragment_to_sleepQualityDescriptionFragment)
         }
+        receiveSharedEvent()
+    }
+
+    private fun receiveSharedEvent() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            homeEventVM.shareEvent.collect {  it->
+                vm.onCreate(it.sessionId)
+            }
+        }
+
     }
 
     private fun updateScore(score: Double) {
