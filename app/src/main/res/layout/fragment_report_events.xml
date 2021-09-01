@@ -108,13 +108,24 @@
                 android:layout_height="30dp"
                 android:layout_margin="16dp"
                 android:gravity="start|center"
-                tools:text="516 Events Occured"
-
+                tools:text="16 Events Occured"
                 android:textAppearance="@style/onboardingContentBold"
-                android:drawableRight="@drawable/info_icon"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/info_button"
                 app:layout_constraintStart_toEndOf="@id/warning_icon"
                 app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/info_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/info_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/event_text"
+                app:layout_constraintBottom_toBottomOf="@id/event_text"
+                />
 
             <TextView
                 android:id="@+id/minor_event_title"

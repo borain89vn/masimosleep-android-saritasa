@@ -478,4 +478,9 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="respiratory_rate_subtitle">breaths/min</string>
     <string name="measurement_title">Measurements</string>
     <string name="measurement_title_live">Live Measurements</string>
+    <string name="event_occured">Events Occured</string>
+    <string name="minor_major_title">Minor and Major Events</string>
+    <string name="minor_event_title">Minor Event</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
+    <string name="major_event_title">Major Event</string>
 </resources>
