@@ -91,6 +91,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/updated_text"
         app:notchIcon="@drawable/triangle_red"
+        app:dashColor="@color/black"
+        app:dashThickness="4"
+        app:dashLength="8"
+        app:dashGap="5"
         app:scoreBarHeight="10"
         app:secondBarColor="@color/sq_yellowOff"
         app:thirdBarColor="@color/sq_greenOff" />
