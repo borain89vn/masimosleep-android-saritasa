@@ -15,6 +15,8 @@ private const val BAR_Y = 18f
 
 private const val BAR_SPACING = 0f
 
+private const val BAR_MARGIN_TOP = 5f
+
 class ScoreProgressBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -29,16 +31,26 @@ class ScoreProgressBar @JvmOverloads constructor(
 
     private val thirdBarPaint: Paint
 
+    private val dashPaint: Paint
+
+    private var secondBarWidthByPixel  = (resources.getInteger(R.integer.red_upper) + (69.0/150.0)*40)
+
     private val firstBarWidthPercent: Double = resources.getInteger(R.integer.red_upper) / 100.toDouble()
 
-    private val secondBarWidth: Double = resources.getInteger(R.integer.yellow_upper) / 100.toDouble()
+    private val secondBarWidth: Double = (secondBarWidthByPixel)/ 100.toDouble()
 
     private var score = 0f
 
     private var screenWidth = width
 
+    private var dashGap: Int
+    private var dashLength: Int
+    private var dashThickness: Int
+
+
     @DrawableRes
     private var notchIcon: Int
+
 
     init {
         val ta = context.theme.obtainStyledAttributes(attrs, R.styleable.ScoreProgressBar, 0, 0)
@@ -54,9 +66,15 @@ class ScoreProgressBar @JvmOverloads constructor(
 
             val constantsColor = ta.getResourceId(R.styleable.ScoreProgressBar_constantsColor, 0)
 
+            val dashColor = ta.getResourceId(R.styleable.ScoreProgressBar_dashColor, 0)
+
             score = ta.getFloat(R.styleable.ScoreProgressBar_score, 0.0f)
 
             notchIcon = ta.getResourceId(R.styleable.ScoreProgressBar_notchIcon, 0)
+
+            dashGap = ta.getResourceId(R.styleable.ScoreProgressBar_dashGap, 5)
+            dashLength = ta.getResourceId(R.styleable.ScoreProgressBar_dashLength, 8)
+            dashThickness = ta.getResourceId(R.styleable.ScoreProgressBar_dashThickness, 4)
 
             firstBarPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                 style = Paint.Style.STROKE
@@ -80,6 +98,13 @@ class ScoreProgressBar @JvmOverloads constructor(
                 style = Paint.Style.FILL
                 textSize = 14 * context.resources.displayMetrics.density
                 color = ContextCompat.getColor(context, constantsColor)
+            }
+
+            dashPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = ContextCompat.getColor(context, dashColor)
+                style = Paint.Style.STROKE
+                strokeWidth = dashThickness.toFloat()
+                pathEffect = DashPathEffect( floatArrayOf(dashLength.toFloat(),dashGap.toFloat()), 0f)
             }
 
         } finally {
@@ -131,6 +156,8 @@ class ScoreProgressBar @JvmOverloads constructor(
 
             //draw notch
             drawImage(canvas)
+            drawDashLine(canvas)
+
         }
     }
 
@@ -140,8 +167,16 @@ class ScoreProgressBar @JvmOverloads constructor(
         val newSize = BAR_Y.toDp()
 
         val scaled = Bitmap.createScaledBitmap(bm, newSize.toInt(), newSize.toInt(), true)
+        val imageWidth = if (score == 0.0f) 0 else scaled.width
+        val left = (screenWidth * score) - imageWidth/2 - (BAR_SPACING.toDp() * 3)
+        canvas.drawBitmap(scaled, left, 0f, null)
+    }
 
-        canvas.drawBitmap(scaled, (screenWidth * score) - (BAR_SPACING.toDp() * 3), 0f, null)
+    private fun drawDashLine(canvas: Canvas) {
+        if (score == 0f) return
+        val startX = (screenWidth * score)  - (BAR_SPACING.toDp() * 3)
+        canvas.drawLine(startX, BAR_Y.toDp() - (BAR_MARGIN_TOP/2).toDp(), startX, (BAR_Y * 2).toDp() - BAR_MARGIN_TOP.toDp(), dashPaint)
+
     }
 
     private fun drawText(canvas: Canvas, text: String, x: Float) {
@@ -151,17 +186,17 @@ class ScoreProgressBar @JvmOverloads constructor(
 
         val updatedX = (x - (bounds.width() + 2f.toDp())).coerceAtLeast(0f)
 
-        canvas.drawText(text, updatedX, (BAR_Y * 2).toDp(), textPaint)
+        canvas.drawText(text, updatedX, (BAR_Y * 2).toDp() + 2*BAR_MARGIN_TOP.toDp(), textPaint)
     }
 
     private fun drawBar(canvas: Canvas, startX: Float, barLength: Float, paint: Paint) {
-        canvas.drawLine(startX, BAR_Y.toDp(), barLength, BAR_Y.toDp(), paint)
+        canvas.drawLine(startX, BAR_Y.toDp() + BAR_MARGIN_TOP.toDp(), barLength, BAR_Y.toDp() + BAR_MARGIN_TOP.toDp(), paint)
     }
 
     private fun Float.toDp() = context.pxFromDp(this)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val desiredHeight = 120
+        val desiredHeight = 120 + (2*BAR_MARGIN_TOP).toDp().toInt()
 
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
 

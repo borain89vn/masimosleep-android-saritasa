@@ -6,6 +6,10 @@
         <attr name="secondBarColor" format="reference" />
         <attr name="thirdBarColor" format="reference" />
         <attr name="notchIcon" format="reference" />
+        <attr name="dashGap" format="integer"/>
+        <attr name="dashLength" format="integer"/>
+        <attr name="dashThickness" format="integer"/>
+        <attr name="dashColor" format="reference"/>
         <attr name="score" format="float" />
         <attr name="constantsColor" format="reference" />
     </declare-styleable>
