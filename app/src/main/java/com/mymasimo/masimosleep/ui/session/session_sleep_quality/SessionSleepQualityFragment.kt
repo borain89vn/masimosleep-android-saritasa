@@ -48,7 +48,6 @@ class SessionSleepQualityFragment : Fragment(R.layout.fragment_session_sleep_qua
         calculateScoreByPixel()
         vm.liveScore.observe(viewLifecycleOwner) { liveScore ->
             updateScore(liveScore)
-
         }
         viewBinding.imgInfo.setOnClickListener {
             view.findNavController().navigate(R.id.action_sessionFragment_to_sleepQualityDescriptionFragment)
@@ -63,6 +62,7 @@ class SessionSleepQualityFragment : Fragment(R.layout.fragment_session_sleep_qua
         }
     }
 
+
     /**
      * Calculate proportion  of progress bar by design
      * We just calculate proportion of progress bar from yellow to green zone
@@ -72,11 +72,11 @@ class SessionSleepQualityFragment : Fragment(R.layout.fragment_session_sleep_qua
      * Yellow zone position is from 60 to 88, total pixel is 69 pixels
      * Green zone position is from 88 to 100, total pixel is 81 pixels
      * Total pixel of green and yellow zone is 150
-     * Total point of green and yellow zone is (100 -60) - 40 points
-     * Total point per pixel in yellow zone is  (69/150)*40 = 18.4
-     * Total point per pixel in green zone is (81/150)*40 = 12.6
-     * 1 point per pixel in yellow zone is  18.4/(88-60)  = 0.6571
-     * 1 point per pixel in green zone  is 12.6/(100-88) = 1.05
+     * Total point of green and yellow zone is (100 -60) = 40 points
+     * Total point per pixel in yellow zone is  (69/150)*40
+     * Total point per pixel in green zone is (81/150)*40
+     * 1 point per pixel in yellow zone is  18.4/(88-60)
+     * 1 point per pixel in green zone  is 12.6/(100-88)
      */
     private fun calculateScoreByPixel(){
         redUpper = resources.getInteger(R.integer.red_upper)
@@ -88,15 +88,13 @@ class SessionSleepQualityFragment : Fragment(R.layout.fragment_session_sleep_qua
         greenUpperPerPixel = ((81/150.0)*40)/(100-yellowUpper)
 
         if (MasimoSleepPreferences.emulatorUsed){
-            val randomScore = (60..100).random()
+            val randomScore = (0..100).random()
             updateScore(randomScore/100.0)
         }
     }
 
     private fun updateScore(score: Double) {
         var scoreByPixel = 0.0
-        val redUpper = resources.getInteger(R.integer.red_upper)
-        val yellowUpper = resources.getInteger(R.integer.yellow_upper)
         val scoreInt = (score * 100).toInt()
         viewBinding.lblScoreText.text = scoreInt.toString()
 
