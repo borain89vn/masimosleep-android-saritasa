@@ -38,6 +38,24 @@
         <item name="android:textSize">22sp</item>
     </style>
 
+    <style name="onboardingTitleNormal" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="onboardingHeadeNormal" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="onboardingSubHeaderNormal" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
     <style name="onboardingContent" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/secondaryText_light</item>
         <item name="android:textStyle">normal</item>
