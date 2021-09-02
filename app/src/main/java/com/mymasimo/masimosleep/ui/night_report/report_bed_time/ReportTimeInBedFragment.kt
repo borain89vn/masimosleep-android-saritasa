@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentReportTimeInBedBinding
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
+import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -20,6 +24,7 @@ class ReportTimeInBedFragment : Fragment(R.layout.fragment_report_time_in_bed) {
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportTimeInBedViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentReportTimeInBedBinding::bind)
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -32,6 +37,16 @@ class ReportTimeInBedFragment : Fragment(R.layout.fragment_report_time_in_bed) {
         vm.sleepRange.observe(viewLifecycleOwner) { sleepRange ->
             updateTime(sleepRange.first, sleepRange.last)
         }
+        receiveSharedEvent()
+    }
+
+    private fun receiveSharedEvent() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            homeEventVM.shareEvent.collect {  it->
+                vm.onCreated(it.sessionId)
+            }
+        }
+
     }
 
     private fun updateTime(startMillis: Long, endMillis: Long) {

@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentReportNotesBinding
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
 import com.mymasimo.masimosleep.ui.night_report.NightReportFragmentDirections
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class ReportNotesFragment : Fragment(R.layout.fragment_report_notes) {
@@ -21,6 +25,7 @@ class ReportNotesFragment : Fragment(R.layout.fragment_report_notes) {
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: ReportNotesViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentReportNotesBinding::bind)
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
 
     private val adapter = ReportNotesAdapter(mutableListOf())
 
@@ -44,6 +49,7 @@ class ReportNotesFragment : Fragment(R.layout.fragment_report_notes) {
         vm.notes.observe(viewLifecycleOwner) { notes ->
             updateUI(notes)
         }
+        receiveSharedEvent()
 
         viewBinding.addNoteButton.setOnClickListener {
             view.findNavController().navigate(
@@ -51,6 +57,14 @@ class ReportNotesFragment : Fragment(R.layout.fragment_report_notes) {
                     sessionId
                 )
             )
+        }
+    }
+
+    private fun receiveSharedEvent() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            homeEventVM.shareEvent.collect {  it->
+                vm.onCreated(it.sessionId)
+            }
         }
     }
 

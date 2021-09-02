@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.*
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -18,6 +18,7 @@ import com.mymasimo.masimosleep.data.repository.RawParameterReadingRepository
 import com.mymasimo.masimosleep.data.repository.SessionRepository
 import com.mymasimo.masimosleep.databinding.FragmentNightReportBinding
 import com.mymasimo.masimosleep.service.RawParameterReadingCsvExport
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
 import com.mymasimo.masimosleep.ui.night_report.notes.ReportNotesFragment
 import com.mymasimo.masimosleep.ui.night_report.recommendations.RecommendationsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_bed_time.ReportTimeInBedFragment
@@ -29,6 +30,7 @@ import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTr
 import com.mymasimo.masimosleep.ui.night_report.report_view_vitals.ReportViewVitalsFragment
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternFragment
 import com.mymasimo.masimosleep.util.setMargins
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -42,6 +44,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
 
     private val args: NightReportFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentNightReportBinding::bind)
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
 
     private var sessionId: Long = -1
     private var nightNumber: Int = -1
@@ -81,11 +84,19 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
                 setMargins(viewBinding.scrollView, 0, 0, 0, 0)
                 viewBinding.scrollView.scrollTo(0, scrollToPosition)
             }
-
-
         }
-
+        receiveSharedEvent()
         showReportConfiguration()
+    }
+
+    private fun receiveSharedEvent() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            homeEventVM.shareEvent.collect {  it->
+                sessionId = it.sessionId
+                nightNumber = it.nightNumber
+                viewBinding.scrollView.scrollTo(0, 0)
+            }
+        }
     }
 
     override fun onPause() {
@@ -102,7 +113,6 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         )
     }
 
-
     private fun showReportConfiguration() {
         removeAllFragments()
 
@@ -113,12 +123,13 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         addFragment(ReportEventsFragment.newInstance(sessionId), EVENTS_FRAGMENT_TAG)
         addFragment(SleepPatternFragment.newInstanceWithSessionId(sessionId), SLEEP_PATTERN_FRAGMENT_TAG)
         addFragment(RecommendationsFragment.newInstance(sessionId), RECOMMENDATIONS_FRAGMENT_TAG)
-        addFragment(createViewVitalsFragment(sessionId), VIEW_VITALS_FRAGMENT_TAG)
-        addFragment(createReportExportMeasurementsFragment(sessionId), EXPORT_MEASUREMENTS_FRAGMENT_TAG)
+        addFragment(createViewVitalsFragment(), VIEW_VITALS_FRAGMENT_TAG)
+        addFragment(createReportExportMeasurementsFragment(), EXPORT_MEASUREMENTS_FRAGMENT_TAG)
         addFragment(ReportNotesFragment.newInstance(sessionId), NOTES_FRAGMENT_TAG)
+
     }
 
-    private fun createViewVitalsFragment(sessionId: Long): ReportViewVitalsFragment {
+    private fun createViewVitalsFragment(): ReportViewVitalsFragment {
         return ReportViewVitalsFragment.newInstance().apply {
             setOnClickListener {
                 requireView().findNavController().navigate(
@@ -130,7 +141,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         }
     }
 
-    private fun createReportExportMeasurementsFragment(sessionId: Long): ReportExportMeasurementsFragment {
+    private fun createReportExportMeasurementsFragment(): ReportExportMeasurementsFragment {
         return ReportExportMeasurementsFragment.newInstance().apply {
             setOnClickListener {
                 exportMeasurements(sessionId)
@@ -212,6 +223,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
             TIME_IN_BED_FRAGMENT_TAG,
             SLEEP_TREND_FRAGMENT_TAG,
             EVENTS_FRAGMENT_TAG,
+            SLEEP_PATTERN_FRAGMENT_TAG,
             RECOMMENDATIONS_FRAGMENT_TAG,
             VIEW_VITALS_FRAGMENT_TAG,
             NOTES_FRAGMENT_TAG,
