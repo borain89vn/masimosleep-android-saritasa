@@ -162,18 +162,19 @@ class ScoreProgressBar @JvmOverloads constructor(
     }
 
     private fun drawImage(canvas: Canvas) {
+        if(score == 1.0f) return
         val bm = BitmapFactory.decodeResource(context.resources, notchIcon)
 
         val newSize = BAR_Y.toDp()
 
         val scaled = Bitmap.createScaledBitmap(bm, newSize.toInt(), newSize.toInt(), true)
-        val imageWidth = if (score == 0.0f || score == 100f) 0 else scaled.width
+        val imageWidth = if (score == 0.0f) 0 else scaled.width
         val left = (screenWidth * score) - imageWidth/2 - (BAR_SPACING.toDp() * 3)
         canvas.drawBitmap(scaled, left, 0f, null)
     }
 
     private fun drawDashLine(canvas: Canvas) {
-        if (score == 0f || score == 100f) return
+        if (score == 0f) return
         val startX = (screenWidth * score)  - (BAR_SPACING.toDp() * 3)
         canvas.drawLine(startX, BAR_Y.toDp() - (BAR_MARGIN_TOP/2).toDp(), startX, (BAR_Y * 2).toDp() - (BAR_MARGIN_TOP).toDp(), dashPaint)
 
