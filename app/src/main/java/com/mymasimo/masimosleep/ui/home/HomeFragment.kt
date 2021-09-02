@@ -7,11 +7,10 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -30,6 +29,7 @@ import com.mymasimo.masimosleep.ui.session.SessionFragmentArgs
 import com.mymasimo.masimosleep.util.navigateSafe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,6 +50,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var sessionTerminatedRepository: SessionTerminatedRepository
 
+    private val shareEventVM: ShareHomeEventViewModel by activityViewModels()
     private val vm: HomeViewModel by activityViewModels { vmFactory }
     private val args: HomeFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentHomeBinding::bind)
@@ -200,16 +201,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun showTodayConfiguration() {
+        selectedNight = -1
         removeAllFragments()
         addFragment(StartButtonFragment.newInstance(), START_SESSION_FRAGMENT_TAG)
     }
 
     private fun showNightReport(configuration: HomeViewModel.SessionConfiguration.Summary) {
-        removeAllFragments()
+
         if (selectedNight != configuration.nightNumber) {
             nightReportScrollPosition = 0
-            selectedNight = configuration.nightNumber
+            if (selectedNight == -1) {
+                addNightReportFragment(configuration)
+                selectedNight = configuration.nightNumber
+            } else {
+                selectedNight = configuration.nightNumber
+                sendUpdateEventToNightReport(configuration)
+            }
+        } else {
+            addNightReportFragment(configuration)
         }
+    }
+
+    private fun addNightReportFragment(configuration: HomeViewModel.SessionConfiguration.Summary) {
+        removeAllFragments()
         addFragment(
             NightReportFragment.newInstance(
                 configuration.sessionId,
@@ -220,10 +234,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
     }
 
+
     private fun receiveScrollPositionEvent() {
         parentFragment?.setFragmentResultListener(KEY_SCROLL_POSITION_REQUEST) { _, result ->
             nightReportScrollPosition = result.getInt(KEY_SCROLL_POSITION)
         }
+    }
+    private fun sendUpdateEventToNightReport(configuration: HomeViewModel.SessionConfiguration.Summary){
+        viewLifecycleOwner.lifecycleScope.launch {
+            shareEventVM.shareEvent.emit(configuration)
+        }
+
     }
 
     private fun removeAllFragments() {
@@ -244,14 +265,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     companion object {
         private const val START_SESSION_FRAGMENT_TAG = "START_SESSION"
-        private const val SESSION_SUMMARY_FRAGMENT_TAG = "SESSION_SUMMARY"
         private const val NIGHT_REPORT_FRAGMENT_TAG = "SESSION_SUMMARY"
         private const val KEY_SCROLL_POSITION_REQUEST = "SCROLL_REQUEST"
         private const val KEY_SCROLL_POSITION = "SCROLL_POSITION"
+        private const val KEY_UPDATE_NIGHT_REPORT = "UPDATE_REQUEST"
+
+        private const val KEY_SESSION_ID = "SESSION_ID"
+        private const val KEY_NIGHT_NUMBER = "NIGHT_NUMBER"
+
 
         private val ALL_FRAGMENT_TAGS = listOf(
             START_SESSION_FRAGMENT_TAG,
-            SESSION_SUMMARY_FRAGMENT_TAG
+            NIGHT_REPORT_FRAGMENT_TAG
         )
     }
 }

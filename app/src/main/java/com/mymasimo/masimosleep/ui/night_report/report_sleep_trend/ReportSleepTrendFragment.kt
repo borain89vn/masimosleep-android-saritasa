@@ -6,8 +6,10 @@ import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.EdgeInsets
 import com.masimo.timelinechart.TimelineChartView
@@ -15,6 +17,8 @@ import com.masimo.timelinechart.data.*
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentReportSleepTrendBinding
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
+import kotlinx.coroutines.flow.collect
 import org.joda.time.LocalDateTime
 import org.joda.time.Seconds
 import javax.inject.Inject
@@ -28,6 +32,7 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend),
     private val vm: ReportSleepTrendViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentReportSleepTrendBinding::bind)
     private var coordinates: ArrayList<Coordinate> = ArrayList()
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -42,11 +47,20 @@ class ReportSleepTrendFragment : Fragment(R.layout.fragment_report_sleep_trend),
         vm.viewData.observe(viewLifecycleOwner) { viewData ->
             updateChart(viewData)
         }
+        receiveSharedEvent()
 
         viewBinding.chartSleepScore.goButtonIconDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_chart_forward_dark, null)
         viewBinding.chartSleepScore.goButtonBackgrounColor = Color.WHITE
         viewBinding.chartSleepScore.plotInsets = EdgeInsets(5, 5, 35, 30)
         viewBinding.chartSleepScore.dataSource = this
+    }
+
+    private fun receiveSharedEvent() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            homeEventVM.shareEvent.collect {  it->
+                vm.onCreated(it.sessionId)
+            }
+        }
     }
 
     private fun updateChart(trendData: ReportSleepTrendViewModel.SleepQualityTrendViewData) {

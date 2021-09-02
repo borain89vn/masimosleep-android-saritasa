@@ -6,15 +6,19 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.databinding.FragmentSleepPatternBinding
+import com.mymasimo.masimosleep.ui.home.ShareHomeEventViewModel
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.util.SleepPatternViewData
 import com.mymasimo.masimosleep.util.calculateTimeOfDayToMinutes
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +30,7 @@ class SleepPatternFragment : Fragment(R.layout.fragment_sleep_pattern) {
     lateinit var vmFactory: ViewModelProvider.Factory
     private val vm: SleepPatternViewModel by viewModels { vmFactory }
     private val viewBinding by viewBinding(FragmentSleepPatternBinding::bind)
+    private val homeEventVM: ShareHomeEventViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
@@ -49,6 +54,16 @@ class SleepPatternFragment : Fragment(R.layout.fragment_sleep_pattern) {
             Timber.d("ViewData: $viewData")
             updateUI(viewData)
         }
+        receiveSharedEvent()
+    }
+
+    private fun receiveSharedEvent() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            homeEventVM.shareEvent.collect {  it->
+                vm.onCreatedWithSessionId(it.sessionId)
+            }
+        }
+
     }
 
     fun updateUI(viewData: SleepPatternViewData) {
