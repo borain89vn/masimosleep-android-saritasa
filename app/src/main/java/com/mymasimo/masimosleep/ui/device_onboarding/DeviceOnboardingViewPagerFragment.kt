@@ -2,7 +2,9 @@ package com.mymasimo.masimosleep.ui.device_onboarding
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -130,6 +132,7 @@ class DeviceOnboardingViewPagerFragment : Fragment(R.layout.fragment_device_onbo
     }
 
     private fun nextFragment() {
+       activity?.supportFragmentManager?.setFragmentResult("test", bundleOf())
         viewBinding.viewPager.currentItem = viewBinding.viewPager.currentItem + 1
     }
 
@@ -161,5 +164,9 @@ class DeviceOnboardingViewPagerFragment : Fragment(R.layout.fragment_device_onbo
         val bottomAdapter = DeviceOnboardingViewPagerAdapter(bottomList, requireActivity().supportFragmentManager, lifecycle)
         viewBinding.viewPagerBottom.adapter = bottomAdapter
         viewBinding.viewPagerBottom.isUserInputEnabled = false
+    }
+
+    private fun sendClickEventToChild(){
+        setFragmentResult("test", bundleOf())
     }
 }

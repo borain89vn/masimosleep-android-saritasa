@@ -162,6 +162,7 @@ dependencies {
     implementation libraries.viewBindingDelegate
     implementation libraries.ripplePulse
     implementation libraries.kotlinCsv
+    implementation 'com.sprylab.android.texturevideoview:texturevideoview:1.2.1'
 
     debugImplementation libraries.flipper
     debugImplementation libraries.soloader

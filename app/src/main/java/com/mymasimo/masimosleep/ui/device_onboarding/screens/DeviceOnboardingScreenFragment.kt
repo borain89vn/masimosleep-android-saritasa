@@ -2,15 +2,20 @@ package com.mymasimo.masimosleep.ui.device_onboarding.screens
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.databinding.FragmentDeviceOnboardingScreenBinding
 import com.mymasimo.masimosleep.ui.device_onboarding.view.FullLayoutVideoView
 import com.mymasimo.masimosleep.util.getRawMp4URI
+import com.sprylab.android.widget.TextureVideoView
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 
 class DeviceOnboardingScreenFragment : Fragment(R.layout.fragment_device_onboarding_screen) {
 
@@ -49,6 +54,9 @@ class DeviceOnboardingScreenFragment : Fragment(R.layout.fragment_device_onboard
     private var content: String? = null
     private var buttonTitle: String? = null
     private var isVideoGuide: Boolean = true
+    private var isFirstResumed = false
+    private var mediaPlayer: MediaPlayer? = null
+
 
     private lateinit var listener: () -> Unit
 
@@ -63,11 +71,30 @@ class DeviceOnboardingScreenFragment : Fragment(R.layout.fragment_device_onboard
             buttonTitle = arg.getString(BUTTON_TITLE_KEY)
             isVideoGuide = arg.getBoolean(IS_VIDEO_GUIDE_KEY, true)
         } ?: throw IllegalArgumentException()
+
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
+        Log.d("DeviceOnboard_created",isResumed.toString())
+        receiveNextEvent()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+//        if(viewBinding.videoView.isPlaying) {
+//            viewBinding.videoView.stopPlayback()
+//
+//        }
     }
 
     private fun loadViewContent() {
@@ -82,7 +109,7 @@ class DeviceOnboardingScreenFragment : Fragment(R.layout.fragment_device_onboard
             viewBinding.contentImageView.visibility = View.GONE
             viewBinding.videoView.visibility = View.VISIBLE
 
-            loadMp4(viewBinding.videoView, res)
+         loadMp4(viewBinding.videoView, res)
         } else {
             viewBinding.videoView.visibility = View.GONE
             viewBinding.contentImageView.visibility = View.VISIBLE
@@ -96,28 +123,35 @@ class DeviceOnboardingScreenFragment : Fragment(R.layout.fragment_device_onboard
         this.listener = listener
     }
 
-    private fun loadMp4(videoView: FullLayoutVideoView, mp4Res: Int) {
-        videoView.alpha = 0F
+    private fun loadMp4(videoView: TextureVideoView, mp4Res: Int) {
+      //  videoView.alpha = 0F
         videoView.setVideoURI(getRawMp4URI(mp4Res))
         videoView.setOnPreparedListener { mp ->
-            //Workaround for black screen when loading
-            mp.setOnInfoListener { _, what, _ ->
-                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                    videoView.alpha = 1F
-                    return@setOnInfoListener true
-                }
-                false
-            }
+
             mp.isLooping = true
             startMp4FromBeginning(videoView)
         }
+
     }
 
-    private fun startMp4FromBeginning(videoView: FullLayoutVideoView) {
+    private fun startMp4FromBeginning(videoView: TextureVideoView) {
         if (!videoView.isPlaying) {
-            videoView.setZOrderOnTop(false)
             videoView.seekTo(0)
             videoView.start()
         }
+    }
+    private fun receiveNextEvent(){
+       parentFragmentManager?.setFragmentResultListener("test",viewLifecycleOwner){ _,_ ->
+             if(viewBinding.videoView.isPlaying) {
+                 viewBinding.videoView.stopPlayback()
+                 viewBinding.videoView.setOnPreparedListener(null)
+
+             }
+         }
+    }
+
+    private fun test(){
+        val shared = MutableSharedFlow<String>("a")
+        shared.subscriptionCount
     }
 }
