@@ -187,7 +187,7 @@ class ScoreProgressBar @JvmOverloads constructor(
 
         val updatedX = (x - (bounds.width() + 2f.toDp())).coerceAtLeast(0f)
 
-        canvas.drawText(text, updatedX, (BAR_Y * 2).toDp() + 2*BAR_MARGIN_TOP.toDp(), textPaint)
+        canvas.drawText(text, updatedX, (BAR_Y * 2).toDp() + BAR_MARGIN_TOP.toDp(), textPaint)
     }
 
     private fun drawBar(canvas: Canvas, startX: Float, barLength: Float, paint: Paint) {
