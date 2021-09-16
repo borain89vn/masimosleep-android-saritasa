@@ -10,7 +10,7 @@
 
     <!-- Notifications -->
     <string name="bedtime_notification_title">Es ist Zeit, sich für das Bett fertig zu machen</string>
-    <string name="bedtime_notification_body">Go to the app and start your sleep session</string> <!-- TODO: Need translation -->
+    <string name="bedtime_notification_body">Rufen Sie die App auf und starten Sie Ihre Schlafsitzung</string>
     <string name="system_channel_name">System-Benachrichtigungen</string>
     <string name="system_channel_description">Benachrichtigungen auf Systemebene, z. B. über den Verbindungsstatus.</string>
     <string name="connecting_ispo2"><![CDATA[ Anschließen an iSpO₂ Rx]]></string>
@@ -23,11 +23,11 @@
     <string name="monitoring_via_x">Überwachung über %1$s…</string>
     <string name="searching_for_x">Auf der Suche nach Ihrem %1$s…</string>
     <string name="enable">Aktivieren</string>
-    <string name="none">None</string> <!-- TODO: Need translation -->
+    <string name="none">Keine</string>
 
     <string name="welcome_subtitle_0">Ihr 7-Nächte Schlaf Checkup&#8482;</string>
     <string name="welcome_content_0"></string>
-    <string name="welcome_title_1">elche Informationen werden gesammelt?</string>
+    <string name="welcome_title_1">Welche Informationen werden gesammelt?</string>
     <string name="welcome_subtitle_1">Vitalwerte</string>
     <string name="welcome_content_1"></string>
     <string name="welcome_title_2">Was erhalten Sie von Masimo Sleep&#8482;?</string>
@@ -129,18 +129,18 @@ Wenn Sie sich für die Einnahme von Schlafmitteln entscheiden, sollten Sie diese
     <string name="reco_more_sleep_title"> Erhalten Sie 7 – 9 Stunden Schlaf</string>
     <string name="reco_more_sleep_subtitle">Die Forschung zeigt, dass die Schlafgesundheit mit 7 – 9 Stunden Schlaf pro Nacht und einer konstanten Schlafenszeit verbessert wird.</string>
     <string name="reco_more_sleep_body">Das Einhalten einer konstanten Schlafenszeit mit ausreichend Zeit zum Schlafen ist wichtig. Besserer Schlaf beginnt mit diesen Tipps:\n\n
-        • Versuchen Sie, eine konstante Schlafenszeit einzuhalten und jeden Tag zur gleichen Zeit aufzustehen. Wenn Sie einen Wecker benötigen, ziehen Sie eine frühere Schlafenszeit in Betracht.
-\n\n• Erwachsene sollten 7 – 9 Stunden Schlaf pro Nacht bekommen
-\n\n• Vermeiden Sie das Ausschlafen an freien Tagen. Die Einhaltung Ihres Schlaf-/Wachzeitplans ist wichtig.
-\n\n• Entscheiden Sie sich bei Bedarf für ein Nickerchen. Begrenzen Sie den Mittagsschlaf auf 15 – 20 Minuten, um spätere Einschlafschwierigkeiten zu vermeiden.</string>
+        - Versuchen Sie, eine konstante Schlafenszeit einzuhalten und jeden Tag zur gleichen Zeit aufzustehen. Wenn Sie einen Wecker benötigen, ziehen Sie eine frühere Schlafenszeit in Betracht.
+\n\n- Erwachsene sollten 7 – 9 Stunden Schlaf pro Nacht bekommen
+\n\n- Vermeiden Sie das Ausschlafen an freien Tagen. Die Einhaltung Ihres Schlaf-/Wachzeitplans ist wichtig.
+\n\n- Entscheiden Sie sich bei Bedarf für ein Nickerchen. Begrenzen Sie den Mittagsschlaf auf 15 – 20 Minuten, um spätere Einschlafschwierigkeiten zu vermeiden.</string>
 
     <string name="reco_maintain_title">Gesunde Lebensweise beibehalten</string>
     <string name="reco_maintain_subTitle">Behalten Sie Ihren gesunden Lebensstil und Ihre tägliche Routine bei</string>
     <string name="reco_maintain_body">Die Aufrechterhaltung eines gesunden Lebensstils und eines gesunden Tagesablaufs ist wichtig für Ihren Schlaf. Verbessern Sie Ihren Schlaf mit den folgenden Strategien weiter:
-\n\n• Reduzieren Sie Lebensmittel, die Quellen haben, die schlechten Schlaf verursachen können, z. B. koffein- oder alkoholhaltige Lebensmittel.
-\n\n• Behalten Sie eine konsistente Schlafenszeit- und Aufwachroutine bei.
-\n\n• Erstellen Sie einen täglichen Trainingsplan. Schon 15 Minuten aerobes Training, wie z. B. Gehen oder Radfahren, können die Qualität Ihres Schlafes dramatisch verbessern.
-\n\n• Entscheiden Sie sich bei Bedarf für ein Nickerchen. Begrenzen Sie den Mittagsschlaf auf 15 – 20 Minuten, um spätere Einschlafschwierigkeiten zu vermeiden.</string>
+\n\n- Reduzieren Sie Lebensmittel, die Quellen haben, die schlechten Schlaf verursachen können, z. B. koffein- oder alkoholhaltige Lebensmittel.
+\n\n- Behalten Sie eine konsistente Schlafenszeit- und Aufwachroutine bei.
+\n\n- Erstellen Sie einen täglichen Trainingsplan. Schon 15 Minuten aerobes Training, wie z. B. Gehen oder Radfahren, können die Qualität Ihres Schlafes dramatisch verbessern.
+\n\n- Entscheiden Sie sich bei Bedarf für ein Nickerchen. Begrenzen Sie den Mittagsschlaf auf 15 – 20 Minuten, um spätere Einschlafschwierigkeiten zu vermeiden.</string>
 
 
     <string name="minor_event_name">Kleinere</string>
@@ -220,7 +220,7 @@ Wenn Sie sich bei Masimo anmelden oder Masimo nutzen, geben Sie freiwillig besti
     <string name="setup_device_content">Wir empfehlen, Ihren Sensor kurz vor dem Schlafengehen einzurichten</string>
     <string name="setup_device_button_now">Sensor jetzt einrichten</string>
 
-    <string name="searching_sensor_text">Auf der Suche nach Masimo Sensor…</string>
+    <string name="searching_sensor_text">Auf der Suche nach Masimo Sensor...</string>
 
     <string name="pairing_title">Masimo-Sensor koppeln</string>
     <string name="pairing_content">Es kann ein paar Sekunden dauern, bis der Masimo-Sensor in der Liste erscheint</string>
@@ -283,13 +283,13 @@ Wenn Sie sich bei Masimo anmelden oder Masimo nutzen, geben Sie freiwillig besti
     <string name="dialog_sensor_already_connected_positive">OK</string>
 
     <plurals name="events">
-        <item quantity="one">Event</item> <!-- TODO: Need translation -->
-        <item quantity="other">Events</item> <!-- TODO: Need translation -->
+        <item quantity="one">Ereignis</item>
+        <item quantity="other">Ereignisse</item>
     </plurals>
 
     <plurals name="nights_recorded">
-        <item quantity="one">night recorded</item> <!-- TODO: Need translation -->
-        <item quantity="other">nights recorded</item> <!-- TODO: Need translation -->
+        <item quantity="one">Nacht aufgezeichnet</item>
+        <item quantity="other">Nächte aufgezeichnet</item>
     </plurals>
 
     <string name="no_nights_recorded">Keine Daten aufgezeichnet</string>
@@ -345,8 +345,8 @@ Wenn Sie sich bei Masimo anmelden oder Masimo nutzen, geben Sie freiwillig besti
 
     <string name="hint_characters_left">%1$d von %2$d Zeichen übrig</string>
     <plurals name="events_occurred">
-        <item quantity="one">%d Event Occurred</item> <!-- TODO: Need translation -->
-        <item quantity="other">%d Events Occurred</item> <!-- TODO: Need translation -->
+        <item quantity="one">%d Ereignis eingetreten</item>
+        <item quantity="other">%d Ereignisse eingetreten</item>
     </plurals>
     <string name="night_label">Nacht %1$d von %2$d</string>
     <string name="night_completed_label">Nacht %1$d von %2$d ist vollständig</string>
@@ -377,7 +377,7 @@ Wenn Sie sich bei Masimo anmelden oder Masimo nutzen, geben Sie freiwillig besti
     <string name="hint_replace_sensor">Bitte entfernen Sie den Chip und tauschen Sie den Sensor aus.</string>
     <string name="battery_low_title">Batterie schwach</string>
     <string name="cancel_sleep_session_title">Schlafsitzung abbrechen</string>
-    <string name="export_csv_btn">Export Measurements</string> <!-- TODO: Need translation -->
+    <string name="export_csv_btn">Messungen exportieren</string>
     <string name="end_sleep_session_btn">Schlafsitzung beenden</string>
     <string name="end_sleep_session_title">Schlafsitzung beenden?</string>
     <string name="defective_sensor_title">Defekter Sensor</string>
@@ -410,9 +410,9 @@ Wenn Sie sich bei Masimo anmelden oder Masimo nutzen, geben Sie freiwillig besti
     <string name="sleep_time_title">Schlafzeit</string>
     <string name="wake_up_time_title">Weckzeit</string>
     <string name="view_vitals_title">Vitalwerte anzeigen</string>
-    <string name="export_measurements">Export Measurements</string> <!-- TODO: Need translation -->
-    <string name="export_no_data">Nothing to export</string> <!-- TODO: Need translation -->
-    <string name="export_starting">Starting export…</string> <!-- TODO: Need translation -->
+    <string name="export_measurements">Messungen exportieren</string>
+    <string name="export_no_data">Nichts zu exportieren</string>
+    <string name="export_starting">Export wird gestartet ...</string>
     <string name="vitals_title">Vitalwerte</string>
     <string name="all_btn">ALLE</string>
     <string name="by_hour_btn">NACH STUNDEN</string>
@@ -447,7 +447,7 @@ Wenn Sie sich bei Masimo anmelden oder Masimo nutzen, geben Sie freiwillig besti
     <string name="bluetooth_off_status_btn">Bluetooth aus</string>
     <string name="not_connected_status_btn">Nicht angeschlossen</string>
     <string name="disconnected_status_btn">Nicht angeschloss.</string>
-    <string name="searching_status_btn">Suchen…</string>
+    <string name="searching_status_btn">Suchen...</string>
     <string name="sleep_session_label">Schlaf-Sitzung</string>
     <string name="start_new_program_btn">Ein neues Programm starten</string>
     <string name="btn_emulator_sensor">Nachgebildeter Sensor</string>
