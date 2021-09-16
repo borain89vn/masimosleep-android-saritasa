@@ -10,7 +10,7 @@
 
     <!-- Notifications -->
     <string name="bedtime_notification_title">Es ist Zeit, sich für das Bett fertig zu machen</string>
-    <string name="bedtime_notification_body">Go to the app and start your sleep session</string> <!-- TODO: Need translation -->
+    <string name="bedtime_notification_body">Rufen Sie die App auf und starten Sie Ihre Schlafsitzung</string>
     <string name="system_channel_name">System-Benachrichtigungen</string>
     <string name="system_channel_description">Benachrichtigungen auf Systemebene, z. B. über den Verbindungsstatus.</string>
     <string name="connecting_ispo2"><![CDATA[ Anschließen an iSpO₂ Rx]]></string>
