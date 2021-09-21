@@ -91,6 +91,10 @@
     <string name="vital_title_PR">Pulsfrequenz (Schläge/min)</string>
     <string name="vital_title_RRP">Atemfrequenz (Atemzüge/min)</string>
 
+    <string name="program_title_SPO2">Sauerstoffgehalt</string>
+    <string name="program_title_PR">Pulsfrequenz</string>
+    <string name="program_title_RRP">Atemfrequenz</string>
+
     <string name="coffee_question">Haben Sie innerhalb von 6 Stunden vor dem Schlafengehen Koffein getrunken?</string>
     <string name="snoring_question">Wissen Sie, ob Sie letzte Nacht lautes Schnarchen hatten?</string>
     <string name="alcohol_question">Haben Sie gestern Alkohol getrunken?</string>

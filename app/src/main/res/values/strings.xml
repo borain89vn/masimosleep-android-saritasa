@@ -92,6 +92,10 @@
     <string name="vital_title_PR">Pulse Rate (Beats/min)</string>
     <string name="vital_title_RRP">Respiratory Rate (Breaths/min)</string>
 
+    <string name="program_title_SPO2">OXYGEN\nLEVEL</string>
+    <string name="program_title_PR">PULSE\nRATE</string>
+    <string name="program_title_RRP">RESPIRATORY\nRATE</string>
+
     <string name="coffee_question">Did you have caffeine within 6 hours of bedtime?</string>
     <string name="snoring_question">Do you know if you had loud snoring last night?</string>
     <string name="alcohol_question">Did you have alcohol yesterday?</string>
