@@ -21,18 +21,69 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sensor_types"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        app:layout_constraintDimensionRatio="H,922:333"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bg_image"
-        app:srcCompat="@drawable/sensor_types" />
+        >
+        <ImageView
+            android:id="@+id/sensor_image"
+            android:layout_width="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/sensor_types"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/oxyLevelTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/program_title_SPO2"
+            android:textAppearance="@style/onboardingContentSmall"
+            android:textSize="8sp"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="@id/sensor_image"
+            app:layout_constraintRight_toLeftOf="@id/pulseRateTitle"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/sensor_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <TextView
+            android:id="@+id/pulseRateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/program_title_PR"
+            android:textAppearance="@style/onboardingContentSmall"
+            android:textSize="8sp"
+            android:layout_marginRight="6dp"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/oxyLevelTitle"
+            app:layout_constraintRight_toLeftOf="@id/respirationRateTitle"
+            app:layout_constraintTop_toBottomOf="@id/sensor_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <TextView
+            android:id="@+id/respirationRateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/program_title_RRP"
+            android:textAppearance="@style/onboardingContentSmall"
+            android:textSize="8sp"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintRight_toRightOf="@id/sensor_image"
+            app:layout_constraintLeft_toRightOf="@id/pulseRateTitle"
+            app:layout_constraintTop_toBottomOf="@id/sensor_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/bg_image"
