@@ -25,12 +25,9 @@
         android:id="@+id/sensor_types"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="0dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/bg_image"
         >
         <ImageView
@@ -78,7 +75,6 @@
             android:layout_height="wrap_content"
             android:text="@string/program_title_RRP"
             android:textAppearance="@style/onboardingContentSmall"
-
             android:textSize="8sp"
             android:gravity="center"
             app:layout_constraintHorizontal_weight="1"
