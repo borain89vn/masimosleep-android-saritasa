@@ -5,13 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.repository.ParameterReadingRepository
-import com.mymasimo.masimosleep.data.room.entity.ParameterReadingEntity
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
-import com.mymasimo.masimosleep.model.LineGraphViewData
 import com.mymasimo.masimosleep.model.MeasurementViewData
-import io.reactivex.Flowable
 import io.reactivex.Maybe
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject

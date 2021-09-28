@@ -7,20 +7,17 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.EdgeInsets
 import com.masimo.timelinechart.TimelineChartView
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
-import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentLiveLineGraphBinding
 import com.mymasimo.masimosleep.model.LineGraphViewData
 import com.mymasimo.masimosleep.model.VitalsChartDataSource
-import com.mymasimo.masimosleep.ui.session.SessionFragmentArgs
 import io.reactivex.disposables.CompositeDisposable
 import org.joda.time.Seconds
 import java.math.RoundingMode
@@ -95,7 +92,7 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
                 .toBigDecimal()
                 .setScale(1, RoundingMode.UP)
                 .toInt()
-            viewBinding.currentText.text = currentRounded.toString()
+//            viewBinding.currentText.text = currentRounded.toString()
         }
     }
 

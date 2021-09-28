@@ -18,71 +18,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/vital_button_tray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/silver_tray"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_text_view">
-
-        <Button
-            android:id="@+id/all_button"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/vital_button_light"
-            android:text="@string/all_btn"
-            android:textAppearance="@style/onboardingTitle"
-            android:textColor="@color/trayText"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/hour_button"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/vital_button_light"
-            android:text="@string/by_hour_btn"
-            android:textAppearance="@style/onboardingTitle"
-            android:textColor="@color/trayText"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/minute_button"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/vital_button_light"
-            android:text="@string/by_minute_btn"
-            android:textAppearance="@style/onboardingTitle"
-            android:textColor="@color/trayText"
-            android:textSize="14sp" />
-    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vital_button_tray">
+        app:layout_constraintTop_toBottomOf="@+id/titleNumOfNight">
 
         <LinearLayout
             android:id="@+id/vitals_layout"
@@ -107,5 +50,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titleNumOfNight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Night 1 of 7"
+        android:textAppearance="@style/onboardingContentDiminished"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

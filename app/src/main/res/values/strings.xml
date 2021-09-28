@@ -372,6 +372,8 @@ When you sign up for or use Masimo you voluntarily share certain information inc
     <string name="day_events_empty">Everything went great!\nEnjoy your day, %1$s.</string>
     <string name="sleep_events_empty">Everything looks great!\nEnjoy your sleep, %1$s.</string>
     <string name="current">Current</string>
+    <string name="range">Range</string>
+    <string name="range_value">%d-%d</string>
     <string name="greeting_title">Good morning, %1$s!</string>
     <string name="swipe_title">Swipe Up</string>
     <string name="take_survey">Please take this quick survey</string>

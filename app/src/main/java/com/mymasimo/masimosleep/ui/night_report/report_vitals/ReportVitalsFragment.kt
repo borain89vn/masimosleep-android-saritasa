@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentReportVitalsBinding
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
@@ -23,35 +24,20 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
+        viewBinding.titleNumOfNight.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
     }
 
     private fun loadViewContent() {
         viewBinding.backButton.setOnClickListener {
             requireView().findNavController().navigateUp()
+
         }
 
-        switchLinearChartsToViewStyle(ViewStyle.DAYS)
-
-        viewBinding.allButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.DAYS)
-        }
-
-        viewBinding.hourButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.HOURS)
-        }
-
-        viewBinding.minuteButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.MINUTES)
-        }
+        switchLinearChartsToViewStyle(ViewStyle.MINUTES)
     }
 
     private fun updateSelection() {
-        viewBinding.allButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.DAYS }
-        viewBinding.hourButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.HOURS }
-        viewBinding.minuteButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
+        readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
     }
 
     private fun switchLinearChartsToViewStyle(viewStyle: ViewStyle) {
@@ -66,7 +52,6 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
             }
             addFragment(fragment, fragmentTagForReadingType(type))
         }
-
         updateSelection()
     }
 

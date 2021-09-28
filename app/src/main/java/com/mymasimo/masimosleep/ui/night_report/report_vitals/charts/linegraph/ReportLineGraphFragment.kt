@@ -68,17 +68,21 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), T
     private fun loadViewContent() {
         var titleID: Int = R.string.vital_title_SPO2
         var iconID: Int = R.drawable.ic_oxygen_level
+        var rateSubtitle: String = resources.getString(R.string.oxygen_level_subtitle)
 
         if (readingType == ReadingType.PR) {
             titleID = R.string.vital_title_PR
             iconID = R.drawable.ic_pulse_rate
+            rateSubtitle = resources.getString(R.string.pulse_rate_subtitle)
         } else if (readingType == ReadingType.RRP) {
             titleID = R.string.vital_title_RRP
             iconID = R.drawable.ic_respiratory_rate
+            rateSubtitle = resources.getString(R.string.respiratory_rate_subtitle)
         }
 
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
+        viewBinding.rateSubtitle.text = rateSubtitle
 
         viewBinding.chartLive.goButtonIconDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_chart_forward_dark, null)
         viewBinding.chartLive.goButtonBackgrounColor = Color.WHITE
@@ -100,14 +104,16 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), T
             .toBigDecimal()
             .setScale(1, RoundingMode.UP)
             .toDouble()
-
-        viewBinding.avgText.text = avgRounded.toString()
+        val minValue = lineGraphData.points.minOf { it.value }.toInt()
+        val maxValue = lineGraphData.points.maxOf { it.value }.toInt()
+        viewBinding.rangeValue.text = getString(R.string.range_value, minValue, maxValue)
+//        viewBinding.avgText.text = avgRounded.toString()
         updateChart(lineGraphData.points)
     }
 
     private fun updateChart(points: List<LineGraphViewData.LineGraphPoint>) {
         dataSource.update(points)
-        viewBinding.lowHighText.text = dataSource.lowHighText
+//        viewBinding.lowHighText.text = dataSource.lowHighText
         viewBinding.chartLive.reloadData()
     }
 

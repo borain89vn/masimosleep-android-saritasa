@@ -546,6 +546,10 @@
             android:name="sessionId"
             android:defaultValue="-1L"
             app:argType="long" />
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/recommendationDetailFragment"
