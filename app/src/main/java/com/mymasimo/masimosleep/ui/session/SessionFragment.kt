@@ -266,7 +266,7 @@ class  SessionFragment: Fragment(R.layout.fragment_session) {
        setFragmentResultListener(KEY_REQUEST_CLICK) { _, result ->
             result.getBoolean(KEY_RESULT_OPEN_VITAL_DETAIL)?.let {
                 if (it) {
-                    findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToSessionVitalsFragment(args.sessionStart))
+                    findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToSessionVitalsFragment(args.sessionStart, args.nightNumber))
                 } else {
                     findNavController().navigate(SessionFragmentDirections.actionSessionFragmentToMinorEventDetailFragment(args.sessionStart))
 

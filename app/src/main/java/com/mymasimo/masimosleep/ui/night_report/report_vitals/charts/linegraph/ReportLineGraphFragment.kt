@@ -67,14 +67,14 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), T
 
     private fun loadViewContent() {
         var titleID: Int = R.string.vital_title_SPO2
-        var iconID: Int = R.drawable.spo2_icon
+        var iconID: Int = R.drawable.ic_oxygen_level
 
         if (readingType == ReadingType.PR) {
             titleID = R.string.vital_title_PR
-            iconID = R.drawable.pr_icon
+            iconID = R.drawable.ic_pulse_rate
         } else if (readingType == ReadingType.RRP) {
             titleID = R.string.vital_title_RRP
-            iconID = R.drawable.rrp_icon
+            iconID = R.drawable.ic_respiratory_rate
         }
 
         viewBinding.chartTitle.text = resources.getString(titleID)

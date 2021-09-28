@@ -74,6 +74,12 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="onboardingContentDiminished" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/secondaryText_light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="roundedButton_WhiteText" parent="TextAppearance.AppCompat">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">#FFFFFF</item>

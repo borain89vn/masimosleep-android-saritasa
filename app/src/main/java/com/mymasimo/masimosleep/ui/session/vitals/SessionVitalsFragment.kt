@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
@@ -44,6 +45,7 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
+        viewBinding.titleNumOfNight.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
     }
 
     private fun loadViewContent() {
@@ -51,30 +53,10 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             requireView().findNavController().navigateUp()
         }
 
-        switchLinearChartsToViewStyle(ViewStyle.DAYS)
-
-        viewBinding.allButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.DAYS)
-        }
-
-        viewBinding.hourButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.HOURS)
-        }
-
-        viewBinding.minuteButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.MINUTES)
-        }
+        switchLinearChartsToViewStyle(ViewStyle.MINUTES)
     }
 
-    private fun updateSelection() {
-        viewBinding.allButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.DAYS }
-        viewBinding.hourButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.HOURS }
-        viewBinding.minuteButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
-    }
-
+    // TODO() :: Replace implementation when new charts will be created
     private fun switchLinearChartsToViewStyle(viewStyle: ViewStyle) {
         removeAllFragments()
 
@@ -83,12 +65,11 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             val fragment = LiveLineGraphFragment.newInstance(type, args.sessionStart, viewStyle)
             fragment.onViewStyleChangeListener = {
                 readingTypesToViewStyle[type] = it
-                updateSelection()
+                readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
             }
             addFragment(fragment, fragmentTagForReadingType(type))
         }
-
-        updateSelection()
+        readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
     }
 
     private fun fragmentTagForReadingType(readingType: ReadingType): String {

@@ -453,6 +453,11 @@
             android:defaultValue="0L"
             app:argType="long" />
 
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="-1"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_sessionVitalsFragment_to_sessionFragment"
             app:destination="@id/sessionFragment" />

@@ -7,17 +7,20 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.EdgeInsets
 import com.masimo.timelinechart.TimelineChartView
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
+import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentLiveLineGraphBinding
 import com.mymasimo.masimosleep.model.LineGraphViewData
 import com.mymasimo.masimosleep.model.VitalsChartDataSource
+import com.mymasimo.masimosleep.ui.session.SessionFragmentArgs
 import io.reactivex.disposables.CompositeDisposable
 import org.joda.time.Seconds
 import java.math.RoundingMode
@@ -85,29 +88,35 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
         vm.lineGraphViewData.observe(viewLifecycleOwner) { lineGraphData ->
             updateUI(lineGraphData)
         }
+
+        // TODO() :: Updates screen only on it's reload
         vm.currentReading.observe(viewLifecycleOwner) { currentReading ->
             val currentRounded = currentReading
                 .toBigDecimal()
                 .setScale(1, RoundingMode.UP)
-                .toDouble()
+                .toInt()
             viewBinding.currentText.text = currentRounded.toString()
         }
     }
 
     private fun loadViewContent() {
         var titleID: Int = R.string.vital_title_SPO2
-        var iconID: Int = R.drawable.spo2_icon
+        var iconID: Int = R.drawable.ic_oxygen_level
+        var rateSubtitle: String = resources.getString(R.string.oxygen_level_subtitle)
 
         if (readingType == ReadingType.PR) {
             titleID = R.string.vital_title_PR
-            iconID = R.drawable.pr_icon
+            iconID = R.drawable.ic_pulse_rate
+            rateSubtitle = resources.getString(R.string.pulse_rate_subtitle)
         } else if (readingType == ReadingType.RRP) {
             titleID = R.string.vital_title_RRP
-            iconID = R.drawable.rrp_icon
+            iconID = R.drawable.ic_respiratory_rate
+            rateSubtitle = resources.getString(R.string.respiratory_rate_subtitle)
         }
 
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
+        viewBinding.rateSubtitle.text = rateSubtitle
 
         viewBinding.chartLive.goButtonIconDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_chart_forward_dark, null)
         viewBinding.chartLive.goButtonBackgrounColor = resources.getColor(R.color.trayText, null)
@@ -129,13 +138,17 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
             .setScale(1, RoundingMode.UP)
             .toDouble()
 
-        viewBinding.avgText.text = avgRounded.toString()
+        val lastValue = lineGraphData.points.last().value.toInt()
+        viewBinding.currentText.text = lastValue.toString()
+        // TODO() :: Does average value is steel needed in charts ?
+//        viewBinding.avgText.text = avgRounded.toString()
         updateChart(lineGraphData.points)
     }
 
     private fun updateChart(points: List<LineGraphViewData.LineGraphPoint>) {
         dataSource.update(points)
-        viewBinding.lowHighText.text = dataSource.lowHighText
+        // TODO() :: Does lowHighText value is steel needed in charts ?
+//        viewBinding.lowHighText.text = dataSource.lowHighText
         viewBinding.chartLive.reloadData()
     }
 
