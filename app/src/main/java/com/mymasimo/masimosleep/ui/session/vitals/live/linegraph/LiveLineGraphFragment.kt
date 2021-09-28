@@ -20,7 +20,6 @@ import com.mymasimo.masimosleep.model.LineGraphViewData
 import com.mymasimo.masimosleep.model.VitalsChartDataSource
 import io.reactivex.disposables.CompositeDisposable
 import org.joda.time.Seconds
-import java.math.RoundingMode
 import javax.inject.Inject
 
 class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), TimelineChartView.Delegate {
@@ -88,11 +87,6 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
 
         // TODO() :: Updates screen only on it's reload
         vm.currentReading.observe(viewLifecycleOwner) { currentReading ->
-            val currentRounded = currentReading
-                .toBigDecimal()
-                .setScale(1, RoundingMode.UP)
-                .toInt()
-//            viewBinding.currentText.text = currentRounded.toString()
         }
     }
 
@@ -130,22 +124,13 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
-        val avgRounded = lineGraphData.average
-            .toBigDecimal()
-            .setScale(1, RoundingMode.UP)
-            .toDouble()
-
         val lastValue = lineGraphData.points.last().value.toInt()
         viewBinding.currentText.text = lastValue.toString()
-        // TODO() :: Does average value is steel needed in charts ?
-//        viewBinding.avgText.text = avgRounded.toString()
         updateChart(lineGraphData.points)
     }
 
     private fun updateChart(points: List<LineGraphViewData.LineGraphPoint>) {
         dataSource.update(points)
-        // TODO() :: Does lowHighText value is steel needed in charts ?
-//        viewBinding.lowHighText.text = dataSource.lowHighText
         viewBinding.chartLive.reloadData()
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f7fafb"
+    android:background="@color/background_light"
     tools:context=".ui.night_report.report_vitals.ReportVitalsFragment">
 
     <Button
@@ -22,10 +22,11 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/events_amount_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleNumOfNight">
+        app:layout_constraintTop_toBottomOf="@+id/title_num_of_night">
 
         <LinearLayout
             android:id="@+id/vitals_layout"
@@ -52,7 +53,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/titleNumOfNight"
+        android:id="@+id/title_num_of_night"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Night 1 of 7"
@@ -61,5 +62,123 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/events_amount_view"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/lightGray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/events_amount_div"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#F8FAFB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/events_amount_div"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/ic_minor_events"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_minor_events"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/minor_events_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/minor_events_title"
+                android:textAppearance="@style/onboardingContent"
+                android:textColor="@color/darkText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/minor_events_amount_text"
+                app:layout_constraintStart_toEndOf="@+id/ic_minor_events"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/minor_events_amount_text"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="45"
+                android:textAlignment="center"
+                android:textAppearance="@style/onboardingContent"
+                android:textColor="@color/darkText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/events_amount_div"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/ic_major_events"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_major_events"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/major_events_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/major_events_title"
+                android:textAppearance="@style/onboardingContent"
+                android:textColor="@color/darkText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/major_events_amount_text"
+                app:layout_constraintStart_toEndOf="@+id/ic_major_events"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/major_events_amount_text"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="12"
+                android:textAlignment="center"
+                android:textAppearance="@style/onboardingContent"
+                android:textColor="@color/darkText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

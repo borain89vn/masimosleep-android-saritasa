@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleNumOfNight">
+        app:layout_constraintTop_toBottomOf="@+id/title_num_of_night">
 
         <LinearLayout
             android:id="@+id/vitals_layout"
@@ -46,17 +46,18 @@
         android:text="@string/live_vitals_title"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingTitle"
-        android:textColor="#b4d1d4"
+        android:textColor="@color/dark_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/titleNumOfNight"
+        android:id="@+id/title_num_of_night"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Night 1 of 7"
         android:textAppearance="@style/onboardingContentDiminished"
+        android:textColor="@color/dark_subtitle"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

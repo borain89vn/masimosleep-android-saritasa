@@ -19,7 +19,6 @@ import com.mymasimo.masimosleep.databinding.FragmentReportLineGraphBinding
 import com.mymasimo.masimosleep.model.LineGraphViewData
 import com.mymasimo.masimosleep.model.VitalsChartDataSource
 import org.joda.time.Seconds
-import java.math.RoundingMode
 import javax.inject.Inject
 
 class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), TimelineChartView.Delegate {
@@ -100,20 +99,14 @@ class ReportLineGraphFragment : Fragment(R.layout.fragment_report_line_graph), T
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
-        val avgRounded = lineGraphData.average
-            .toBigDecimal()
-            .setScale(1, RoundingMode.UP)
-            .toDouble()
         val minValue = lineGraphData.points.minOf { it.value }.toInt()
         val maxValue = lineGraphData.points.maxOf { it.value }.toInt()
-        viewBinding.rangeValue.text = getString(R.string.range_value, minValue, maxValue)
-//        viewBinding.avgText.text = avgRounded.toString()
+        viewBinding.rangeValueText.text = getString(R.string.range_value, minValue, maxValue)
         updateChart(lineGraphData.points)
     }
 
     private fun updateChart(points: List<LineGraphViewData.LineGraphPoint>) {
         dataSource.update(points)
-//        viewBinding.lowHighText.text = dataSource.lowHighText
         viewBinding.chartLive.reloadData()
     }
 

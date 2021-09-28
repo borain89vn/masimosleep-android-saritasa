@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
+        android:background="@color/clear"
         tools:context=".ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,10 +16,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <View
-                android:id="@+id/vTopline"
+                android:id="@+id/top_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#DFE7E8"
+                android:background="@color/lightDiv"
                 app:layout_constraintBottom_toTopOf="@+id/type_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/vital_title_SPO2"
                 android:textAppearance="@style/onboardingContent"
-                android:textColor="#07242C"
+                android:textColor="@color/darkText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/type_icon"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
                 android:layout_marginTop="4dp"
                 android:background="#F8FAFB"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/chart_title" />
 
@@ -71,7 +71,7 @@
                 android:text="%"
                 app:layout_constraintBottom_toBottomOf="@+id/chart_live"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="@+id/chart_live">
 
 
@@ -88,39 +88,42 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
+
                 <TextView
-                    android:id="@+id/rangeValue"
+                    android:id="@+id/range_value_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="80-98"
-                    android:color="#283639"
+                    android:color="@color/darkText"
                     android:textSize="35dp"
                     app:layout_constraintStart_toStartOf="@+id/current_title"
                     app:layout_constraintTop_toBottomOf="@+id/current_title" />
 
                 <ImageView
-                    android:id="@+id/ivInfoIcon"
+                    android:id="@+id/ic_info"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
+
                     android:src="@drawable/info_icon"
-                    app:layout_constraintBottom_toBottomOf="@+id/rangeValue"
-                    app:layout_constraintStart_toEndOf="@+id/rangeValue" />
+                    app:layout_constraintBottom_toBottomOf="@+id/range_value_text"
+                    app:layout_constraintStart_toEndOf="@+id/range_value_text" />
 
                 <TextView
-                    android:id="@+id/rateSubtitle"
+                    android:id="@+id/rate_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="breaths/min"
                     android:textAppearance="@style/onboardingContentDiminished"
-                    android:color="#283639"
-                    app:layout_constraintStart_toStartOf="@+id/rangeValue"
-                    app:layout_constraintTop_toBottomOf="@+id/rangeValue" />
+                    android:color="@color/darkText"
+                    app:layout_constraintStart_toStartOf="@+id/range_value_text"
+                    app:layout_constraintTop_toBottomOf="@+id/range_value_text" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline4"
+                android:id="@+id/guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
