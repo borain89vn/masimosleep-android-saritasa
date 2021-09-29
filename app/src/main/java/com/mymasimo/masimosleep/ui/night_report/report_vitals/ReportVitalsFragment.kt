@@ -45,7 +45,6 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
         viewBinding.titleNumOfNight.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
 
         vm.sleepEvents.observe(viewLifecycleOwner) { viewData ->
-//            Timber.d(viewData.majorEvents.toString())
             updateUI(viewData)
         }
     }

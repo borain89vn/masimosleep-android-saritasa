@@ -124,7 +124,6 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         addFragment(RecommendationsFragment.newInstance(sessionId), RECOMMENDATIONS_FRAGMENT_TAG)
         addFragment(createReportExportMeasurementsFragment(), EXPORT_MEASUREMENTS_FRAGMENT_TAG)
         addFragment(ReportNotesFragment.newInstance(sessionId), NOTES_FRAGMENT_TAG)
-
     }
 
 

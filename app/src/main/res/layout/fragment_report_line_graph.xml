@@ -68,7 +68,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
-                android:text="%"
                 app:layout_constraintBottom_toBottomOf="@+id/chart_live"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -89,35 +88,57 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-
-                <TextView
-                    android:id="@+id/range_value_text"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clRange"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="80-98"
-                    android:color="@color/darkText"
-                    android:textSize="35dp"
-                    app:layout_constraintStart_toStartOf="@+id/current_title"
-                    app:layout_constraintTop_toBottomOf="@+id/current_title" />
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/current_title">
 
-                <ImageView
-                    android:id="@+id/ic_info"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    <TextView
+                        android:id="@+id/range_value_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeMinTextSize="12sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:autoSizeTextType="uniform"
+                        android:color="@color/darkText"
+                        android:gravity="center|left"
+                        android:maxLines="1"
+                        android:text="@string/double_dash"
+                        android:textSize="35sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ic_info"/>
 
-                    android:src="@drawable/info_icon"
-                    app:layout_constraintBottom_toBottomOf="@+id/range_value_text"
-                    app:layout_constraintStart_toEndOf="@+id/range_value_text" />
+                    <ImageView
+                        android:id="@+id/ic_info"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/info_icon"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/range_value_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/range_value_text" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <TextView
                     android:id="@+id/rate_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="breaths/min"
-                    android:textAppearance="@style/onboardingContentDiminished"
+                    android:layout_marginStart="16dp"
                     android:color="@color/darkText"
-                    app:layout_constraintStart_toStartOf="@+id/range_value_text"
-                    app:layout_constraintTop_toBottomOf="@+id/range_value_text" />
+                    android:text="@string/oxygen_level_subtitle"
+                    android:textAppearance="@style/onboardingContentDiminished"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clRange" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

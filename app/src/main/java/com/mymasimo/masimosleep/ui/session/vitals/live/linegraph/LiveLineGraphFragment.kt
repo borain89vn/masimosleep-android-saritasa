@@ -85,8 +85,8 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
             updateUI(lineGraphData)
         }
 
-        // TODO() :: Updates screen only on it's reload
-        vm.currentReading.observe(viewLifecycleOwner) { currentReading ->
+        vm.currentReading.observe(viewLifecycleOwner) {
+            viewBinding.currentText.text = it.toInt().toString()
         }
     }
 
@@ -124,8 +124,6 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
-        val lastValue = lineGraphData.points.last().value.toInt()
-        viewBinding.currentText.text = lastValue.toString()
         updateChart(lineGraphData.points)
     }
 

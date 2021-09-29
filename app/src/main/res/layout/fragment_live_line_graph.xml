@@ -92,7 +92,7 @@
                 android:id="@+id/current_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="89"
+                android:text="@string/double_dash"
                 android:textColor="@color/dark_title"
                 android:textSize="48dp"
                 app:layout_constraintStart_toStartOf="@+id/current_title"

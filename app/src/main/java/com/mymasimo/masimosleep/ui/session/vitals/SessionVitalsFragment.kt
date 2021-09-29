@@ -13,8 +13,9 @@ import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
 import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
+import com.mymasimo.masimosleep.data.room.entity.SleepEventEntity
+import com.mymasimo.masimosleep.data.room.entity.SleepEventType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
-import com.mymasimo.masimosleep.ui.night_report.report_events.util.SleepEventsViewData
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.SessionVitalsViewModel
 import java.util.*
@@ -51,7 +52,7 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
-
+        vm.onCreate(args.sessionStart)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,14 +60,17 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         loadViewContent()
         viewBinding.titleNumOfNight.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
 
-        vm.sleepEvents.observe(viewLifecycleOwner) { viewData ->
-            updateUI(viewData)
+        vm.sleepEvents.observe(viewLifecycleOwner) { events ->
+            updateUI(events)
         }
     }
 
-    private fun updateUI(sleepEventData: SleepEventsViewData) {
-        viewBinding.majorEventsAmountText.text = sleepEventData.majorEvents.toString()
-        viewBinding.minorEventsAmountText.text = sleepEventData.minorEvents.toString()
+    private fun updateUI(sleepEventData: List<SleepEventEntity>) {
+        val minorEventsCount: Int = sleepEventData.filter { it.type == SleepEventType.MILD  }.size
+        val majorEventsCount: Int = sleepEventData.filter { it.type == SleepEventType.SEVERE  }.size
+
+        viewBinding.majorEventsAmountText.text = minorEventsCount.toString()
+        viewBinding.minorEventsAmountText.text = majorEventsCount.toString()
     }
 
     private fun loadViewContent() {
@@ -76,7 +80,6 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         switchLinearChartsToViewStyle(ViewStyle.MINUTES)
     }
 
-    // TODO() :: Replace implementation when new charts will be created
     private fun switchLinearChartsToViewStyle(viewStyle: ViewStyle) {
         removeAllFragments()
 
