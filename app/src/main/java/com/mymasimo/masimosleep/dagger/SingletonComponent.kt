@@ -20,6 +20,7 @@ import com.mymasimo.masimosleep.ui.night_report.report_events.details.EventDetai
 import com.mymasimo.masimosleep.ui.night_report.report_measurements.ReportMeasurementsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityFragment
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendFragment
+import com.mymasimo.masimosleep.ui.night_report.report_vitals.ReportVitalsFragment
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternFragment
 import com.mymasimo.masimosleep.ui.pairing.pair.SelectDeviceFragment
@@ -45,6 +46,7 @@ import com.mymasimo.masimosleep.ui.session.session_measurements.SessionMeasureme
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityFragment
 import com.mymasimo.masimosleep.ui.session.session_time_in_bed.SessionTimeInBedFragment
 import com.mymasimo.masimosleep.ui.session.sleep_quality_trend.SessionSleepQualityTrendFragment
+import com.mymasimo.masimosleep.ui.session.vitals.SessionVitalsFragment
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
 import com.mymasimo.masimosleep.ui.settings.device.SettingsDeviceFragment
 import com.mymasimo.masimosleep.ui.settings.sensor.SettingsSensorFragment
@@ -123,4 +125,6 @@ interface SingletonComponent {
     fun inject(target: ReportMeasurementsFragment)
     fun inject(target: SessionMeasurementsFragment)
     fun inject(target: SessionEventDetailsFragment)
+    fun inject(target: ReportVitalsFragment)
+    fun inject(target: SessionVitalsFragment)
 }

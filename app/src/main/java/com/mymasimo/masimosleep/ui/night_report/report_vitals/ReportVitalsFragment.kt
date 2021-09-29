@@ -3,28 +3,51 @@ package com.mymasimo.masimosleep.ui.night_report.report_vitals
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
+import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentReportVitalsBinding
+import com.mymasimo.masimosleep.ui.night_report.report_events.util.SleepEventsViewData
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphFragment
 import java.util.*
+import javax.inject.Inject
 
 class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
+
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+
+    private val vm: ReportVitalsViewModel by viewModels { vmFactory }
 
     private val args: ReportVitalsFragmentArgs by navArgs()
     private val viewBinding by viewBinding(FragmentReportVitalsBinding::bind)
     private val readingTypesToViewStyle: EnumMap<ReadingType, ViewStyle> =
         EnumMap(ReadingType::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Injector.get().inject(this)
+        super.onCreate(savedInstanceState)
+
+        vm.onCreate(args.sessionId)
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
         viewBinding.titleNumOfNight.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
+
+        vm.sleepEvents.observe(viewLifecycleOwner) { viewData ->
+//            Timber.d(viewData.majorEvents.toString())
+            updateUI(viewData)
+        }
     }
 
     private fun loadViewContent() {
@@ -34,6 +57,11 @@ class ReportVitalsFragment : Fragment(R.layout.fragment_report_vitals) {
         }
 
         switchLinearChartsToViewStyle(ViewStyle.MINUTES)
+    }
+
+    private fun updateUI(sleepEventData: SleepEventsViewData) {
+        viewBinding.majorEventsAmountText.text = sleepEventData.majorEvents.toString()
+        viewBinding.minorEventsAmountText.text = sleepEventData.minorEvents.toString()
     }
 
     private fun updateSelection() {

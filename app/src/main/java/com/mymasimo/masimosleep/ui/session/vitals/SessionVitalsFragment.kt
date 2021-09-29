@@ -3,18 +3,29 @@ package com.mymasimo.masimosleep.ui.session.vitals
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
 import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
+import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
+import com.mymasimo.masimosleep.ui.night_report.report_events.util.SleepEventsViewData
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
+import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.SessionVitalsViewModel
 import java.util.*
+import javax.inject.Inject
 
 class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
+
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+
+    private val vm: SessionVitalsViewModel by viewModels { vmFactory }
 
     companion object {
         fun newInstance(): SessionVitalsFragment {
@@ -38,21 +49,30 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         EnumMap(ReadingType::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Injector.get().inject(this)
         super.onCreate(savedInstanceState)
-        args.sessionStart
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
         viewBinding.titleNumOfNight.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
+
+        vm.sleepEvents.observe(viewLifecycleOwner) { viewData ->
+            updateUI(viewData)
+        }
+    }
+
+    private fun updateUI(sleepEventData: SleepEventsViewData) {
+        viewBinding.majorEventsAmountText.text = sleepEventData.majorEvents.toString()
+        viewBinding.minorEventsAmountText.text = sleepEventData.minorEvents.toString()
     }
 
     private fun loadViewContent() {
         viewBinding.backButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
-
         switchLinearChartsToViewStyle(ViewStyle.MINUTES)
     }
 

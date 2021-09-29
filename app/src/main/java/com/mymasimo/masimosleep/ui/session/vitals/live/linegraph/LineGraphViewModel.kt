@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mymasimo.masimosleep.base.scheduler.SchedulerProvider
 import com.mymasimo.masimosleep.data.repository.ParameterReadingRepository
+import com.mymasimo.masimosleep.data.repository.RawParameterReadingRepository
 import com.mymasimo.masimosleep.data.room.entity.ParameterReadingEntity
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
 import com.mymasimo.masimosleep.model.LineGraphViewData
@@ -13,8 +14,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
+// TODO() :: rawParameterReadingRepository
 class LineGraphViewModel @Inject constructor(
     private val parameterReadingRepository: ParameterReadingRepository,
+    private val rawParameterReadingRepository: RawParameterReadingRepository,
     private val schedulerProvider: SchedulerProvider,
     private val disposables: CompositeDisposable
 ) : ViewModel() {

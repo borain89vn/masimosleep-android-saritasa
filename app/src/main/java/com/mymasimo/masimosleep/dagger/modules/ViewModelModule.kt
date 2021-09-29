@@ -16,6 +16,7 @@ import com.mymasimo.masimosleep.ui.night_report.report_events.details.EventDetai
 import com.mymasimo.masimosleep.ui.night_report.report_measurements.ReportMeasurementsViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_quality.ReportSleepQualityViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_sleep_trend.ReportSleepTrendViewModel
+import com.mymasimo.masimosleep.ui.night_report.report_vitals.ReportVitalsViewModel
 import com.mymasimo.masimosleep.ui.night_report.report_vitals.charts.linegraph.ReportLineGraphViewModel
 import com.mymasimo.masimosleep.ui.night_report.sleep_pattern.SleepPatternViewModel
 import com.mymasimo.masimosleep.ui.pairing.PairingViewModel
@@ -37,6 +38,7 @@ import com.mymasimo.masimosleep.ui.session.session_minor_event_detail.SessionMin
 import com.mymasimo.masimosleep.ui.session.session_sleep_quality.SessionSleepQualityViewModel
 import com.mymasimo.masimosleep.ui.session.sleep_quality_trend.SleepQualityTrendViewModel
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LineGraphViewModel
+import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.SessionVitalsViewModel
 import com.mymasimo.masimosleep.ui.settings.device.SettingsDeviceViewModel
 import com.mymasimo.masimosleep.ui.waking.survey.SurveyViewModel
 import dagger.Binds
@@ -142,6 +144,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ReportLineGraphViewModel::class)
     internal abstract fun bindReportLineGraphViewModel(vm: ReportLineGraphViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ReportVitalsViewModel::class)
+    internal abstract fun bindReportVitalsViewModel(vm: ReportVitalsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SessionVitalsViewModel::class)
+    internal abstract fun bindSessionVitalsViewModel(vm: SessionVitalsViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -13,6 +13,7 @@
     <color name="darkDiv">#495d62</color>
     <color name="darkTray">#202d31</color>
     <color name="trayText">#68858e</color>
+    <color name="darkTrayText">#A6C1C8</color>
     <color name="clear">#00000000</color>
     <color name="background_light">#F7FAFB</color>
 
