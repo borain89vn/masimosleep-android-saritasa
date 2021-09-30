@@ -453,6 +453,11 @@
             android:defaultValue="0L"
             app:argType="long" />
 
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="-1"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_sessionVitalsFragment_to_sessionFragment"
             app:destination="@id/sessionFragment" />
@@ -541,6 +546,10 @@
             android:name="sessionId"
             android:defaultValue="-1L"
             app:argType="long" />
+        <argument
+            android:name="nightNumber"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/recommendationDetailFragment"

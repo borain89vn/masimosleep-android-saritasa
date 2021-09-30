@@ -116,7 +116,7 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         removeAllFragments()
 
         addFragment(ReportSleepQualityFragment.newInstance(sessionId), SLEEP_QUALITY_FRAGMENT_TAG)
-        addFragment(ReportMeasurementsFragment.newInstance(sessionId), MEASUREMENTS_FRAGMENT_TAG)
+        addFragment(ReportMeasurementsFragment.newInstance(sessionId, nightNumber), MEASUREMENTS_FRAGMENT_TAG)
         addFragment(ReportTimeInBedFragment.newInstance(sessionId), TIME_IN_BED_FRAGMENT_TAG)
         addFragment(ReportSleepTrendFragment.newInstance(sessionId), SLEEP_TREND_FRAGMENT_TAG)
         addFragment(ReportEventsFragment.newInstance(sessionId), EVENTS_FRAGMENT_TAG)
@@ -124,7 +124,6 @@ class NightReportFragment : Fragment(R.layout.fragment_night_report) {
         addFragment(RecommendationsFragment.newInstance(sessionId), RECOMMENDATIONS_FRAGMENT_TAG)
         addFragment(createReportExportMeasurementsFragment(), EXPORT_MEASUREMENTS_FRAGMENT_TAG)
         addFragment(ReportNotesFragment.newInstance(sessionId), NOTES_FRAGMENT_TAG)
-
     }
 
 

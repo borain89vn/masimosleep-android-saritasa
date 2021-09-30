@@ -18,71 +18,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/vital_button_tray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/teal_tray"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_text_view">
-
-        <Button
-            android:id="@+id/all_button"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/vital_button_dark"
-            android:text="@string/all_btn"
-            android:textAppearance="@style/onboardingTitle"
-            android:textColor="@color/trayText"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/hour_button"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/vital_button_dark"
-            android:text="@string/by_hour_btn"
-            android:textAppearance="@style/onboardingTitle"
-            android:textColor="@color/trayText"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/minute_button"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/vital_button_dark"
-            android:text="@string/by_minute_btn"
-            android:textAppearance="@style/onboardingTitle"
-            android:textColor="@color/trayText"
-            android:textSize="14sp" />
-    </LinearLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/events_amount_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vital_button_tray">
+        app:layout_constraintTop_toBottomOf="@+id/title_num_of_night">
 
         <LinearLayout
             android:id="@+id/vitals_layout"
@@ -100,12 +44,144 @@
         android:layout_marginEnd="48dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/vitals_title"
+        android:text="@string/live_vitals_title"
         android:textAlignment="center"
         android:textAppearance="@style/onboardingTitle"
-        android:textColor="#b4d1d4"
+        android:textColor="@color/dark_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_num_of_night"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Night 1 of 7"
+        android:textAppearance="@style/onboardingContentDiminished"
+        android:textColor="@color/dark_subtitle"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/events_amount_view"
+        android:background="@drawable/events_count_bar_background_dark"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/events_amount_div"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#D3D7D8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/events_amount_div"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/ic_minor_events"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_minor_events"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/minor_events_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/minor_events_title"
+                android:textAppearance="@style/onboardingContentDiminished"
+                android:textColor="@color/darkTrayText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/minor_events_amount_text"
+                app:layout_constraintStart_toEndOf="@+id/ic_minor_events"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/minor_events_amount_text"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:gravity="end"
+                android:text="45"
+                android:textAppearance="@style/onboardingContentBold"
+                android:textColor="@color/darkTrayText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/events_amount_div"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/ic_major_events"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="18dp"
+                android:src="@drawable/ic_major_events"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/major_events_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/major_events_title"
+                android:textAppearance="@style/onboardingContentDiminished"
+                android:textColor="@color/darkTrayText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/major_events_amount_text"
+                app:layout_constraintStart_toEndOf="@+id/ic_major_events"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/major_events_amount_text"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="12"
+                android:textAlignment="center"
+                android:textAppearance="@style/onboardingContentBold"
+                android:textColor="@color/darkTrayText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,17 +3,30 @@ package com.mymasimo.masimosleep.ui.session.vitals
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.masimo.timelinechart.ViewStyle
 import com.mymasimo.masimosleep.R
+import com.mymasimo.masimosleep.constant.NUM_OF_NIGHTS
+import com.mymasimo.masimosleep.dagger.Injector
 import com.mymasimo.masimosleep.data.room.entity.ReadingType
+import com.mymasimo.masimosleep.data.room.entity.SleepEventEntity
+import com.mymasimo.masimosleep.data.room.entity.SleepEventType
 import com.mymasimo.masimosleep.databinding.FragmentSessionVitalsBinding
 import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.LiveLineGraphFragment
+import com.mymasimo.masimosleep.ui.session.vitals.live.linegraph.SessionVitalsViewModel
 import java.util.*
+import javax.inject.Inject
 
 class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
+
+    @Inject
+    lateinit var vmFactory: ViewModelProvider.Factory
+
+    private val vm: SessionVitalsViewModel by viewModels { vmFactory }
 
     companion object {
         fun newInstance(): SessionVitalsFragment {
@@ -37,42 +50,34 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
         EnumMap(ReadingType::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Injector.get().inject(this)
         super.onCreate(savedInstanceState)
-        args.sessionStart
+        vm.onCreate(args.sessionStart)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadViewContent()
+        viewBinding.titleNumOfNight.text = getString(R.string.night_label, args.nightNumber, NUM_OF_NIGHTS)
+
+        vm.sleepEvents.observe(viewLifecycleOwner) { events ->
+            updateUI(events)
+        }
+    }
+
+    private fun updateUI(sleepEventData: List<SleepEventEntity>) {
+        val minorEventsCount: Int = sleepEventData.filter { it.type == SleepEventType.MILD  }.size
+        val majorEventsCount: Int = sleepEventData.filter { it.type == SleepEventType.SEVERE  }.size
+
+        viewBinding.majorEventsAmountText.text = minorEventsCount.toString()
+        viewBinding.minorEventsAmountText.text = majorEventsCount.toString()
     }
 
     private fun loadViewContent() {
         viewBinding.backButton.setOnClickListener {
             requireView().findNavController().navigateUp()
         }
-
-        switchLinearChartsToViewStyle(ViewStyle.DAYS)
-
-        viewBinding.allButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.DAYS)
-        }
-
-        viewBinding.hourButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.HOURS)
-        }
-
-        viewBinding.minuteButton.setOnClickListener {
-            switchLinearChartsToViewStyle(ViewStyle.MINUTES)
-        }
-    }
-
-    private fun updateSelection() {
-        viewBinding.allButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.DAYS }
-        viewBinding.hourButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.HOURS }
-        viewBinding.minuteButton.isSelected =
-            readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
+        switchLinearChartsToViewStyle(ViewStyle.MINUTES)
     }
 
     private fun switchLinearChartsToViewStyle(viewStyle: ViewStyle) {
@@ -83,12 +88,11 @@ class SessionVitalsFragment : Fragment(R.layout.fragment_session_vitals) {
             val fragment = LiveLineGraphFragment.newInstance(type, args.sessionStart, viewStyle)
             fragment.onViewStyleChangeListener = {
                 readingTypesToViewStyle[type] = it
-                updateSelection()
+                readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
             }
             addFragment(fragment, fragmentTagForReadingType(type))
         }
-
-        updateSelection()
+        readingTypesToViewStyle.values.all { it == ViewStyle.MINUTES }
     }
 
     private fun fragmentTagForReadingType(readingType: ReadingType): String {

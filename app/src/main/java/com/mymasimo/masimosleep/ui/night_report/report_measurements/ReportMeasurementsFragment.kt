@@ -24,12 +24,15 @@ class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurement
     private val viewBinding by viewBinding(FragmentReportMeasurementsBinding::bind)
 
     private var sessionId: Long = -1
+    private var nightNumber: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.get().inject(this)
         super.onCreate(savedInstanceState)
 
         sessionId = requireArguments().getLong(KEY_SESSION_ID)
+        nightNumber = requireArguments().getInt(KEY_NIGHT_NUMBER)
+
         vm.onCreate(sessionId)
     }
 
@@ -43,14 +46,16 @@ class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurement
         viewBinding.arrowIcon.setOnClickListener {
             view.findNavController().navigate(
                 NightReportFragmentDirections.actionNightReportFragmentToReportVitalsFragment(
-                    sessionId
+                    sessionId,
+                    nightNumber
                 )
             )
         }
         viewBinding.viewVitalTitle.setOnClickListener {
             view.findNavController().navigate(
                 NightReportFragmentDirections.actionNightReportFragmentToReportVitalsFragment(
-                    sessionId
+                    sessionId,
+                    nightNumber
                 )
             )
         }
@@ -64,9 +69,10 @@ class ReportMeasurementsFragment : Fragment(R.layout.fragment_report_measurement
 
     companion object {
         private const val KEY_SESSION_ID = "SESSION_ID"
+        private const val KEY_NIGHT_NUMBER = "NIGHT_NUMBER"
 
-        fun newInstance(sessionId: Long) = ReportMeasurementsFragment().apply {
-            arguments = bundleOf(KEY_SESSION_ID to sessionId)
+        fun newInstance(sessionId: Long, nightNumber: Int) = ReportMeasurementsFragment().apply {
+            arguments = bundleOf(KEY_SESSION_ID to sessionId, KEY_NIGHT_NUMBER to nightNumber)
         }
     }
 }

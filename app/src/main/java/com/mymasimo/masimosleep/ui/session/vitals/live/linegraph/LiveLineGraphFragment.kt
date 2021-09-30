@@ -20,7 +20,6 @@ import com.mymasimo.masimosleep.model.LineGraphViewData
 import com.mymasimo.masimosleep.model.VitalsChartDataSource
 import io.reactivex.disposables.CompositeDisposable
 import org.joda.time.Seconds
-import java.math.RoundingMode
 import javax.inject.Inject
 
 class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), TimelineChartView.Delegate {
@@ -85,29 +84,30 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
         vm.lineGraphViewData.observe(viewLifecycleOwner) { lineGraphData ->
             updateUI(lineGraphData)
         }
-        vm.currentReading.observe(viewLifecycleOwner) { currentReading ->
-            val currentRounded = currentReading
-                .toBigDecimal()
-                .setScale(1, RoundingMode.UP)
-                .toDouble()
-            viewBinding.currentText.text = currentRounded.toString()
+
+        vm.currentReading.observe(viewLifecycleOwner) {
+            viewBinding.currentText.text = it.toInt().toString()
         }
     }
 
     private fun loadViewContent() {
         var titleID: Int = R.string.vital_title_SPO2
-        var iconID: Int = R.drawable.spo2_icon
+        var iconID: Int = R.drawable.ic_oxygen_level
+        var rateSubtitle: String = resources.getString(R.string.oxygen_level_subtitle)
 
         if (readingType == ReadingType.PR) {
             titleID = R.string.vital_title_PR
-            iconID = R.drawable.pr_icon
+            iconID = R.drawable.ic_pulse_rate
+            rateSubtitle = resources.getString(R.string.pulse_rate_subtitle)
         } else if (readingType == ReadingType.RRP) {
             titleID = R.string.vital_title_RRP
-            iconID = R.drawable.rrp_icon
+            iconID = R.drawable.ic_respiratory_rate
+            rateSubtitle = resources.getString(R.string.respiratory_rate_subtitle)
         }
 
         viewBinding.chartTitle.text = resources.getString(titleID)
         viewBinding.typeIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, iconID, null))
+        viewBinding.rateSubtitle.text = rateSubtitle
 
         viewBinding.chartLive.goButtonIconDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_chart_forward_dark, null)
         viewBinding.chartLive.goButtonBackgrounColor = resources.getColor(R.color.trayText, null)
@@ -124,18 +124,11 @@ class LiveLineGraphFragment : Fragment(R.layout.fragment_live_line_graph), Timel
     }
 
     private fun updateUI(lineGraphData: LineGraphViewData) {
-        val avgRounded = lineGraphData.average
-            .toBigDecimal()
-            .setScale(1, RoundingMode.UP)
-            .toDouble()
-
-        viewBinding.avgText.text = avgRounded.toString()
         updateChart(lineGraphData.points)
     }
 
     private fun updateChart(points: List<LineGraphViewData.LineGraphPoint>) {
         dataSource.update(points)
-        viewBinding.lowHighText.text = dataSource.lowHighText
         viewBinding.chartLive.reloadData()
     }
 
